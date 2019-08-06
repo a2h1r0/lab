@@ -1,7 +1,7 @@
 import csv
 
-To = "abc.csv"      # 追記したいファイル(結合後残したいファイル)
-From = "def.csv"    # 結合したいファイル(削除したいファイル)
+To = 'abc.csv'      # 追記したいファイル(結合後残したいファイル)
+From = 'def.csv'    # 結合したいファイル(削除したいファイル)
 
 with open(To, 'a', newline='') as w:
     writer = csv.writer(w)
