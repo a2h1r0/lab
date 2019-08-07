@@ -12,7 +12,7 @@ for vec in attack:
         height[i] = np.linalg.norm(vec-vec2)
         i+=1
 
-left = list(range(i))
+#left = list(range(i))
 
 
 plt.bar(left, height, width=1.0)
