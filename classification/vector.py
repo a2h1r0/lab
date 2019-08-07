@@ -9,7 +9,7 @@ true_color = 'red'
 # CSVファイルの読み込み
 attack = np.loadtxt('vector_attack.csv', delimiter = ",", dtype = float, skiprows = 1, usecols = range(0,20))
 train = np.loadtxt('vector_train.csv', delimiter = ",", dtype = float, skiprows = 1, usecols = range(0,20))
-
+#
 # 計算結果数の配列(1人あたりのデータ数×学習データ数)を被験者数分作成
 distance = [np.empty(data_size*len(train)) for j in range(tester_size)]
 
