@@ -2,8 +2,8 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier as RFC
 
 # CSVファイルの読み込み
-train = pd.read_csv('train.csv') # 学習データ
-test = pd.read_csv('test.csv')   # 評価データ
+train = pd.read_csv('rfc_train.csv') # 学習データ
+test = pd.read_csv('rfc_test.csv')   # 評価データ
 
 # 学習データの説明変数
 train_data = train[["V0","V1","V2","V3","V4","V5","V6","V7","V8","V9","V10",
