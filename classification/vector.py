@@ -34,6 +34,7 @@ for attack in attack_file:
 
 # 計算結果を描画
 print("正解データは%sで描画" % true_color)
+plt.ylabel("distance")
 plt.plot(x, distance[0], true_color)      # 1人目(正解)のデータをプロット
 for tester in range(1, tester_size):      # 2人目以降のデータをプロット
     r = lambda: random.randint(0, 255)    # グラフの色をランダムに生成
