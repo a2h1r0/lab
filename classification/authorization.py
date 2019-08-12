@@ -1,13 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import random
 
 data_size = 500     # 被験者1人あたりのデータ数
 tester_size = 9     # 被験者数
-true_color = 'red'  # 正解データのグラフ色
-
-min = 1.5
-max = 2.5
+MIN = 1.5           # 閾値の下限
+MAX = 3.0           # 閾値の上限
 
 # CSVファイルの読み込み，認証データ1人目には学習データに用いた被験者の別データを正解として格納
 attack_file = np.loadtxt('vector_attack.csv', delimiter = ",", dtype = float, 
@@ -15,59 +12,81 @@ attack_file = np.loadtxt('vector_attack.csv', delimiter = ",", dtype = float,
 train_file = np.loadtxt('vector_train.csv', delimiter = ",", dtype = float, 
                    skiprows = 1, usecols = range(0,20))  # 学習データ
 
-x = np.arange(min, max, 0.1)
+# 配列作成，ループ用に+0.1(MIN~MAXまではMAX-MIN+1要素ある)
+MAX += 0.1
+# ループ用に整数化
+int_MIN = int(MIN*10)
+int_MAX = int(MAX*10)
 
-# カウンタ用変数の初期化
-tester = loop = threshold = 0
-min = int(min*10)
-max = int(max*10)
+# x軸の初期化，閾値の配列を作成
+x = np.arange(MIN, MAX, 0.1)
+# 計算結果配列の初期化，閾値数の配列を作成，閾値ごとに結果を格納
+TAR = np.zeros(int_MAX-int_MIN) # True Acceptance Rate(本人受入率)
+TRR = np.zeros(int_MAX-int_MIN) # True Rejection Rate(他人拒否率)
+FRR = np.zeros(int_MAX-int_MIN) # False Rejection Rate(本人拒否率)
+FAR = np.zeros(int_MAX-int_MIN) # False Acceptance Rate(他人受入率)
 
-TAN = np.empty(max-min) # True Acceptance Number(本人受入数)
-FAN = np.empty(max-min) # False Acceptance Number(他人受入数)
-TRN = np.empty(max-min) # True Rejection Number(他人拒否数)
-FRN = np.empty(max-min) # False Rejection Number(本人拒否数)
+# カウンタ変数の初期化
+loop = threshold = 0
 
-
-for thresholds in range(min, max):
-    for attack in attack_file:
+# ベクトル距離計算と閾値判定
+for thresholds in range(int_MIN, int_MAX):  # 閾値移動ループ
+    
+    for attack in attack_file:              # 認証データ変更ループ
+        # 認証データ1つにつき，学習データ全てに対して距離計算
         for train in train_file:
-            distance = np.linalg.norm(attack-train)
-            
-            if (distance <= (thresholds/10)):
-                if (loop < (data_size*len(train_file))):
-                    TAN[threshold] += 1
-                else:
-                    FAN[threshold] += 1
-                    
+            distance = np.linalg.norm(attack-train) # ベクトル距離計算
+
+            # 距離が閾値以下なら，受け入れる
+            if (distance <= (thresholds/10)):   # ループ用に整数化してあるので÷10
+                if (loop < (data_size*len(train_file))): # 認証データが正解(本人)
+                    TAR[threshold] += 1 # 本人受入数
+                else:                                    # 認証データが攻撃(他人)
+                    FAR[threshold] += 1 # 他人受入数
+
+            # 距離が閾値より大きいなら，弾く
             elif (distance > (thresholds/10)):
-                if (loop < (data_size*len(train_file))):
-                    FRN[threshold] += 1
-                else:
-                    TRN[threshold] += 1
-            loop += 1
-            
-    threshold += 1  # 次の閾値に
-    loop = 0
-            
-for i in range(threshold):
-    TAN[i] = TAN[i]/(data_size*len(train_file))
-    FAN[i] = TAN[i]/(data_size*len(train_file)*(tester_size-1))
-    TRN[i] = TAN[i]/(data_size*len(train_file)*(tester_size-1))
-    FRN[i] = TAN[i]/(data_size*len(train_file))
+                if (loop < (data_size*len(train_file))): # 正解(本人)の場合
+                    FRR[threshold] += 1 # 本人拒否数
+                else:                                    # 攻撃(他人)の場合
+                    TRR[threshold] += 1 # 他人拒否数
+                    
+            loop += 1  # 初めの1人分(本人)の計算回数はdata_size*len(train_file)回
 
-    # 計算結果を描画
-#plt.xlim(min/10, max/10)
-#plt.ylim(0, (data_size*len(train_file)))
-plt.xlabel("threshold")
-plt.plot(x, TAN, 'r', label="True Acceptance Number")      # 1人目(正解)のデータをプロット
-plt.plot(x, FAN, 'g', label="False Acceptance Number")
-plt.plot(x, FRN, 'b', label="True Rejection Number")
-plt.plot(x, TRN, 'y', label="False Rejection Number")
-plt.legend()
+    # 次の閾値に変更
+    threshold += 1  # 計算結果配列の格納先を移動
+    loop = 0        # 計算回数の初期化
 
-#for tester in range(1, tester_size):      # 2人目以降のデータをプロット
-#    r = lambda: random.randint(0, 255)    # グラフの色をランダムに生成
-#    code = "#{:02X}{:02X}{:02X}"
-#    color = code.format(r(),r(),r())
-#    plt.plot(x, distance[tester], color)
+# 確率計算と結果の表示
+for i in range(threshold):  # 閾値数回(配列要素数)だけ計算
+    # 確率計算
+    # 判別回数÷(1人あたりの計算回数×人数)×100
+    # 本人1人と本人を除いたtester_size-1人
+    TAR[i] = TAR[i]/(data_size*len(train_file))*100
+    TRR[i] = TRR[i]/(data_size*len(train_file)*(tester_size-1))*100
+    FRR[i] = FRR[i]/(data_size*len(train_file))*100
+    FAR[i] = FAR[i]/(data_size*len(train_file)*(tester_size-1))*100
+
+    # 結果表示
+    text = "Threshold: {:.1f}"
+    print(text.format(MIN))
+    MIN += 0.1
+    text = "True Acceptance Rate: {:.1f}"
+    print(text.format(TAR[i]))
+    text = "True Rejection Rate: {:.1f}"
+    print(text.format(TRR[i]))
+    text = "False Rejection Rate: {:.1f}"
+    print(text.format(FRR[i]))
+    text = "False Acceptance Rate: {:.1f}"
+    print(text.format(FAR[i]))
+    print('\n')
+    
+# 結果を描画
+plt.xlabel("Threshold")
+plt.ylabel("Rate")
+plt.plot(x, TAR, 'red', label="True Acceptance Rate")
+plt.plot(x, TRR, 'blue', label="True Rejection Rate")
+plt.plot(x, FRR, 'yellow', label="False Rejection Rate")
+plt.plot(x, FAR, 'green', label="False Acceptance Rate")
+plt.legend()    # 凡例の表示
 plt.show()
