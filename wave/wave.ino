@@ -1,4 +1,4 @@
-#define Sensors 10  // Arduino1機に繋いでいるセンサの数
+#define Sensors 16  // Arduino1機に繋いでいるセンサの数
 
 unsigned long time;
 float voltage[Sensors];

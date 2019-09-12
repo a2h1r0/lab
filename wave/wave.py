@@ -2,7 +2,7 @@ import serial
 from time import sleep
 from matplotlib import pyplot as plt
 
-Sensors = 20            # センサ数の設定
+Sensors = 32            # センサ数の設定
 Range = int(Sensors/2)  # 2台に分かれるのでループ範囲は半分
 t = [0] * 100           # 時間の範囲
 
@@ -18,8 +18,8 @@ line2 = [0] * Range
 sleep(1)    # ポート準備に1秒待機**これがないとシリアル通信がうまく動かない**
 
 # グラフの体裁調整
-fig, ax = plt.subplots(Sensors, 1, figsize=(8,40), sharex='all')
-plt.subplots_adjust(hspace=0.6)
+fig, ax = plt.subplots(Sensors, 1, figsize=(10,10), sharex='all')
+plt.subplots_adjust(hspace=1.0)
 plt.ion()   # リアルタイム描画の際でもコマンドを受け付けるようにする
 
 # グラフの描画(初期化)
