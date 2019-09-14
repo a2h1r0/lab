@@ -6,8 +6,8 @@ import csv
 ser = serial.Serial('COM5', 9600)   # Arduino1号機
 ser2 = serial.Serial('COM6', 9600)  # Arduino2号機
 filename = 'data.csv'               # データ保存先ファイル
-data_size = 100                     # データ取得回数
-tester = "Name"                     # 正解ラベル(被験者名)
+data_size = 50                      # データ取得回数
+tester = "Fujii"                     # 正解ラベル(被験者名)
 
 sleep(1)    # ポート準備に1秒待機**これがないとシリアル通信がうまく動かない**
 
@@ -19,9 +19,11 @@ with open(filename, 'a', newline='') as f:
     writer = csv.writer(f)
 
     if exist == 0:      # ファイルが新規作成の場合，ラベルを付与する
-        writer.writerow(["V0","V1","V2","V3","V4","V5","V6","V7","V8",
-                         "V9","V10","V11","V12","V13","V14","V15","V16",
-                         "V17","V18","V19","Tester"])
+        writer.writerow(["in0","in1","in2","in3","in4","in5","in6","in7","in8",
+                         "in9","inA","inB", "inC","inあ","inい","inう",
+                         "in10","in11","in12","in13","in14","in15","in16",
+                         "in17","in18","in19","inD","inE","inF","inア","inイ",
+                         "inウ","Tester"])
     elif exist == 1:    # ファイルが既存の場合，ラベルを付与しない
         print("File exist. Didn't give label.")
    
