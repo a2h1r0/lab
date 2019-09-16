@@ -1,15 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-data_size = 250     # 被験者1人あたりのデータ数
-tester_size = 9     # 被験者数
+data_size = 500     # 被験者1人あたりのデータ数
+tester_size = 7     # 被験者数
 MIN = 1.5           # 閾値の下限
 MAX = 3.0           # 閾値の上限
 
 # CSVファイルの読み込み，認証データ1人目には学習データに用いた被験者の別データを正解として格納
-attack_file = np.loadtxt('vector_attack_cp.csv', delimiter = ",", dtype = float, 
+attack_file = np.loadtxt('attack.csv', delimiter = ",", dtype = float, 
                     skiprows = 1, usecols = range(0,20)) # 認証データ
-train_file = np.loadtxt('vector_train_cp.csv', delimiter = ",", dtype = float, 
+train_file = np.loadtxt('train.csv', delimiter = ",", dtype = float, 
                    skiprows = 1, usecols = range(0,20))  # 学習データ
 
 # 配列作成，ループ用に+0.1(MIN~MAXまではMAX-MIN+1要素ある)

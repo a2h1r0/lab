@@ -5,8 +5,8 @@ import csv
 
 ser = serial.Serial('COM5', 9600)   # Arduino1号機
 ser2 = serial.Serial('COM6', 9600)  # Arduino2号機
-filename = 'data.csv'               # データ保存先ファイル
-data_size = 50                      # データ取得回数
+filename = 'train.csv'               # データ保存先ファイル
+data_size = 100                      # データ取得回数
 tester = "Fujii"                     # 正解ラベル(被験者名)
 
 sleep(1)    # ポート準備に1秒待機**これがないとシリアル通信がうまく動かない**

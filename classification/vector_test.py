@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 import random
 
 data_size = 500     # 被験者1人あたりのデータ数
-tester_size = 9     # 被験者数
+tester_size = 7     # 被験者数
 true_color = 'red'  # 正解データのグラフ色
 
 # CSVファイルの読み込み，認証データ1人目には学習データに用いた被験者の別データを正解として格納
-attack_file = np.loadtxt('vector_attack.csv', delimiter = ",", dtype = float, 
+attack_file = np.loadtxt('attack.csv', delimiter = ",", dtype = float, 
                     skiprows = 1, usecols = range(0,20)) # 認証データ
-train_file = np.loadtxt('vector_train.csv', delimiter = ",", dtype = float, 
+train_file = np.loadtxt('train.csv', delimiter = ",", dtype = float, 
                    skiprows = 1, usecols = range(0,20))  # 学習データ
 
 # x軸の配列を被験者1人あたりの計算結果数(1人あたりのデータ数×学習データ数)分作成
