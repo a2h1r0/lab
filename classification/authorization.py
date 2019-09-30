@@ -8,11 +8,11 @@ MAX = 3.0           # 閾値の上限
 
 # CSVファイルの読み込み，認証データ1人目には学習データに用いた被験者の別データを正解として格納
 attack_file = np.loadtxt('attack.csv', delimiter = ",", dtype = float, 
-                    skiprows = 1, usecols = range(0,20)) # 認証データ
+                    skiprows = 1, usecols = range(0,32)) # 認証データ
 train_file = np.loadtxt('train.csv', delimiter = ",", dtype = float, 
-                   skiprows = 1, usecols = range(0,20))  # 学習データ
+                   skiprows = 1, usecols = range(0,32))  # 学習データ
 
-# 配列作成，ループ用に+0.1(MIN~MAXまではMAX-MIN+1要素ある)
+# 配列作成，ループ用に+0.1(MIN~MAXまではMAX-MIN+0.1要素ある)
 MAX += 0.1
 # ループ用に整数化
 int_MIN = int(MIN*10)

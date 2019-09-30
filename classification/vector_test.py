@@ -8,9 +8,9 @@ true_color = 'red'  # 正解データのグラフ色
 
 # CSVファイルの読み込み，認証データ1人目には学習データに用いた被験者の別データを正解として格納
 attack_file = np.loadtxt('attack.csv', delimiter = ",", dtype = float, 
-                    skiprows = 1, usecols = range(0,20)) # 認証データ
+                    skiprows = 1, usecols = range(0,32)) # 認証データ
 train_file = np.loadtxt('train.csv', delimiter = ",", dtype = float, 
-                   skiprows = 1, usecols = range(0,20))  # 学習データ
+                   skiprows = 1, usecols = range(0,32))  # 学習データ
 
 # x軸の配列を被験者1人あたりの計算結果数(1人あたりのデータ数×学習データ数)分作成
 x = list(range(data_size*len(train_file)))
