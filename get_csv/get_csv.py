@@ -20,7 +20,7 @@ with open(filename, 'a', newline='') as f:
 
     if exist == 0:      # ファイルが新規作成の場合，ラベルを付与する
         writer.writerow(["in0","in1","in2","in3","in4","in5","in6","in7","in8",
-                         "in9","inA","inB", "inC","inあ","inい","inう",
+                         "in9","inA","inB","inC","inあ","inい","inう",
                          "in10","in11","in12","in13","in14","in15","in16",
                          "in17","in18","in19","inD","inE","inF","inア","inイ",
                          "inウ","Tester"])
