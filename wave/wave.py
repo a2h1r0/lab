@@ -49,7 +49,7 @@ while True:
         
         # 時間管理(x値設定)
         time = (float(data[0])+float(data2[0]))/2
-        t.append((time-time_base)/10**6)   # 起動からの経過時間を配列に追加
+        t.append((time-time_base)/10**6)   # 起動からの経過時間を配列に追加，秒変換
         del t[0]                           # キューとして扱い，先頭の古い時間値を削除
         ax[0].set_xlim(min(t), max(t))     # 1つのx軸の範囲を更新，他のx軸は使い回し
         
