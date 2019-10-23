@@ -8,7 +8,7 @@ ser = serial.Serial('COM5', 9600)   # Arduino1号機
 ser2 = serial.Serial('COM6', 9600)  # Arduino2号機
 filename = 'attack.csv'               # データ保存先ファイル
 time = 120                           # データ取得時間(秒単位)
-tester = "Fujii"                     # 正解ラベル(被験者名)
+tester = "Yamada"                     # 正解ラベル(被験者名)
 
 sleep(1)    # ポート準備に1秒待機**これがないとシリアル通信がうまく動かない**
 
