@@ -59,8 +59,7 @@ for thresholds in range(int_MIN, int_MAX):  # 閾値移動ループ
                     FRR[threshold] += 1 # 本人拒否数
                 else:                                    # 攻撃(他人)の場合
                     TRR[threshold] += 1 # 他人拒否数
-            loop += 1  # 初めの1人分(本人)の計算回数はdata_size*len(train_file)回
-        i += 1
+            loop += 1
 
     # 次の閾値に変更
     threshold += 1  # 計算結果配列の格納先を移動
