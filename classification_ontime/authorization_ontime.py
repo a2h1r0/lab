@@ -4,15 +4,15 @@ import matplotlib.pyplot as plt
 
 MIN = 1.5           # 閾値の下限
 MAX = 3.0           # 閾値の上限
-time = 10.0
+time = 2.0
 
 # CSVファイルの読み込み，認証データ1人目には学習データに用いた被験者の別データを正解として格納
 attack_file = np.loadtxt('attack.csv', delimiter = ",", dtype = float, 
-                    skiprows = 1, usecols = range(0,33)) # 認証データ
+                    skiprows = 1, usecols = range(0,33), encoding = 'utf-8') # 認証データ
 train_file = np.loadtxt('train.csv', delimiter = ",", dtype = float, 
-                   skiprows = 1, usecols = range(0,33))  # 学習データ
-attack_tester = pd.read_csv('attack.csv', usecols = ['Tester'], encoding = 'shift-jis') # 認証データ
-train_tester = pd.read_csv('train.csv', usecols = ['Tester'], encoding = 'shift-jis')  # 学習データ
+                   skiprows = 1, usecols = range(0,33), encoding = 'utf-8')  # 学習データ
+attack_tester = pd.read_csv('attack.csv', usecols = ['Tester'], encoding = 'utf-8') # 認証データ
+train_tester = pd.read_csv('train.csv', usecols = ['Tester'], encoding = 'utf-8')  # 学習データ
 
 
 # 配列作成，ループ用に+0.1(MIN~MAXまではMAX-MIN+0.1要素ある)
@@ -57,13 +57,8 @@ for thresholds in range(int_MIN, int_MAX):  # 閾値移動ループ
                         else:                                    # 攻撃(他人)の場合
                             TRR[threshold] += 1 # 他人拒否数
                     loop += 1
-        else:
-            row += 1
+        row += 1
 
-    print(FRR[threshold])
-    print(FAR[threshold])
-    print(TAR[threshold])
-    print(TRR[threshold])
     # 確率計算
     FRR[threshold] = (FRR[threshold]/loop)*100
     FAR[threshold] = (FAR[threshold]/loop)*100
