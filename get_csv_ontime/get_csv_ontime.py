@@ -7,9 +7,9 @@ import datetime
 
 ser = serial.Serial('COM5', 57600)   # Arduino1号機
 ser2 = serial.Serial('COM6', 57600)  # Arduino2号機
-filename = 'Fujii.csv'   # データ保存先ファイル
+filename = 'Okamoto.csv'   # データ保存先ファイル
 time = 3                # データ取得時間(秒単位)
-number = 5              # 取得回数
+number = 2              # 取得回数
 
 sleep(1)    # ポート準備に1秒待機**これがないとシリアル通信がうまく動かない**
 
