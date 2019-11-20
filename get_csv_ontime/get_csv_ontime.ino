@@ -1,10 +1,11 @@
 #define Sensors 16  // Arduino1機に繋いでいるセンサの数
 
+unsigned long time;
 float voltage[Sensors];
 int i;  // ループカウンタ
  
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(57600);
 }
 
 void loop() {
@@ -14,11 +15,12 @@ void loop() {
       if(voltage[i] >= 4.9)   // 誤差の除去
         voltage[i] = 4.99;
       Serial.print(voltage[i]);   // PC側に送信
-      if(i < Sensors-1)
-        Serial.print(" ");
+      Serial.print(" ");
     }
-    Serial.print("\n");   // 全てのセンサの電圧を取得できたら改行
-    
+    time = micros();  // 動作開始からのマイクロ時間を取得
+    Serial.print(time); // PC側に送信
+    Serial.print("\n");   // 全てのセンサの電圧，時間を取得できたら改行
+
     Serial.read();  // Serial.available()を0に戻す
   }
 }

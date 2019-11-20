@@ -5,11 +5,11 @@ import csv
 import math
 import datetime
 
-ser = serial.Serial('COM5', 115200)   # Arduino1号機
-ser2 = serial.Serial('COM6', 115200)  # Arduino2号機
-filename = 'Okamoto.csv'   # データ保存先ファイル
+ser = serial.Serial('COM5', 57600)   # Arduino1号機
+ser2 = serial.Serial('COM6', 57600)  # Arduino2号機
+filename = 'Fujii.csv'   # データ保存先ファイル
 time = 3                # データ取得時間(秒単位)
-number = 2              # 取得回数
+number = 5              # 取得回数
 
 sleep(1)    # ポート準備に1秒待機**これがないとシリアル通信がうまく動かない**
 
@@ -40,7 +40,8 @@ with open(filename, 'a', newline='') as f:
         ser2.write("?".encode('UTF-8'))
         voltage2 = ser2.readline().decode('UTF-8').rstrip().split()
         
-        # voltage2[]の末尾に時間が格納
+        # voltage[],voltage2[]の末尾に時間が格納
+        del voltage[-1] # voltage[]の時間は破棄
         voltage2[-1] = (math.ceil(int(voltage2[-1])/10**4))/10**2   # 時間を秒単位へ変換(小数第2位まで，以下切り上げ)
         
         # 経過時間がデータ取得時間を超えると，ファイルへ書き込みせずに終了
