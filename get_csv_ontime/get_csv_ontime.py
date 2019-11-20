@@ -9,7 +9,6 @@ ser = serial.Serial('COM5', 115200)   # Arduino1号機
 ser2 = serial.Serial('COM6', 115200)  # Arduino2号機
 filename = 'test.csv'   # データ保存先ファイル
 time = 3                # データ取得時間(秒単位)
-tester = "tester"       # 正解ラベル(被験者名)
 number = 1              # 取得回数
 
 
