@@ -36,13 +36,12 @@ for order in range(len(tester)):
 
 
 
-for order in range(len(tester)):
+for order in range(len(tester)):    # 1人ごと学習データにする．
     print(tester[order] + "が学習データです．")
 
-    conbinations = list(itertools.combinations(range(len(norm_ave[order])), train_size))
+    conbinations = list(itertools.combinations(range(len(norm_ave[order])), train_size))    # 組み合わせ取得
     
-    for conb_order in range(len(conbinations)):
-        conbinations[conb_order] = list(conbinations[conb_order])
+    for conb_order in range(len(conbinations)):     # 組み合わせの個数だけ比較
         print("組み合わせは ")
         print(np.array(conbinations[conb_order])+np.array([1,1]))
         print(" です．")
@@ -51,5 +50,16 @@ for order in range(len(tester)):
         for i in range(train_size):
             train_data.append(norm_ave[order][conbinations[conb_order][i]])
             
-            ##計算
+        ##まずは自分と計算
+        threshold = 10
+        distance_small = float('inf')
+        for i in range(len(norm_ave[order])):   # データ数回比較していく
+            for j in range(train_size): # 1データに対し学習データ数分比較
+                distance = abs(norm_ave[order][i]-train_data[j])    # 距離の絶対値
+                if (distance < distance_small):
+                    distance_small = distance
 
+                if (distance_small <= threshold):
+                        print("ok")
+                        
+        ##他人と比較
