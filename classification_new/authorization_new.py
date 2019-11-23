@@ -18,21 +18,23 @@ for i in range(len(tester)):
     data[i].fillna(0, inplace=True)
 
 norm_ave = [[] for i in range(len(tester))]
-norm_sum = 0
-train_num = 0
 for order in range(len(tester)):
+    train_num = 0   # データ変更時に初期化   
+    norm_sum = 0
+
     for row in data[order].itertuples(name=None): # 1行ずつ読み出し
         if not (row[-1] in [0,1]):    # 最初以外の区切り文字が出てきたら実行，出てこない間はスキップ
             norm_ave[order].append(norm_sum/train_num)    # 区切りごとに平均を保存
+            print(train_num)
             train_num = 0  # カウンタを初期化
             norm_sum = 0    # ベクトル合計を初期化
+            
                  
         norm = np.linalg.norm(row[1:34]) # ベクトル距離計算
         norm_sum += norm    # 距離の合計に加算
         train_num += 1 # 計算回数を増加
         
     norm_ave[order].append(norm_sum/train_num)   # 最終要素には区切り文字がないため．
-
 
 
 
@@ -51,15 +53,20 @@ for order in range(len(tester)):    # 1人ごと学習データにする．
             train_data.append(norm_ave[order][conbinations[conb_order][i]])
             
         ##まずは自分と計算
-        threshold = 10
+        threshold = 0.0000001
         distance_small = float('inf')
-        for i in range(len(norm_ave[order])):   # データ数回比較していく
-            for j in range(train_size): # 1データに対し学習データ数分比較
-                distance = abs(norm_ave[order][i]-train_data[j])    # 距離の絶対値
+        for i in range(train_size): # 学習データ数1つずつ比較
+            for j in range(len(norm_ave[order])):   # 1人のデータ数回比較していく
+                if (j in conbinations[conb_order]): # 学習データに用いているデータ同士は比較しない
+                    continue
+                distance = abs(train_data[i]-norm_ave[order][j])    # 距離の絶対値
+                
                 if (distance < distance_small):
                     distance_small = distance
 
                 if (distance_small <= threshold):
-                        print("ok")
+                    ok[] += 1
+                else:
+                    print("ng")
                         
         ##他人と比較
