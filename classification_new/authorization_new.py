@@ -1,19 +1,17 @@
-import numpy as np
+## データにより編集 ##
+tester = ["fujii", "ooyama", "matsuda", "kajiwara"] # **被験者**
+train_size = 1  # **学習に当てる個数**
+MIN = 0.01       # **閾値の下限**
+MAX = 0.3        # **閾値の上限**
+## ここまで随時変更．閾値の桁数を変更する場合は以下コードも変更． ##
+
+
+
 import pandas as pd
+import numpy as np
 import itertools
 from statistics import mean
 import matplotlib.pyplot as plt
-
-
-
-## データにより編集 ##
-tester = ["fujii", "ooyama", "matsuda", "kajiwara"] # **被験者を入力**
-train_size = 1  # **学習に当てる個数**
-MIN = 0.1       # **閾値の下限**
-MAX = 0.3       # **閾値の上限**
-## ここまで ##
-
-
 
 ## データの読み込み ##
 data = [[] for i in range(len(tester))] # データ配列，被験者数分用意
@@ -35,7 +33,7 @@ for order in range(len(tester)):    ## 被験者ごとに順番に処理
     num = 0         # データ数(計算回数)，取得回数が一定ではないためカウントが必要
     norm_sum = 0    # ベクトルの合計
 
-    ## 平均値の計算 ##
+    # 平均値の計算
     for row in data[order].itertuples(name=None):   ## 1行ずつ読み出し
         # 区切りごとに平均値を保存，変数を初期化
         if not (row[-1] in [0,1]):  # 区切りではない"0"と最初の区切り"1"ではスキップ
@@ -55,13 +53,12 @@ for order in range(len(tester)):    ## 被験者ごとに順番に処理
 FRR = [[] for i in range(len(tester))] # 本人拒否率
 FAR = [[] for i in range(len(tester))] # 他人受入率
 # ループ用に変数の調整
-MAX += 0.1              # +0.1してから
-int_MIN = int(MIN*10)   # 整数化
-int_MAX = int(MAX*10)
+int_MIN = int(MIN*100)      # 整数化
+int_MAX = int(MAX*100)+1    # 範囲用に+1
 
 # 計算と判定
 for threshold in range(int_MIN, int_MAX):   ## 閾値の移動
-    print("閾値は"+str(threshold)+"です．")
+    print("閾値は"+str(threshold/100)+"です．")
     
     for train in range(len(tester)):    ## 1人ずつ学習データにする
         print(tester[train]+"が学習データです．")    
@@ -87,9 +84,10 @@ for threshold in range(int_MIN, int_MAX):   ## 閾値の移動
                         if (distance < distance_small): # 比較した中で差が最小のもの(最も類似している)を結果(差)とする
                             distance_small = distance
                   
-                    if (distance_small<=(threshold/10) and attack!=train):  # 差が閾値以下なら，受け入れる
+                    # 範囲を整数化しているので，小数に戻して比較
+                    if (distance_small<=(threshold/100) and attack!=train):     # 差が閾値以下なら，受け入れる
                         FAR_temp[order] += 1 # 他人受入数
-                    elif (distance_small>(threshold/10) and attack==train): # 閾値より大きいなら，弾く
+                    elif (distance_small>(threshold/100) and attack==train):    # 閾値より大きいなら，弾く
                         FRR_temp[order] += 1 # 本人拒否数
                     num += 1    # 判別回数を増加
                     
@@ -104,10 +102,11 @@ for threshold in range(int_MIN, int_MAX):   ## 閾値の移動
         FAR[train].append(mean(FAR_temp))            
         print("FRR:"+str(FRR[train][-1]))        
         print("FAR:"+str(FAR[train][-1]))
-   
-        
+        print("\n----------\n")
+
+     
 ## 結果の描画
-x = np.arange(MIN, MAX, 0.1)    # 閾値の配列をx軸として作成
+x = np.arange(MIN, MAX+0.01, 0.01)  # 閾値の配列をx軸として作成
 for train in range(len(tester)):    ## 被験者ごとに描画
     plt.figure(train)   # 複数ウィンドウで表示
     plt.xlabel("Threshold")
