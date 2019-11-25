@@ -2,92 +2,118 @@ import numpy as np
 import pandas as pd
 import itertools
 from statistics import mean
+import matplotlib.pyplot as plt
 
-MIN = 1.5           # 閾値の下限
-MAX = 3.0           # 閾値の上限
 
-tester = ["fujii", "ooyama", "matsuda", "kajiwara"]
-data = [[0], [0], [0], [0]]
-train_size = 2 # 学習する個数
 
-for i in range(len(tester)):
+## データにより編集 ##
+tester = ["fujii", "ooyama", "matsuda", "kajiwara"] # **被験者を入力**
+train_size = 1  # **学習に当てる個数**
+MIN = 0.1       # **閾値の下限**
+MAX = 0.3       # **閾値の上限**
+## ここまで ##
+
+
+
+## データの読み込み ##
+data = [[] for i in range(len(tester))] # データ配列，被験者数分用意
+for i in range(len(tester)):            # 被験者1人ずつ読み込む
     filename = tester[i] + ".csv"
-    data[i] = pd.read_csv(filename, usecols=["in0","in1","in2","in3","in4","in5","in6","in7","in8","in9",
-                         "inあ","inい","inう","inA","inB","inC",
-                         "in10","in11","in12","in13","in14","in15","in16","in17","in18","in19",
-                         "inア","inイ","inウ","inD","inE","inF","Time","Number"], encoding='Shift-JIS')
-    data[i].fillna(0, inplace=True)
+    data[i] = pd.read_csv(filename, usecols=["in0","in1","in2","in3","in4","in5","in6","in7",
+                                            "in8","in9","inあ","inい","inう","inA","inB","inC",
+                                            "in10","in11","in12","in13","in14","in15","in16",
+                                            "in17","in18","in19","inア","inイ","inウ","inD","inE",
+                                            "inF","Number"], encoding='Shift-JIS')
+    data[i].fillna(0, inplace=True) # 区切り番号以外"0"で埋める
 
-norm_ave = [[] for i in range(len(tester))]
-for order in range(len(tester)):
-    num = 0   # データ変更時に初期化   
-    norm_sum = 0
 
-    for row in data[order].itertuples(name=None): # 1行ずつ読み出し
-        if not (row[-1] in [0,1]):    # 最初以外の区切り文字が出てきたら実行，出てこない間はスキップ
-            norm_ave[order].append(norm_sum/num)    # 区切りごとに平均を保存
-            num = 0  # カウンタを初期化
-            norm_sum = 0    # ベクトル合計を初期化
+## データの計算 ##
+# 各データ，各取得回ごとに平均値を計算
+norm_ave = [[] for i in range(len(tester))] # 平均値配列，被験者数分用意
+for order in range(len(tester)):    ## 被験者ごとに順番に処理
+    # 被験者変更時に変数を初期化
+    num = 0         # データ数(計算回数)，取得回数が一定ではないためカウントが必要
+    norm_sum = 0    # ベクトルの合計
+
+    ## 平均値の計算 ##
+    for row in data[order].itertuples(name=None):   ## 1行ずつ読み出し
+        # 区切りごとに平均値を保存，変数を初期化
+        if not (row[-1] in [0,1]):  # 区切りではない"0"と最初の区切り"1"ではスキップ
+            norm_ave[order].append(norm_sum/num)
+            num = 0
+            norm_sum = 0
+        # ベクトルのノルム(大きさ)を計算
+        norm = np.linalg.norm(row[1:34])    # row[0]にはデータ番号が格納されている
+        norm_sum += norm                    # ベクトルの合計に加算
+        num += 1                            # データ数(計算回数)を増加
+    # 最終データの平均値を保存
+    norm_ave[order].append(norm_sum/num)    # 最終データの末尾には区切り文字がないため
+
+
+## データの類似度計算と，判定 ##
+# 被験者数分の結果用配列を作成
+FRR = [[] for i in range(len(tester))] # 本人拒否率
+FAR = [[] for i in range(len(tester))] # 他人受入率
+# ループ用に変数の調整
+MAX += 0.1              # +0.1してから
+int_MIN = int(MIN*10)   # 整数化
+int_MAX = int(MAX*10)
+
+# 計算と判定
+for threshold in range(int_MIN, int_MAX):   ## 閾値の移動
+    print("閾値は"+str(threshold)+"です．")
+    
+    for train in range(len(tester)):    ## 1人ずつ学習データにする
+        print(tester[train]+"が学習データです．")    
+        combinations = list(itertools.combinations(range(len(norm_ave[train])), train_size))    # 組み合わせの取得
+        print("組み合わせはk="+str(len(combinations))+"通りです．")
+        
+        # 全ての組み合わせについて計算していく
+        FRR_temp = np.zeros(len(combinations))  # 一時保存用の配列を作成
+        FAR_temp = np.zeros(len(combinations))  # 組み合わせごとに結果を保存
+        for order in range(len(combinations)):  ## 組み合わせの変更，交差検証            
+            num = 0 # 判別回数の初期化
             
-                 
-        norm = np.linalg.norm(row[1:34]) # ベクトル距離計算
-        norm_sum += norm    # 距離の合計に加算
-        num += 1 # 計算回数を増加(データ数の確認)
-        
-    norm_ave[order].append(norm_sum/num)   # 最終要素には区切り文字がないため．
-
-
-FRR = np.zeros(len(norm_ave)) # False Rejection Rate(本人拒否率)
-FAR = np.zeros(len(norm_ave)) # False Acceptance Rate(他人受入率)
-
-for train in range(len(tester)):    # 1人ごと学習データにする．
-    print(tester[train] + "が学習データです．")
-
-    combinations = list(itertools.combinations(range(len(norm_ave[train])), train_size))    # 組み合わせ取得
-    FRR_temp = np.zeros(len(combinations))
-    FAR_temp = np.zeros(len(combinations))
-    for order in range(len(combinations)):     # 組み合わせの個数だけ比較，1人ごとに交差検証
-        num = 0
-
-        ##まずは自分と計算
-        threshold = 0.1
-        for attack in range(len(tester)):  # 1人ごとに認証データにする
+            for attack in range(len(tester)):   ## 1人ずつ認証データにする                
+                for i in range(len(norm_ave[train])):   ## 1データずつ判別
+                    if (attack == train and i in combinations[order]): # 本人のデータと判別かつ現在の組み合わせに含まれる場合
+                        continue                                       # 認証と学習データが同一のためスキップ
+                        
+                    distance_small = float('inf')   # 最小比較用に無限大で初期化
+                    for j in range(train_size):     ## 1データにつき，学習データそれぞれと比較(学習データ数回比較)
+                        # ベクトルのノルム(大きさ)の差の絶対値を計算
+                        # norm_ave[train][combinations[order][j]]で学習データを指定(組み合わせの中身の番号を順に取得)
+                        distance = abs(norm_ave[train][i]-norm_ave[train][combinations[order][j]])
+                        if (distance < distance_small): # 比較した中で差が最小のもの(最も類似している)を結果(差)とする
+                            distance_small = distance
+                  
+                    if (distance_small<=(threshold/10) and attack!=train):  # 差が閾値以下なら，受け入れる
+                        FAR_temp[order] += 1 # 他人受入数
+                    elif (distance_small>(threshold/10) and attack==train): # 閾値より大きいなら，弾く
+                        FRR_temp[order] += 1 # 本人拒否数
+                    num += 1    # 判別回数を増加
+                    
+            # 判別終了後，組み合わせ変更時に確率計算
+            # (学習データのデータ数-学習に当てた個数)の残りの数だけ本人と判別
+            num = num-(len(norm_ave[train])-train_size) # (総判別回数-本人との判別回数)で他人との判別回数
+            FRR_temp[order] = (FRR_temp[order]/(len(norm_ave[train])-train_size))*100 # 本人と判別した内，拒否した割合
+            FAR_temp[order] = (FAR_temp[order]/num)*100   # 他人と判別した内，受け入れた割合
             
-            for i in range(len(norm_ave[train])):   # 1人のデータ数回比較していく，1データずつ処理
-                if (attack == train and i in combinations[order]): # 比較しているのが自分かつ，学習データに用いているデータ同士は比較しない
-                    continue
-                distance_small = float('inf')
-                for j in range(train_size): # 学習データ数1つずつ比較
-                    distance = abs(norm_ave[train][i]-norm_ave[train][combinations[order][j]])    # 距離の絶対値
-                    if (distance < distance_small):
-                        distance_small = distance
-                    ## ここで組み合わせの中で距離が小さい方を保存
-            
-              
-                # 距離の差が閾値以下なら，受け入れる
-                if (distance_small <= threshold and attack != train):
-                    FAR_temp[order] += 1 # 他人受入数
-                # 距離が閾値より大きいなら，弾く
-                elif (distance_small > threshold and attack == train):
-                    FRR_temp[order] += 1 # 本人拒否数
-                    
-                num += 1    # 判別回数を増加
-                
-                    
-                    
-                
-        ## 割合計算，組み合わせが変わるごとに計算
-        num = num-(len(norm_ave[train])-train_size) # 判別回数から自分と比較した回数を引く，総データ数-学習に使う数が自分の判別回数
-        FRR_temp[order] = FRR_temp[order]/(len(norm_ave[train])-train_size)
-        FAR_temp[order] = FAR_temp[order]/num
+        # 学習データに用いる被験者の変更時に結果を保存
+        FRR[train].append(mean(FRR_temp))   # 被験者ごとに交差検証を行った結果の平均
+        FAR[train].append(mean(FAR_temp))            
+        print("FRR:"+str(FRR[train][-1]))        
+        print("FAR:"+str(FAR[train][-1]))
+   
         
-    FRR[train] = mean(FRR_temp)*100
-    FAR[train] = mean(FAR_temp)*100
-        
-    # 1人ごとに結果を表示，交差検証の平均
-    print("FRR:", end="")
-    print(FRR[train]/len(norm_ave[train]))        
-    print("FAR:", end="")
-    print(FAR[train]/len(norm_ave[train]))
-        
-        
+## 結果の描画
+x = np.arange(MIN, MAX, 0.1)    # 閾値の配列をx軸として作成
+for train in range(len(tester)):    ## 被験者ごとに描画
+    plt.figure(train)   # 複数ウィンドウで表示
+    plt.xlabel("Threshold")
+    plt.ylabel("Rate")
+    plt.title(tester[train])
+    plt.plot(x, FRR[train], 'red', label="FRR")
+    plt.plot(x, FAR[train], 'blue', label="FAR")
+    plt.legend()    # 凡例の表示
+plt.show()
