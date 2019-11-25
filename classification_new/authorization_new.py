@@ -2,7 +2,7 @@
 tester = ["fujii", "ooyama", "matsuda", "kajiwara"] # **被験者**
 train_size = 1  # **学習に当てる個数**
 MIN = 0.01       # **閾値の下限**
-MAX = 0.3        # **閾値の上限**
+MAX = 0.30       # **閾値の上限**
 ## ここまで随時変更．閾値の桁数を変更する場合は以下コードも変更． ##
 
 
@@ -45,7 +45,7 @@ for order in range(len(tester)):    ## 被験者ごとに順番に処理
         norm_sum += norm                    # ベクトルの合計に加算
         num += 1                            # データ数(計算回数)を増加
     # 最終データの平均値を保存
-    norm_ave[order].append(norm_sum/num)    # 最終データの末尾には区切り文字がないため
+    norm_ave[order].append(norm_sum/num)    # 区切り文字なしでデータが終了するため
 
 
 ## データの類似度計算と，判定 ##
@@ -68,6 +68,7 @@ for threshold in range(int_MIN, int_MAX):   ## 閾値の移動
         # 全ての組み合わせについて計算していく
         FRR_temp = np.zeros(len(combinations))  # 一時保存用の配列を作成
         FAR_temp = np.zeros(len(combinations))  # 組み合わせごとに結果を保存
+        
         for order in range(len(combinations)):  ## 組み合わせの変更，交差検証            
             num = 0 # 判別回数の初期化
             
@@ -98,8 +99,8 @@ for threshold in range(int_MIN, int_MAX):   ## 閾値の移動
             FAR_temp[order] = (FAR_temp[order]/num)*100   # 他人と判別した内，受け入れた割合
             
         # 学習データに用いる被験者の変更時に結果を保存
-        FRR[train].append(mean(FRR_temp))   # 被験者ごとに交差検証を行った結果の平均
-        FAR[train].append(mean(FAR_temp))            
+        FRR[train].append(mean(FRR_temp))   # 交差検証を行った結果の平均を被験者ごとのリストで保存
+        FAR[train].append(mean(FAR_temp))   # 閾値に対する結果を要素として追加していく         
         print("FRR:"+str(FRR[train][-1]))        
         print("FAR:"+str(FAR[train][-1]))
         print("\n----------\n")
