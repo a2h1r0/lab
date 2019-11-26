@@ -1,5 +1,5 @@
 ## 編集箇所 ##
-time = 3    # **データ取得時間(秒)**
+time = 2    # **データ取得時間(秒)**
 ## ここまで ##
 
 
@@ -21,7 +21,8 @@ if os.path.isfile(filename):    # データ保存先の存在確認
 with open(filename, 'a', newline='') as f:  # 保存先をオープン
     writer = csv.writer(f)
 
-    ## ラベルの付与 ##
+
+    ## ラベルの付与と取得回数の確認 ##
     if exist == 0:  # ファイルが新規作成の場合，付与する
         writer.writerow(["in0","in1","in2","in3","in4","in5","in6","in7","in8","in9",
                          "inあ","inい","inう","inA","inB","inC",
@@ -38,13 +39,14 @@ with open(filename, 'a', newline='') as f:  # 保存先をオープン
     while True:
         if (loop == "y"):   # 再実行か判別
             number += 1     # 更に+1回目の取得となる
+            
+        print(str(number)+"回目のデータ取得です．\n")
         
         # Arduinoの用意
         ser = serial.Serial('COM5', 57600)
         ser2 = serial.Serial('COM6', 57600)        
         sleep(1)    # ポート準備に1秒待機**これがないとシリアル通信がうまく動かない**
         
-        print(str(number)+"回目のデータ取得です．\n")
         input("用意が出来たらEnter:")
         print("\n")
         
