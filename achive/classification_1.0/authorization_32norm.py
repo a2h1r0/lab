@@ -1,5 +1,5 @@
 ## データにより編集 ##
-tester = ["fujii", "ooyama", "okamoto", "kajiwara"] # **被験者**
+tester = ["fujii", "ooyama", "okamoto", "kajiwara", "matsuda"] # **被験者**
 train_size = 2      # **学習に当てる個数**
 MIN = 0.100       # **閾値の下限**
 MAX = 1.500       # **閾値の上限**
@@ -37,13 +37,12 @@ for order in range(len(tester)):    ## 被験者ごとに順番に処理
     for row in data[order].itertuples(name=None):   ## 1行ずつ読み出し
         # 区切りごとに平均値を保存，変数を初期化
         if not (row[-1] in [0,1]):  # 区切りではない"0"と最初の区切り"1"ではスキップ
-            for i in range[]:
             norm_ave[order].append(norm_sum/num)
             num = 0
             norm_sum = 0
         # ベクトルのノルム(大きさ)を計算
-        vector = row[1:34]
-        vector_sum += vector                    # ベクトルの合計に加算
+        norm = np.linalg.norm(row[1:34])    # row[0]にはデータ番号が格納されている
+        norm_sum += norm                    # ベクトルの合計に加算
         num += 1                            # データ数(計算回数)を増加
     # 最終データの平均値を保存
     norm_ave[order].append(norm_sum/num)    # 区切り文字なしでデータが終了するため

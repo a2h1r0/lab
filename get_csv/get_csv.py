@@ -47,7 +47,7 @@ with open(filename, 'a', newline='') as f:  # 保存先をオープン
         ser2 = serial.Serial('COM6', 57600)        
         sleep(1)    # ポート準備に1秒待機**これがないとシリアル通信がうまく動かない**
         
-        input("用意が出来たらEnter:")
+        input("被ったらEnter:")
         print("\n")
         
         # データの取得と書き込み
@@ -79,6 +79,8 @@ with open(filename, 'a', newline='') as f:  # 保存先をオープン
         # Arduinoの終了
         ser.close()
         ser2.close()
+        
+        print("取得終了．\n")
         
         # 再実行の確認
         loop = input("再実行しますか？[y] > ")
