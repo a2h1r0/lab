@@ -1,9 +1,9 @@
 ## データにより編集 ##
 tester = ["fujii", "ooyama", "okamoto", "kajiwara", "matsuda"] # **被験者**
-train_size = 2      # **学習に当てる個数**
-MIN = 0.0       # **閾値の下限**
-MAX = 0.1       # **閾値の上限**
-digit = 10
+MIN = 2.800       # **閾値の下限**
+MAX = 3.800       # **閾値の上限**
+digit = 1000
+split_size = 2
 ## ここまで随時変更．閾値の桁数を変更する場合は以下コードも変更． ##
 
 
@@ -16,6 +16,8 @@ from operator import add
 from operator import sub
 from statistics import mean
 import matplotlib.pyplot as plt
+from sklearn import decomposition
+import sys
 
 thresholds = np.linspace(MIN, MAX, int((MAX-MIN)*digit+1))  # 閾値の配列をx軸として作成
 
@@ -36,7 +38,9 @@ for i, name in enumerate(tester):            # 被験者1人ずつ読み込む
 ## データの計算 ##
 # 各データ，各取得回ごとに平均値を計算
 #vector_ave = np.zeros((len(tester), get_num, sensors))   # vector_ave[被験者][取得回数][センサ番号(ベクトル要素)]
+model = decomposition.PCA(n_components=2)
 vector_ave = [[] for i in tester]
+compressed = [[] for i in tester]
 for order in range(len(tester)):    ## 被験者ごとに順番に処理
     # 被験者変更時に変数を初期化
     vector_temp = [0]*sensors    # ベクトルの合計
@@ -64,7 +68,9 @@ for order in range(len(tester)):    ## 被験者ごとに順番に処理
     vector_temp = [item/num for item in vector_temp]
     vector_ave[order].append(vector_temp)    # 区切り文字なしでデータが終了するため
     
-    
+    model.fit(vector_ave[order])
+    compressed[order] = model.transform(vector_ave[order])
+
 
 ## データの類似度計算と，判定 ##
 # 被験者数分の結果用配列を作成
@@ -80,64 +86,40 @@ for threshold in thresholds:   ## 閾値の移動
        
     for index, trainer in enumerate(tester):    ## 1人ずつ学習データにする
         print(trainer+"が学習データです．")    
-        combinations = list(itertools.combinations(np.arange(len(vector_ave[index])), train_size))    # 組み合わせの取得
-        print("組み合わせはk="+str(len(combinations))+"通りです．")
         
         # 全ての組み合わせについて計算していく
-        FRR_temp = np.zeros(len(combinations))  # 一時保存用の配列を作成
-        FAR_temp = np.zeros(len(combinations))  # 組み合わせごとに結果を保存
+        FRR_temp = np.zeros(split_size)  # 一時保存用の配列を作成
+        FAR_temp = np.zeros(split_size)  # 組み合わせごとに結果を保存
+        train_size = int(len(compressed[index])/split_size)
+        combination = 0
            
-        for order, combination in enumerate(combinations):  ## 組み合わせの変更，交差検証            
+        
+        for order in range(split_size):  ## 組み合わせの変更，交差検証            
             num_trainer = 0 # 判別回数の初期化
             num_attacker = 0
+            center = 0
+            
+            # 重心計算
+            for item in range(combination, train_size+combination):
+                center += compressed[index][item]
+                combination += 1
+            center /= train_size
                
             for attacker in tester:   ## 1人ずつ認証データにする                
-                for item, vector in enumerate(vector_ave[index]):   ## 1データずつ判別
-                    if (attacker == trainer and item in combination): # 本人のデータと判別かつ現在の組み合わせに含まれる場合
+                for item, vector in enumerate(compressed[index]):   ## 1データずつ判別
+                    if (attacker == trainer and item in range(combination, train_size+combination)): # 本人のデータと判別かつ現在の組み合わせに含まれる場合
                         continue                                       # 認証と学習データが同一のためスキップ
                         
-                    distance = []
-                    for train in combination:     ## 1データにつき，学習データそれぞれと比較(学習データ数回比較)
-#                        for k in range(sensors):
-#                            distance += abs(vector_ave[train][i][k]-vector_ave[train][combinations[order][j]][k])
-                        distance.append(sum(np.abs(list(map(sub, vector, vector_ave[index][train])))))
-# =============================================================================
-#                         if (distance < distance_small):
-#                             distance_small = distance
-#                             distance = 0
-#                             print(distance_small)
-# =============================================================================
-                           
-# =============================================================================
-#                         # ベクトルのノルム(大きさ)の差の絶対値を計算
-#                         # norm_ave[train][combinations[order][j]]で学習データを指定(組み合わせの中身の番号を順に取得)
-#                         distance = abs(norm_ave[train][i]-norm_ave[train][combinations[order][j]])
-#                         if (distance < distance_small): # 比較した中で差が最小のもの(最も類似している)を結果(差)とする
-#                             distance_small = distance
-# =============================================================================
-
+                    distance = np.linalg.norm(compressed[index]-center)
                     if (attacker==trainer):
                         num_trainer += 1
-                        if (min(distance)>threshold):
+                        if (distance>threshold):
                             FRR_temp[order] += 1
                     elif (attacker!=trainer):
                         num_attacker += 1
-                        if (min(distance)<=threshold):
+                        if (distance<=threshold):
                             FAR_temp[order] += 1
 
-# =============================================================================
-#                     # 範囲を整数化しているので，小数に戻して比較
-#                     if (min(distance)<=threshold and attacker!=trainer):     # 差が閾値以下なら，受け入れる
-#                         FAR_temp[order] += 1 # 他人受入数
-#                     elif (min(distance)>threshold and attacker==trainer):    # 閾値より大きいなら，弾く
-#                         FRR_temp[order] += 1 # 本人拒否数
-#                     num += 1    # 判別回数を増加
-#                        
-# =============================================================================
-            # 判別終了後，組み合わせ変更時に確率計算
-            # (学習データのデータ数-学習に当てた個数)の残りの数だけ本人と判別
-#            num = num-(len(vector_ave[index])-train_size) # (総判別回数-本人との判別回数)で他人との判別回数
-#            FRR_temp[order] = (FRR_temp[order]/(len(vector_ave[index])-train_size))*100 # 本人と判別した内，拒否した割合
             FRR_temp[order] = (FRR_temp[order]/num_trainer)*100 # 本人と判別した内，拒否した割合
             FAR_temp[order] = (FAR_temp[order]/num_attacker)*100   # 他人と判別した内，受け入れた割合
                
