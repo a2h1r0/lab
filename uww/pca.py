@@ -81,54 +81,56 @@ int_MIN = int(MIN*digit)      # 整数化
 int_MAX = int(MAX*digit)+1    # 範囲用に+1
     
 # 計算と判定
-for threshold in thresholds:   ## 閾値の移動
-    print("閾値は"+str(threshold)+"です．")
-       
-    for index, trainer in enumerate(tester):    ## 1人ずつ学習データにする
-        print(trainer+"が学習データです．")    
+for index, trainer in enumerate(tester):    ## 1人ずつ学習データにする
+    print(trainer+"が学習データです．")    
         
-        # 全ての組み合わせについて計算していく
-        FRR_temp = np.zeros(split_size)  # 一時保存用の配列を作成
-        FAR_temp = np.zeros(split_size)  # 組み合わせごとに結果を保存
-        train_size = int(len(compressed[index])/split_size)
-        combination = 0
+    # 全ての組み合わせについて計算していく
+    FRR_temp = np.zeros(len(thresholds))  # 一時保存用の配列を作成
+    FAR_temp = np.zeros(len(thresholds))  # 組み合わせごとに結果を保存
+    FRR_num = np.zeros(split_size)  # 一時保存用の配列を作成
+    FAR_num = np.zeros(split_size)  # 組み合わせごとに結果を保存
+
+    train_size = int(len(compressed[index])/split_size)
+    combination = 0
            
         
-        for order in range(split_size):  ## 組み合わせの変更，交差検証            
-            num_trainer = 0 # 判別回数の初期化
-            num_attacker = 0
-            center = 0
+    for order in range(split_size):  ## 組み合わせの変更，交差検証            
+        num_trainer = 0 # 判別回数の初期化
+        num_attacker = 0
+        center = 0
             
-            # 重心計算
-            for item in range(combination, train_size+combination):
-                center += compressed[index][item]
-                combination += 1
-            center /= train_size
+        # 重心計算
+        for item in range(combination, train_size+combination):
+            center += compressed[index][item]
+            combination += 1
+        center /= train_size
                
-            for attacker in tester:   ## 1人ずつ認証データにする                
-                for item, vector in enumerate(compressed[index]):   ## 1データずつ判別
-                    if (attacker == trainer and item in range(combination, train_size+combination)): # 本人のデータと判別かつ現在の組み合わせに含まれる場合
-                        continue                                       # 認証と学習データが同一のためスキップ
+        for attacker in tester:   ## 1人ずつ認証データにする                
+            for item, vector in enumerate(compressed[index]):   ## 1データずつ判別
+                if (attacker == trainer and item in range(combination, train_size+combination)): # 本人のデータと判別かつ現在の組み合わせに含まれる場合
+                    continue                                       # 認証と学習データが同一のためスキップ
                         
-                    distance = np.linalg.norm(compressed[index]-center)
+                distance = np.linalg.norm(compressed[index]-center)
+                for i, threshold in enumerate(thresholds):
                     if (attacker==trainer):
                         num_trainer += 1
                         if (distance>threshold):
-                            FRR_temp[order] += 1
+                            FRR_num[i] += 1
                     elif (attacker!=trainer):
                         num_attacker += 1
                         if (distance<=threshold):
-                            FAR_temp[order] += 1
+                            FAR_num[i] += 1
 
-            FRR_temp[order] = (FRR_temp[order]/num_trainer)*100 # 本人と判別した内，拒否した割合
-            FAR_temp[order] = (FAR_temp[order]/num_attacker)*100   # 他人と判別した内，受け入れた割合
-               
-        # 学習データに用いる被験者の変更時に結果を保存
-        FRR[index].append(mean(FRR_temp))   # 交差検証を行った結果の平均を被験者ごとのリストで保存
-        FAR[index].append(mean(FAR_temp))   # 閾値に対する結果を要素として追加していく         
-        print("FRR:"+str(FRR[index][-1]))        # 最新は末尾
-        print("FAR:"+str(FAR[index][-1]))
-        print("\n----------\n")
+
+        FRR_temp = (FRR_num/num_trainer)*100 # 本人と判別した内，拒否した割合
+        FAR_temp = (FAR_num/num_attacker)*100   # 他人と判別した内，受け入れた割合
+           
+    # 学習データに用いる被験者の変更時に結果を保存
+    FRR[index].append(mean(FRR_temp))   # 交差検証を行った結果の平均を被験者ごとのリストで保存
+    FAR[index].append(mean(FAR_temp))   # 閾値に対する結果を要素として追加していく         
+    print("FRR:"+str(FRR[index][-1]))        # 最新は末尾
+    print("FAR:"+str(FAR[index][-1]))
+    print("\n----------\n")
    
     
         
