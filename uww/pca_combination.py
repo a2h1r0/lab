@@ -81,27 +81,60 @@ int_MIN = int(MIN*digit)      # 整数化
 int_MAX = int(MAX*digit)+1    # 範囲用に+1
     
 # 計算と判定
-for threshold in thresholds:   ## 閾値の移動
-    print("閾値は"+str(threshold)+"です．")
        
-    for index, trainer in enumerate(tester):    ## 1人ずつ学習データにする
-        print(trainer+"が学習データです．")    
-        combinations = list(itertools.combinations(np.arange(len(vector_ave[index])), train_size))    # 組み合わせの取得
-        print("組み合わせはk="+str(len(combinations))+"通りです．")
+center = [[[]] for i in range(len(tester))]
+
+for index, trainer in enumerate(tester):    ## 1人ずつ学習データにする
+    print(trainer+"が学習データです．")    
+    combinations = list(itertools.combinations(np.arange(len(vector_ave[index])), train_size))    # 組み合わせの取得
+    print("組み合わせはk="+str(len(combinations))+"通りです．")
         
-        # 全ての組み合わせについて計算していく
-        FRR_temp = np.zeros(len(combinations))  # 一時保存用の配列を作成
-        FAR_temp = np.zeros(len(combinations))  # 組み合わせごとに結果を保存
-           
-        for order, combination in enumerate(combinations):  ## 組み合わせの変更，交差検証            
-            num_trainer = 0 # 判別回数の初期化
-            num_attacker = 0
-            center = 0
+    # 全ての組み合わせについて計算していく
+    FRR_temp = np.zeros(len(combinations))  # 一時保存用の配列を作成
+    FAR_temp = np.zeros(len(combinations))  # 組み合わせごとに結果を保存
+    
+    center[index] = [[np.zeros(len(combinations))] for i in range(len(combinations))]       
+    
+    for order, combination in enumerate(combinations):  ## 組み合わせの変更，交差検証            
+        num_trainer = 0 # 判別回数の初期化
+        num_attacker = 0
             
-            # 重心計算
-            for item in combination:
-                center += compressed[index][item]
-            center /= train_size
+        # 重心計算
+        for item in range(len(combination)):
+            center[index][order][item] += compressed[index][item]
+            combination += 1
+        center[index][order] /= train_size
+
+
+              
+## 自分と比較        
+for index, trainer in enumerate(tester):   ## 1人ずつが学習データにする
+    for i, gravity in enumerate(center[index][index]): #交差検証
+        for index_atk, attacker in enumerate(tester): ## 攻撃データ
+            for item, vector in enumerate(compressed[index_atk]):   # 1データずつ取り出し
+                distance = np.linalg.norm(vector-gravity)
+                if (attacker==trainer):
+                    num_trainer += 1
+                elif (attacker!=trainer):
+                    num_attacker += 1
+  
+                for j, threshold in enumerate(thresholds):    # 閾値
+                        if (attacker==trainer and distance>threshold):
+                            FRR_num[j] += 1
+                        if (attacker!=trainer and distance<=threshold):
+                            FAR_num[j] += 1
+                            
+        FRR_temp[i] = FRR_num/num_trainer
+        FAR_temp[i] = FAR_num/num_attacker
+        
+        
+    for i in range(len(thresholds)):
+        FRR[index].append(((FRR_temp[0][i]+FRR_temp[1][i])/2)*100)
+        FAR[index].append(((FAR_temp[0][i]+FAR_temp[1][i])/2)*100)
+ 
+
+            
+            
                
             for attacker in tester:   ## 1人ずつ認証データにする                
                 for item, vector in enumerate(compressed[index]):   ## 1データずつ判別
