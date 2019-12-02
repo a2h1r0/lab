@@ -1,6 +1,6 @@
 ## データにより編集 ##
 tester = ["fujii", "ooyama", "okamoto", "kajiwara", "matsuda"] # **被験者**
-train_size = 10      # **学習に当てる個数**
+train_size = 2      # **学習に当てる個数**
 MIN = 0.00       # **閾値の下限**
 MAX = 1.00       # **閾値の上限**
 digit = 100
@@ -13,8 +13,11 @@ import pandas as pd
 import numpy as np
 import itertools
 from operator import add
+from operator import truediv
+from statistics import mean
 import matplotlib.pyplot as plt
 from sklearn import decomposition
+import sys
 
 thresholds = np.linspace(MIN, MAX, int((MAX-MIN)*digit+1))  # 閾値の配列をx軸として作成
 
@@ -34,6 +37,7 @@ for i, name in enumerate(tester):            # 被験者1人ずつ読み込む
 
 ## データの計算 ##
 # 各データ，各取得回ごとに平均値を計算
+#vector_ave = np.zeros((len(tester), get_num, sensors))   # vector_ave[被験者][取得回数][センサ番号(ベクトル要素)]
 model = decomposition.PCA(n_components=2)
 vector_ave = [[] for i in tester]
 compressed = [[] for i in tester]
@@ -126,6 +130,44 @@ for index_train, train in enumerate(tester):   ## 1人ずつが学習データ�
     FAR[index_train] = (np.sum(FAR_temp, axis=0)/len(centers[index_train]))*100
     
     
+# =============================================================================
+#     for i in range(len(thresholds)):
+#         FRR[index] = FRR_temp
+#         
+#         FRR[index].append(((FRR_temp[0][i]+FRR_temp[1][i])/2)*100)
+#         FAR[index].append(((FAR_temp[0][i]+FAR_temp[1][i])/2)*100)
+#  
+# 
+#             
+#             
+#                
+#             for attacker in tester:   ## 1人ずつ認証データにする                
+#                 for item, vector in enumerate(compressed[index]):   ## 1データずつ判別
+#                     if (attacker == trainer and item in combination): # 本人のデータと判別かつ現在の組み合わせに含まれる場合
+#                         continue                                       # 認証と学習データが同一のためスキップ
+#                         
+#                     distance = np.linalg.norm(compressed[index]-center)
+#                     if (attacker==trainer):
+#                         num_trainer += 1
+#                         if (distance>threshold):
+#                             FRR_temp[order] += 1
+#                     elif (attacker!=trainer):
+#                         num_attacker += 1
+#                         if (distance<=threshold):
+#                             FAR_temp[order] += 1
+# 
+#             FRR_temp[order] = (FRR_temp[order]/num_trainer)*100 # 本人と判別した内，拒否した割合
+#             FAR_temp[order] = (FAR_temp[order]/num_attacker)*100   # 他人と判別した内，受け入れた割合
+#                
+#         # 学習データに用いる被験者の変更時に結果を保存
+#         FRR[index].append(mean(FRR_temp))   # 交差検証を行った結果の平均を被験者ごとのリストで保存
+#         FAR[index].append(mean(FAR_temp))   # 閾値に対する結果を要素として追加していく         
+#         print("FRR:"+str(FRR[index][-1]))        # 最新は末尾
+#         print("FAR:"+str(FAR[index][-1]))
+#         print("\n----------\n")
+#    
+#     
+# =============================================================================
         
 ## 結果の描画 ##
 #x = np.linspace(MIN, MAX, int_MAX-int_MIN)  # 閾値の配列をx軸として作成
@@ -140,3 +182,17 @@ for train in range(len(tester)):    ## 被験者ごとに描画
 plt.show()
    
 ## ここまで完成 ##
+   
+# =============================================================================
+# x = range(32)
+# plt.xlabel("sensor")
+# plt.ylabel("voltage")
+# plt.title("vector_norm")
+# for i, name in enumerate(tester):
+#     for j in range(len(vector_ave[i])):
+#         plt.figure(i+len(tester))
+#         plt.title(name)
+#         plt.plot(x, vector_ave[i][j], 'red')
+# plt.show()
+# 
+# =============================================================================

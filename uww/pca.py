@@ -11,13 +11,9 @@ split_size = 2
 
 import pandas as pd
 import numpy as np
-import itertools
 from operator import add
-from operator import sub
-from statistics import mean
 import matplotlib.pyplot as plt
 from sklearn import decomposition
-import sys
 
 thresholds = np.linspace(MIN, MAX, int((MAX-MIN)*digit+1))  # 閾値の配列をx軸として作成
 
@@ -133,46 +129,6 @@ for index, trainer in enumerate(tester):   ## 1人ずつが学習データにす
         FRR[index].append(((FRR_temp[0][i]+FRR_temp[1][i])/2)*100)
         FAR[index].append(((FAR_temp[0][i]+FAR_temp[1][i])/2)*100)
             
-# =============================================================================
-# ## 他人と比較
-# for index, attacker in enumerate(tester):   ## 1人ずつ認証データにする
-#     for item, vector in enumerate(compressed[index]):
-#         num_attacker += 1
-#         for threshold in thresholds:
-#             for i, gravity in enumerate(center[index]):
-#                 distance = np.linalg.norm(vector-gravity)
-#                 if (distance>threshold):
-#                     FRR_num[i] += 1
-#             FRR[index].append(mean(FRR_num/num_trainer)*100)
-#             
-#                
-#     for item, vector in enumerate(compressed[index]):   ## 1データずつ判別
-#         if (attacker == trainer and item in range(combination, train_size+combination)): # 本人のデータと判別かつ現在の組み合わせに含まれる場合
-#             continue                                       # 認証と学習データが同一のためスキップ
-#                         
-#         distance = np.linalg.norm(compressed[index]-center)
-#         for i, threshold in enumerate(thresholds):
-#             if (attacker==trainer):
-#                 num_trainer += 1
-#                 if (distance>threshold):
-#                     FRR_num[i] += 1
-#             elif (attacker!=trainer):
-#                 num_attacker += 1
-#                 if (distance<=threshold):
-#                     FAR_num[i] += 1
-# 
-# 
-#         FRR_temp = (FRR_num/num_trainer)*100 # 本人と判別した内，拒否した割合
-#         FAR_temp = (FAR_num/num_attacker)*100   # 他人と判別した内，受け入れた割合
-#            
-#     # 学習データに用いる被験者の変更時に結果を保存
-#     FRR[index].append(mean(FRR_temp))   # 交差検証を行った結果の平均を被験者ごとのリストで保存
-#     FAR[index].append(mean(FAR_temp))   # 閾値に対する結果を要素として追加していく         
-#     print("FRR:"+str(FRR[index][-1]))        # 最新は末尾
-#     print("FAR:"+str(FAR[index][-1]))
-#     print("\n----------\n")
-#    
-# =============================================================================
     
         
 ## 結果の描画 ##
@@ -189,16 +145,3 @@ plt.show()
    
 ## ここまで完成 ##
    
-# =============================================================================
-# x = range(32)
-# plt.xlabel("sensor")
-# plt.ylabel("voltage")
-# plt.title("vector_norm")
-# for i, name in enumerate(tester):
-#     for j in range(len(vector_ave[i])):
-#         plt.figure(i+len(tester))
-#         plt.title(name)
-#         plt.plot(x, vector_ave[i][j], 'red')
-# plt.show()
-# 
-# =============================================================================
