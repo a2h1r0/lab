@@ -1,5 +1,5 @@
 ## データにより編集 ##
-tester = ["fujii", "ooyama", "okamoto", "kajiwara", "matsuda"] # **被験者**
+tester = ["ooyama", "okamoto", "kajiwara", "fujii", "matsuda"] # **被験者**
 train_size = 2      # **学習に当てる個数**
 MIN = 0.00       # **閾値の下限**
 MAX = 1.00       # **閾値の上限**
@@ -38,9 +38,10 @@ for i, name in enumerate(tester):            # 被験者1人ずつ読み込む
 ## データの計算 ##
 # 各データ，各取得回ごとに平均値を計算
 #vector_ave = np.zeros((len(tester), get_num, sensors))   # vector_ave[被験者][取得回数][センサ番号(ベクトル要素)]
-model = decomposition.PCA(n_components=2)
+model = decomposition.PCA(n_components=14)
 vector_ave = [[] for i in tester]
 compressed = [[] for i in tester]
+vector_sum = []
 for order in range(len(tester)):    ## 被験者ごとに順番に処理
     # 被験者変更時に変数を初期化
     vector_temp = [0]*sensors    # ベクトルの合計
@@ -68,14 +69,16 @@ for order in range(len(tester)):    ## 被験者ごとに順番に処理
     vector_temp = [item/num for item in vector_temp]
     vector_ave[order].append(vector_temp)    # 区切り文字なしでデータが終了するため
     
+    vector_sum.append(vector_ave[order])
+    
     model.fit(vector_ave[order])
     compressed[order] = model.transform(vector_ave[order])
 
 
 ## データの類似度計算と，判定 ##
 # 被験者数分の結果用配列を作成
-FRR = [[] for i in range(len(tester))] # 本人拒否率
-FAR = [[] for i in range(len(tester))] # 他人受入率
+FRR = []# 本人拒否率
+FAR = [] # 他人受入率
 # ループ用に変数の調整
 int_MIN = int(MIN*digit)      # 整数化
 int_MAX = int(MAX*digit)+1    # 範囲用に+1
@@ -89,7 +92,7 @@ for index, train in enumerate(tester):    ## 1人ずつ学習データにする
     combinations = list(itertools.combinations(np.arange(len(vector_ave[index])), train_size))    # 組み合わせの取得
     print("組み合わせはk="+str(len(combinations))+"通りです．")
             
-    centers[index] = [[np.zeros(2)] for i in combinations]       
+    centers[index] = [[np.zeros(14)] for i in combinations]       
     
     for order, combination in enumerate(combinations):  ## 組み合わせの変更，交差検証                        
         # 重心計算
@@ -100,34 +103,29 @@ for index, train in enumerate(tester):    ## 1人ずつ学習データにする
 
               
 ## 自分と比較        
-for index_train, train in enumerate(tester):   ## 1人ずつが学習データにする
-    FRR_temp = [[] for i in centers[index_train]]
-    FAR_temp = [[] for i in centers[index_train]]
-    for order, center in enumerate(centers[index_train]): #交差検証
-        FRR_num = np.zeros(len(thresholds))
-        FAR_num = np.zeros(len(thresholds))
-        num_train = 0
-        num_attack = 0
-        for index_attack, attack in enumerate(tester): ## 攻撃データ
-            for vector in compressed[index_attack]:   # 1データずつ取り出し
-                distance = np.linalg.norm(vector-center)
-                if (attack==train):
-                    num_train += 1
-                elif (attack!=train):
-                    num_attack += 1
-  
-                for item, threshold in enumerate(thresholds):    # 閾値
-                        if (attack==train and distance>threshold):
-                            FRR_num[item] += 1
-                        if (attack!=train and distance<=threshold):
-                            FAR_num[item] += 1
-                            
-        FRR_temp[order] = FRR_num/num_train
-        FAR_temp[order] = FAR_num/num_attack
+for item, threshold in enumerate(thresholds):    # 閾値
+    FRR_num = 0
+    FAR_num = 0
+    num_train = 0
+    num_attack = 0
+    distance_me = []
+    distance_other = []
+    for index_attack, attack in enumerate(tester): ## 攻撃データ
+        for vector in compressed[index_attack]:   # 1データずつ取り出し
+            distance = np.linalg.norm(vector-centers[0][0])
+            if (attack==train):
+                num_train += 1
+                distance_me.append(distance)
+                if (distance>threshold):
+                    FRR_num += 1
+            elif (attack!=train):
+                num_attack += 1
+                distance_other.append(distance)
+                if (distance<=threshold):
+                    FAR_num += 1        
         
-        
-    FRR[index_train] = (np.sum(FRR_temp, axis=0)/len(centers[index_train]))*100
-    FAR[index_train] = (np.sum(FAR_temp, axis=0)/len(centers[index_train]))*100
+    FRR.append((FRR_num/num_train)*100)
+    FAR.append((FAR_num/num_attack)*100)
     
     
 # =============================================================================
@@ -171,14 +169,11 @@ for index_train, train in enumerate(tester):   ## 1人ずつが学習データ�
         
 ## 結果の描画 ##
 #x = np.linspace(MIN, MAX, int_MAX-int_MIN)  # 閾値の配列をx軸として作成
-for train in range(len(tester)):    ## 被験者ごとに描画
-    plt.figure(train)   # 複数ウィンドウで表示
-    plt.xlabel("Threshold")
-    plt.ylabel("Rate")
-    plt.title(tester[train])
-    plt.plot(thresholds, FRR[train], 'red', label="FRR")
-    plt.plot(thresholds, FAR[train], 'blue', label="FAR")
-    plt.legend()    # 凡例の表示
+plt.xlabel("Threshold")
+plt.ylabel("Rate")
+plt.plot(thresholds, FRR, 'red', label="FRR")
+plt.plot(thresholds, FAR, 'blue', label="FAR")
+plt.legend()    # 凡例の表示
 plt.show()
    
 ## ここまで完成 ##

@@ -1,6 +1,6 @@
 ## データにより編集 ##
 tester = ["fujii", "ooyama", "okamoto", "kajiwara", "matsuda"] # **被験者**
-train_size = 10      # **学習に当てる個数**
+train_size = 2      # **学習に当てる個数**
 MIN = 0.00       # **閾値の下限**
 MAX = 1.00       # **閾値の上限**
 digit = 100
@@ -115,7 +115,7 @@ for index_train, train in enumerate(tester):   ## 1人ずつが学習データ�
                 for item, threshold in enumerate(thresholds):    # 閾値
                         if (attack==train and distance>threshold):
                             FRR_num[item] += 1
-                        if (attack!=train and distance<=threshold):
+                        elif (attack!=train and distance<=threshold):
                             FAR_num[item] += 1
                             
         FRR_temp[order] = FRR_num/num_train
