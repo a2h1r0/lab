@@ -1,5 +1,6 @@
 import pandas as pd
-from sklearn.svm import OneClassSVM
+#from sklearn.svm import OneClassSVM
+from sklearn.neighbors import LocalOutlierFactor
 
 # CSVファイルの読み込み
 train = pd.read_csv('train.csv', usecols=["in0","in1","in2","in3","in4","in5","in6","in7",
@@ -14,6 +15,10 @@ test = pd.read_csv('attack.csv', usecols=["in0","in1","in2","in3","in4","in5","i
                                             "inF"], encoding='Shift-JIS')   # 評価データ
 
 
-clf = OneClassSVM(nu=0.7, kernel='rbf', gamma=1/32)
+clf = LocalOutlierFactor(n_neighbors=5)
+pred = clf.fit_predict(train)
+"""
+clf = OneClassSVM(nu=0.2, kernel='rbf', gamma=1/32)
 clf.fit(train)
 pred = clf.predict(test)
+"""
