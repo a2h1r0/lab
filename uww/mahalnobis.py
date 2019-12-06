@@ -17,9 +17,23 @@ from operator import add
 import matplotlib.pyplot as plt
 from sklearn.neighbors import LocalOutlierFactor
 import warnings
+import scipy as sc
+from scipy import linalg
+from scipy import spatial
+import scipy.spatial.distance
 
 
 thresholds = np.linspace(MIN, MAX, int((MAX-MIN)*digit+1))  # 閾値の配列をx軸として作成
+
+ROW = 20
+COLUMN = 32
+row = []
+column = []
+ave = [0.0 for i in range(ROW)]
+vcm = np.zeros((COLUMN, ROW, ROW))
+diff = np.zeros((1, ROW))
+mahal = np.zeros(COLUMN)
+tmp = np.zeros(ROW)
 
 
 ## データの読み込み ##
@@ -33,8 +47,7 @@ for i, name in enumerate(tester):            # 被験者1人ずつ読み込む
                                             "inF","Number"], encoding='Shift-JIS')
     data[i].fillna(0, inplace=True) # 区切り番号以外"0"で埋める
     sensors = len(data[0].iloc[0])-1
-
-
+    
 ## データの計算 ##
 # 各データ，各取得回ごとに平均値を計算
 vector_ave = [[] for i in tester]
@@ -64,6 +77,35 @@ for order in range(len(tester)):    ## 被験者ごとに順番に処理
     # 最終データの平均値を保存
     vector_temp = [item/num for item in vector_temp]
     vector_ave[order].append(vector_temp)    # 区切り文字なしでデータが終了するため
+    
+    
+# rowにtrans_dataの要素をリストの形式で連結
+for i in range(ROW):
+    row.append(list(vector_ave[0].ix[i]))
+
+# 列を連結
+for i in range(1, COLUMN+1):
+    column.append(list(vector_ave[0].ix[:, i]))
+
+# 平均値の計算
+for i in range(ROW):
+    # スライスという技法
+    ave[i] = np.average(row[i][len(row[i])])
+    
+# Numpyのメソッドを使うので，array()でリストを変換した．
+column = np.array([column])
+ave = np.array(ave)
+
+# 分散共分散行列を求める
+# np.swapaxes()で軸を変換することができる．
+for i in range(COLUMN):
+    diff = (column[0][i] - ave)
+    diff = np.array([diff])
+    vcm[i] = (diff * np.swapaxes(diff, 0, 1)) / COLUMN    
+
+    
+    
+
   
 
 ## データの類似度計算と，判定 ##

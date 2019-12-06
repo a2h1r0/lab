@@ -23,3 +23,4 @@ plt.scatter(compressed[60:80, 0],compressed[60:80, 1], marker="*", label="Subjec
 plt.scatter(compressed[80:100, 0],compressed[80:100, 1], marker="D", label="Subject E")
 plt.legend(fontsize=13)
 plt.show()
+plt.savefig("PCA.eps")

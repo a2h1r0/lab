@@ -2,7 +2,7 @@
 tester = ["fujii", "ooyama", "okamoto", "kajiwara", "matsuda"] # **被験者**
 train_size = 2      # **学習に当てる個数**
 MIN = 0.0       # **閾値の下限**
-MAX = 0.1       # **閾値の上限**
+MAX = 10.0       # **閾値の上限**
 digit = 10
 ## ここまで随時変更．閾値の桁数を変更する場合は以下コードも変更． ##
 
