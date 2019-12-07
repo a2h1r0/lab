@@ -1,9 +1,9 @@
 ## データにより編集 ##
-tester = ["fujii", "ooyama", "okamoto", "kajiwara", "matsuda"] # **被験者**
+tester = ["ooyama", "okamoto", "kajiwara", "fujii", "matsuda"] # **被験者**
 train_size = 2      # **学習に当てる個数**
-MIN = 0.00       # **閾値の下限**
-MAX = 1.00       # **閾値の上限**
-digit = 100
+MIN = 0       # **閾値の下限**
+MAX = 600       # **閾値の上限**
+digit = 1
 k = 5
 ## ここまで随時変更．閾値の桁数を変更する場合は以下コードも変更． ##
 
@@ -12,29 +12,11 @@ k = 5
 
 import pandas as pd
 import numpy as np
-import itertools
 from operator import add
 import matplotlib.pyplot as plt
-from sklearn.neighbors import LocalOutlierFactor
-import warnings
-import scipy as sc
-from scipy import linalg
-from scipy import spatial
-import scipy.spatial.distance
-
+from sklearn.covariance import MinCovDet
 
 thresholds = np.linspace(MIN, MAX, int((MAX-MIN)*digit+1))  # 閾値の配列をx軸として作成
-
-ROW = 20
-COLUMN = 32
-row = []
-column = []
-ave = [0.0 for i in range(ROW)]
-vcm = np.zeros((COLUMN, ROW, ROW))
-diff = np.zeros((1, ROW))
-mahal = np.zeros(COLUMN)
-tmp = np.zeros(ROW)
-
 
 ## データの読み込み ##
 data = [[] for i in tester] # データ配列，被験者数分用意
@@ -77,78 +59,67 @@ for order in range(len(tester)):    ## 被験者ごとに順番に処理
     # 最終データの平均値を保存
     vector_temp = [item/num for item in vector_temp]
     vector_ave[order].append(vector_temp)    # 区切り文字なしでデータが終了するため
-    
-    
-# rowにtrans_dataの要素をリストの形式で連結
-for i in range(ROW):
-    row.append(list(vector_ave[0].ix[i]))
 
-# 列を連結
-for i in range(1, COLUMN+1):
-    column.append(list(vector_ave[0].ix[:, i]))
-
-# 平均値の計算
-for i in range(ROW):
-    # スライスという技法
-    ave[i] = np.average(row[i][len(row[i])])
-    
-# Numpyのメソッドを使うので，array()でリストを変換した．
-column = np.array([column])
-ave = np.array(ave)
-
-# 分散共分散行列を求める
-# np.swapaxes()で軸を変換することができる．
-for i in range(COLUMN):
-    diff = (column[0][i] - ave)
-    diff = np.array([diff])
-    vcm[i] = (diff * np.swapaxes(diff, 0, 1)) / COLUMN    
-
-    
-    
-
-  
-
+      
 ## データの類似度計算と，判定 ##
 # 自分と比較
-warnings.simplefilter('ignore')
 
-clf = LocalOutlierFactor(n_neighbors=10)
-FRR = np.zeros(len(tester))
-FAR = np.zeros(len(tester))
+mcd = MinCovDet()
+FRR = np.zeros((len(tester), len(thresholds)))
+FAR = np.zeros((len(tester), len(thresholds)))
 for index_train, train in enumerate(tester):    ## 学習データ
     data_size = int(len(vector_ave[index_train])/k) # データサイズの計算
     for order in range(k): #交差検証，テストデータを選択
-        FRR_num = 0
-        FAR_num = 0
+        FRR_num = np.zeros(len(thresholds))
+        FAR_num = np.zeros(len(thresholds))
         train_data = []
+        attack_data = []
         for i in range(k):  ##学習データの作成
             if (i != order):
                 train_data.extend(vector_ave[index_train][i*data_size:(i+1)*data_size])
-        num_train = 0
-        num_attack = 0
-        for index_attack, attack in enumerate(tester): ## 攻撃データ
-            if (attack == train):
-                for vector in vector_ave[index_attack][order*data_size:(order+1)*data_size]:   # 1データずつ取り出し
-                    num_train += 1
-                    train_data.append(vector)
-                    pred = clf.fit_predict(train_data)
-                    if (pred[-1] == -1):
-                        FRR_num += 1
-                    del train_data[-1]
-                    
-            elif (attack != train):
-                for vector in vector_ave[index_attack]:   # 1データずつ取り出し
-                    num_attack += 1
-                    train_data.append(vector)
-                    pred = clf.fit_predict(train_data)
-                    if (pred[-1] == 1):
-                        FAR_num += 1
-                    del train_data[-1]
-                
-        FRR[index_train] = FRR[index_train]+(FRR_num/num_train)
-        FAR[index_train] = FAR[index_train]+(FAR_num/num_attack)
-                    
+        for i in range(k):  ##攻撃(正解)データの作成
+            if (i == order):
+                attack_data.extend(vector_ave[index_train][i*data_size:(i+1)*data_size])
+        for index_attack, attack in enumerate(tester): ## 被験者変更
+            if (attack != train):
+                attack_data.extend(vector_ave[index_attack])
+          
+        # MCD
+        mcd.fit(train_data)
+        anomaly_score_mcd = mcd.mahalanobis(attack_data)
+        
+        for index, threshold in enumerate(thresholds):
+            num_train = 0
+            num_attack = 0            
+            for item, distance in enumerate(anomaly_score_mcd):
+                if (item<data_size and distance>threshold):
+                        FRR_num[index] += 1
+                elif (item>=data_size and distance<threshold):
+                        FAR_num[index] += 1
+            
+        FRR[index_train] += FRR_num/data_size
+        FAR[index_train] += FAR_num/(len(anomaly_score_mcd)-data_size)
+        
 FRR = FRR/k*100
 FAR = FAR/k*100
-
-    
+FRR_total = FRR.mean(axis=0)
+FAR_total = FAR.mean(axis=0)
+            
+            
+## 結果の描画 ##
+plt.figure(0)   # 複数ウィンドウで表示
+plt.title("total")
+plt.plot(thresholds, FRR_total, 'red', label="FRR")
+plt.plot(thresholds, FAR_total, 'blue', label="FAR")
+plt.xlabel("Threshold")
+plt.ylabel("Rate")
+plt.legend()    # 凡例の表示
+#for train in range(1, len(tester)+1):    ## 被験者ごとに描画
+#    plt.figure(train)   # 複数ウィンドウで表示
+#    plt.title(tester[train-1])
+#    plt.plot(thresholds, FRR[train-1], 'red', label="FRR")
+#    plt.plot(thresholds, FAR[train-1], 'blue', label="FAR")
+#    plt.xlabel("Threshold")
+#    plt.ylabel("Rate")
+#    plt.legend()    # 凡例の表示
+plt.show()
