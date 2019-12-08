@@ -37,7 +37,7 @@ with open(filename, 'a', newline='') as f:  # 保存先をオープン
         
     ## Arduinoと接続，再実行時はここまで省略 ##
     while True:
-        if (loop == "y"):   # 再実行か判別
+        if loop == "y":     # 再実行か判別
             number += 1     # 更に+1回目の取得となる
             
         print(str(number)+"回目のデータ取得です．\n")
@@ -62,13 +62,13 @@ with open(filename, 'a', newline='') as f:  # 保存先をオープン
             # voltage,voltage2の末尾に時間が格納
             del voltage[-1] # voltageの時間は破棄
             voltage2[-1] = (math.ceil(int(voltage2[-1])/10**4))/10**2   # 時間を秒単位へ変換(小数第2位まで，以下切り上げ)
-            if (voltage2[-1] > time):   # 経過時間がデータ取得時間を超えると，ファイルへ書き込みせずに終了
+            if voltage2[-1] > time:     # 経過時間がデータ取得時間を超えると，ファイルへ書き込みせずに終了
                 break
             del voltage2[-1]    # 経過時間を確認した後，voltage2の時間要素を削除
             
             # データ整列
             voltage.extend(voltage2)                    # 1号機と2号機のデータを結合
-            if (start == 0):                            # データ取得開始時，初回のみ
+            if start == 0:                              # データ取得開始時，初回のみ
                 voltage.append(number)                  # 取得回数を追加
                 voltage.append(datetime.date.today())   # 日付を追加
                 start += 1
@@ -84,7 +84,7 @@ with open(filename, 'a', newline='') as f:  # 保存先をオープン
         
         # 再実行の確認
         loop = input("再実行しますか？[y] > ")
-        if (loop != "y"):
+        if loop != "y":
             break
 
 

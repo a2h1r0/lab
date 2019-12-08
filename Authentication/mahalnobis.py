@@ -1,22 +1,22 @@
-##--- データにより随時変更 ---##
+###--- データにより随時変更 ---###
 tester = ["ooyama", "okamoto", "kajiwara", "fujii", "matsuda"] # **被験者**
 MIN = 0         # **閾値の下限**
 MAX = 600       # **閾値の上限**
 digit = 1       # **桁数調整**(閾値に小数を用いる場合，1桁ごとに10倍)
 k = 5           # **交差検証分割数**
-##--- ここまで ---##
+###--- ここまで ---###
 
 
 
-import warnings
-import calculate_vector_ave as cal
 import numpy as np
-import matplotlib.pyplot as plt
+import calculate_vector_ave as cal
 from sklearn.covariance import MinCovDet
+import matplotlib.pyplot as plt
+import warnings
 warnings.simplefilter('ignore')
 
 
-##--- データの作成 ---##
+###--- データの作成 ---###
 """
 学習データと認証データを作成．
 学習データは交差検証で本人のテストデータに指定された部分を除いて作成．
@@ -35,9 +35,9 @@ def make_testdata():
         if index_attack != index_train:
             attack_data.extend(vector_ave[index_attack])            
     return train_data, attack_data
-##--- ここまで ---##
+###--- ここまで ---###
 
-##--- データの判別 ---##
+###--- データの判別 ---###
 """
 マハラノビス距離と閾値でデータを判別．
 認証データの先頭からdata_size番目までは本人のデータ，そこから他人のデータが格納．
@@ -59,15 +59,14 @@ def compare():
                 
     FRR[index_train] += FRR_num/data_size
     FAR[index_train] += FAR_num/(len(score)-data_size)
-##--- ここまで ---##
+###--- ここまで ---###
 
 
-##--- main ---##
+###--- main ---###
 ## 計算と判別 ##
-mcd = MinCovDet()   # Minimum Covariance Determinant
-
 vector_ave = cal.calculate_vector_ave(tester)   # ベクトルの平均値を計算
 
+mcd = MinCovDet()   # Minimum Covariance Determinant
 for index_train in range(len(tester)):    ## 学習する被験者を変更
     data_size = int(len(vector_ave[index_train])/k) # データサイズの計算
     
