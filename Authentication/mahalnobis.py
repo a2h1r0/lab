@@ -93,7 +93,7 @@ FAR_total = FAR.mean(axis=0)  # 被験者ごとの行，閾値の列になって
 
 ## 結果の描画 ##
 plt.figure(0)  # 複数ウィンドウで表示
-#plt.title("total", labelsize=14)
+plt.title("Total", fontsize=14)
 plt.plot(thresholds, FRR_total, 'red', label="FRR")
 plt.plot(thresholds, FAR_total, 'blue', label="FAR")
 plt.xlabel("Threshold", fontsize=14)
@@ -105,12 +105,36 @@ plt.legend(fontsize=14)  # 凡例の表示
 **被験者ごとの結果を描画．**
 for train in range(1, len(tester)+1):
     plt.figure(train)
-    plt.title(tester[train-1])
+    #plt.title(tester[train-1], fontsize=14)
     plt.plot(thresholds, FRR[train-1], 'red', label="FRR")
     plt.plot(thresholds, FAR[train-1], 'blue', label="FAR")
-    plt.xlabel("Threshold")
-    plt.ylabel("Rate")
-    plt.legend()
+    plt.xlabel("Threshold", fontsize=14)
+    plt.ylabel("Rate", fontsize=14)
+    plt.tick_params(labelsize=14)
+    plt.legend(fontsize=14)
+    plt.savefig("EER_"+tester[train-1]+".svg")
+"""
+"""
+#**プレゼン用グラフ取得**
+plt.figure(1)  # 複数ウィンドウで表示
+plt.title("Subject A", fontsize=14)
+plt.plot(thresholds, FRR[0], 'red', label="FRR")
+plt.plot(thresholds, FAR[0], 'blue', label="FAR")
+plt.xlabel("Threshold", fontsize=14)
+plt.ylabel("Rate", fontsize=14)
+plt.tick_params(labelsize=14)
+plt.legend(fontsize=14)  # 凡例の表示
+plt.savefig("Subject_A.svg")
+
+plt.figure(2)  # 複数ウィンドウで表示
+plt.title("Subject C", fontsize=14)
+plt.plot(thresholds, FRR[2], 'red', label="FRR")
+plt.plot(thresholds, FAR[2], 'blue', label="FAR")
+plt.xlabel("Threshold", fontsize=14)
+plt.ylabel("Rate", fontsize=14)
+plt.tick_params(labelsize=14)
+plt.legend(fontsize=14)  # 凡例の表示
+plt.savefig("Subject_C.svg")
 """
 
 plt.savefig("EER.svg")
