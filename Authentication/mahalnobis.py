@@ -114,28 +114,28 @@ for train in range(1, len(tester)+1):
     plt.legend(fontsize=14)
     plt.savefig("EER_"+tester[train-1]+".svg")
 """
-"""
+""""""
 #**プレゼン用グラフ取得**
 plt.figure(1)  # 複数ウィンドウで表示
-plt.title("Subject A", fontsize=14)
-plt.plot(thresholds, FRR[0], 'red', label="FRR")
-plt.plot(thresholds, FAR[0], 'blue', label="FAR")
+plt.title("Subject D", fontsize=14)
+plt.plot(thresholds, FRR[3], 'red', label="FRR")
+plt.plot(thresholds, FAR[3], 'blue', label="FAR")
 plt.xlabel("Threshold", fontsize=14)
 plt.ylabel("Rate", fontsize=14)
 plt.tick_params(labelsize=14)
 plt.legend(fontsize=14)  # 凡例の表示
-plt.savefig("Subject_A.svg")
+plt.savefig("Subject_D.svg")
 
 plt.figure(2)  # 複数ウィンドウで表示
-plt.title("Subject C", fontsize=14)
-plt.plot(thresholds, FRR[2], 'red', label="FRR")
-plt.plot(thresholds, FAR[2], 'blue', label="FAR")
+plt.title("Subject E", fontsize=14)
+plt.plot(thresholds, FRR[4], 'red', label="FRR")
+plt.plot(thresholds, FAR[4], 'blue', label="FAR")
 plt.xlabel("Threshold", fontsize=14)
 plt.ylabel("Rate", fontsize=14)
 plt.tick_params(labelsize=14)
 plt.legend(fontsize=14)  # 凡例の表示
-plt.savefig("Subject_C.svg")
-"""
+plt.savefig("Subject_E.svg")
+""""""
 
-plt.savefig("EER.svg")
+#plt.savefig("EER.svg")
 plt.show()
