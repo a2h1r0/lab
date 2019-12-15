@@ -1,5 +1,5 @@
 ###--- データにより随時変更 ---###
-tester = ["ooyama", "okamoto", "kajiwara", "fujii", "matsuda"]  # **被験者**
+tester = ["ooyama", "okamoto", "kajiwara", "hatta", "fujii", "matsuda"]  # **被験者**
 MIN = 0  # **閾値の下限**
 MAX = 600  # **閾値の上限**
 digit = 1  # **桁数調整**(閾値に小数を用いる場合，1桁ごとに10倍)
@@ -114,7 +114,7 @@ for train in range(1, len(tester)+1):
     plt.legend(fontsize=14)
     plt.savefig("EER_"+tester[train-1]+".svg")
 """
-""""""
+"""
 #**プレゼン用グラフ取得**
 plt.figure(1)  # 複数ウィンドウで表示
 plt.title("Subject D", fontsize=14)
@@ -135,7 +135,7 @@ plt.ylabel("Rate", fontsize=14)
 plt.tick_params(labelsize=14)
 plt.legend(fontsize=14)  # 凡例の表示
 plt.savefig("Subject_E.svg")
-""""""
+"""
 
 #plt.savefig("EER.svg")
 plt.show()
