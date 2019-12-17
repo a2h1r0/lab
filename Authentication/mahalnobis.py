@@ -1,5 +1,5 @@
 ###--- データにより随時変更 ---###
-tester = ["ooyama", "okamoto", "kajiwara", "hatta", "fujii", "matsuda"]  # **被験者**
+tester = ["ooyama", "okamoto", "kajiwara", "nagamatsu", "hatta", "fujii", "matsuda"]  # **被験者**
 MIN = 0  # **閾値の下限**
 MAX = 600  # **閾値の上限**
 digit = 1  # **桁数調整**(閾値に小数を用いる場合，1桁ごとに10倍)
