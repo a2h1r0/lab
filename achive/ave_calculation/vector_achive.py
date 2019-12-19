@@ -3,7 +3,7 @@ import csv
 import pandas as pd
 import sys
 
-tester = ["ooyama", "okamoto", "kajiwara", "fujii", "matsuda"]
+tester = ["ooyama", "okamoto", "kajiwara", "sawano", "nagamatsu", "noda", "hatta", "matsuda"]
 writefile = "testdata.csv"
 
 if os.path.isfile(writefile):    # データ保存先の存在確認

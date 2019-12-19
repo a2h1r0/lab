@@ -8,7 +8,7 @@ tester = input("計算したい被験者 > ")
 readfile = tester + ".csv"
 writefile = tester + "_ave.csv"     # データ保存先
 if os.path.isfile(writefile):    # データ保存先の存在確認
-    print("平均値ファイルが存在します．\n")
+    print("平均値ファイルがooyama存在します．\n")
     sys.exit()
     
 with open(writefile, 'a', newline='') as f:  # 保存先をオープン
