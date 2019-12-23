@@ -1,0 +1,126 @@
+PWD C:/Users/atsu3/Google ƒhƒ‰ƒCƒu/meeting
+INPUT c:/w32tex/share/texmf-dist/web2c/texmf.cnf
+INPUT c:/w32tex/share/texmf-dist/web2c/eptex/platex.fmt
+INPUT Atsuhiro Fujii.tex
+OUTPUT Atsuhiro Fujii.log
+INPUT c:/w32tex/share/texmf-dist/tex/platex/base/jarticle.cls
+INPUT c:/w32tex/share/texmf-dist/tex/platex/base/jarticle.cls
+INPUT c:/w32tex/share/texmf-dist/tex/platex/base/jsize10.clo
+INPUT c:/w32tex/share/texmf-dist/tex/platex/base/jsize10.clo
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/graphicx.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/graphicx.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/trig.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/trig.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics-def/dvipdfmx.def
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics-def/dvipdfmx.def
+INPUT c:/w32tex/share/texmf-dist/tex/latex/url/url.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/url/url.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/color.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/color.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics-def/dvips.def
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics-def/dvips.def
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/dvipsnam.def
+INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/dvipsnam.def
+INPUT c:/w32tex/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/pdftexcmds/pdftexcmds.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/pdftexcmds/pdftexcmds.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/iftex/ifluatex.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/iftex/ifluatex.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/pdfescape.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/pdfescape.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/oberdiek/hycolor.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/oberdiek/hycolor.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/oberdiek/xcolor-patch.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/oberdiek/xcolor-patch.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/oberdiek/hopatch.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/oberdiek/hopatch.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/oberdiek/auxhook.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/oberdiek/auxhook.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/hyperref/pd1enc.def
+INPUT c:/w32tex/share/texmf-dist/tex/latex/hyperref/pd1enc.def
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/intcalc.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/intcalc.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/config/hyperref.cfg
+INPUT c:/w32tex/share/texmf-dist/tex/latex/config/hyperref.cfg
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/bitset.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/bitset.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/bigintcalc.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/bigintcalc.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/atbegshi/atbegshi.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/atbegshi/atbegshi.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/hyperref/hdvipdfm.def
+INPUT c:/w32tex/share/texmf-dist/tex/latex/hyperref/hdvipdfm.def
+INPUT c:/w32tex/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/atveryend/atveryend.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/atveryend/atveryend.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/uniquecounter.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/uniquecounter.sty
+INPUT Atsuhiro Fujii.aux
+INPUT Atsuhiro Fujii.aux
+OUTPUT Atsuhiro Fujii.aux
+INPUT c:/w32tex/share/texmf-dist/tex/latex/hyperref/nameref.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/hyperref/nameref.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/oberdiek/refcount.sty
+INPUT c:/w32tex/share/texmf-dist/tex/latex/oberdiek/refcount.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+INPUT c:/w32tex/share/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+INPUT Atsuhiro Fujii.out
+INPUT Atsuhiro Fujii.out
+INPUT Atsuhiro Fujii.out
+INPUT Atsuhiro Fujii.out
+INPUT ./Atsuhiro Fujii.out
+INPUT ./Atsuhiro Fujii.out
+OUTPUT Atsuhiro Fujii.out
+INPUT c:/w32tex/share/texmf-dist/fonts/map/fontname/texfonts.map
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/min8.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/min6.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT c:/w32tex/share/texmf-dist/tex/latex/base/omscmr.fd
+INPUT c:/w32tex/share/texmf-dist/tex/latex/base/omscmr.fd
+OUTPUT Atsuhiro Fujii.dvi
+INPUT Atsuhiro Fujii.aux
+INPUT ./Atsuhiro Fujii.out
+INPUT ./Atsuhiro Fujii.out
