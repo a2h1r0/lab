@@ -1,0 +1,42 @@
+# Fdb version 3
+["bibtex uww2019"] 1577170650 "uww2019.aux" "uww2019.bbl" "uww2019" 1577170732
+  "../references.bib" 1577170271 269 898e589691acfd4cb20107c68cd2a1e6 ""
+  "junsrt.bst" 0 -1 0 ""
+  "uww2019.aux" 1577170732 92 4860be51ca6c73da3725e2f4866ca8e9 "latex"
+  (generated)
+  "uww2019.bbl"
+  "uww2019.blg"
+["dvipdf"] 1577170549 "uww2019.dvi" "uww2019.pdf" "uww2019" 1577170552
+  "uww2019.dvi" 1577170549 9396 a600714b0c7530879769e7236143f4ae "latex"
+  (generated)
+  "uww2019.pdf"
+["latex"] 1577170730 "uww2019.tex" "uww2019.dvi" "uww2019" 1577170732
+  "PCA.eps" 1577076653 624834 f8036f367f11cb3f45618a439c6652f2 ""
+  "c:/w32tex/share/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
+  "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/min8.tfm" 1519818042 1196 d5b431ce76e19b70391960a9dd08fa4f ""
+  "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm" 1519818042 856 bdef40bcf3aed4751efa9be9bfa6eb4b ""
+  "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
+  "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
+  "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1136768653 1288 655e228510b4c2a1abe905c368440826 ""
+  "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmr8.tfm" 1136768653 1292 21c1c5bfeaebccffdb478fd231a0997d ""
+  "c:/w32tex/share/texmf-dist/tex/latex/graphics-cfg/color.cfg" 1465869092 1213 620bba36b25224fa9b7e1ccb4ecb76fd ""
+  "c:/w32tex/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg" 1465869092 1224 978390e9c2234eab29404bc21b268d1e ""
+  "c:/w32tex/share/texmf-dist/tex/latex/graphics-def/dvipdfmx.def" 1508838812 10299 c742d2190e924996d2f4e34b541cd5e3 ""
+  "c:/w32tex/share/texmf-dist/tex/latex/graphics/color.sty" 1573001218 7027 3fe334b366b81600335fd2c862b4b178 ""
+  "c:/w32tex/share/texmf-dist/tex/latex/graphics/dvipsnam.def" 1573001216 4944 8913e28e9324480112a7c86fd496c952 ""
+  "c:/w32tex/share/texmf-dist/tex/latex/graphics/graphics.sty" 1573001218 16882 d58c082e88b8863b24f02962a4c41363 ""
+  "c:/w32tex/share/texmf-dist/tex/latex/graphics/graphicx.sty" 1573001218 9057 e434b0c2dbde71054f2dde205cf3bde4 ""
+  "c:/w32tex/share/texmf-dist/tex/latex/graphics/keyval.sty" 1573001220 2590 3aa06f747eb7e19c8d68947f1828fd06 ""
+  "c:/w32tex/share/texmf-dist/tex/latex/graphics/trig.sty" 1573001218 3976 f6c84526d8a14dceb492f9a764e82175 ""
+  "c:/w32tex/share/texmf-dist/tex/platex/base/jarticle.cls" 1571662469 25768 d1cf6982d255aeab8b8d6adb8d34502a ""
+  "c:/w32tex/share/texmf-dist/tex/platex/base/jsize10.clo" 1571662469 8564 ff40df225ed1720cd296cf69b4745f16 ""
+  "c:/w32tex/share/texmf-dist/web2c/eptex/platex.fmt" 1576038591 1581492 60fe3a48e175e2b6367d16d58ffe7577 ""
+  "c:/w32tex/share/texmf-dist/web2c/texmf.cnf" 1574383124 36109 b9aeed2c69cab02604016c3cbf11f2e4 ""
+  "met.eps" 1577076653 6397706 f303c0772a2360a4eec8d6b4d81a72ac ""
+  "uww2019.aux" 1577170732 92 4860be51ca6c73da3725e2f4866ca8e9 "latex"
+  "uww2019.bbl" 1577170650 195 5c3d24bd50a38e0fa69543d63b18eb72 "bibtex uww2019"
+  "uww2019.tex" 1577170729 7612 b6c5a12ae69a09143da58c86fb588815 ""
+  (generated)
+  "uww2019.log"
+  "uww2019.aux"
+  "uww2019.dvi"
