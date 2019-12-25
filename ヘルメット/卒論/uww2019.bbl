@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{iris_eye}
+白川功浩, 吉浦裕, 市野将嗣.
+\newblock 虹彩および目の周辺の分割画像を用いた個人認証.
+\newblock 情報処理学会論文誌, Vol.~59, No.~9, pp. 1726--1738, 2018.
+
+\bibitem{cap_sensor}
+新島有信, 伊勢崎隆司, 青木良輔, 渡部智樹, 山田智広.
+\newblock 導電性高分子電極を用いた帽子型筋電センサの提案.
+\newblock 電子情報通信学会論文誌D, Vol. J101-D, No.~10, pp. 1378--1387, 2018.
+
+\end{thebibliography}
