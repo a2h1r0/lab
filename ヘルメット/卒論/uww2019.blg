@@ -3,45 +3,45 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: uww2019.aux
 The style file: junsrt.bst
 Database file #1: ../references.bib
-You've used 2 entries,
+You've used 3 entries,
             2270 wiz_defined-function locations,
-            552 strings with 4328 characters,
-and the built_in function-call counts, 962 in all, are:
-= -- 82
-> -- 26
-< -- 6
-+ -- 10
-- -- 8
-* -- 58
-:= -- 115
-add.period$ -- 6
-call.type$ -- 2
-change.case$ -- 2
+            559 strings with 4421 characters,
+and the built_in function-call counts, 1363 in all, are:
+= -- 118
+> -- 33
+< -- 9
++ -- 13
+- -- 10
+* -- 80
+:= -- 159
+add.period$ -- 9
+call.type$ -- 3
+change.case$ -- 3
 chr.to.int$ -- 0
-cite$ -- 2
-duplicate$ -- 56
-empty$ -- 81
-format.name$ -- 16
-if$ -- 235
+cite$ -- 3
+duplicate$ -- 82
+empty$ -- 118
+format.name$ -- 20
+if$ -- 336
 int.to.chr$ -- 0
-int.to.str$ -- 2
-missing$ -- 2
-newline$ -- 13
-num.names$ -- 2
-pop$ -- 12
+int.to.str$ -- 3
+missing$ -- 3
+newline$ -- 18
+num.names$ -- 3
+pop$ -- 18
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 50
+skip$ -- 72
 stack$ -- 0
-substring$ -- 80
-swap$ -- 26
-text.length$ -- 6
+substring$ -- 112
+swap$ -- 37
+text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 8
-width$ -- 3
-write$ -- 24
-is.kanji.str$ -- 28
+while$ -- 12
+width$ -- 4
+write$ -- 35
+is.kanji.str$ -- 40
