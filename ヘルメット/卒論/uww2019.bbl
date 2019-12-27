@@ -5,6 +5,18 @@
 \newblock 虹彩および目の周辺の分割画像を用いた個人認証.
 \newblock 情報処理学会論文誌, Vol.~59, No.~9, pp. 1726--1738, 2018.
 
+\bibitem{glasses}
+田中洸平, 寺田努, 宇山彩香, 杉野哲造, 塚本昌彦.
+\newblock メガネ型デバイスを用いた経皮水分蒸散量の常時測定システム.
+\newblock 研究報告ユビキタスコンピューティングシステム（UBI）, Vol.
+  2018-UBI-57, No.~35, pp. 1--7, 2018.
+
+\bibitem{happymouth}
+石井綾郁, 小松孝徳, 橋本直.
+\newblock Happymouth:マスク型デバイスによる対面コミュニケーション能力の拡張.
+\newblock 研究報告ヒューマンコンピュータインタラクション（HCI）, Vol.
+  2018-HCI-177, No.~7, pp. 1--7, 2018.
+
 \bibitem{cap_sensor}
 新島有信, 伊勢崎隆司, 青木良輔, 渡部智樹, 山田智広.
 \newblock 導電性高分子電極を用いた帽子型筋電センサの提案.
@@ -14,5 +26,16 @@
 越前功, 大金建夫.
 \newblock 写真からの指紋復元の脅威とその対策技術.
 \newblock 情報処理, Vol.~58, No.~9, pp. 824--829, 2017.
+
+\bibitem{head_from_ear}
+雨坂宇宙, 渡邉拓貴, 杉本雅則.
+\newblock 外耳道伝達関数を用いた頭部状態認識手法.
+\newblock 研究報告ユビキタスコンピューティングシステム（UBI）, Vol.
+  2019-UBI-61, No.~7, pp. 1--8, 2019.
+
+\bibitem{face}
+当麻凌平, 花泉弘.
+\newblock ステレオカメラを用いた顔認証システム.
+\newblock 第80回全国大会講演論文集, Vol. 2018, No.~1, pp. 453--454, 2018.
 
 \end{thebibliography}

@@ -1,16 +1,16 @@
-This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2019/W32TeX) (preloaded format=platex 2019.12.11)  27 DEC 2019 16:09
+This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  27 DEC 2019 22:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
 **uww2019.tex
 (./uww2019.tex
-pLaTeX2e <2019-10-01>+1 (based on LaTeX2e <2019-10-01> patch level 3)
-(c:/w32tex/share/texmf-dist/tex/platex/base/jarticle.cls
-Document Class: jarticle 2019/10/17 v1.8c Standard pLaTeX class
+pLaTeX2e <2018-12-01> (based on LaTeX2e <2018-12-01>)
+(c:/texlive/2018/texmf-dist/tex/platex/base/jarticle.cls
+Document Class: jarticle 2018/10/25 v1.8a Standard pLaTeX class
 \c@@paper=\count83
-(c:/w32tex/share/texmf-dist/tex/platex/base/jsize10.clo
-File: jsize10.clo 2019/10/17 v1.8c Standard pLaTeX file (size option)
+(c:/texlive/2018/texmf-dist/tex/platex/base/jsize10.clo
+File: jsize10.clo 2018/10/25 v1.8a Standard pLaTeX file (size option)
 )
 \c@part=\count84
 \c@section=\count85
@@ -29,31 +29,31 @@ LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
 \@lnumwidth=\dimen119
 \bibindent=\dimen120
 \heisei=\count92
-) (c:/w32tex/share/texmf-dist/tex/latex/graphics/graphicx.sty
+) (c:/texlive/2018/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
- (c:/w32tex/share/texmf-dist/tex/latex/graphics/keyval.sty
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks15
-) (c:/w32tex/share/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2019/11/01 v1.3d Standard LaTeX Graphics (DPC,SPQR)
- (c:/w32tex/share/texmf-dist/tex/latex/graphics/trig.sty
+) (c:/texlive/2018/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-) (c:/w32tex/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) (c:/texlive/2018/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: dvipdfmx.def on input line 105.
- (c:/w32tex/share/texmf-dist/tex/latex/graphics-def/dvipdfmx.def
+Package graphics Info: Driver file: dvipdfmx.def on input line 99.
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics-def/dvipdfmx.def
 File: dvipdfmx.def 2017/06/24 v5.0g Graphics/color driver for dvipdfmx
 ))
 \Gin@req@height=\dimen121
 \Gin@req@width=\dimen122
-) (c:/w32tex/share/texmf-dist/tex/latex/graphics/color.sty
+) (c:/texlive/2018/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
- (c:/w32tex/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: dvipdfmx.def on input line 147.
- (c:/w32tex/share/texmf-dist/tex/latex/graphics/dvipsnam.def
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics/dvipsnam.def
 File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
 )) (./uww2019.aux)
 \openout1 = `uww2019.aux'.
@@ -79,30 +79,30 @@ LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 56.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 69.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 79.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 69.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 79.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 78.
+(Font)              <7> on input line 88.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 78.
+(Font)              <5> on input line 88.
 File: met.eps Graphic file (type eps)
 <met.eps>
 File: PCA.eps Graphic file (type eps)
 <PCA.eps>
- (./uww2019.bbl) [1
+ (./uww2019.bbl [1
 
 
-] [2
+]) [2
 
 ] (./uww2019.aux) ) 
 Here is how much of TeX's memory you used:
- 809 strings out of 492749
- 9829 string characters out of 6141886
- 83538 words of memory out of 5000000
- 5312 multiletter control sequences out of 15000+600000
+ 780 strings out of 494660
+ 9512 string characters out of 6179649
+ 77565 words of memory out of 5000000
+ 4690 multiletter control sequences out of 15000+600000
  9186 words of font info for 37 fonts, out of 8000000 for 9000
- 929 hyphenation exceptions out of 8191
- 30i,5n,25p,600b,322s stack positions out of 5000i,500n,10000p,500000b,80000s
+ 36 hyphenation exceptions out of 8191
+ 25i,5n,22p,600b,319s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on uww2019.dvi (2 pages, 11388 bytes).
+Output written on uww2019.dvi (2 pages, 14512 bytes).
