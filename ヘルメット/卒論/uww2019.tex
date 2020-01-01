@@ -74,10 +74,12 @@
 \section{提案手法}
 本章では提案手法の詳細を述べる．本研究はヘルメットをキーの代わりとして用いるために，圧力センサを搭載したヘルメットを装着し，装着者の頭部形状を取得することで個人識別を行う手法を提案する．本手法では個人識別を行うために，着座状態でヘルメットを装着している環境を想定している．
 
+\subsection{システム構成}
+システム構成を\ref{system}に示す．
+
+
 \subsection{ハードウェアの実装}
-提案手法に用いる，圧力センサを搭載したヘルメットを実装した．このプロトタイプデバイスの全体図を図\ref{met_over}，ヘルメット内部を図\ref{met_in}に示す．センサ値を正しく取得するには，センサとヘルメット装着者の頭部が密着している必要がある．そのため，フルフェイス型のB\&B社製BB100フルフェイスヘルメットを用いた．ヘルメット内部にはインターリンク エレクトロニクス社製の圧力センサFSR402，FSR402 ShortTailを取り付けた．圧力センサは頭頂部に4個，頭頂部周囲に16個，後頭部に6個，左右チークパッド部に6個の合計32個を搭載した．
-各圧力センサはヘルメット外部に取り付けた10KΩの抵抗を配線してあるプリント基板を経由して，Arduino MEGA2560 R3のアナログ入力ポートに接続した．このプリント基板を図\ref{print}に示す．また，回路図は図\ref{circuit}である．
-図\ref{device}の右図はヘルメット内部の様子である．今回用いたヘルメットはフリーサイズであり，また内装の脱着が困難であった．そのため，頭頂部の内装を取り外して，新たに厚みのあるウレタンスポンジを取り付けた．図\ref{sensor}のように，取り付けたウレタンスポンジの中央部に切り込みを入れ，圧力センサを挿し込んだ．
+提案手法に用いる，圧力センサを搭載したヘルメットを実装した．このプロトタイプデバイスの全体図を図\ref{met_over}に示す．センサ値を正しく取得するには，センサとヘルメット装着者の頭部が密着している必要がある．そのため，フルフェイス型のB\&B社製BB100フルフェイスヘルメットを用いた．次にプロトタイプデバイスの内部を図\ref{met_in}に示す．今回用いたヘルメットはフリーサイズであり，また内装の脱着が困難であったため，頭頂部の内装を取り外して，新たに厚みのあるウレタンスポンジを取り付けた．ここで，図\ref{sensor}のようにウレタンスポンジの中央部に切り込みを入れ，インターリンク エレクトロニクス社製のFSR402，FSR402 ShortTailを挿し込むことで圧力センサを実装した．この圧力センサは頭頂部に4個，頭頂部周囲に16個，後頭部に6個，左右チークパッド部に6個の合計32個を搭載してあり，ヘルメット外部に取り付けた10KΩの抵抗を配線してあるプリント基板を経由して，Arduino MEGA2560 R3のアナログ入力ポートに接続した．このプリント基板を図\ref{print}に示す．
 
 \subsection{識別手法}
 ユーザはヘルメットを被った状態で2秒静止し，32個の圧力センサの電圧値を取得する．各センサごとに2秒間の平均値を計算し32次元のベクトルを作成する．ユーザは最初に本人のデータとして複数サンプルのデータを登録する．識別時は登録データ群と未知のユーザの圧力データのマハラノビス距離を計算する．この距離が閾値未満となった場合本人として認証し，閾値以上となった場合は他人として拒否する．
@@ -91,7 +93,7 @@
 
 \begin{figure}[!t]
   \begin{center}
-    \includegraphics[width=1\linewidth]{met_over.eps}
+    \includegraphics[width=1\linewidth]{tex_fig/met_over.eps}
   \end{center}
     \vspace{-8mm}
   \caption{プロトタイプデバイスの全体図}
@@ -100,7 +102,7 @@
 
 \begin{figure}[!t]
   \begin{center}
-    \includegraphics[width=1\linewidth]{met_in.eps}
+    \includegraphics[width=1\linewidth]{tex_fig/met_in.eps}
   \end{center}
     \vspace{-8mm}
   \caption{ヘルメットの内部}
@@ -109,7 +111,16 @@
 
 \begin{figure}[!t]
   \begin{center}
-    \includegraphics[width=1\linewidth]{print.eps}
+    \includegraphics[width=1\linewidth]{tex_fig/sensor.eps}
+  \end{center}
+    \vspace{-8mm}
+  \caption{センサの装着方法}
+  \label{sensor}
+\end{figure}
+
+\begin{figure}[!t]
+  \begin{center}
+    \includegraphics[width=1\linewidth]{tex_fig/print.eps}
   \end{center}
     \vspace{-8mm}
   \caption{プリント基板}
@@ -118,20 +129,11 @@
 
 \begin{figure}[!t]
   \begin{center}
-    \includegraphics[width=1\linewidth]{circuit.eps}
+    \includegraphics[width=1\linewidth]{tex_fig/system.eps}
   \end{center}
     \vspace{-8mm}
-  \caption{プリント基板の回路図}
-  \label{circuit}
-\end{figure}
-
-\begin{figure}[!t]
-  \begin{center}
-    \includegraphics[width=1\linewidth]{sensor.eps}
-  \end{center}
-    \vspace{-8mm}
-  \caption{センサの装着方法}
-  \label{sensor}
+  \caption{システム構成}
+  \label{system}
 \end{figure}
 
 \begin{figure}[!t]
