@@ -1,17 +1,16 @@
 # Fdb version 3
-["bibtex thesis_bachelor"] 1578298905 "thesis_bachelor.aux" "thesis_bachelor.bbl" "thesis_bachelor" 1578298925
+["bibtex thesis_bachelor"] 1578565534 "thesis_bachelor.aux" "thesis_bachelor.bbl" "thesis_bachelor" 1578565553
   "../references.bib" 1577504432 2182 976c3c7324c47ae3345ad3a493d067ee ""
   "junsrt.bst" 0 -1 0 ""
-  "thesis_bachelor.aux" 1578298914 2416 d4b814708c0247208d28109a1cc9bf5d "latex"
+  "thesis_bachelor.aux" 1578565542 2988 f9f50f55e60168e25f382da8a59fda48 "latex"
   (generated)
-  "thesis_bachelor.blg"
   "thesis_bachelor.bbl"
-["dvipdf"] 1578298914 "thesis_bachelor.dvi" "thesis_bachelor.pdf" "thesis_bachelor" 1578298925
-  "thesis_bachelor.dvi" 1578298914 20468 2c95b9840d213033d7fe1baff3be2816 "latex"
+  "thesis_bachelor.blg"
+["dvipdf"] 1578565542 "thesis_bachelor.dvi" "thesis_bachelor.pdf" "thesis_bachelor" 1578565553
+  "thesis_bachelor.dvi" 1578565542 24040 f31edf6b8ab628a57b05c67d8421e806 "latex"
   (generated)
   "thesis_bachelor.pdf"
-["latex"] 1578298905 "thesis_bachelor.tex" "thesis_bachelor.dvi" "thesis_bachelor" 1578298925
-  "PCA.eps" 1577504432 624834 f8036f367f11cb3f45618a439c6652f2 ""
+["latex"] 1578565534 "thesis_bachelor.tex" "thesis_bachelor.dvi" "thesis_bachelor" 1578565553
   "c:/w32tex/share/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/min8.tfm" 1519818042 1196 d5b431ce76e19b70391960a9dd08fa4f ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm" 1519818042 856 bdef40bcf3aed4751efa9be9bfa6eb4b ""
@@ -32,15 +31,19 @@
   "c:/w32tex/share/texmf-dist/tex/platex/base/jsize10.clo" 1571662469 8564 ff40df225ed1720cd296cf69b4745f16 ""
   "c:/w32tex/share/texmf-dist/web2c/eptex/platex.fmt" 1576038591 1581492 60fe3a48e175e2b6367d16d58ffe7577 ""
   "c:/w32tex/share/texmf-dist/web2c/texmf.cnf" 1574383124 36109 b9aeed2c69cab02604016c3cbf11f2e4 ""
+  "tex_fig/EER_all.eps" 1578557825 8102960 c40904e2c782b14b7df3bb115bf327a3 ""
+  "tex_fig/EER_total.eps" 1578557820 1757726 13ad5a5cc33ad24cf3fbcf5068774b63 ""
   "tex_fig/met_in.eps" 1578280357 23831194 51033f4173521ecd4a6ddd0864f4c023 ""
   "tex_fig/met_over.eps" 1578280358 24025878 8ce1ea117fe5120a6db6e711ce4c7f7e ""
+  "tex_fig/pca.eps" 1578552346 1757720 56d264012ec0d558a115a10b678a70ba ""
   "tex_fig/print.eps" 1578280358 12180155 b68fd668b75c6b4372e305b552b7a867 ""
   "tex_fig/sensor.eps" 1578280358 6926672 9f33b7d80f083807e591082cf1640e1f ""
+  "tex_fig/subject_E.eps" 1578557821 1757726 7c021310ee956177294a0152ed7b2128 ""
   "tex_fig/system.eps" 1578280358 6659267 0b84b45a50847de21ac0cfdd039449d5 ""
-  "thesis_bachelor.aux" 1578298914 2416 d4b814708c0247208d28109a1cc9bf5d "latex"
-  "thesis_bachelor.bbl" 1578298905 1777 79bec4084d3b61924f6b95b2e3937401 "bibtex thesis_bachelor"
-  "thesis_bachelor.tex" 1578298892 12971 458f0e6989f94b380f2a4b6ee8ba10e1 ""
+  "thesis_bachelor.aux" 1578565542 2988 f9f50f55e60168e25f382da8a59fda48 "latex"
+  "thesis_bachelor.bbl" 1578565534 1777 79bec4084d3b61924f6b95b2e3937401 "bibtex thesis_bachelor"
+  "thesis_bachelor.tex" 1578565519 15324 c06f5de0c5e1d15bbaa39e7651767b12 ""
   (generated)
-  "thesis_bachelor.aux"
   "thesis_bachelor.log"
   "thesis_bachelor.dvi"
+  "thesis_bachelor.aux"

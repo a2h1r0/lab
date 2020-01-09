@@ -46,8 +46,14 @@ INPUT tex_fig/print.eps
 INPUT tex_fig/print.eps
 INPUT tex_fig/system.eps
 INPUT tex_fig/system.eps
-INPUT PCA.eps
-INPUT PCA.eps
+INPUT tex_fig/pca.eps
+INPUT tex_fig/pca.eps
+INPUT tex_fig/EER_all.eps
+INPUT tex_fig/EER_all.eps
+INPUT tex_fig/subject_E.eps
+INPUT tex_fig/subject_E.eps
+INPUT tex_fig/EER_total.eps
+INPUT tex_fig/EER_total.eps
 INPUT thesis_bachelor.bbl
 INPUT thesis_bachelor.bbl
 INPUT thesis_bachelor.aux

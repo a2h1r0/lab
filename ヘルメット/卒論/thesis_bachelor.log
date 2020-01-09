@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2019/W32TeX) (preloaded format=platex 2019.12.11)  6 JAN 2020 17:21
+This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2019/W32TeX) (preloaded format=platex 2019.12.11)  9 JAN 2020 19:25
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -100,16 +100,28 @@ File: tex_fig/print.eps Graphic file (type eps)
 <tex_fig/print.eps>
 File: tex_fig/system.eps Graphic file (type eps)
 <tex_fig/system.eps>
-File: PCA.eps Graphic file (type eps)
-<PCA.eps>
- (./thesis_bachelor.bbl) [2] [3] (./thesis_bachelor.aux) ) 
+File: tex_fig/pca.eps Graphic file (type eps)
+<tex_fig/pca.eps>
+File: tex_fig/EER_all.eps Graphic file (type eps)
+<tex_fig/EER_all.eps>
+File: tex_fig/subject_E.eps Graphic file (type eps)
+<tex_fig/subject_E.eps>
+File: tex_fig/EER_total.eps Graphic file (type eps)
+<tex_fig/EER_total.eps>
+ (./thesis_bachelor.bbl [2]
+
+LaTeX Warning: Text page 3 contains only floats.
+
+[3]) [4
+
+] (./thesis_bachelor.aux) ) 
 Here is how much of TeX's memory you used:
- 834 strings out of 492749
- 10364 string characters out of 6141886
- 85538 words of memory out of 5000000
- 5332 multiletter control sequences out of 15000+600000
+ 849 strings out of 492749
+ 10678 string characters out of 6141886
+ 84538 words of memory out of 5000000
+ 5344 multiletter control sequences out of 15000+600000
  9186 words of font info for 37 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
  30i,7n,25p,955b,322s stack positions out of 5000i,500n,10000p,500000b,80000s
 
-Output written on thesis_bachelor.dvi (3 pages, 20468 bytes).
+Output written on thesis_bachelor.dvi (4 pages, 24040 bytes).
