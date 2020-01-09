@@ -1,5 +1,5 @@
 ###--- データにより随時変更 ---###
-tester = ["ooyama", "okamoto", "kajiwara", "sawano", "nagamatsu", "noda", "hatta", "matsuda"]  # **被験者**
+tester = ["ooyama", "okamoto", "kajiwara", "sawano", "nagamatsu", "noda", "hatta", "fujii", "matsuda"]  # **被験者**
 MIN = 0  # **閾値の下限**
 MAX = 600  # **閾値の上限**
 digit = 1  # **桁数調整**(閾値に小数を用いる場合，1桁ごとに10倍)
@@ -95,94 +95,104 @@ FAR_total = FAR.mean(axis=0)  # 被験者ごとの行，閾値の列になって
 plt.figure(0)  # 複数ウィンドウで表示
 plt.title("Total", fontsize=14)
 plt.plot(thresholds, FRR_total, 'red', label="FRR")
-plt.plot(thresholds, FAR_total, 'blue', label="FAR")
+plt.plot(thresholds, FAR_total, 'blue', linestyle="dashed", label="FAR")
 plt.xlabel("Threshold", fontsize=14)
 plt.ylabel("Rate", fontsize=14)
 plt.tick_params(labelsize=14)
 plt.legend(fontsize=14)  # 凡例の表示
+#plt.savefig("EER.svg")
 
-"""
+
 #**プレゼン用グラフ取得**
 plt.figure(1)  # 複数ウィンドウで表示
 plt.title("Subject A", fontsize=14)
 plt.plot(thresholds, FRR[0], 'red', label="FRR")
-plt.plot(thresholds, FAR[0], 'blue', label="FAR")
+plt.plot(thresholds, FAR[0], 'blue', linestyle="dashed", label="FAR")
 plt.xlabel("Threshold", fontsize=14)
 plt.ylabel("Rate", fontsize=14)
 plt.tick_params(labelsize=14)
 plt.legend(fontsize=14)  # 凡例の表示
-plt.savefig("Subject_A.svg")
+#plt.savefig("Subject_A.svg")
 
 plt.figure(2)  # 複数ウィンドウで表示
 plt.title("Subject B", fontsize=14)
 plt.plot(thresholds, FRR[1], 'red', label="FRR")
-plt.plot(thresholds, FAR[1], 'blue', label="FAR")
+plt.plot(thresholds, FAR[1], 'blue', linestyle="dashed", label="FAR")
 plt.xlabel("Threshold", fontsize=14)
 plt.ylabel("Rate", fontsize=14)
 plt.tick_params(labelsize=14)
 plt.legend(fontsize=14)  # 凡例の表示
-plt.savefig("Subject_B.svg")
+#plt.savefig("Subject_B.svg")
 
 plt.figure(3)  # 複数ウィンドウで表示
 plt.title("Subject C", fontsize=14)
 plt.plot(thresholds, FRR[2], 'red', label="FRR")
-plt.plot(thresholds, FAR[2], 'blue', label="FAR")
+plt.plot(thresholds, FAR[2], 'blue', linestyle="dashed", label="FAR")
 plt.xlabel("Threshold", fontsize=14)
 plt.ylabel("Rate", fontsize=14)
 plt.tick_params(labelsize=14)
 plt.legend(fontsize=14)  # 凡例の表示
-plt.savefig("Subject_C.svg")
+#plt.savefig("Subject_C.svg")
 
 plt.figure(4)  # 複数ウィンドウで表示
 plt.title("Subject D", fontsize=14)
 plt.plot(thresholds, FRR[3], 'red', label="FRR")
-plt.plot(thresholds, FAR[3], 'blue', label="FAR")
+plt.plot(thresholds, FAR[3], 'blue', linestyle="dashed", label="FAR")
 plt.xlabel("Threshold", fontsize=14)
 plt.ylabel("Rate", fontsize=14)
 plt.tick_params(labelsize=14)
 plt.legend(fontsize=14)  # 凡例の表示
-plt.savefig("Subject_D.svg")
+#plt.savefig("Subject_D.svg")
 
 plt.figure(5)  # 複数ウィンドウで表示
 plt.title("Subject E", fontsize=14)
 plt.plot(thresholds, FRR[4], 'red', label="FRR")
-plt.plot(thresholds, FAR[4], 'blue', label="FAR")
+plt.plot(thresholds, FAR[4], 'blue', linestyle="dashed", label="FAR")
 plt.xlabel("Threshold", fontsize=14)
 plt.ylabel("Rate", fontsize=14)
 plt.tick_params(labelsize=14)
 plt.legend(fontsize=14)  # 凡例の表示
-plt.savefig("Subject_E.svg")
+#plt.savefig("Subject_E.svg")
 
 plt.figure(6)  # 複数ウィンドウで表示
 plt.title("Subject F", fontsize=14)
 plt.plot(thresholds, FRR[5], 'red', label="FRR")
-plt.plot(thresholds, FAR[5], 'blue', label="FAR")
+plt.plot(thresholds, FAR[5], 'blue', linestyle="dashed", label="FAR")
 plt.xlabel("Threshold", fontsize=14)
 plt.ylabel("Rate", fontsize=14)
 plt.tick_params(labelsize=14)
 plt.legend(fontsize=14)  # 凡例の表示
-plt.savefig("Subject_F.svg")
+#plt.savefig("Subject_F.svg")
 
 plt.figure(7)  # 複数ウィンドウで表示
 plt.title("Subject G", fontsize=14)
 plt.plot(thresholds, FRR[6], 'red', label="FRR")
-plt.plot(thresholds, FAR[6], 'blue', label="FAR")
+plt.plot(thresholds, FAR[6], 'blue', linestyle="dashed", label="FAR")
 plt.xlabel("Threshold", fontsize=14)
 plt.ylabel("Rate", fontsize=14)
 plt.tick_params(labelsize=14)
 plt.legend(fontsize=14)  # 凡例の表示
-plt.savefig("Subject_G.svg")
+#plt.savefig("Subject_G.svg")
 
 plt.figure(8)  # 複数ウィンドウで表示
 plt.title("Subject H", fontsize=14)
 plt.plot(thresholds, FRR[7], 'red', label="FRR")
-plt.plot(thresholds, FAR[7], 'blue', label="FAR")
+plt.plot(thresholds, FAR[7], 'blue', linestyle="dashed", label="FAR")
 plt.xlabel("Threshold", fontsize=14)
 plt.ylabel("Rate", fontsize=14)
 plt.tick_params(labelsize=14)
 plt.legend(fontsize=14)  # 凡例の表示
-plt.savefig("Subject_H.svg")
-"""
+#plt.savefig("Subject_H.svg")
 
-plt.savefig("EER.svg")
+plt.figure(9)  # 複数ウィンドウで表示
+plt.title("Subject I", fontsize=14)
+plt.plot(thresholds, FRR[8], 'red', label="FRR")
+plt.plot(thresholds, FAR[8], 'blue', linestyle="dashed", label="FAR")
+plt.xlabel("Threshold", fontsize=14)
+plt.ylabel("Rate", fontsize=14)
+plt.tick_params(labelsize=14)
+plt.legend(fontsize=14)  # 凡例の表示
+#plt.savefig("Subject_I.svg")
+
+
 plt.show()
