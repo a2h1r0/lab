@@ -1,16 +1,16 @@
-This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2019/W32TeX) (preloaded format=platex 2019.12.11)  10 JAN 2020 15:33
+This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  10 JAN 2020 21:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
 **thesis_bachelor.tex
 (./thesis_bachelor.tex
-pLaTeX2e <2019-10-01>+1 (based on LaTeX2e <2019-10-01> patch level 3)
-(c:/w32tex/share/texmf-dist/tex/platex/base/jarticle.cls
-Document Class: jarticle 2019/10/17 v1.8c Standard pLaTeX class
+pLaTeX2e <2018-12-01> (based on LaTeX2e <2018-12-01>)
+(c:/texlive/2018/texmf-dist/tex/platex/base/jarticle.cls
+Document Class: jarticle 2018/10/25 v1.8a Standard pLaTeX class
 \c@@paper=\count83
-(c:/w32tex/share/texmf-dist/tex/platex/base/jsize10.clo
-File: jsize10.clo 2019/10/17 v1.8c Standard pLaTeX file (size option)
+(c:/texlive/2018/texmf-dist/tex/platex/base/jsize10.clo
+File: jsize10.clo 2018/10/25 v1.8a Standard pLaTeX file (size option)
 )
 \c@part=\count84
 \c@section=\count85
@@ -29,40 +29,40 @@ LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
 \@lnumwidth=\dimen119
 \bibindent=\dimen120
 \heisei=\count92
-) (c:/w32tex/share/texmf-dist/tex/latex/graphics/graphicx.sty
+) (c:/texlive/2018/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
- (c:/w32tex/share/texmf-dist/tex/latex/graphics/keyval.sty
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks15
-) (c:/w32tex/share/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2019/11/01 v1.3d Standard LaTeX Graphics (DPC,SPQR)
- (c:/w32tex/share/texmf-dist/tex/latex/graphics/trig.sty
+) (c:/texlive/2018/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-) (c:/w32tex/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) (c:/texlive/2018/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: dvipdfmx.def on input line 105.
- (c:/w32tex/share/texmf-dist/tex/latex/graphics-def/dvipdfmx.def
+Package graphics Info: Driver file: dvipdfmx.def on input line 99.
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics-def/dvipdfmx.def
 File: dvipdfmx.def 2017/06/24 v5.0g Graphics/color driver for dvipdfmx
 ))
 \Gin@req@height=\dimen121
 \Gin@req@width=\dimen122
-) (c:/w32tex/share/texmf-dist/tex/latex/graphics/color.sty
+) (c:/texlive/2018/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
- (c:/w32tex/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: dvipdfmx.def on input line 147.
- (c:/w32tex/share/texmf-dist/tex/latex/graphics/dvipsnam.def
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics/dvipsnam.def
 File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
-)) (c:/w32tex/share/texmf-dist/tex/latex/tools/bm.sty
-Package: bm 2019/07/24 v1.2d Bold Symbol Support (DPC/FMi)
+)) (c:/texlive/2018/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2017/01/16 v1.2c Bold Symbol Support (DPC/FMi)
 \symboldoperators=\mathgroup5
 \symboldletters=\mathgroup6
 \symboldsymbols=\mathgroup7
 \symboldmincho=\mathgroup8
 LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 141.
-LaTeX Info: Redefining \bm on input line 209.
+LaTeX Info: Redefining \bm on input line 207.
 ) (./thesis_bachelor.aux)
 \openout1 = `thesis_bachelor.aux'.
 
@@ -83,23 +83,23 @@ LaTeX Font Info:    ... okay on input line 30.
 LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 30.
 LaTeX Font Info:    ... okay on input line 30.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 57.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 65.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 57.
-LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 78.
-LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 78.
-File: tex_fig/system.eps Graphic file (type eps)
-<tex_fig/system.eps>
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 91.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 91.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 65.
  [1
 
 
 ]
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 86.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 86.
+File: tex_fig/system.eps Graphic file (type eps)
+<tex_fig/system.eps>
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 99.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 99.
 File: tex_fig/met_over.eps Graphic file (type eps)
 <tex_fig/met_over.eps>
 File: tex_fig/met_in.eps Graphic file (type eps)
@@ -111,24 +111,21 @@ File: tex_fig/print.eps Graphic file (type eps)
  [2]
 File: tex_fig/pca.eps Graphic file (type eps)
 <tex_fig/pca.eps>
-File: tex_fig/EER_all.eps Graphic file (type eps)
-<tex_fig/EER_all.eps>
+ [3]
+File: tex_fig/EER_all_ver.eps Graphic file (type eps)
+<tex_fig/EER_all_ver.eps>
 File: tex_fig/subject_E.eps Graphic file (type eps)
 <tex_fig/subject_E.eps>
 File: tex_fig/EER_total.eps Graphic file (type eps)
 <tex_fig/EER_total.eps>
- [3]
-
-LaTeX Warning: Text page 4 contains only floats.
-
-(./thesis_bachelor.bbl) [4] (./thesis_bachelor.aux) ) 
+ [4] (./thesis_bachelor.bbl) [5] (./thesis_bachelor.aux) ) 
 Here is how much of TeX's memory you used:
- 946 strings out of 492749
- 11711 string characters out of 6141886
- 89538 words of memory out of 5000000
- 5429 multiletter control sequences out of 15000+600000
+ 905 strings out of 494660
+ 11189 string characters out of 6179649
+ 78565 words of memory out of 5000000
+ 4795 multiletter control sequences out of 15000+600000
  11635 words of font info for 45 fonts, out of 8000000 for 9000
- 929 hyphenation exceptions out of 8191
- 30i,8n,25p,955b,322s stack positions out of 5000i,500n,10000p,500000b,80000s
+ 36 hyphenation exceptions out of 8191
+ 25i,8n,22p,955b,319s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on thesis_bachelor.dvi (4 pages, 33004 bytes).
+Output written on thesis_bachelor.dvi (5 pages, 36948 bytes).
