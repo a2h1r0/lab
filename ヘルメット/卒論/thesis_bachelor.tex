@@ -1,69 +1,39 @@
-%\documentstyle[a4j,epsbox,graphicx]{jarticle}
-\documentclass[a4j]{jarticle}%変更禁止！
-%%%%%%%%%%%%usepackageは適宜追加してください．%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\usepackage{epsbox}
-%\usepackage{graphicx}
-\usepackage[dvipdfmx]{graphicx,color}
-\usepackage{bm}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%ここから変更禁止%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\topmargin -28mm
-\oddsidemargin -15mm
-\evensidemargin -15mm
-\textwidth 185mm
-\textheight 275mm
-\columnsep 6mm
+\documentclass[Japanese]{dicomopapers}
+%\documentclass[Japanese,noauthor]{dicomopapers}
 
-%\def\toujitu{Dec. 2019}
+\usepackage[dvips]{graphicx}
+\usepackage{latexsym}
 
-\makeatletter
-\def\section{\@startsection{section}{2}{\z@}{.8ex plus .8ex minus
- .2ex}{.05ex plus .07ex}{\large\bf}}
-\makeatother
-\makeatletter
-\def\subsection{\@startsection{subsection}{2}{\z@}{.8ex plus .8ex minus
- .2ex}{.05ex plus .07ex}{\bf}}
-\makeatother
+\def\Underline{\setbox0\hbox\bgroup\let\\\endUnderline}
+\def\endUnderline{\vphantom{y}\egroup\smash{\underline{\box0}}\\}
+\def\|{\verb|}
 
-
-\pagestyle{empty}
+\def\newblock{\hskip .11em plus .33em minus .07em}
 
 \begin{document}
 
-\baselineskip 4.75mm
+% 和文表題
+\title{圧力センサ搭載ヘルメットを用いた個人識別手法の提案}
+% 英文表題
+%\etitle{DICOMO2019 Paper Format (optional)}
 
-\twocolumn
-[
-\footnotesize
-\begin{center}
-{~}\\
-%\begin{center}
-%{ユビキタスウェアラブルワークショップ2019　
-%\hfill \toujitu}\\
-%%%%%%%%%%%%%%%%%%%%%%%%%%%ここまで変更禁止%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 所属ラベルの定義
+\affiliate{RU}{立命館大学 情報理工学部}
+\affiliate{JST}{JSTさきがけ}
 
-%%%注意！！\vspaceは図表部分のみ見にくく（醜く）ならない範囲内で使用可能とします．%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{藤井 敦寛}{ATSUHIRO FUJII}{RU}
+\author{村尾 和哉}{KAZUYA MURAO}{RU, JST}
 
-\medskip
-{\large
-%タイトル
-{\bf 圧力センサ搭載ヘルメットを用いた個人識別手法の提案}\\
-}
-\medskip
-{\large
-%著者　同じ所属の人が連続する場合は連続する同じ所属の著者の最後の著者のみに所属を付けること．
-         藤井敦寛（立命館大学），村尾和哉（立命館大学，JSTさきがけ）
-}
-\end{center}
-
-{\large
 \begin{abstract}
 近年，四輪車において広く普及しているスマートキーシステムが，徐々に二輪車でも採用されつつある．しかしこのシステムは電子キーを所持しておく必要があり，鍵の紛失の恐れ，更には鍵の盗難による車両盗難のリスクがある．そこでヘルメットを鍵の代用とすることが可能であれば，二輪車のヘルメットロックに装備しておくことで，所有者は身体一つで乗車が可能となり，先述のリスクも回避できると考えた．\par
 本研究ではその前段階として，圧力センサを搭載したヘルメットを装着することで個人識別する手法を提案する．識別の要素には，特徴があり複製が難しく，さらに視界を遮ることなく取得できるものとして頭部形状を選択した．頭部状態の測定にヘルメットを用いている先行研究は筆者らの知る限りは存在せず，頭部装着型デバイスとしても新規性がある．この手法では，ヘルメットに搭載した32個の圧力センサから得られたセンサ値をベクトルとして扱い，事前に登録フェーズで蓄積しておいた所有者のセンサデータ群とのマハラノビス距離を計算し，閾値を用いて識別を行う．\par
-本手法で用いるデバイス，およびソフトウェアを設計，実装し評価実験を行った．プロトタイプデバイスは市販のフルフェイスヘルメットをセンサを取り付け加工し，マイコンに配線することで設計した．また，解析用のソフトウェアはPythonのscikit-learnを使用し，マハラノビス距離を計算，閾値を移動しながら評価指標であるFAR，FRR，EERを求めるよう設計した．実装後，評価実験用に被験者9人に20回ずつヘルメットを装着し，2秒間のセンサ値を収集した．このデータセットからマハラノビス距離を用いて識別を行い，被験者ごとにFAR，FRR，EERを計算した．さらに被験者全員の結果の平均値を求め，全体での結果としてEERが約7.8\%という数値が得られた．
+本手法で用いるデバイス，およびソフトウェアを設計，実装し評価実験を行った．プロトタイプデバイスは市販のフルフェイスヘルメットをセンサを取り付け加工し，マイコンに配線することで設計した．また，解析用のソフトウェアはPythonのscikit-learnを使用し，マハラノビス距離を計算，閾値を移動しながら評価指標であるFAR，FRR，EERを求めるよう設計した．実装後，評価実験用に被験者9人に20回ずつヘルメットを装着し，2秒間のセンサ値を収集した．このデータセットからマハラノビス距離を用いて識別を行い，被験者ごとに結果を計算した．さらに被験者全員の結果の平均値を求め，全体での結果としてEERが約7.8\%という数値が得られた．
 \end{abstract}
-}
-]
 
+% 表題などの出力
+\maketitle
+
+% 本文はここから始まる
 \section{はじめに}
 近年販売されている四輪車の多くはスマートキーシステムを導入している．スマートキーシステムは電子キーをポケットなどに入れて接近すると，それを感知しドアの施錠，解錠やエンジンの始動をボタン一つで操作できるようにする機能である．このシステムは二輪車においても導入されつつある．二輪車におけるスマートキーシステムも同様に，電子キーを所持しておくことで，キーシリンダーにキーを挿し込む手間なくラゲッジスペース(メットイン)の解錠やエンジンの始動が可能になるという機能である．しかしながら，このシステムはキーを所持しておかなければならず，鍵の紛失の恐れ，更には鍵の盗難による車両盗難のリスクがある．\par
 本研究では，圧力センサを搭載したヘルメットを装着することで，頭部形状に基づき個人識別をする手法を提案する．二輪車での走行で必要であるヘルメットを用いた本人認証が実現できれば，既存のキーの問題点を解決できると考えた．予め車両とリンクしてあるヘルメットをキーの代わりとして，二輪車のヘルメットロックに装備しておく．すると，利用者は身体一つで乗車できるため，鍵の紛失のリスクを減少させることができる．そして，利用者はヘルメットを被ることで認証を行う．車両の持ち主がヘルメットを被った場合はエンジンの始動を可能にする．その一方で，車両の持ち主以外がヘルメットを被った場合はエンジンの始動ができないような機能を実現することで，車両盗難のリスクを減少させることができる．また，認証の要素には各個人ごとに特徴があり，かつ複製が難しい部位を用いる必要がある．本研究で用いる頭部形状は人により異なり特徴が存在する上，身体部位としても大きい部位であるため，複製するとしても大掛かりな器具が必要となることが想定される．以上の理由から，認証要素に有効だとして選択した．\par
@@ -92,7 +62,7 @@
 
 \begin{figure}[!t]
   \begin{center}
-    \includegraphics[width=1\linewidth]{tex_fig/system.eps}
+    \includegraphics[width=1\linewidth]{figure/system.eps}
   \end{center}
     \vspace{-8mm}
   \caption{システム構成}
@@ -105,19 +75,19 @@
 \]
 として，i番目のデータは
 \[
-  \bm{x_i} = \left(
-      \begin{array}{c}
-        x_{i,1} \\
-        x_{i,2} \\
-        \vdots \\
-        x_{i,n}
-      \end{array}
+  x_i = \left(
+        \begin{array}{c}
+            x_{i,1} \\
+            x_{i,2} \\
+            \vdots \\
+            x_{i,n}
+        \end{array}
     \right)
 \]
 と表すとき，その平均値ベクトル$\mu$と分散共分散行列$\Sigma$は以下のように求められる．
 \begin{eqnarray*}
   \mu &=& \frac{1}{m}\sum_{i=1}^{m}x_i \\
-  \Sigma &=& \frac{1}{m}\sum_{i=1}^{m}(x_i-μ)(x_i-μ)^T
+  \Sigma &=& \frac{1}{m}\sum_{i=1}^{m}(x_i-\mu)(x_i-\mu)^T
 \end{eqnarray*}
 ここで閾値を$\theta$と置き，未知のユーザの入力データ$x$に対して，
 \[
@@ -135,7 +105,7 @@
 
 \begin{figure}[!t]
   \begin{center}
-    \includegraphics[width=1\linewidth]{tex_fig/met_over.eps}
+    \includegraphics[width=1\linewidth]{figure/met_over.eps}
   \end{center}
     \vspace{-8mm}
   \caption{プロトタイプデバイスの全体図}
@@ -144,7 +114,7 @@
 
 \begin{figure}[!t]
   \begin{center}
-    \includegraphics[width=1\linewidth]{tex_fig/met_in.eps}
+    \includegraphics[width=1\linewidth]{figure/met_in.eps}
   \end{center}
     \vspace{-8mm}
   \caption{ヘルメットの内部}
@@ -153,7 +123,7 @@
 
 \begin{figure}[!t]
   \begin{center}
-    \includegraphics[width=1\linewidth]{tex_fig/sensor.eps}
+    \includegraphics[width=1\linewidth]{figure/sensor.eps}
   \end{center}
     \vspace{-8mm}
   \caption{センサの装着方法}
@@ -162,7 +132,7 @@
 
 \begin{figure}[!t]
   \begin{center}
-    \includegraphics[width=1\linewidth]{tex_fig/print.eps}
+    \includegraphics[width=1\linewidth]{figure/print.eps}
   \end{center}
     \vspace{-8mm}
   \caption{プリント基板}
@@ -187,7 +157,7 @@ d_{1:n}\leq \cdots\leq d_{j-1:n}\leq d_{j:n}\leq d_{j+1:n}\leq \cdots\leq d_{n:n
 \[
 H_{new} = {d_{1:n}, d_{2:n}, \ldots, d_{h:n}}
 \]
-とし，この$H_{new}$の平均ベクトル，共分散行列とその固有値$\hat{\mu}_{new}, \hat{\Sigma}_{new}, |\hat{\Sigma}_{new}|$を計算する．この作業を$|\hat{\Sigma}_{new}| = 0$となるか，$|\hat{\Sigma}_{old}|−|\hat{\Sigma}_{new}|$が十分小さくなるまで繰り返す．この一連の流れから得られた平均ベクトルと共分散行列が，異常値に対して頑健なMCD推定量となる．
+とし，この$H_{new}$の平均ベクトル，共分散行列とその固有値$\hat{\mu}_{new}, \hat{\Sigma}_{new}, |\hat{\Sigma}_{new}|$を計算する．この作業を$|\hat{\Sigma}_{new}|=0$となるか，$|\hat{\Sigma}_{old}|-|\hat{\Sigma}_{new}|$が十分小さくなるまで繰り返す．この一連の流れから得られた平均ベクトルと共分散行列が，異常値に対して頑健なMCD推定量となる．
 
 \section{評価}
 \subsection{データ収集}
@@ -198,7 +168,7 @@ H_{new} = {d_{1:n}, d_{2:n}, \ldots, d_{h:n}}
 
 \begin{figure}[!t]
   \begin{center}
-    \includegraphics[width=1\linewidth]{tex_fig/pca.eps}
+    \includegraphics[width=1\linewidth]{figure/pca.eps}
   \end{center}
     \vspace{-8mm}
   \caption{PCAによる分析結果}
@@ -214,7 +184,7 @@ H_{new} = {d_{1:n}, d_{2:n}, \ldots, d_{h:n}}
 
 \begin{figure}[!t]
   \begin{center}
-    \includegraphics[width=1\linewidth]{tex_fig/EER_all_ver.eps}
+    \includegraphics[width=1\linewidth]{figure/EER_all_ver.eps}
   \end{center}
     \vspace{-8mm}
   \caption{被験者ごとの判別結果}
@@ -223,7 +193,7 @@ H_{new} = {d_{1:n}, d_{2:n}, \ldots, d_{h:n}}
 
 \begin{figure}[!t]
   \begin{center}
-    \includegraphics[width=1\linewidth]{tex_fig/subject_E.eps}
+    \includegraphics[width=1\linewidth]{figure/subject_E.eps}
   \end{center}
     \vspace{-8mm}
   \caption{被験者Eの判別結果}
@@ -250,7 +220,7 @@ H_{new} = {d_{1:n}, d_{2:n}, \ldots, d_{h:n}}
 
 \begin{figure}[!t]
   \begin{center}
-    \includegraphics[width=1\linewidth]{tex_fig/EER_total.eps}
+    \includegraphics[width=1\linewidth]{figure/EER_total.eps}
   \end{center}
     \vspace{-8mm}
   \caption{全体の判別結果}
