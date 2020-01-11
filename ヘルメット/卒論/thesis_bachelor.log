@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  10 JAN 2020 21:57
+This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  11 JAN 2020 11:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -91,15 +91,15 @@ LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
 
 ]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 86.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 90.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 86.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 90.
 File: tex_fig/system.eps Graphic file (type eps)
 <tex_fig/system.eps>
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 99.
+(Font)              <7> on input line 103.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 99.
+(Font)              <5> on input line 103.
 File: tex_fig/met_over.eps Graphic file (type eps)
 <tex_fig/met_over.eps>
 File: tex_fig/met_in.eps Graphic file (type eps)
@@ -108,10 +108,9 @@ File: tex_fig/sensor.eps Graphic file (type eps)
 <tex_fig/sensor.eps>
 File: tex_fig/print.eps Graphic file (type eps)
 <tex_fig/print.eps>
- [2]
+ [2] [3]
 File: tex_fig/pca.eps Graphic file (type eps)
 <tex_fig/pca.eps>
- [3]
 File: tex_fig/EER_all_ver.eps Graphic file (type eps)
 <tex_fig/EER_all_ver.eps>
 File: tex_fig/subject_E.eps Graphic file (type eps)
@@ -126,6 +125,6 @@ Here is how much of TeX's memory you used:
  4795 multiletter control sequences out of 15000+600000
  11635 words of font info for 45 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 25i,8n,22p,955b,319s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 25i,8n,22p,970b,319s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on thesis_bachelor.dvi (5 pages, 36948 bytes).
+Output written on thesis_bachelor.dvi (5 pages, 38676 bytes).

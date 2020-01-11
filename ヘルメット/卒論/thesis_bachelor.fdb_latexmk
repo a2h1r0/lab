@@ -1,16 +1,16 @@
 # Fdb version 3
-["bibtex thesis_bachelor"] 1578661044 "thesis_bachelor.aux" "thesis_bachelor.bbl" "thesis_bachelor" 1578661066
+["bibtex thesis_bachelor"] 1578710629 "thesis_bachelor.aux" "thesis_bachelor.bbl" "thesis_bachelor" 1578710662
   "../references.bib" 1577455183 2182 976c3c7324c47ae3345ad3a493d067ee ""
   "junsrt.bst" 0 -1 0 ""
-  "thesis_bachelor.aux" 1578661053 3501 885bc6a1fa14424e83d12b5379156967 ""
+  "thesis_bachelor.aux" 1578710646 3501 f15f8c9572f16ca8d959e4ec3e044b89 ""
   (generated)
   "thesis_bachelor.blg"
   "thesis_bachelor.bbl"
-["dvipdf"] 1578661054 "thesis_bachelor.dvi" "thesis_bachelor.pdf" "thesis_bachelor" 1578661066
-  "thesis_bachelor.dvi" 1578661053 36948 9aec5712841d6d0ca0e6e35991a11be2 "latex"
+["dvipdf"] 1578710647 "thesis_bachelor.dvi" "thesis_bachelor.pdf" "thesis_bachelor" 1578710662
+  "thesis_bachelor.dvi" 1578710646 38676 a9c8c8dd837e92a3d3302e1ed91e2c38 "latex"
   (generated)
   "thesis_bachelor.pdf"
-["latex"] 1578661044 "thesis_bachelor.tex" "thesis_bachelor.dvi" "thesis_bachelor" 1578661066
+["latex"] 1578710630 "thesis_bachelor.tex" "thesis_bachelor.dvi" "thesis_bachelor" 1578710662
   "c:/texlive/2018/texmf-dist/fonts/map/fontname/texfonts.map" 1555255864 3332 103109f5612ad95229751940c61aada0 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/standard/min8.tfm" 1555257073 1196 d5b431ce76e19b70391960a9dd08fa4f ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm" 1555257073 856 bdef40bcf3aed4751efa9be9bfa6eb4b ""
@@ -49,10 +49,10 @@
   "tex_fig/sensor.eps" 1577883263 6926672 9f33b7d80f083807e591082cf1640e1f ""
   "tex_fig/subject_E.eps" 1578575020 1757726 7c021310ee956177294a0152ed7b2128 ""
   "tex_fig/system.eps" 1577889063 6659267 0b84b45a50847de21ac0cfdd039449d5 ""
-  "thesis_bachelor.aux" 1578661053 3501 885bc6a1fa14424e83d12b5379156967 ""
-  "thesis_bachelor.bbl" 1578661044 1777 79bec4084d3b61924f6b95b2e3937401 "bibtex thesis_bachelor"
-  "thesis_bachelor.tex" 1578661034 23171 b6e36011316dddd360e36fca90bfd7ed ""
+  "thesis_bachelor.aux" 1578710646 3501 f15f8c9572f16ca8d959e4ec3e044b89 ""
+  "thesis_bachelor.bbl" 1578710630 1777 79bec4084d3b61924f6b95b2e3937401 "bibtex thesis_bachelor"
+  "thesis_bachelor.tex" 1578710616 24319 d3522f398b36de7622d2f1e1a8c481e9 ""
   (generated)
-  "thesis_bachelor.aux"
   "thesis_bachelor.dvi"
   "thesis_bachelor.log"
+  "thesis_bachelor.aux"
