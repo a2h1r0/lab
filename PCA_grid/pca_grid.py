@@ -23,15 +23,16 @@ model.fit(test)
 compressed = model.transform(test)
 
 # 描画
-plt.xlabel("First component", fontsize=14)
-plt.ylabel("Second component", fontsize=14)
-plt.tick_params(labelsize=14)
+plt.figure(figsize=(10,8))
+plt.xlabel("First component", fontsize=18)
+plt.ylabel("Second component", fontsize=18)
+plt.tick_params(labelsize=18)
 long = 0    # カウンタ
 for num, item, name in zip(range(len(tester)), marker, subject):    # 1人ずつ描画
     plt.scatter(compressed[long:long+len(vector_ave[num]), 0],
                 compressed[long:long+len(vector_ave[num]), 1], marker=item, label="Subject "+name)
     long += len(vector_ave[num])
-plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0, fontsize=10)    # 凡例を枠外に
-plt.subplots_adjust(right=0.78) # 調整
+plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0, fontsize=18)    # 凡例を枠外に
+plt.subplots_adjust(right=0.75) # 調整
 plt.show()
-plt.savefig("PCA.svg")
+plt.savefig("PCA.eps", bbox_inches='tight', pad_inches=0)
