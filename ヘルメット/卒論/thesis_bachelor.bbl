@@ -1,9 +1,20 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{face}
 当麻凌平, 花泉弘.
 \newblock ステレオカメラを用いた顔認証システム.
 \newblock 第80回全国大会講演論文集, Vol. 2018, No.~1, pp. 453--454, 2018.
+
+\bibitem{door}
+佐藤公則, 篠原耕成, 鹿嶋雅之, 渡邊睦.
+\newblock 掌紋認証を装備したインテリジェントドアノブシステムの開発.
+\newblock 画像電子学会誌, Vol.~40, No.~5, pp. 778--784, 2011.
+
+\bibitem{acceleration}
+成ケ澤遼太郎, 小倉加奈代, 児玉英一郎, 王家宏, 高田豊雄.
+\newblock 加速度センサとジャイロセンサを併用したスマホ回しによる認証手法の提案.
+\newblock 電気関係学会東北支部連合大会講演論文集, Vol. 2016, pp. 162--162,
+  2016.
 
 \bibitem{iris_eye}
 白川功浩, 吉浦裕, 市野将嗣.
@@ -43,5 +54,12 @@
 \newblock 外耳道伝達関数を用いた頭部状態認識手法.
 \newblock 研究報告ユビキタスコンピューティングシステム（UBI）, Vol.
   2019-UBI-61, No.~7, pp. 1--8, 2019.
+
+\bibitem{mouth}
+将平山下, 努寺田, 昌彦塚本.
+\newblock 口周辺の形状変化による状況認識手法.
+\newblock Technical Report~21, 神戸大学大学院工学研究科,
+  神戸大学大学院工学研究科／科学技術振興機構さきがけ, 神戸大学大学院工学研究科,
+  may 2017.
 
 \end{thebibliography}
