@@ -56,7 +56,7 @@ def compare():
         for item, distance in enumerate(score):  # 値を1つずつ取り出す
             if item < data_size and distance > threshold:  # scoreのdata_size番目までは正解データ
                 FRR_num[index] += 1
-            elif item >= data_size and distance < threshold:  # それ以降は異常データ
+            elif item >= data_size and distance <= threshold:  # それ以降は異常データ
                 FAR_num[index] += 1
 
     # 被験者ごとに結果を保存
@@ -175,6 +175,7 @@ plt.xlabel("Threshold", fontsize=18)
 plt.ylabel("Rate", fontsize=18)
 plt.tick_params(labelsize=18)
 plt.legend(fontsize=18)  # 凡例の表示
-#plt.savefig("EER.eps", bbox_inches='tight', pad_inches=0)
+plt.savefig("EER.eps", bbox_inches='tight', pad_inches=0)
 
 plt.show()
+#**ここまで**
