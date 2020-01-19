@@ -1,0 +1,65 @@
+\begin{thebibliography}{10}
+
+\bibitem{face}
+当麻凌平, 花泉弘.
+\newblock ステレオカメラを用いた顔認証システム.
+\newblock  第80回全国大会講演論文集, 第2018巻, pp. 453--454, mar 2018.
+
+\bibitem{door}
+佐藤公則, 篠原耕成, 鹿嶋雅之, 渡邊睦.
+\newblock 掌紋認証を装備したインテリジェントドアノブシステムの開発.
+\newblock 画像電子学会誌, Vol.~40, No.~5, pp. 778--784, 2011.
+
+\bibitem{acceleration}
+成ケ澤遼太郎, 小倉加奈代, 児玉英一郎, 王家宏, 高田豊雄.
+\newblock 加速度センサとジャイロセンサを併用したスマホ回しによる認証手法の提案.
+\newblock 電気関係学会東北支部連合大会講演論文集, Vol. 2016, pp. 162--162,
+  2016.
+
+\bibitem{iris_eye}
+白川功浩, 吉浦裕, 市野将嗣.
+\newblock 虹彩および目の周辺の分割画像を用いた個人認証.
+\newblock 情報処理学会論文誌, Vol.~59, No.~9, pp. 1726--1738, sep 2018.
+
+\bibitem{mouth_pattern}
+岸里正樹, 高井昌彰.
+\newblock M-031
+  口唇領域の動きの画像認識を用いたスマートデバイス向けパターンロックシステム(m分野:ユビキタス・モバイルコンピューティング,一般論文).
+\newblock  情報科学技術フォーラム講演論文集, 第14巻, pp. 363--364, aug 2015.
+
+\bibitem{finger_print}
+越前功, 大金建夫.
+\newblock 写真からの指紋復元の脅威とその対策技術.
+\newblock 情報処理, Vol.~58, No.~9, pp. 824--829, aug 2017.
+
+\bibitem{glasses}
+田中洸平, 寺田努, 宇山彩香, 杉野哲造, 塚本昌彦.
+\newblock メガネ型デバイスを用いた経皮水分蒸散量の常時測定システム.
+\newblock Technical Report~35, 神戸大学大学院工学研究科,
+  神戸大学大学院工学研究科／科学技術振興機構さきがけ, 株式会社桃谷順天館,
+  株式会社桃谷順天館, 神戸大学大学院工学研究科, feb 2018.
+
+\bibitem{happymouth}
+石井綾郁, 小松孝徳, 橋本直.
+\newblock Happymouth:マスク型デバイスによる対面コミュニケーション能力の拡張.
+\newblock Technical Report~7, 明治大学, 明治大学, 明治大学, mar 2018.
+
+\bibitem{cap_sensor}
+新島有信, 伊勢崎隆司, 青木良輔, 渡部智樹, 山田智広.
+\newblock 導電性高分子電極を用いた帽子型筋電センサの提案.
+\newblock 電子情報通信学会論文誌D, Vol. J101-D, No.~10, pp. 1378--1387, 2018.
+
+\bibitem{ear}
+雨坂宇宙, 渡邉拓貴, 杉本雅則.
+\newblock 外耳道伝達関数を用いた頭部状態認識手法.
+\newblock Technical Report~7, 北海道大学大学院情報科学研究科,
+  北海道大学大学院情報科学研究科, 北海道大学大学院情報科学研究科, feb 2019.
+
+\bibitem{mouth}
+山下将平, 寺田努, 塚本昌彦.
+\newblock 口周辺の形状変化による状況認識手法.
+\newblock Technical Report~21, 神戸大学大学院工学研究科,
+  神戸大学大学院工学研究科／科学技術振興機構さきがけ, 神戸大学大学院工学研究科,
+  may 2017.
+
+\end{thebibliography}
