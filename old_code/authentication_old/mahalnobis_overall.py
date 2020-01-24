@@ -1,7 +1,7 @@
 ###--- データにより随時変更 ---###
 tester = ["ooyama", "okamoto", "kajiwara", "sawano", "nagamatsu", "noda", "hatta", "fujii", "matsuda"]  # **被験者**
 MIN = 0  # **閾値の下限**
-MAX = 30  # **閾値の上限**
+MAX = 600  # **閾値の上限**
 digit = 1  # **桁数調整**(閾値に小数を用いる場合，1桁ごとに10倍)
 k = 5  # **交差検証分割数**
 ###--- ここまで ---###
@@ -10,11 +10,9 @@ k = 5  # **交差検証分割数**
 import numpy as np
 import calculate_vector_ave as cal
 from sklearn.covariance import MinCovDet
-from scipy.spatial import distance
 import matplotlib.pyplot as plt
 import warnings
 warnings.simplefilter("ignore")
-
 
 ###--- データの作成関数 ---###
 """
@@ -55,10 +53,10 @@ def compare():
     FRR_num = np.zeros(len(thresholds))  # 計算用配列
     FAR_num = np.zeros(len(thresholds))
     for index, threshold in enumerate(thresholds):  # 閾値移動
-        for item, mahal in enumerate(score):  # 値を1つずつ取り出す
-            if item < data_size and mahal > threshold:  # scoreのdata_size番目までは正解データ
+        for item, distance in enumerate(score):  # 値を1つずつ取り出す
+            if item < data_size and distance > threshold:  # scoreのdata_size番目までは正解データ
                 FRR_num[index] += 1
-            elif item >= data_size and mahal <= threshold:  # それ以降は異常データ
+            elif item >= data_size and distance <= threshold:  # それ以降は異常データ
                 FAR_num[index] += 1
 
     # 被験者ごとに結果を保存
@@ -78,27 +76,15 @@ for index_train in range(len(tester)):  ## 学習する被験者を変更
     data_size = int(len(vector_ave[index_train]) / k)  # データサイズの計算
 
     for order in range(k):  ## 交差検証，テストデータを選択
-        score = []  # マハラノビス距離の最小値配列
         train_data = []  # データセットの初期化
         attack_data = []
-        
         make_testdata()  # データセットの作成
         mcd.fit(train_data)  # 学習
-        vi = np.linalg.pinv(mcd.covariance_)    # 学習データ群の共分散行列の逆行列を計算
-        
-        for attack in attack_data:  # 認証データの変更
-            temp = []  # マハラノビス距離の計算結果配列
-            for train in train_data:    # 比較する学習データの変更
-                # 1対1で，学習データの共分散行列を使ってマハラノビス距離を計算
-                temp.append(distance.mahalanobis(attack, train, vi))
-            score.append(min(temp))    # 距離が一番小さい値を結果とする
-            # 認証データ全てに対して1個ずつのマハラノビス距離となる
-        
+        score = mcd.mahalanobis(attack_data)  # マハラノビス距離を計算
         compare()  # 判別
 
     FRR[index_train] /= k  # 結果を交差検証の試行回数で除算
     FAR[index_train] /= k
-
 FRR *= 100  # 全体を百分率化
 FAR *= 100
 
@@ -138,7 +124,7 @@ for index, name in enumerate(tester_index):
     plt.xlabel("Threshold", fontsize=18)
     plt.ylabel("Rate", fontsize=18)
     plt.tick_params(labelsize=18)
-    plt.legend(fontsize=18, loc='upper right')  # 凡例の表示
+    plt.legend(fontsize=18)  # 凡例の表示
 
 plt.subplot(5, 2, 10)
 plt.title("Total", fontsize=18)
@@ -147,12 +133,12 @@ plt.plot(thresholds, FAR_total, 'blue', linestyle="dashed", label="FAR")
 plt.xlabel("Threshold", fontsize=18)
 plt.ylabel("Rate", fontsize=18)
 plt.tick_params(labelsize=18)
-plt.legend(fontsize=18, loc='upper right')  # 凡例の表示
+plt.legend(fontsize=18)  # 凡例の表示
 
 
 ## 被験者Eのために閾値を変更，再計算
-MIN = 0  # **閾値の下限**
-MAX = 3500  # **閾値の上限**
+MIN = 3000  # **閾値の下限**
+MAX = 3600  # **閾値の上限**
 thresholds = np.linspace(MIN, MAX, int((MAX - MIN) * digit + 1))  # 閾値の配列
 FRR = np.zeros((len(tester), len(thresholds)))  # 結果用配列
 FAR = np.zeros((len(tester), len(thresholds)))
@@ -188,7 +174,7 @@ plt.plot(thresholds, FAR[4], 'blue', linestyle="dashed", label="FAR")
 plt.xlabel("Threshold", fontsize=18)
 plt.ylabel("Rate", fontsize=18)
 plt.tick_params(labelsize=18)
-plt.legend(fontsize=18, loc='upper right')  # 凡例の表示
+plt.legend(fontsize=18)  # 凡例の表示
 #plt.savefig("EER.eps", bbox_inches='tight', pad_inches=0)
 
 plt.show()
