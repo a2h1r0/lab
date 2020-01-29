@@ -1,7 +1,7 @@
 ###--- データにより随時変更 ---###
 tester = ["ooyama", "okamoto", "kajiwara", "sawano", "nagamatsu", "noda", "hatta", "fujii", "matsuda"]  # **被験者**
 MIN = 0  # **閾値の下限**
-MAX = 30  # **閾値の上限**
+MAX = 60  # **閾値の上限**
 digit = 1  # **桁数調整**(閾値に小数を用いる場合，1桁ごとに10倍)
 k = 5  # **交差検証分割数**
 ###--- ここまで ---###
@@ -115,11 +115,20 @@ plt.xlabel("Threshold", fontsize=18)
 plt.ylabel("Rate", fontsize=18)
 plt.tick_params(labelsize=18)
 plt.legend(fontsize=18)  # 凡例の表示
-#plt.savefig("EER_total.eps", bbox_inches='tight', pad_inches=0)
+plt.savefig("Total.svg", bbox_inches='tight', pad_inches=0)
 """
-
-
-
+"""
+## 結果の描画 ##
+plt.figure(0)  # 複数ウィンドウで表示
+plt.title("Subject E", fontsize=18)
+plt.plot(thresholds, FRR[4], 'red', label="FRR")
+plt.plot(thresholds, FAR[4], 'blue', linestyle="dashed", label="FAR")
+plt.xlabel("Threshold", fontsize=18)
+plt.ylabel("Rate", fontsize=18)
+plt.tick_params(labelsize=18)
+plt.legend(fontsize=18)  # 凡例の表示
+plt.savefig("E.svg", bbox_inches='tight', pad_inches=0)
+"""
 
 
 
@@ -129,8 +138,6 @@ tester_index = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
 plt.figure(figsize=(15, 30))
 plt.subplots_adjust(wspace=0.4, hspace=0.4)
 for index, name in enumerate(tester_index):
-    if name == "E": # Eだけ除外
-        continue
     plt.subplot(5, 2, index+1)
     plt.title("Subject "+name, fontsize=18)
     plt.plot(thresholds, FRR[index], 'red', label="FRR")
@@ -149,47 +156,6 @@ plt.ylabel("Rate", fontsize=18)
 plt.tick_params(labelsize=18)
 plt.legend(fontsize=18, loc='upper right')  # 凡例の表示
 
-
-## 被験者Eのために閾値を変更，再計算
-MIN = 0  # **閾値の下限**
-MAX = 3500  # **閾値の上限**
-thresholds = np.linspace(MIN, MAX, int((MAX - MIN) * digit + 1))  # 閾値の配列
-FRR = np.zeros((len(tester), len(thresholds)))  # 結果用配列
-FAR = np.zeros((len(tester), len(thresholds)))
-
-vector_ave = cal.calculate_vector_ave(tester)  # ベクトルの平均値を計算
-
-mcd = MinCovDet()  # Minimum Covariance Determinant
-for index_train in range(len(tester)):  ## 学習する被験者を変更
-    data_size = int(len(vector_ave[index_train]) / k)  # データサイズの計算
-
-    for order in range(k):  ## 交差検証，テストデータを選択
-        train_data = []  # データセットの初期化
-        attack_data = []
-        make_testdata()  # データセットの作成
-        mcd.fit(train_data)  # 学習
-        score = mcd.mahalanobis(attack_data)  # マハラノビス距離を計算
-        compare()  # 判別
-
-    FRR[index_train] /= k  # 結果を交差検証の試行回数で除算
-    FAR[index_train] /= k
-FRR *= 100  # 全体を百分率化
-FAR *= 100
-
-FRR_total = FRR.mean(axis=0)  # 全ての被験者での平均値を計算
-FAR_total = FAR.mean(axis=0)  # 被験者ごとの行，閾値の列になっているので，列の平均値
-
-
-## 描画
-plt.subplot(5, 2, 5)
-plt.title("Subject E", fontsize=18)
-plt.plot(thresholds, FRR[4], 'red', label="FRR")
-plt.plot(thresholds, FAR[4], 'blue', linestyle="dashed", label="FAR")
-plt.xlabel("Threshold", fontsize=18)
-plt.ylabel("Rate", fontsize=18)
-plt.tick_params(labelsize=18)
-plt.legend(fontsize=18, loc='upper right')  # 凡例の表示
-#plt.savefig("EER.eps", bbox_inches='tight', pad_inches=0)
 
 plt.show()
 #**ここまで**

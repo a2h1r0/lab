@@ -35,4 +35,4 @@ for num, item, name in zip(range(len(tester)), marker, subject):    # 1人ずつ
 plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0, fontsize=18)    # 凡例を枠外に
 plt.subplots_adjust(right=0.75) # 調整
 plt.show()
-plt.savefig("PCA.eps", bbox_inches='tight', pad_inches=0)
+plt.savefig("PCA.svg", bbox_inches='tight', pad_inches=0)
