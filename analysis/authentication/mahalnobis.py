@@ -143,4 +143,3 @@ plt.ylabel("Rate", fontsize=18)
 plt.tick_params(labelsize=18)
 plt.legend(fontsize=18, loc='upper right')  # 凡例の表示
 #plt.savefig("EER.eps", bbox_inches='tight', pad_inches=0)
-# **ここまで**
