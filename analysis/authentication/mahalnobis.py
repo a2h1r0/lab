@@ -114,26 +114,13 @@ plt.plot(thresholds, FAR_total, 'blue', linestyle="dashed", label="FAR")
 plt.xlabel("Threshold", fontsize=18)
 plt.ylabel("Rate", fontsize=18)
 plt.tick_params(labelsize=18)
-plt.legend(fontsize=18)  # 凡例の表示
+plt.legend(fontsize=18, loc='upper right')  # 凡例の表示
 plt.savefig("Total.svg", bbox_inches='tight', pad_inches=0)
 """
-"""
-## 結果の描画 ##
-plt.figure(0)  # 複数ウィンドウで表示
-plt.title("Subject E", fontsize=18)
-plt.plot(thresholds, FRR[4], 'red', label="FRR")
-plt.plot(thresholds, FAR[4], 'blue', linestyle="dashed", label="FAR")
-plt.xlabel("Threshold", fontsize=18)
-plt.ylabel("Rate", fontsize=18)
-plt.tick_params(labelsize=18)
-plt.legend(fontsize=18)  # 凡例の表示
-plt.savefig("E.svg", bbox_inches='tight', pad_inches=0)
-"""
 
 
 
-
-#**論文用，一覧グラフ取得**
+# **論文用，一覧グラフ取得**
 tester_index = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
 plt.figure(figsize=(15, 30))
 plt.subplots_adjust(wspace=0.4, hspace=0.4)
@@ -155,7 +142,5 @@ plt.xlabel("Threshold", fontsize=18)
 plt.ylabel("Rate", fontsize=18)
 plt.tick_params(labelsize=18)
 plt.legend(fontsize=18, loc='upper right')  # 凡例の表示
-
-
-plt.show()
-#**ここまで**
+#plt.savefig("EER.eps", bbox_inches='tight', pad_inches=0)
+# **ここまで**
