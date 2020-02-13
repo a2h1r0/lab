@@ -13,17 +13,13 @@
 \maketitle
 
 \section{進捗状況}
-結局被験者8人でEER7\%でした．
-精度向上には，時系列的にデータを解析するより，目の横の特徴などを追加すると良いかも．\\
-質疑で，鍵として以外の使い方を提案してもらいました．
-ユーザーを認識して，情報を出す（ナビなど）．
-ただ，これは個人識別する必要があるのか（？）単純にユーザは固定で，被った検知でナビ起動でもいい気が．
-
-
-
-%\begin{figure}[ht]
-%  \includegraphics[width=80mm]{1.eps}
-%\end{figure}
+K-Means，OneClassSVM，LOFをsandwich,Takeのデータ，sandwich,Take,Washのデータで試しましたが微妙．というより，ダメでした．他の方策探してます．単純に合成波にDTWかけたりしてみましたが，それも微妙．FFT→引き算→IFFTで動作ごとに切り出せないか試しました．でもノイズが多すぎてわからないので，季節成分分解してみました．これぐらいにした方がハッキリとする？\\
+Take = sandwich,Take\\
+Take\_re = 復元データ\\
+Take2 = sandwich,Take\\
+false = cereal,Take\\
+で季節成分分解をしてみた結果．図\ref{fig}．
+ただ，まだ1部位しか見てないので，他と組み合わせるとまた変化するかもしれません．
 
 \section{今週のアイデア}
 \begin{itemize}
@@ -52,5 +48,13 @@
   \item 1km以上追越車線を走行した場合のアラートと，車線変更可能位置の誘導などの運転支援
   \item 硬筆文字のデジタル化
 \end{itemize}
+
+\begin{figure*}[t]
+  \begin{center}
+    \includegraphics[width=1\textwidth]{Figure_1.eps}
+    \caption{}
+    \label{fig}
+  \end{center}
+\end{figure*}
 
 \end{document}
