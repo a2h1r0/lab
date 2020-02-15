@@ -8,10 +8,13 @@ k = 5  # **交差検証分割数**
 
 
 import numpy as np
-import calculate_vector_ave as cal
 from sklearn.covariance import MinCovDet
 from scipy.spatial import distance
 import matplotlib.pyplot as plt
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), "../modules"))
+from calculate_vector_ave import calculate_vector_ave as cal
 import warnings
 warnings.simplefilter("ignore")
 
@@ -71,7 +74,7 @@ def compare():
 
 ###--- main ---###
 ## 計算と判別 ##
-vector_ave = cal.calculate_vector_ave(tester)  # ベクトルの平均値を計算
+vector_ave = cal(tester)  # ベクトルの平均値を計算
 
 mcd = MinCovDet()  # Minimum Covariance Determinant
 for index_train in range(len(tester)):  ## 学習する被験者を変更

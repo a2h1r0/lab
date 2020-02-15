@@ -2,12 +2,12 @@
 """
 ベクトルの平均値を計算．
 被験者ごとにファイルからデータを読み込み，各取得回ごとの平均値を計算．
-tester = [被験者名のリスト]を引数に取り，
+tester = [被験者名のリスト]，cols = [使う列のリスト]を引数に取り，
 vector_ave[被験者] = [[ベクトルのリスト] * 取得回]を返す．
 """
 
 
-def calculate_vector_ave(tester):
+def calculate_vector_ave_cols(tester, cols):
     import pandas as pd
     import numpy as np
 
@@ -16,11 +16,7 @@ def calculate_vector_ave(tester):
     ## データの読み込み ##
     for order, name in enumerate(tester):   # 被験者1人ずつデータを読み込む
         filename = "./dataset/" + name + ".csv"
-        data = pd.read_csv(filename, usecols=["in0","in1","in2","in3","in4","in5","in6","in7",
-                                              "in8","in9","inあ","inい","inう","inA","inB","inC",
-                                              "in10","in11","in12","in13","in14","in15","in16",
-                                              "in17","in18","in19","inア","inイ","inウ","inD","inE",
-                                              "inF","Number"], encoding='Shift-JIS')
+        data = pd.read_csv(filename, usecols=cols, encoding='Shift-JIS')
         data.fillna(0, inplace=True)    # 区切り番号以外"0"で埋める
         sensors = len(data.iloc[0])-1   # 次元数の確認
         

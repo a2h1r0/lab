@@ -5,12 +5,16 @@ marker = ["o", ",", "^", "*", "v", "1", "p", "D", "x"]   # **プロットマー�
 
 
 
-import calculate_vector_ave as cal
 from sklearn import decomposition
 import matplotlib.pyplot as plt
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), "../modules"))
+from calculate_vector_ave import calculate_vector_ave as cal
+
 
 # ベクトルの平均値を計算
-vector_ave = cal.calculate_vector_ave(tester)
+vector_ave = cal(tester)
 
 # testにベクトルの平均値をまとめる
 test = []
