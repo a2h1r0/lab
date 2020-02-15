@@ -79,12 +79,9 @@ for num in range(len(cols_full)):
 sensor_num = list(range(len(cols_full), 0, -1))
 
 plt.plot(sensor_num, scores, 'red')
-plt.xlabel("Sensor Num", fontsize=18)
-plt.ylabel("Scores", fontsize=18)
+plt.xlabel('Sensor Num', fontsize=18)
+plt.ylabel('Scores', fontsize=18)
 plt.tick_params(labelsize=18)
 
 
-
-
-
-#plt.savefig("EER.eps", bbox_inches='tight', pad_inches=0)
+plt.savefig('sensor.jpg', bbox_inches='tight', pad_inches=0)
