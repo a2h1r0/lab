@@ -67,7 +67,7 @@ for num in range(len(cols_full)):
         # 組み合わせごとに交差検証した結果を追加
         score[0].append(combination)
         score[1].append(np.mean(cross_val_score(clf, data, label, cv=5)))
-        if score[1] == 1.0:
+        if score[1][-1] == 1.0:
             break
         
     # 組み合わせの中で一番精度の良かった結果を保存
