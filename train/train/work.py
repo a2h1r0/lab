@@ -13,20 +13,23 @@ import seaborn as sns
 import glob
 import re
 import os
-
+import warnings
+import sys
 
 
 file_num = ['3', '11', '21']
 directory = ['left_hip', 'right_arm', 'left_wrist', 'right_wrist']
 
-take_set = [[] for i in range(len(file_num))]
-for part in directory:
-    for index, num in enumerate(file_num):
-        path = glob.glob('.\\'+part+'\\subject?_file_'+num+'.csv')
+
+take_set = [[[] for i in range(len(file_num))] for i in range(len(directory))]
+for part, part_name in enumerate(directory):
+    for file_index, num in enumerate(file_num):
+        path = glob.glob('.\\'+part_name+'\\subject?_file_'+num+'.csv')
         for filename in path:
-            data = np.loadtxt(filename, delimiter=",", skiprows=1, usecols=[0,1,2])
-            if data == []:
-                continue
-            take_set[index] = np.append(take_set, np.mean(data, axis=0))
-            take_set[index] = np.append(take_set, np.var(data, axis=0))
+            try:data = np.loadtxt(filename, delimiter=",", skiprows=1, usecols=[0,1,2]) 
+            except IOError:continue
+            except UserWarning:continue
+            take_set[part][file_index].append([0 for i in range(6)])
+            take_set[part][file_index][-1] = list(np.concatenate([np.mean(data, axis=0), np.var(data, axis=0)]))
+
 
