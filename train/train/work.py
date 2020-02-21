@@ -26,7 +26,7 @@ directory = ['left_hip', 'right_arm', 'left_wrist', 'right_wrist']
 
 # take_set[身体部位][ファイル番号*被験者1~3]
 
-take_data = [[] for i in range(len(directory))]
+take_set = [[] for i in range(len(directory))]
 for part, part_name in enumerate(directory):
     for num in file_num:
         path = glob.glob('.\\'+part_name+'\\subject?_file_'+num+'.csv')
@@ -34,8 +34,8 @@ for part, part_name in enumerate(directory):
             if os.path.isfile(filename):
                 data = np.loadtxt(filename, delimiter=",", skiprows=1, usecols=[0,1,2]) 
                 if data != []:
-                    take_data[part].append([0 for i in range(6)])
-                    take_data[part][-1] = list(np.concatenate([np.mean(data, axis=0), np.var(data, axis=0)]))
+                    take_set[part].append([0 for i in range(6)])
+                    take_set[part][-1] = list(np.concatenate([np.mean(data, axis=0), np.var(data, axis=0)]))
                     
         if take_set[part] == []:
             del take_set[part]             
@@ -45,11 +45,12 @@ label = []
 for i in range(directory):
     label.append(['take' for i in range(take_set)])
 clf = svm.SVC(C=1.0, kernel='linear')
-cross_val_score(clf, tale_data[part], label, cv=5)
+cross_val_score(clf, take_set[part], label, cv=5)
 print('Cross-Validation scores: {}\n'.format(scores[-1]))
         
             
-                
+
+
 """
 K-Means
 
