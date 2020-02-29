@@ -8,13 +8,8 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../modules'))
 from calculate_vector_ave_cols import calculate_vector_ave_cols as cal
 from sklearn import svm
-from scipy.spatial import distance
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import classification_report, accuracy_score
 from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import cross_validate
 import itertools
 import copy
 
@@ -86,4 +81,5 @@ plt.ylabel('Scores', fontsize=18)
 plt.tick_params(labelsize=18)
 
 
-plt.savefig('sensor.jpg', bbox_inches='tight', pad_inches=0)
+plt.savefig('sensor.png', bbox_inches='tight', pad_inches=0)
+plt.savefig('sensor.eps', bbox_inches='tight', pad_inches=0)
