@@ -7,7 +7,7 @@ unsigned long base, now;  // 時間計測用変数
 float voltage[Sensors];   // 電圧値用変数
 int first = 0;  // 初回判別用変数
 int i, j=0;          // ループカウンタ
-char input={'\0'};
+char input;
  
 void setup() {
   Serial.begin(57600);
@@ -18,6 +18,7 @@ void setup() {
 }
 
 void loop() {
+  // Serial.availableあやしい，動かんかも
   if (Serial.available() > 0) {   // PC側でser.writeが実行されれば真に
   input = Serial.read();
     if (input == '1') {
@@ -43,11 +44,9 @@ void loop() {
       lcd.init(); 
       lcd.backlight();
       lcd.setCursor(0, 0);
-      j = 0;
-      while (input != '\0') {
-        j++;
-        lcd.print(input[j]);        
-      }
+      // inputを一文字ずつ出力して，カーソルを移動していく．
+      // うまくずらして表示してやれば表示できそう．
+      lcd.print(input);        
       Serial.read();  // Serial.available()を0に戻す
     }
   }
