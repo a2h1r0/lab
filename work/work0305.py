@@ -31,26 +31,26 @@ clf = OneClassSVM(kernel="rbf", gamma='auto')
 # 動作のみ
 
 ## データの読み込み ##
-filename = 'left_hip.csv'
+filename = 'data_10s/left_hip.csv'
 left_hip_df = pd.read_csv(filename, usecols=['recipe', 'label', 'mean_X', 'mean_Y', 'mean_Z', 'var_X', 'var_Y', 'var_Z'], encoding='Shift-JIS').dropna()
 left_hip_df = left_hip_df[left_hip_df['label'] == 'Take']
 left_hip = left_hip_df.values[:, 2:8]
 left_hip_label = left_hip_df.values[:, 1:2]
 
 
-filename = 'right_arm.csv'
+filename = 'data_10s/right_arm.csv'
 right_arm_df = pd.read_csv(filename, usecols=['recipe', 'label', 'mean_X', 'mean_Y', 'mean_Z', 'var_X', 'var_Y', 'var_Z'], encoding='Shift-JIS').dropna()
 right_arm_df = right_arm_df[right_arm_df['label'] == 'Take']
 right_arm = right_arm_df.values[:, 2:8]
 right_arm_label = right_arm_df.values[:, 1:2]
 
-filename = 'left_wrist.csv'
+filename = 'data_10s/left_wrist.csv'
 left_wrist_df = pd.read_csv(filename, usecols=['recipe', 'label', 'mean_X', 'mean_Y', 'mean_Z', 'var_X', 'var_Y', 'var_Z'], encoding='Shift-JIS').dropna()
 left_wrist_df = left_wrist_df[left_wrist_df['label'] == 'Take']
 left_wrist = left_wrist_df.values[:, 2:8]
 left_wrist_label = left_wrist_df.values[:, 1:2]
 
-filename = 'right_wrist.csv'
+filename = 'data_10s/right_wrist.csv'
 right_wrist_df = pd.read_csv(filename, usecols=['recipe', 'label', 'mean_X', 'mean_Y', 'mean_Z', 'var_X', 'var_Y', 'var_Z'], encoding='Shift-JIS').dropna()
 right_wrist_df = right_wrist_df[right_wrist_df['label'] == 'Take']
 right_wrist = right_wrist_df.values[:, 2:8]
@@ -83,8 +83,14 @@ with warnings.catch_warnings():
                     left_hip_test.append(list(np.concatenate([np.mean(np.array(temp)[:, :3], axis=0), np.var(np.array(temp)[:, :3], axis=0)])))
                     
                     # スライドするので先頭を削除
-                    del temp[0]
-                    start = temp[0][3]
+                    while row[3]-temp[0][3] > 5000:
+                        del temp[0]
+                        if temp == []:
+                            break
+                    if temp == []:
+                        start = row[3]
+                    else:
+                        start = temp[0][3]
                 temp.append(row[0:4])
         except IOError:
             continue
@@ -96,7 +102,7 @@ with warnings.catch_warnings():
         pred = clf.predict(left_hip_test)
         plt.figure()
         plt.plot(range(len(pred)), list(pred))
-        plt.savefig('./figures/left_hip/'+file+'.png', bbox_inches='tight', pad_inches=0)
+        plt.savefig('./figures/10s/left_hip/'+file+'.png', bbox_inches='tight', pad_inches=0)
         plt.close()
     print('OK\n------------')
     
@@ -113,8 +119,14 @@ with warnings.catch_warnings():
                     right_arm_test.append(list(np.concatenate([np.mean(np.array(temp)[:, :3], axis=0), np.var(np.array(temp)[:, :3], axis=0)])))
                     
                     # スライドするので先頭を削除
-                    del temp[0]
-                    start = temp[0][3]
+                    while row[3]-temp[0][3] > 5000:
+                        del temp[0]
+                        if temp == []:
+                            break
+                    if temp == []:
+                        start = row[3]
+                    else:
+                        start = temp[0][3]
                 temp.append(row[0:4])
         except IOError:
             continue
@@ -126,7 +138,7 @@ with warnings.catch_warnings():
         pred = clf.predict(right_arm_test)
         plt.figure()
         plt.plot(range(len(pred)), list(pred))
-        plt.savefig('./figures/right_arm/'+file+'.png', bbox_inches='tight', pad_inches=0)
+        plt.savefig('./figures/10s/right_arm/'+file+'.png', bbox_inches='tight', pad_inches=0)
         plt.close()
     print('OK\n------------')
     
@@ -143,8 +155,14 @@ with warnings.catch_warnings():
                     left_wrist_test.append(list(np.concatenate([np.mean(np.array(temp)[:, :3], axis=0), np.var(np.array(temp)[:, :3], axis=0)])))
                     
                     # スライドするので先頭を削除
-                    del temp[0]
-                    start = temp[0][3]
+                    while row[3]-temp[0][3] > 5000:
+                        del temp[0]
+                        if temp == []:
+                            break
+                    if temp == []:
+                        start = row[3]
+                    else:
+                        start = temp[0][3]
                 temp.append(row[0:4])
         except IOError:
             continue
@@ -156,7 +174,7 @@ with warnings.catch_warnings():
         pred = clf.predict(left_wrist_test)
         plt.figure()
         plt.plot(range(len(pred)), list(pred))
-        plt.savefig('./figures/left_wrist/'+file+'.png', bbox_inches='tight', pad_inches=0)
+        plt.savefig('./figures/10s/left_wrist/'+file+'.png', bbox_inches='tight', pad_inches=0)
         plt.close()
     print('OK\n------------')
     
@@ -173,8 +191,14 @@ with warnings.catch_warnings():
                     right_wrist_test.append(list(np.concatenate([np.mean(np.array(temp)[:, :3], axis=0), np.var(np.array(temp)[:, :3], axis=0)])))
                     
                     # スライドするので先頭を削除
-                    del temp[0]
-                    start = temp[0][3]
+                    while row[3]-temp[0][3] > 5000:
+                        del temp[0]
+                        if temp == []:
+                            break
+                    if temp == []:
+                        start = row[3]
+                    else:
+                        start = temp[0][3]
                 temp.append(row[0:4])
         except IOError:
             continue
@@ -186,7 +210,7 @@ with warnings.catch_warnings():
         pred = clf.predict(right_wrist_test)
         plt.figure()
         plt.plot(range(len(pred)), list(pred))
-        plt.savefig('./figures/right_wrist/'+file+'.png', bbox_inches='tight', pad_inches=0)
+        plt.savefig('./figures/10s/right_wrist/'+file+'.png', bbox_inches='tight', pad_inches=0)
         plt.close()
     print('OK\n------------')
 
