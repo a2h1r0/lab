@@ -7,11 +7,11 @@ Range = int(Sensors/2)  # 2台に分かれるのでループ範囲は半分
 t = [0] * 100           # 時間の範囲
 
 # Arduino1号機
-ser = serial.Serial('COM5', 9600)
+ser = serial.Serial('COM4', 57600)
 y = [[0] * 100 for i in range(Range)]   # 1センサにつき100個の値，これをセンサ数分定義
 line = [0] * Range                      # センサ数分のグラフ線を定義
 # Arduino2号機
-ser2 = serial.Serial('COM6', 9600)
+ser2 = serial.Serial('COM3', 57600)
 y2 = [[0] * 100 for i in range(Range)]
 line2 = [0] * Range
 

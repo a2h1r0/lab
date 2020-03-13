@@ -1,32 +1,32 @@
 #define Sensors 16  // Arduino1機に繋いでいるセンサの数
+#define Name_SIZE 16
 
 #include <LiquidCrystal_I2C.h>
 LiquidCrystal_I2C lcd(0x27,16,2);
 
-unsigned long base, now;  // 時間計測用変数
 float voltage[Sensors];   // 電圧値用変数
-int first = 0;  // 初回判別用変数
-int i, j=0;          // ループカウンタ
+int i;          // ループカウンタ
 char input;
+String tester;
  
 void setup() {
   Serial.begin(57600);
   lcd.init(); 
   lcd.backlight();
   lcd.setCursor(0, 0);
-  lcd.print("Hello, world!");
+  lcd.print("Let's start!!");
 }
 
 void loop() {
-  // Serial.availableあやしい，動かんかも
   if (Serial.available() > 0) {   // PC側でser.writeが実行されれば真に
   input = Serial.read();
-    if (input == '1') {
-      if (first == 0) { // 取得開始時刻を保存
-        base = micros();
-        first++;
-      }
-      
+
+    if (input == '0') {
+      lcd.clear();
+      lcd.print("Who are you?");
+    }
+
+    else if (input == '1') {      
       for (i=0; i<Sensors; i++) {
         voltage[i] = (analogRead(i)/1024.0)*5.0;  // 電圧の取得と5V化
         if(voltage[i] >= 4.9)       // 誤差の除去
@@ -34,20 +34,24 @@ void loop() {
         Serial.print(voltage[i]);   // 電圧値をPC側に送信
         Serial.print(" ");
       }
-      now = micros() - base;  // 現在時刻と取得開始時刻の差を計算
-      Serial.print(now);      // 取得時間をPC側に送信
       Serial.print("\n");     // 全てのセンサの電圧，時間を取得できたら改行
     }
 
   
-    else {
-      lcd.init(); 
-      lcd.backlight();
-      lcd.setCursor(0, 0);
-      // inputを一文字ずつ出力して，カーソルを移動していく．
-      // うまくずらして表示してやれば表示できそう．
-      lcd.print(input);        
-      Serial.read();  // Serial.available()を0に戻す
+    else if (input == '2') {
+      lcd.clear();
+      lcd.print("You are...");
+      
+      tester = Serial.readStringUntil('\0');
+      lcd.setCursor(0, 1);
+      lcd.print(tester);
+    }
+
+    else if (input == '3') {
+      lcd.clear();
+      lcd.print("Thank you");
+      lcd.setCursor(3, 1);
+      lcd.print("for watching!");
     }
   }
 }
