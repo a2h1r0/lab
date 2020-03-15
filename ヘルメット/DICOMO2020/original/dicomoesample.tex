@@ -1,0 +1,66 @@
+\documentclass[English]{dicomopapers}
+
+\usepackage[dvips]{graphicx}
+\usepackage{latexsym}
+
+\def\Underline{\setbox0\hbox\bgroup\let\\\endUnderline}
+\def\endUnderline{\vphantom{y}\egroup\smash{\underline{\box0}}\\}
+\def\|{\verb|}
+
+
+\setlength{\Etitleauthorsep}{5.0mm}
+\setlength{\Eauthorreceivesep}{0.0mm}
+\setlength{\Eabstkeywordsep}{0.0mm}
+
+\begin{document}
+
+\title{How to Typeset Your Abstract in {\LaTeX}}
+
+\affiliate{IPSJ}{IPSJ}
+\affiliate{DICOMO}{DICOMO2020}
+
+\author{TARO JOHO}{IPSJ}
+\author{HANAKO SHORI}{DICOMO}
+
+\maketitle
+
+\section{About DICOMO abstract template}
+This file is a {\LaTeX} template for abstract writing, based on
+DICOMO2020 full paper format. With this file you are expected to
+submit a 1 page abstract for DICOMO2020 application.
+
+\section{Notices for abstract writing}
+\begin{itemize}
+ \item Abstract volume
+   
+   The abstract must be contained in 1 page, including title, author,
+   affiliation and summary of the work.
+
+ \item Chapters
+     
+   There is no need to provide multiple chapters. One chapter for an
+   abstract is enough. Use of paragraphs, itemization that make the
+   content readable are recommended.
+
+ \item Figures and tables
+
+   You can add figures and/or tables to clarify the advantages of your work.
+
+ \item References
+
+  You can add references.
+
+ \item Relationship with camera-ready submission
+
+   This abstract is not published. You can use this abstract as a
+   draft for your camera-ready submission.
+
+ \item Bibliographic information alignment
+
+   This abstract's bibliographic information submitted at the same
+   time (title, author, affiliation, keywords etc.) is used for
+   DICOMO2020 session arrangement and publication. Keep integrity of
+   the information to avoid mistakes.
+\end{itemize}
+
+\end{document}
