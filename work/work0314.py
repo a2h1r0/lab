@@ -10,16 +10,16 @@ label_num = 10
 
 ## データの読み込み ##
 filename = 'left_hip.tsv'
-left_hip_df = pd.read_table(filename, usecols=['Filename', 'Groundtruth', 'EPOCH999'], index_col=0, encoding='Shift-JIS')
+left_hip_df = pd.read_table(filename, usecols=['Filename', 'Groundtruth', 'EPOCH1000'], index_col=0, encoding='Shift-JIS')
 
 filename = 'right_arm.tsv'
-right_arm_df = pd.read_table(filename, usecols=['Filename', 'Groundtruth', 'EPOCH999'], index_col=0, encoding='Shift-JIS')
+right_arm_df = pd.read_table(filename, usecols=['Filename', 'Groundtruth', 'EPOCH1000'], index_col=0, encoding='Shift-JIS')
 
 filename = 'left_wrist.tsv'
-left_wrist_df = pd.read_table(filename, usecols=['Filename', 'Groundtruth', 'EPOCH999'], index_col=0, encoding='Shift-JIS')
+left_wrist_df = pd.read_table(filename, usecols=['Filename', 'Groundtruth', 'EPOCH1000'], index_col=0, encoding='Shift-JIS')
 
 filename = 'right_wrist.tsv'
-right_wrist_df = pd.read_table(filename, usecols=['Filename', 'Groundtruth', 'EPOCH999'], index_col=0, encoding='Shift-JIS')
+right_wrist_df = pd.read_table(filename, usecols=['Filename', 'Groundtruth', 'EPOCH1000'], index_col=0, encoding='Shift-JIS')
 
 
 
@@ -44,37 +44,37 @@ for file in all_files:
     preds = [[] for part in parts]
 
     f1_scores = np.zeros(4)
-    f1_scores[0] = left_hip_df.at['F1 score', 'EPOCH999']
-    f1_scores[1] = right_arm_df.at['F1 score', 'EPOCH999']
-    f1_scores[2] = left_wrist_df.at['F1 score', 'EPOCH999']
-    f1_scores[3] = right_wrist_df.at['F1 score', 'EPOCH999']
+    f1_scores[0] = left_hip_df.at['F1 score', 'EPOCH1000']
+    f1_scores[1] = right_arm_df.at['F1 score', 'EPOCH1000']
+    f1_scores[2] = left_wrist_df.at['F1 score', 'EPOCH1000']
+    f1_scores[3] = right_wrist_df.at['F1 score', 'EPOCH1000']
     
     
     isfile = left_hip_df.index.str.endswith(filename)
-    if True in isfile and left_hip_df.at[filename, 'EPOCH999'] != '[]':
+    if True in isfile and left_hip_df.at[filename, 'EPOCH1000'] != '[]':
         groundtruth = list(map(int, left_hip_df.at[filename, 'Groundtruth'].strip('['']').split(', ')))
-        preds[0] = list(map(int, left_hip_df.at[filename, 'EPOCH999'].strip('['']').split(', ')))
+        preds[0] = list(map(int, left_hip_df.at[filename, 'EPOCH1000'].strip('['']').split(', ')))
     else:
         f1_scores[0] = 0
     
     isfile = right_arm_df.index.str.endswith(filename)
-    if True in isfile and right_arm_df.at[filename, 'EPOCH999'] != '[]':
+    if True in isfile and right_arm_df.at[filename, 'EPOCH1000'] != '[]':
         groundtruth = list(map(int, right_arm_df.at[filename, 'Groundtruth'].strip('['']').split(', ')))
-        preds[1] = list(map(int, right_arm_df.at[filename, 'EPOCH999'].strip('['']').split(', ')))
+        preds[1] = list(map(int, right_arm_df.at[filename, 'EPOCH1000'].strip('['']').split(', ')))
     else:
         f1_scores[1] = 0
     
     isfile = left_wrist_df.index.str.endswith(filename)
-    if True in isfile and left_wrist_df.at[filename, 'EPOCH999'] != '[]':
+    if True in isfile and left_wrist_df.at[filename, 'EPOCH1000'] != '[]':
         groundtruth = list(map(int, left_wrist_df.at[filename, 'Groundtruth'].strip('['']').split(', ')))
-        preds[2] = list(map(int, left_wrist_df.at[filename, 'EPOCH999'].strip('['']').split(', ')))
+        preds[2] = list(map(int, left_wrist_df.at[filename, 'EPOCH1000'].strip('['']').split(', ')))
     else:
         f1_scores[2] = 0
     
     isfile = right_wrist_df.index.str.endswith(filename)
-    if True in isfile and right_wrist_df.at[filename, 'EPOCH999'] != '[]':
+    if True in isfile and right_wrist_df.at[filename, 'EPOCH1000'] != '[]':
         groundtruth = list(map(int, right_wrist_df.at[filename, 'Groundtruth'].strip('['']').split(', ')))
-        preds[3] = list(map(int, right_wrist_df.at[filename, 'EPOCH999'].strip('['']').split(', ')))
+        preds[3] = list(map(int, right_wrist_df.at[filename, 'EPOCH1000'].strip('['']').split(', ')))
     else:
         f1_scores[3] = 0
     
@@ -108,23 +108,28 @@ flags_df = pd.read_csv(filename, index_col=0, encoding='Shift-JIS')
 
 
 # 最大になる閾値の計算
-thresholds = np.arange(0.5, 3.1, 0.1)
-max_threshold = []
+thresholds = np.arange(0.5, 3.5, 0.01)
+correct = []
 for threshold in thresholds:
     num = 0
     for flags in flags_df.itertuples():
-        file = list(flags)[0]
+        file = flags[0]
         groundtruth = list(map(int, list(flags)[1].strip('['']').split(', ')))
         flag = np.array(flags[2:])
     
         pred = list(*np.where((flag != 0) & (flag > threshold)))
-    
+        if pred == []:
+            sub = 0.0
+            while pred == []:
+                pred = list(*np.where((flag != 0) & (flag > threshold-sub)))
+                sub += 0.1
+
         if groundtruth == pred:
             num += 1
-    max_threshold.append(num)
+    correct.append(num)
 print('\n完全正解：', end='')
-print(max(max_threshold))
-threshold = thresholds[max_threshold.index(max(max_threshold))]
+print(max(correct))
+threshold = thresholds[correct.index(max(correct))]
 
 
 # 閾値最大で予測データのフラグをラベルに戻す
@@ -134,11 +139,16 @@ with open('out_preds.csv', 'w', newline="") as f:
     writer.writerow(['ファイル', '正解', 'pred'])
 
 for flags in flags_df.itertuples():
-    file = list(flags)[0]
+    file = flags[0]
     groundtruth = list(map(int, list(flags)[1].strip('['']').split(', ')))
     flag = np.array(flags[2:])
 
     pred = list(*np.where((flag != 0) & (flag > threshold)))
+    if pred == []:
+        sub = 0.0
+        while pred == []:
+            pred = list(*np.where((flag != 0) & (flag > threshold-sub)))
+            sub += 0.1
 
     row = file + ':[' + ', '.join(map(str, groundtruth)) + ']:[' + ', '.join(map(str, pred)) + ']'
     row = row.split(':')
