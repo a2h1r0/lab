@@ -10,6 +10,8 @@
 % [2012/06/01 v1.03 IPSJ class]
  [2012/10/12 v1.04 IPSJ class]
 
+% 追加，bibtexのエラー回避
+\def\newblock{\hskip .11em plus .33em minus .07em}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -122,7 +124,7 @@
 
 
 
-%%A4: 210mm, 297mm 
+%%A4: 210mm, 297mm
 \newcounter{@paper}
 \newif\if@landscape \@landscapefalse
 \newcommand{\@ptsize}{}
@@ -239,7 +241,7 @@
 \ProcessOptions\relax
 
 
-%% 
+%%
 \newdimen\h
   \h=0.25mm
 \newdimen\JQ
@@ -256,7 +258,7 @@
 
 \ifDS@english
 \else
-%% 
+%%
 \expandafter\let\csname JY1/mc/m/n/10\endcsname\relax
 \expandafter\let\csname JY1/gt/m/n/10\endcsname\relax
 %%%
@@ -297,13 +299,13 @@
  <14.4> s * [0.92406] jis
  <17.28> s * [0.85561] jis
  <20.74> s * [0.88545] jis
- <24.88> s * [0.9508] jis 
+ <24.88> s * [0.9508] jis
  <-> jis
  }{}
 %
 \DeclareFontShape{JY1}{gt}{m}{n}{<5>jisg <6> jisg
- <7> s * [1.05571] jisg 
- <8> s * [1.01625] jisg 
+ <7> s * [1.05571] jisg
+ <8> s * [1.01625] jisg
  <9> s * [0.98556] jisg
  <10> s * [0.961] jisg
  <10.95> s * [0.94516] jisg
@@ -311,7 +313,7 @@
  <14.4> s * [0.92406] jisg
  <17.28> s * [0.85561] jisg
  <20.74> s * [0.88545] jisg
- <24.88> s * [0.9508] jisg  
+ <24.88> s * [0.9508] jisg
  <-> jisg
  }{}
 \fi
@@ -321,7 +323,7 @@
 \DeclareFontShape{OT1}{cmr}{m}{n}%
      {<-5.5>   cmr5%
       <5.5-6.5>   cmr6%
-      <6.5-7.5>   cmr7% 
+      <6.5-7.5>   cmr7%
       <7.5-8.5>   cmr8%
       <8.5-11.5>  cmr10%
       <11.5-16.5> cmr12%
@@ -506,7 +508,7 @@
  <7.5-8.5>lasy8
  <8.5-9.5>lasy9
  <9.5-    >lasy10  }{}
-\DeclareFontShape{U}{lasy}{b}{n}{ 
+\DeclareFontShape{U}{lasy}{b}{n}{
      <  -10> ssub * lasy/m/n
      <10-  > lasyb10  }{}
 %%%
@@ -623,7 +625,7 @@
               \parsep 1\p@ \@plus \p@ \@minus \p@
               \itemsep \parsep}%
   \belowdisplayskip \abovedisplayskip}
-\else 
+\else
 \newcommand{\small}{%
   \@setfontsize\small{12\JQ}{20H}%
   \kanjiskip\z@ \@plus .1zw \@minus .05zw
@@ -1627,27 +1629,27 @@ c}}}
 \def\ipsj@year{%
 \ifDS@EEE
 \ifnum\c@year<\z@
-\c@year1992 \advance\c@year\c@volume 
+\c@year1992 \advance\c@year\c@volume
 \fi\fi
-\ifDS@ACS 
+\ifDS@ACS
 \ifnum\c@year<\z@
-\c@year2007 \advance\c@year\c@volume 
+\c@year2007 \advance\c@year\c@volume
 \fi\fi
 \ifDS@PRO
 \ifnum\c@year<\z@
-\c@year2007 \advance\c@year\c@volume 
+\c@year2007 \advance\c@year\c@volume
 \fi\fi
 \ifDS@TOD
 \ifnum\c@year<\z@
-\c@year2007 \advance\c@year\c@volume 
+\c@year2007 \advance\c@year\c@volume
 \fi\fi
 \ifDS@TOM
 \ifnum\c@year<\z@
-\c@year2007 \advance\c@year\c@volume 
+\c@year2007 \advance\c@year\c@volume
 \fi\fi
 \ifDS@TBIO
 \ifnum\c@year<\z@
-\c@year2007 \advance\c@year\c@volume 
+\c@year2007 \advance\c@year\c@volume
 \fi\fi
 \ifDS@CVA
 \ifnum\c@year<\z@
@@ -1655,20 +1657,20 @@ c}}}
 \fi\fi
 \ifDS@SLDM
 \ifnum\c@year<\z@
-\c@year2007 \advance\c@year\c@volume 
+\c@year2007 \advance\c@year\c@volume
 \fi\fi
 \ifDS@English
 \ifnum\c@year<\z@
-\c@year1992 \advance\c@year\c@volume 
+\c@year1992 \advance\c@year\c@volume
 \fi\fi
 \ifDS@CDS
 \ifnum\c@year<\z@
-\c@year2010 \advance\c@year\c@volume 
+\c@year2010 \advance\c@year\c@volume
 \fi\fi
 %%
 %===
 \ifnum\c@year<\z@
-\c@year1959 \advance\c@year\c@volume 
+\c@year1959 \advance\c@year\c@volume
 \fi
 \number\c@year
 %===
@@ -1684,7 +1686,7 @@ c}}}
    \ifDS@English
 	\ifcase\@tempcnta???\or Jan.\or Apr.\or July\or Oct.\else
 		???\fi
-   \else   
+   \else
 	\ifcase\@tempcnta???\or Jan.\or Feb.\or Mar.\or Apr.\or May\or
 		June\or July\or Aug.\or Sep.\or Oct.\or Nov.\or Dec.\else
 		???\fi
@@ -1704,7 +1706,7 @@ c}}}
 \newcounter{number} \c@number\z@
 \newcounter{month} \c@month\m@ne
 \newcounter{year} \c@year\m@ne
-				
+
 
 \expandafter\let\csname c@巻数\endcsname\c@volume
 \expandafter\let\csname c@号数\endcsname\c@number
@@ -1725,7 +1727,7 @@ c}}}
 %==========================================================================================================================
 
 
-\def\jtitle{\@ifnextchar[% 
+\def\jtitle{\@ifnextchar[%
  {\d@jtitle}{\s@jtitle}}
 \def\d@jtitle[#1]#2{\gdef\hd@title{#1}\gdef\@jtitle{#2}}
 \def\s@jtitle#1{\gdef\hd@title{#1}\gdef\@jtitle{#1}}
@@ -1937,7 +1939,7 @@ c}}}
    \expandafter\ifx\csname break@\the\count@\endcsname\relax
 \ifDS@english
 \hskip1em \else \hskip1zw \fi
-   \else 
+   \else
       \csname break@\the\count@\endcsname
    \fi
 }
@@ -1946,7 +1948,7 @@ c}}}
    \expandafter\ifx\csname ebreak@\the\count@\endcsname\relax
 \ifDS@english
 \hskip1em \else \hskip1zw \fi
-   \else 
+   \else
       \csname ebreak@\the\count@\endcsname
    \fi
 }
@@ -2085,7 +2087,7 @@ Presently with\ %
 \count@\@ne
 \advance\author@count\@ne
    \@whilenum{\count@<\author@count}\do{%
-      \expandafter\@tempcntb\csname authoremail@num@\the\count@ \endcsname      
+      \expandafter\@tempcntb\csname authoremail@num@\the\count@ \endcsname
       \advance\@tempcntb\@ne
       \@tempcnta\@ne
       \@whilenum{\@tempcnta<\@tempcntb}\do{%
@@ -2111,13 +2113,13 @@ Presently with\ %
 %=================================================================================
 
 %%
-\newskip\shubetutitlesep 
+\newskip\shubetutitlesep
 \newskip\JEhonbunsep
 
 \shubetutitlesep=6.2mm% default 10mm
 \JEhonbunsep=13.7mm % default 15mm
 
-\newskip\Etitleauthorsep 
+\newskip\Etitleauthorsep
 \newskip\Eauthorreceivesep
 \newskip\Ereceiveabstsep
 \newskip\Eabstkeywordsep
@@ -2128,7 +2130,7 @@ Presently with\ %
 \Eabstkeywordsep=4mm % default 5mm
 
 %
-\newskip\Jtitlejauthorsep 
+\newskip\Jtitlejauthorsep
 \newskip\Jauthorjreceivesep
 \newskip\Jreceivejabstsep
 \newskip\Jabstsepjkeyword
@@ -2172,7 +2174,7 @@ Presently with\ %
 \fi\fi
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%
-\vskip\shubetutitlesep% 
+\vskip\shubetutitlesep%
 %%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %\vskip 10mm%
@@ -2191,22 +2193,22 @@ Presently with\ %
 {\Engtitlefont%
 {\@title}\par}
 %%%%%%%%%%%%%%%%%%%%%%%
-\vskip\Etitleauthorsep% 
+\vskip\Etitleauthorsep%
 %%%%%%%%%%%%%%%%%%%%%%%
 %% author %%%
 {\Engeauthorfont%
 \authoroutput{e}\par}%
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\vskip\Eauthorreceivesep% 
+\vskip\Eauthorreceivesep%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %{\Enguketukefont%
 %{\@uketsuke}\par}%
 %%%%%%%%%%%%%%%%%%%%%%%
-\vskip\Ereceiveabstsep% 
+\vskip\Ereceiveabstsep%
 %%%%%%%%%%%%%%%%%%%%%%%
 \mbox{\box\@abstractbox}\par%
 %%%%%%%%%%%%%%%%%%%%%%%
-\vskip\Eabstkeywordsep% 
+\vskip\Eabstkeywordsep%
 %%%%%%%%%%%%%%%%%%%%%%%
 \let\@keywordbox\@ekeywordbox
 \mbox{\box\@ekeywordbox}\par%
@@ -2374,7 +2376,7 @@ Presently with\ %
 \leavevmode \raise.1zh\hbox to 2zw{---\hss ---}}}
 
 
-%% 
+%%
 \def\jtitlefont{%
 \if@Japanese
    \fontsize{26\JQ}{34\h}
@@ -2515,7 +2517,7 @@ Presently with\ %
 %\def\rerereceived#1#2#3{%
 % \gdef\@rerereceived{/\TUKI{#2} #3, #1,}%
 %}
-%%% 
+%%%
 %\def\released#1#2#3{%
 % \gdef\@released{Released: \TUKI{#2} #3, #1}%
 %}
@@ -2605,7 +2607,7 @@ Abstract:\hskip.5em%
    \fi
 \ifDS@abstract
    {\hskip1zw}\else
-   Abstract:\hskip.5em% 
+   Abstract:\hskip.5em%
    \fi
 \fi
 }
@@ -2688,14 +2690,14 @@ Abstract:\hskip.5em%
 \def\EKEYWORD{%
 \ifDS@english
 \itshape\bfseries\sffamily%
-Keywords:\hskip.5em% 
+Keywords:\hskip.5em%
 \else
    \if@Japanese
    \itshape\bfseries%
    \else
    \useroman{OT1}{phv}{b}{it}\selectfont%
    \fi
-Keywords:\hskip.5em% 
+Keywords:\hskip.5em%
 \fi
 }
 
@@ -2845,7 +2847,7 @@ Keywords:\hskip.5em%
 \addvspace{-.9mm}%
   \noindent%
    #6{\@hangfrom{\hskip #3\relax\@svsec}%
-         \interlinepenalty \@M 
+         \interlinepenalty \@M
    %\noindent
    \hangindent\wd\@tempboxb\hangafter=1
    #8\@@par}\nobreak%
@@ -2951,7 +2953,7 @@ Keywords:\hskip.5em%
    \addvspace{.65\Cvs}%
    \noindent%
    #6{\@hangfrom{\hskip #3\relax\@svsec}%
-          \interlinepenalty \@M 
+          \interlinepenalty \@M
    %\noindent
    \hangindent\wd\@tempboxb\hangafter=1
    #8\@@par}\nobreak{\par}%
@@ -3241,7 +3243,7 @@ Keywords:\hskip.5em%
 \addvspace{-.9mm}%
   \noindent%
    #6{\@hangfrom{\hskip #3\relax\@svsec}%
-         \interlinepenalty \@M 
+         \interlinepenalty \@M
    %\noindent
    \hangindent\wd\@tempboxb\hangafter=1
    #8\@@par}\nobreak%
@@ -3347,7 +3349,7 @@ Keywords:\hskip.5em%
    \addvspace{.65\Cvs}%
    \noindent%
    #6{\@hangfrom{\hskip #3\relax\@svsec}%
-          \interlinepenalty \@M 
+          \interlinepenalty \@M
    %\noindent
    \hangindent\wd\@tempboxb\hangafter=1
    #8\@@par}\nobreak{\par}%
@@ -3441,7 +3443,7 @@ Keywords:\hskip.5em%
 
 %=======================
  \newcommand{\subsection}{\@startsectionC{subsection}{2}{\z@}%
-{\Cvs}%{.3125\Cvs}%{.3125\Cvs \@plus.2\Cdp \@minus.5\Cdp}% 
+{\Cvs}%{.3125\Cvs}%{.3125\Cvs \@plus.2\Cdp \@minus.5\Cdp}%
 {.00001\Cvs}% \@plus.3\Cdp \@minus.2\Cdp}%   {.5\Cvs \@plus.3\Cdp}%
    {\reset@font\normalsize\bfseries\mathversion{bold}}}
 
@@ -3593,11 +3595,11 @@ Keywords:\hskip.5em%
 #1}\hskip1\zw}%% <<
  \ifdim \@tempdima > \baselineskip
   \ifdim \wd\@tempboxa > \capwidth
-   \hfil\parbox[t]{\capwidth}{\hangindent\wd\@tempboxb 
+   \hfil\parbox[t]{\capwidth}{\hangindent\wd\@tempboxb
 {\bfseries%
     #1}\hskip1\zw #2}\vskip4\@Q
   \else
-   \hfil\parbox[t]{\wd\@tempboxa}{\hangindent\wd\@tempboxb 
+   \hfil\parbox[t]{\wd\@tempboxa}{\hangindent\wd\@tempboxb
 {\bfseries%
    #1}\hskip1\zw #2}%\vskip4\@Q
 \par\prevdepth=0pt%
@@ -3610,7 +3612,7 @@ Keywords:\hskip.5em%
     #1}\hskip1\zw #2}%\vskip4\@Q
 %%%
 \ifx \@captype\TABLE
-      \ifDS@english 
+      \ifDS@english
       \par\vskip.25mm%
       \else
       \par\prevdepth=0pt\vskip-1.5mm%
@@ -3652,11 +3654,11 @@ Keywords:\hskip.5em%
 %%%%%%%%%%%%
  \ifdim \@tempdima > \baselineskip
   \ifdim \wd\@tempboxa > \ecapwidth
-   \hfil\parbox[t]{\ecapwidth}{\hangindent\wd\@tempboxb 
+   \hfil\parbox[t]{\ecapwidth}{\hangindent\wd\@tempboxb
 {\bfseries%
     \csname fnum@e\@captype\endcsname}\hskip1\zw #1}\par
   \else
-   \hfil\parbox[t]{\wd\@tempboxa}{\hangindent\wd\@tempboxb 
+   \hfil\parbox[t]{\wd\@tempboxa}{\hangindent\wd\@tempboxb
 {\bfseries%
     \csname fnum@e\@captype\endcsname}\hskip1\zw #1}\par
   \fi
@@ -3712,8 +3714,8 @@ Keywords:\hskip.5em%
 
 \@listi
 
-\def\labelenumi{(\,\theenumi\,)} 
-\def\theenumi{\arabic{enumi}} 
+\def\labelenumi{(\,\theenumi\,)}
+\def\theenumi{\arabic{enumi}}
 
 \def\labelenumii{(\,\theenumii\,)}
 \def\theenumii{\alph{enumii}}
@@ -3729,7 +3731,7 @@ Keywords:\hskip.5em%
 \def\p@enumiv{\p@enumiii\theenumiii}
 
 \def\enumerate{\ifnum \@enumdepth >3 \@toodeep\else
-	\advance\@enumdepth \@ne 
+	\advance\@enumdepth \@ne
 	\edef\@enumctr{enum\romannumeral\the\@enumdepth}
 	\list{\csname label\@enumctr\endcsname}{\usecounter
 		{\@enumctr}\def\makelabel##1{##1\hss}%
@@ -3798,10 +3800,10 @@ Keywords:\hskip.5em%
 
 
 
-\def\verse{\let\\=\@centercr 
+\def\verse{\let\\=\@centercr
 	\list{}{%
 \itemsep\z@\topsep\z@\parsep\z@%%!!!
-\itemindent-\Cwd \listparindent\itemindent 
+\itemindent-\Cwd \listparindent\itemindent
 	\rightmargin\leftmargin \advance\leftmargin\Cwd}\item[]}
 \let\endverse\endlist
 
@@ -3873,7 +3875,7 @@ Keywords:\hskip.5em%
 \vspace*{2mm}%%
 %\noindent{\bfseries{\refname}}%
 %%%%%%%%%%%%
-\def\@mklab##1{##1\hfil } % 
+\def\@mklab##1{##1\hfil } %
 %\def\@mklab##1{\hfil ##1}
 %
    \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -3881,7 +3883,7 @@ Keywords:\hskip.5em%
          \leftmargin\labelwidth
          \advance\leftmargin\labelsep
 %
-%         
+%
          \@openbib@code
          \usecounter{enumiv}%
          \let\p@enumiv\@empty
@@ -3918,7 +3920,7 @@ Keywords:\hskip.5em%
 \def\finpushw@ll{\wd0=0pt \box0}
 \def\makepushw@ll#1{\setbox0=\hbox{#1}\finpushw@ll}
 \def\mathpushw@ll#1#2{\setbox0=\hbox{$\m@th#1{#2}$}\finpushw@ll}
-%%%% 
+%%%%
 
 \ifDS@english
 \newcommand{\profname}{\relax}
@@ -4099,7 +4101,7 @@ Keywords:\hskip.5em%
 
 
 
-%%% 
+%%%
 \ifDS@english
 \def\fmt@pro@pic#1#2#3{%
 \noindent
@@ -4822,14 +4824,14 @@ Keywords:\hskip.5em%
 \columnsep 8mm
 
 %% \doublerulesep is 1pt (H.N.)
-\arraycolsep5pt 
+\arraycolsep5pt
 \tabcolsep6pt
 \arrayrulewidth.4pt
-\doublerulesep1pt 
+\doublerulesep1pt
 \tabbingsep.5\Cwd
 
 \skip\@mpfootins\skip\footins
-\fboxsep3pt \fboxrule.4pt 
+\fboxsep3pt \fboxrule.4pt
 
 
 %% SKIP
@@ -4863,7 +4865,7 @@ Keywords:\hskip.5em%
  \parfillskip\z@ \finalhyphendemerits\z@\par}}
 
 
-%% 
+%%
 \def\Hline{\noalign{\hrule height 0.4mm}}
 
 
@@ -4942,7 +4944,7 @@ Keywords:\hskip.5em%
 }
 
 \def\n@urlj[#1]#2{%
-\normalfont 
+\normalfont
 \if #11\relax
 入手先\\ \else%
 \fi
@@ -4960,7 +4962,7 @@ Keywords:\hskip.5em%
 
 
 \def\n@urle[#1]#2{%
-\normalfont 
+\normalfont
 \if #11\relax
 available \\ from \else%
 \if #12\relax
@@ -5051,19 +5053,19 @@ $\langle$\nobreak{#2}\nobreak$\rangle$}
  \setbox\@tempboxb\hbox{#1\hskip1\zw}%% <<
  \ifdim \@tempdima > \baselineskip
   \ifdim \wd\@tempboxa > \twocolcapwidth
-  \hbox to\textwidth{\hfil\parbox[t]{\twocolcapwidth}{\hangindent\wd\@tempboxb 
+  \hbox to\textwidth{\hfil\parbox[t]{\twocolcapwidth}{\hangindent\wd\@tempboxb
     #1\hskip1\zw #2}\hfil}%
 \par\prevdepth=0pt%
 \vskip4\@Q
   \else
-\hbox to\textwidth{\hss\parbox[t]{\wd\@tempboxa}{\hangindent\wd\@tempboxb 
+\hbox to\textwidth{\hss\parbox[t]{\wd\@tempboxa}{\hangindent\wd\@tempboxb
     #1\hskip1\zw #2}\hss}%
 \par\prevdepth=0pt%
 \vskip4\@Q
   \fi
  \else %% <
   \ifdim \wd\@tempboxa > \twocolcapwidth
-   \hbox to\textwidth{\hfil\begin{tabular}{p{\twocolcapwidth}}\hangindent\wd\@tempboxb 
+   \hbox to\textwidth{\hfil\begin{tabular}{p{\twocolcapwidth}}\hangindent\wd\@tempboxb
     #1\hskip1\zw #2\end{tabular}\hfil}%
 \par\prevdepth=0pt%
 \vskip2.5\@Q
@@ -5086,16 +5088,16 @@ $\langle$\nobreak{#2}\nobreak$\rangle$}
  \setbox\@tempboxb\hbox{#1\hskip1\zw}%% <<
  \ifdim \@tempdima > \baselineskip
   \ifdim \wd\@tempboxa > \twocolcapwidth
-   \hbox to\textwidth{\hfil\parbox[t]{\twocolcapwidth}{\hangindent\wd\@tempboxb 
+   \hbox to\textwidth{\hfil\parbox[t]{\twocolcapwidth}{\hangindent\wd\@tempboxb
     #1\hskip1\zw #2}\hfil}\vskip2\@Q
   \else
-\hbox to\textwidth{\hss\parbox[t]{\wd\@tempboxa}{\hangindent\wd\@tempboxb 
+\hbox to\textwidth{\hss\parbox[t]{\wd\@tempboxa}{\hangindent\wd\@tempboxb
     #1\hskip1\zw #2}\hss}
 \vskip2\@Q
   \fi
  \else %% <
   \ifdim \wd\@tempboxa > \twocolcapwidth
-   \hbox to\textwidth{\hfil\begin{tabular}{p{\twocolcapwidth}}\hangindent\wd\@tempboxb 
+   \hbox to\textwidth{\hfil\begin{tabular}{p{\twocolcapwidth}}\hangindent\wd\@tempboxb
     #1\hskip1\zw #2\end{tabular}\hfil}\vskip2\@Q
   \else
    \setbox\@tempboxb\hbox{#2}%
@@ -5126,18 +5128,18 @@ $\langle$\nobreak{#2}\nobreak$\rangle$}
 \csname fnum@e\@captype\endcsname}\hskip1\zw}%% <<
  \ifdim \@tempdima > \baselineskip
   \ifdim \wd\@tempboxa > \twocolecapwidth
-\hbox to\textwidth{\hss\parbox[t]{\twocolecapwidth}{\hangindent\wd\@tempboxb 
+\hbox to\textwidth{\hss\parbox[t]{\twocolecapwidth}{\hangindent\wd\@tempboxb
     {\bfseries%
 \csname fnum@e\@captype\endcsname}\hskip1\zw #1}\hss}\par\prevdepth=0pt%
   \else
- \hbox to\textwidth{\hss\parbox[t]{\wd\@tempboxa}{\hangindent\wd\@tempboxb 
+ \hbox to\textwidth{\hss\parbox[t]{\wd\@tempboxa}{\hangindent\wd\@tempboxb
     {\bfseries%
 \csname fnum@e\@captype\endcsname}\hskip1\zw #1}\hss}\par\prevdepth=0pt%%
 \vskip5.9\h%
   \fi
  \else %% <
   \ifdim \wd\@tempboxa > \twocolecapwidth
-\hbox to\textwidth{\hfil\begin{tabular}{p{\twocolecapwidth}}\hangindent\wd\@tempboxb 
+\hbox to\textwidth{\hfil\begin{tabular}{p{\twocolecapwidth}}\hangindent\wd\@tempboxb
     {\bfseries%
 \csname fnum@e\@captype\endcsname}\hskip1\zw #1\end{tabular}\hfil}
 \par\prevdepth=0pt%
@@ -5243,7 +5245,7 @@ $\langle$\nobreak{#2}\nobreak$\rangle$}
       \edef\@tempa{\expandafter\@firstofone\@tempa\@empty}%
       \if@filesw
          \immediate\write\@auxout{\string\citation{\@tempa}}%
-      \fi 
+      \fi
       \@ifundefined{b@\@tempa}%
       {\G@refundefinedtrue
           \@latex@warning{Citation `\@tempa' on page
@@ -5251,11 +5253,11 @@ $\langle$\nobreak{#2}\nobreak$\rangle$}
        \def\@cite@undefined@reference{%
            \@cite@put@itemsep
             \mbox{\reset@font\bfseries ?}}}%
-       {\edef\@tempb{{\@nameuse{b@\@tempa}}}%     
-        \expandafter\@append@list\expandafter         
+       {\edef\@tempb{{\@nameuse{b@\@tempa}}}%
+        \expandafter\@append@list\expandafter
            \@cite@reference@list\@tempb}}%
        \@simplify@list\@cite@reference@list
-       \@ascending@sort@list\@cite@reference@list\@compare@num 
+       \@ascending@sort@list\@cite@reference@list\@compare@num
        \@cite{{\let\@elt\@cite@output@elt
                \def\@cite@put@itemsep{%
                   \def\@cite@put@itemsep{\@cite@itemsep}}%
@@ -5275,7 +5277,7 @@ $\langle$\nobreak{#2}\nobreak$\rangle$}
 
 \def\@addto@macro#1#2{%
    \expandafter\def\expandafter#1\expandafter{#1#2}}
-       
+
 \def\@simplify@list#1{%
    \begingroup
       \let\@templist\@empty
@@ -5358,7 +5360,7 @@ $\langle$\nobreak{#2}\nobreak$\rangle$}
         \@tempb}%
      #2\@addto@sorted@list@{\@elt{#4}}%
      \expandafter\endgroup\expandafter
-         \def\expandafter#2\expandafter{\@sort@templistb}}% 
+         \def\expandafter#2\expandafter{\@sort@templistb}}%
 
 \def\@addto@sorted@list@skip#1\@addto@sorted@list@#2{%
     \@addto@sorted@list@{#1}}
@@ -5470,20 +5472,14 @@ $\langle$\nobreak{#2}\nobreak$\rangle$}
 \next
 
 
-%% not use Japanese 
+%% not use Japanese
 \def\zdash{{\usefont{OT1}{cmr}{bx}{n}\selectfont\leavevmode \raise.1zh\hbox {---}}}
 
 \def\ndash{{\usefont{OT1}{cmr}{bx}{n}\selectfont\leavevmode \raise.1zh\hbox {--}}}
- 
+
 
 
 
 
 
 \endinput
-
-
-
-
-
-

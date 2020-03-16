@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  15 MAR 2020 22:56
+This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  16 MAR 2020 20:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -146,50 +146,32 @@ LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <11.82813> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 35.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <11.82813> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 35.
-
-
-LaTeX Warning: Citation `disaster' on page 1 undefined on input line 38.
-
+ (./dicomojsample.bbl
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <9.61035> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 38.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 1.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <9.61035> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 38.
-
-LaTeX Warning: Citation `iris_eye' on page 1 undefined on input line 42.
-
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 1.
+LaTeX Font Info:    Calculating math sizes for size <8.8711> on input line 1.
+)
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <8.8711> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 53.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 66.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <8.8711> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 53.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 66.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <9.24873> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 53.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 66.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <9.24873> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 53.
-[1
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 66.
+ [1
 
 
-]
-File: met.eps Graphic file (type eps)
- <met.eps>
-LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <8.13184> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 63.
-LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <8.13184> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 63.
-File: PCA.eps Graphic file (type eps)
- <PCA.eps> (./dicomojsample.bbl) [2
-
-] (./dicomojsample.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+] (./dicomojsample.aux) ) 
 Here is how much of TeX's memory you used:
- 1408 strings out of 494660
- 18735 string characters out of 6179649
- 84124 words of memory out of 5000000
- 5300 multiletter control sequences out of 15000+600000
- 29870 words of font info for 133 fonts, out of 8000000 for 9000
+ 1412 strings out of 494660
+ 18852 string characters out of 6179649
+ 83155 words of memory out of 5000000
+ 5305 multiletter control sequences out of 15000+600000
+ 32683 words of font info for 144 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 30i,9n,21p,790b,348s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 30i,9n,21p,664b,345s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on dicomojsample.dvi (2 pages, 11032 bytes).
+Output written on dicomojsample.dvi (1 page, 8072 bytes).

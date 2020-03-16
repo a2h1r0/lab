@@ -1,17 +1,16 @@
 # Fdb version 3
-["bibtex dicomojsample"] 1584273196 "dicomojsample.aux" "dicomojsample.bbl" "dicomojsample" 1584280603
-  "dicomojsample.aux" 1584280601 748 452b8d31aecfd0d74dde80fad2743dcc ""
+["bibtex dicomojsample"] 1584357467 "dicomojsample.aux" "dicomojsample.bbl" "dicomojsample" 1584357472
+  "dicomojsample.aux" 1584357440 701 70534b78ea4e3b862c7edf1725013c47 ""
   "junsrt.bst" 0 -1 0 ""
-  "references.bib" 1584272614 4680 7463f9473725a52535819a7329f82644 ""
+  "references.bib" 1584357458 4471 e004d4e7ea98c9f8e926e36f9b55c506 ""
   (generated)
-  "dicomojsample.blg"
   "dicomojsample.bbl"
-["dvipdf"] 1584280601 "dicomojsample.dvi" "dicomojsample.pdf" "dicomojsample" 1584280603
-  "dicomojsample.dvi" 1584280601 11032 049d1198105bdc34a310c74463e1ba7e "latex"
+  "dicomojsample.blg"
+["dvipdf"] 1584357440 "dicomojsample.dvi" "dicomojsample.pdf" "dicomojsample" 1584357472
+  "dicomojsample.dvi" 1584357440 8072 2ffa6bf7b02e2d02e10c16eb22c7892e "latex"
   (generated)
   "dicomojsample.pdf"
-["latex"] 1584280600 "dicomojsample.tex" "dicomojsample.dvi" "dicomojsample" 1584280603
-  "PCA.eps" 1577455183 1893501 8ed33565f210e951c8393f12edd69260 ""
+["latex"] 1584357439 "dicomojsample.tex" "dicomojsample.dvi" "dicomojsample" 1584357472
   "c:/texlive/2018/texmf-dist/fonts/map/fontname/texfonts.map" 1555255864 3332 103109f5612ad95229751940c61aada0 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/jis/jis.tfm" 1555257073 468 53f854284f6afa6c36aaa2d1090ecc12 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/jis/jisg.tfm" 1555257073 468 53f854284f6afa6c36aaa2d1090ecc12 ""
@@ -20,7 +19,6 @@
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmbsy10.tfm" 1555255120 1116 4e6ba9d7914baa6482fd69f67d126380 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1555255120 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1555255120 1324 c910af8c371558dc20f2d7822f66fe64 ""
-  "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm" 1555255120 1332 1fde11373e221473104d6cc5993f046e ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmbx9.tfm" 1555255120 1328 5442e22a7072966dbaf88ca900acf3f0 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmex10.tfm" 1555255120 992 662f679a0b3d2d53c1b94050fdaa3f50 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm" 1555255120 1528 abec98dbc43e172678c11b3b9031252a ""
@@ -29,6 +27,7 @@
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm" 1555255120 1512 f21f83efb36853c0b70002322c1ab3ad ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmmi7.tfm" 1555255120 1528 e2423ae06dc7dee599cceb79d1c9dc32 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm" 1555255120 1520 eccf95517727cb11801f4f1aee3a21b4 ""
+  "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm" 1555255120 1524 d89e2d087a9828407a196f428428ef4a ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmmib10.tfm" 1555255120 1524 554068197b70979a55370e6c6495f441 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmr10.tfm" 1555255120 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1555255120 1288 655e228510b4c2a1abe905c368440826 ""
@@ -45,11 +44,13 @@
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1555255120 1116 933a60c408fc0a863a92debe84b2d294 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmsy7.tfm" 1555255120 1120 2b3f9b25605010c69bc328bea6ac000f ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1555255120 1120 8b7d695260f3cff42e636090a8002094 ""
+  "c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm" 1555255120 1116 25a7bf822c58caf309a702ef79f4afbb ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/latex-fonts/lasy10.tfm" 1555256347 520 82a3d37183f34b6eb363a161dfc002c2 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/latex-fonts/lasy5.tfm" 1555256347 520 d082ac03a1087bc1ec2a06e24a9f68c0 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/latex-fonts/lasy6.tfm" 1555256347 520 4889cce2180234b97cad636b6039c722 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/latex-fonts/lasy7.tfm" 1555256347 520 a74c6ed8cb48679fdc3ea874d9d34a7e ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/latex-fonts/lasy8.tfm" 1555256347 520 7bb3abb160b19e0ed6ac404bb59052b7 ""
+  "c:/texlive/2018/texmf-dist/fonts/tfm/public/latex-fonts/lasy9.tfm" 1555256347 520 1cc7cc05f4d7bae5c23bf7516f88fa52 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/public/latex-fonts/lasyb10.tfm" 1555256347 520 4bf1455197d190cb95c579bde4c2f0ba ""
   "c:/texlive/2018/texmf-dist/tex/latex/base/latexsym.sty" 1555256297 2856 7730103c7f3589c6c9d963ace57a7c18 ""
   "c:/texlive/2018/texmf-dist/tex/latex/graphics-cfg/color.cfg" 1555255988 1213 620bba36b25224fa9b7e1ccb4ecb76fd ""
@@ -63,11 +64,10 @@
   "c:/texlive/2018/texmf-dist/tex/latex/graphics/trig.sty" 1555255983 3977 cb9221976ed8a183afad65b59aa8629a ""
   "c:/texlive/2018/texmf-var/web2c/eptex/platex.fmt" 1555257977 1039133 daccf4819d98fe52246b2b3ed4031184 ""
   "c:/texlive/2018/texmf.cnf" 1555257954 673 4ae7b2f49cee444c5343a45b5d0f169c ""
-  "dicomojsample.aux" 1584280601 748 452b8d31aecfd0d74dde80fad2743dcc ""
-  "dicomojsample.bbl" 1584273196 0 d41d8cd98f00b204e9800998ecf8427e "bibtex dicomojsample"
-  "dicomojsample.tex" 1584280599 7225 bcfd553c2c1fac2a750f304a0832da09 ""
-  "dicomopapers.cls" 1579141652 129386 a51b9e8fe1d7fee18ced6bf5c08dc604 ""
-  "met.eps" 1577455183 6397706 f303c0772a2360a4eec8d6b4d81a72ac ""
+  "dicomojsample.aux" 1584357440 701 70534b78ea4e3b862c7edf1725013c47 ""
+  "dicomojsample.bbl" 1584357467 322 0cbf981d07974300b2fd014774434ce9 "bibtex dicomojsample"
+  "dicomojsample.tex" 1584357472 5680 e141d16dac8777746ecadb6513c0fde6 ""
+  "dicomopapers.cls" 1584357427 129344 60064b2a0fca3af4eb0ba4452cc9393a ""
   (generated)
   "dicomojsample.log"
   "dicomojsample.aux"
