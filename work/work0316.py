@@ -235,28 +235,28 @@ for file in all_files:
     isfile = left_hip_df.index.str.endswith(filename)
     if True in isfile:
         groundtruth = int(left_hip_df.at[filename, 'Groundtruth'])
-        preds[0] = int(left_hip_df.at[filename, 'EPOCH1000'])
+        preds[0] = list(map(float, left_hip_df.at[filename, 'EPOCH1000'].strip('['']').split(', ')))
     else:
         f1_scores[0] = 0
     
     isfile = right_arm_df.index.str.endswith(filename)
     if True in isfile:
         groundtruth = int(right_arm_df.at[filename, 'Groundtruth'])
-        preds[1] = int(right_arm_df.at[filename, 'EPOCH1000'])
+        preds[1] = list(map(float, right_arm_df.at[filename, 'EPOCH1000'].strip('['']').split(', ')))
     else:
         f1_scores[1] = 0
     
     isfile = left_wrist_df.index.str.endswith(filename)
     if True in isfile:
         groundtruth = int(left_wrist_df.at[filename, 'Groundtruth'])
-        preds[2] = int(left_wrist_df.at[filename, 'EPOCH1000'])
+        preds[2] = list(map(float, left_wrist_df.at[filename, 'EPOCH1000'].strip('['']').split(', ')))
     else:
         f1_scores[2] = 0
     
     isfile = right_wrist_df.index.str.endswith(filename)
     if True in isfile:
         groundtruth = int(right_wrist_df.at[filename, 'Groundtruth'])
-        preds[3] = int(right_wrist_df.at[filename, 'EPOCH1000'])
+        preds[3] = list(map(float, right_wrist_df.at[filename, 'EPOCH1000'].strip('['']').split(', ')))
     else:
         f1_scores[3] = 0
     
@@ -266,13 +266,11 @@ for file in all_files:
     f1_ratio = f1_scores / max(f1_scores)
     
     for part, pred in enumerate(preds):
-        if pred == []:
-            continue
+        if pred != []:
+            flags += (np.array(pred)*f1_ratio[part])
+
     
-        else:
-            flags[pred] += f1_ratio[part]
-    
-    row = flags
+    row = list(flags)
     row.insert(0, groundtruth)
     row.insert(0, filename)
     with open('out_flags_recipe_sigmoid.csv', 'a', newline="") as f:
@@ -289,7 +287,7 @@ flags_df = pd.read_csv(filename, index_col=0, encoding='Shift-JIS')
 
 
 # 最大になる閾値の計算
-thresholds = np.arange(0.5, 3.5, 0.01)
+thresholds = np.arange(0.01, 3.00, 0.01)
 correct = []
 for threshold in thresholds:
     num = 0
