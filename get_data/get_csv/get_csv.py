@@ -43,8 +43,8 @@ with open(filename, 'a', newline='') as f:  # 保存先をオープン
         print(str(number)+"回目のデータ取得です．\n")
         
         # Arduinoの用意
-        ser = serial.Serial('COM5', 57600)
-        ser2 = serial.Serial('COM6', 57600)        
+        ser = serial.Serial('COM4', 57600)
+        ser2 = serial.Serial('COM3', 57600)        
         sleep(1)    # ポート準備に1秒待機**これがないとシリアル通信がうまく動かない**
         
         input("被ったらEnter:")
