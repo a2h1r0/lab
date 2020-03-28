@@ -5,18 +5,18 @@
   <title>知的インタラクティブシステム研究室 - 村尾研究室とは</title>
 
   <!-- 共有ファイル -->
-  <?php include($_SERVER['DOCUMENT_ROOT'].'/include.php'); ?>
+  <?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/include.php'); ?>
   <!-- 個別CSS -->
-  <link rel="stylesheet" type="text/css" href="/css/introduction.css">
+  <link rel="stylesheet" type="text/css" href="/iis-lab/css/introduction.css">
 </head>
 
 <!-- ヘッダー埋め込み -->
-<?php include($_SERVER['DOCUMENT_ROOT'].'/parts/header.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/parts/header.php'); ?>
 
 <body>
   <div class="main">
     <div>
-      <img src="/resource/introduction.jpg">
+      <img src="/iis-lab/resource/introduction.jpg">
     </div>
 
     <ul>
@@ -64,5 +64,5 @@
   </body>
 
   <!-- フッター埋め込み -->
-  <?php include($_SERVER['DOCUMENT_ROOT'].'/parts/footer.php'); ?>
+  <?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/parts/footer.php'); ?>
   </html>

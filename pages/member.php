@@ -5,13 +5,13 @@
   <title>知的インタラクティブシステム研究室 - メンバー紹介</title>
 
   <!-- 共有ファイル -->
-  <?php include($_SERVER['DOCUMENT_ROOT'].'/include.php'); ?>
+  <?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/include.php'); ?>
   <!-- 個別CSS -->
-  <link rel="stylesheet" type="text/css" href="/css/member.css">
+  <link rel="stylesheet" type="text/css" href="/iis-lab/css/member.css">
 </head>
 
 <!-- ヘッダー埋め込み -->
-<?php include($_SERVER['DOCUMENT_ROOT'].'/parts/header.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/parts/header.php'); ?>
 
 <body>
   <div class="main">
@@ -410,5 +410,5 @@
 </body>
 
 <!-- フッター埋め込み -->
-<?php include($_SERVER['DOCUMENT_ROOT'].'/parts/footer.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/parts/footer.php'); ?>
 </html>

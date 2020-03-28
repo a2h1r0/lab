@@ -22,14 +22,14 @@ if(isset($_POST["login"])) {
 	<title>研究室内限定(Local info) - ログイン</title>
 
 	<!-- 共有ファイル -->
-	<?php include($_SERVER['DOCUMENT_ROOT'].'/include.php'); ?>
+	<?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/include.php'); ?>
 
 	<!-- jQueryプログラム -->
-	<script type="text/javascript" src="/local/local.js"></script>
+	<script type="text/javascript" src="/iis-lab/local/local.js"></script>
 </head>
 
 <!-- ヘッダー埋め込み -->
-<?php include(__DIR__.'/header.php'); ?>
+<?php include(__DIR__.'/iis-lab/header.php'); ?>
 
 <body>
 	<div class="main">

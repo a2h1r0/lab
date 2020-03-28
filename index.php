@@ -5,21 +5,21 @@
   <title>知的インタラクティブシステム研究室 - トップページ</title>
 
   <!-- 共有ファイル -->
-  <?php include($_SERVER['DOCUMENT_ROOT'].'/include.php'); ?>
+  <?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/include.php'); ?>
   <!-- 個別CSS -->
-  <link rel="stylesheet" type="text/css" href="/css/index.css">
+  <link rel="stylesheet" type="text/css" href="/iis-lab/css/index.css">
 </head>
 
 <!-- ヘッダー埋め込み -->
-<?php include($_SERVER['DOCUMENT_ROOT'].'/parts/header.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/parts/header.php'); ?>
 
 <body>
   <!-- 全画面黒表示，動画だけ見せる -->
   <div class="top">
     <div class="top-video">
       <video autoplay muted>
-        <source src="/resource/index.mp4" type="video/mp4" />
-        <source src="/resource/index.webm" type="video/webm" />
+        <source src="/iis-lab/resource/index.mp4" type="video/mp4" />
+        <source src="/iis-lab/resource/index.webm" type="video/webm" />
         <p>知的インタラクティブシステム研究室(村尾研究室)</p>
       </video>
 
@@ -46,7 +46,7 @@
       </div>
       <!-- アニメーションを付けるため，画像のエリアを定義 -->
       <div class="pic">
-        <img src="/resource/index.jpg">
+        <img src="/iis-lab/resource/index.jpg">
       </div>
     </section>
     <!-- ここまで -->
@@ -183,8 +183,8 @@
       <article>
         <h1>For B3 students</h1>
         <div class="button">
-          <a href="/pages/introduction.html">学部生のためのページ</a>
-          <a href="/pages/blog.html">研究室の様子</a>
+          <a href="/iis-lab/pages/introduction.html">学部生のためのページ</a>
+          <a href="/iis-lab/pages/blog.html">研究室の様子</a>
         </div>
         <p>学部3回生のための研究室配属に関する情報は<a href="http://www.sa.ise.ritsumei.ac.jp/" class="univ">SAコースホームページ</a>において公開されます．</p>
       </article>
@@ -199,5 +199,5 @@
 </body>
 
 <!-- フッター埋め込み -->
-<?php include($_SERVER['DOCUMENT_ROOT'].'/parts/footer.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/parts/footer.php'); ?>
 </html>

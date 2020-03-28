@@ -3,7 +3,7 @@
 session_start();
 
 if(!isset($_SESSION["password"])) {
-	header("Location: index.php");
+	header("Location: /iis-lab/index.php");
 	exit;
 }
 ?>

@@ -5,20 +5,20 @@
   <title>Intelligent Interactive System Laboratory - Access</title>
 
   <!-- 共有ファイル -->
-  <?php include($_SERVER['DOCUMENT_ROOT'].'/include.php'); ?>
+  <?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/include.php'); ?>
   <!-- 個別CSS -->
-  <link rel="stylesheet" type="text/css" href="/css/access.css">
+  <link rel="stylesheet" type="text/css" href="/iis-lab/css/access.css">
 </head>
 
 <!-- ヘッダー埋め込み -->
-<?php include($_SERVER['DOCUMENT_ROOT'].'/parts/en-header.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/parts/en-header.php'); ?>
 
 <body>
   <div class="main">
     <h1>Postal Address</h1>
     <p>1-1-1 Nojihigashi, Kusatsu, Shiga 5258577, Japan<br>College of Information Science and Engineering, Ritsumeikan University<br><br>Students' room: CreationCore 6F Intelligent Interactive System Laboratory<br>Prof. Murao's room: CreationCore 6F CC613</p>
     <div>
-      <img src="/resource/iis_lab.png">
+      <img src="/iis-lab/resource/iis_lab.png">
     </div>
 
     <h1>Access to Biwako-Kusatsu Campus (BKC)</h1>
@@ -30,5 +30,5 @@
 </body>
 
 <!-- フッター埋め込み -->
-<?php include($_SERVER['DOCUMENT_ROOT'].'/parts/en-footer.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/parts/en-footer.php'); ?>
 </html>

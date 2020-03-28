@@ -5,7 +5,7 @@ $(function() {
   var footerHeight = $('footer').height();
   $('body').css('margin-bottom', footerHeight);
   // トップページ以外ではナビバー分引き下げる(重なっちゃうので)
-  if (location.pathname != '/' || location.pathname != '/english.html') {
+  if (location.pathname != '/iis-lab/' || location.pathname != '/iis-lab/english.php') {
     var headerHeight = $('header').height();
     $('body').css('margin-top', headerHeight);
   }
@@ -15,14 +15,14 @@ $(function() {
 // 英語トップページの名簿欄の幅調整(幅を広げないと崩れる)
 $(function() {
   // CSSでも定義しているが，englishから戻った場合に書き直す必要あり
-  if (location.pathname == '/') {
+  if (location.pathname == '/iis-lab/') {
     $('.member-left').css('width', '25%');
     $('.member-left').css('margin-left', '25%');
     $('.member-right').css('width', '25%');
     $('.member-right').css('margin-right', '25%');
   }
   // englishの場合，幅変更
-  else if (location.pathname == '/english.html') {
+  else if (location.pathname == '/iis-lab/english.php') {
     $('.member-left').css('width', '35%');
     $('.member-left').css('margin-left', '15%');
     $('.member-right').css('width', '35%');
@@ -34,11 +34,11 @@ $(function() {
 // 自己満エリアの幅調整(英名のほうが長いので)
 $(function() {
   // CSSでも定義しているが，englishから戻った場合に書き直す必要あり
-  if (location.pathname == '/html/member.html') {
+  if (location.pathname == '/iis-lab/pages/member.php') {
     $('.editor').css('width', '15%');
   }
   // englishの場合，幅変更
-  else if (location.pathname == '/html/english/en-member.html') {
+  else if (location.pathname == '/iis-lab/pages/english/en-member.php') {
     $('.editor').css('width', '25%');
   }
 });
@@ -56,7 +56,7 @@ $(function() {
 // ムービー終了後に矢印ボタンを表示
 $(function() {
   // クラス定義の関係で警告が出るためトップページでのみ実行
-  if (location.pathname == '/' || location.pathname == '/english.html') {
+  if (location.pathname == '/iis-lab/' || location.pathname == '/iis-lab/english.php') {
     var video = document.getElementsByTagName('video')[0];
     video.addEventListener('ended', function() {
       $('.downs').fadeIn();
@@ -84,7 +84,7 @@ $(function() {
 //***** ナビバーの追従 *****//
 $(function() {
   // トップページでは透過から黒へ変化をつける
-  if (location.pathname == '/' || location.pathname == '/english.html') {
+  if (location.pathname == '/iis-lab/' || location.pathname == '/iis-lab/english.php') {
     var topHeight = $('.top').height(),
     headerHeight = $('header').height();
     $(window).scroll(function() {
@@ -113,7 +113,7 @@ $(function() {
 // 背景色の変化
 $(function() {
   // トップページでは変化をつける
-  if (location.pathname == '/' || location.pathname == '/english.html') {
+  if (location.pathname == '/iis-lab/' || location.pathname == '/iis-lab/english.php') {
     // 下にスクロールすると背景色を黒から白へ変更
     // 初期値を黒に設定
     $('body').css('background-color', 'black');

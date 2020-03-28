@@ -5,20 +5,20 @@
   <title>知的インタラクティブシステム研究室 - アクセス</title>
 
   <!-- 共有ファイル -->
-  <?php include($_SERVER['DOCUMENT_ROOT'].'/include.php'); ?>
+  <?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/include.php'); ?>
   <!-- 個別CSS -->
-  <link rel="stylesheet" type="text/css" href="/css/access.css">
+  <link rel="stylesheet" type="text/css" href="/iis-lab/css/access.css">
 </head>
 
 <!-- ヘッダー埋め込み -->
-<?php include($_SERVER['DOCUMENT_ROOT'].'/parts/header.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/parts/header.php'); ?>
 
 <body>
   <div class="main">
     <h1>住所</h1>
     <p>〒525-8577 滋賀県草津市野路東1-1-1<br>立命館大学 情報理工学部<br><br>学生研究室：クリエーションコア6階 知的インタラクティブシステム研究室<br>村尾個人研究室：クリエーションコア6階 CC613</p>
     <div>
-      <img src="/resource/iis_lab.png">
+      <img src="/iis-lab/resource/iis_lab.png">
     </div>
 
     <h1>びわこ・くさつキャンパス(BKC)へのアクセス</h1>
@@ -30,5 +30,5 @@
 </body>
 
 <!-- フッター埋め込み -->
-<?php include($_SERVER['DOCUMENT_ROOT'].'/parts/footer.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/parts/footer.php'); ?>
 </html>

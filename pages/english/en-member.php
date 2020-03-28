@@ -5,13 +5,13 @@
   <title>Intelligent Interactive System Laboratory - Member</title>
 
   <!-- 共有ファイル -->
-  <?php include($_SERVER['DOCUMENT_ROOT'].'/include.php'); ?>
+  <?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/include.php'); ?>
   <!-- 個別CSS -->
-  <link rel="stylesheet" type="text/css" href="/css/member.css">
+  <link rel="stylesheet" type="text/css" href="/iis-lab/css/member.css">
 </head>
 
 <!-- ヘッダー埋め込み -->
-<?php include($_SERVER['DOCUMENT_ROOT'].'/parts/en-header.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/parts/en-header.php'); ?>
 
 <body>
   <div class="main">
@@ -337,5 +337,5 @@
 </body>
 
 <!-- フッター埋め込み -->
-<?php include($_SERVER['DOCUMENT_ROOT'].'/parts/en-footer.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'].'/iis-lab/parts/en-footer.php'); ?>
 </html>
