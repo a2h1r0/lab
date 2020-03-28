@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+/*--- スクロールバーのデザイン ---*/
+html::-webkit-scrollbar {
+  width: 5px;
+}
+html::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+html::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: dimgray;
+}
+/*--- ここまで ---*/
+
+
+/*--- 体裁調整 ---*/
+html {
+  height: 100%;
+  font-family: 'Yu Mincho';
+}
+
+/* marginを0にしておき，jQueryで上下のナビバー分動かす(本文と重なるのを回避) */
+body {
+  height: 100%;
+  margin: 0;
+  background-color: #f5f5f5;
+  color: black;
+}
+/* 背景色を見せるためにmarginを設定 */
+.main {
+  margin: 0 4%;
+  padding: 2% 4%;
+  background-color: white;
+}
+/*--- ここまで ---*/
