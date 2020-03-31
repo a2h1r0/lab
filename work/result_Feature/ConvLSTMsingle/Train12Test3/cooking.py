@@ -310,6 +310,7 @@ for threshold in thresholds:
 print('\n完全正解：', end='')
 print(max(correct))
 threshold = thresholds[correct.index(max(correct))]
+print(threshold)
 
 
 # 閾値最大で予測データのフラグをラベルに戻す
