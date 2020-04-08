@@ -33,10 +33,6 @@ cols_full = ['in0','in1','in2','in3','in4','in5','in6','in7',
              'in17','in18','in19','inア','inイ','inウ','inD','inE',
              'inF']
 
-#cols_full = ["in0","in1","in2","in3"]
-
-
-
 
 clf = svm.SVC(C=1.0, kernel='linear')
 
