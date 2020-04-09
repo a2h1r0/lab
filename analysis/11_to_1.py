@@ -1,5 +1,5 @@
 tester = ['ooyama', 'okamoto', 'kajiwara', 'sawano', 'nagamatsu', 'noda', 'hatta', 'fujii', 'matsuda']  # **被験者**
-filename = '32_to_22.csv'
+filename = '11_to_1.csv'
 start = 21
 to = 32
 
@@ -48,9 +48,9 @@ with open(filename, 'w', newline="") as f:
         combinations = list(itertools.combinations(cols_full, num))    # 組み合わせの取得
         print('組み合わせはk='+str(len(combinations))+'通りです．')
         score = 0
-        for combination in combinations:
+        for index in range(len(combinations)):
             cols = copy.copy(cols_full)
-            for item in combination:
+            for item in combinations[0]:
                 cols.remove(item)
                 
             cols.append('Number')
@@ -62,10 +62,14 @@ with open(filename, 'w', newline="") as f:
             temp = np.mean(cross_val_score(clf, data, label, cv=5))
             if temp > score:
                 score = temp
-                sensors = combination
+                sensors = combinations[0]
             
             if score == 1.0:
                 break
+
+            del combinations[0]
+            
+
             
         print('Cross-Validation scores: {}\n'.format(score))
      
