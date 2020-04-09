@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  15 MAR 2020 20:06
+This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  8 APR 2020 12:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -208,8 +208,35 @@ LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 15.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 15.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 17.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 17.
+
+./Atsuhiro Fujii.tex:17: Misplaced alignment tab character &.
+<recently read> &
+                 
+l.17 $&
+       & {}_{32} C _n$
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+./Atsuhiro Fujii.tex:17: Misplaced alignment tab character &.
+l.17 $&&
+         {}_{32} C _n$
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 22.
- (c:/texlive/2018/texmf-dist/tex/latex/base/omscmr.fd
+(c:/texlive/2018/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
@@ -230,12 +257,12 @@ Package rerunfilecheck Info: File `"Atsuhiro Fujii".out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 56.
  ) 
 Here is how much of TeX's memory you used:
- 4778 strings out of 494660
- 70619 string characters out of 6179649
+ 4780 strings out of 494660
+ 70647 string characters out of 6179649
  164599 words of memory out of 5000000
- 8632 multiletter control sequences out of 15000+600000
+ 8634 multiletter control sequences out of 15000+600000
  13088 words of font info for 51 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  28i,8n,28p,209b,328s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on "Atsuhiro Fujii.dvi" (2 pages, 4352 bytes).
+Output written on "Atsuhiro Fujii.dvi" (2 pages, 4860 bytes).
