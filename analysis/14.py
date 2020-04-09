@@ -1,7 +1,7 @@
 tester = ['ooyama', 'okamoto', 'kajiwara', 'sawano', 'nagamatsu', 'noda', 'hatta', 'fujii', 'matsuda']  # **被験者**
-filename = '16.csv'
-start = 16
-to = 17
+filename = '14.csv'
+start = 18
+to = 19
 
 
 import numpy as np

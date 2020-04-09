@@ -1,5 +1,7 @@
 tester = ['ooyama', 'okamoto', 'kajiwara', 'sawano', 'nagamatsu', 'noda', 'hatta', 'fujii', 'matsuda']  # **被験者**
-
+filename = '21.csv'
+start = 11
+to = 12
 
 
 import numpy as np
@@ -26,9 +28,6 @@ def make_dataset():
     
 
 
-start = 18
-to = 20
-filename = '14_to_13.csv'
 
 cols_full = ['in0','in1','in2','in3','in4','in5','in6','in7',
              'in8','in9','inあ','inい','inう','inA','inB','inC',
@@ -48,35 +47,35 @@ with open(filename, 'w', newline="") as f:
         print(str(len(cols_full)-num)+'個のセンサを使用します．')    
         combinations = list(itertools.combinations(cols_full, num))    # 組み合わせの取得
         print('組み合わせはk='+str(len(combinations))+'通りです．')
-        score = [[] for i in range(2)]
+        score = 0
         for combination in combinations:
             cols = copy.copy(cols_full)
             for item in combination:
                 cols.remove(item)
-                
                 
             cols.append('Number')
             
             vector_ave = cal(tester, cols)  # ベクトルの平均値を計算
             data, label = make_dataset()
     
-            # 組み合わせごとに交差検証した結果を追加
-            score[0].append(combination)
-            score[1].append(np.mean(cross_val_score(clf, data, label, cv=5)))
-            if score[1][-1] == 1.0:
+            # 組み合わせの中で一番精度の良かった結果を保存
+            temp = np.mean(cross_val_score(clf, data, label, cv=5))
+            if temp > score:
+                score = temp
+                sensors = combination
+            
+            if score == 1.0:
                 break
             
-        # 組み合わせの中で一番精度の良かった結果を保存
-        if combination == ():
-            max_cols = ['全部']
-        else:
-            max_cols = score[0][score[1].index(np.max(score[1]))]
-            
-        max_score = np.max(score[1])
+        print('Cross-Validation scores: {}\n'.format(score))
      
         string = ''
-        for s in max_cols:
+        for s in sensors:
             string += (s + ', ')
         
-        row = [string.rstrip(', '), max_score]
+        if string == '':
+            string = 'all'
+
+        row = [string.rstrip(', '), score]
         writer.writerow(row)
+    
