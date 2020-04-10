@@ -151,10 +151,14 @@ INPUT c:/texlive/2018/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 INPUT c:/texlive/2018/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 INPUT c:/texlive/2018/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
 OUTPUT dicomo2020.dvi
-INPUT figure/system.eps
-INPUT figure/system.eps
 INPUT c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
 INPUT c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/jis/jisg.tfm
+INPUT figure/system_classification.eps
+INPUT figure/system_classification.eps
+INPUT c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
+INPUT c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/jis/jisg.tfm
+INPUT figure/system_mahalnobis.eps
+INPUT figure/system_mahalnobis.eps
 INPUT figure/device.eps
 INPUT figure/device.eps
 INPUT figure/met_over.eps
@@ -171,8 +175,6 @@ INPUT figure/PCA.eps
 INPUT figure/PCA.eps
 INPUT dicomo2020.bbl
 INPUT dicomo2020.bbl
-INPUT c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
-INPUT c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/jis/jisg.tfm
 INPUT c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
 INPUT c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmr5.tfm
 INPUT c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm

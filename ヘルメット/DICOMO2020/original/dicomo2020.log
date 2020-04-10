@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  9 APR 2020 23:07
+This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  10 APR 2020 20:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -170,34 +170,42 @@ LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <11.82813> not available
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <11.82813> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 35.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <9.24873> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 39.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 41.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <9.24873> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 39.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 41.
  (I search kanjifont definition file: . . ) (I search font definition file: . . . . . . . )
-LaTeX Font Info:    Try loading font information for OMS+txsy on input line 39.
+LaTeX Font Info:    Try loading font information for OMS+txsy on input line 41.
  (c:/texlive/2018/texmf-dist/tex/latex/txfonts/omstxsy.fd
 File: omstxsy.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    Try loading font information for OT1+txsy on input line 39.
-LaTeX Font Info:    No file OT1txsy.fd. on input line 39.
+LaTeX Font Info:    Try loading font information for OT1+txsy on input line 41.
+LaTeX Font Info:    No file OT1txsy.fd. on input line 41.
 
 
 LaTeX Font Warning: Font shape `OT1/txsy/m/n' undefined
-(Font)              using `OT1/cmr/m/n' instead on input line 39.
+(Font)              using `OT1/cmr/m/n' instead on input line 41.
 
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 39.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 41.
 (c:/texlive/2018/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 ) [1
 
 
-] [2] [3]
-File: figure/system.eps Graphic file (type eps)
-<figure/system.eps>
+]
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <9.61035> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 48.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <9.61035> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 48.
+ [2]
+File: figure/system_classification.eps Graphic file (type eps)
+<figure/system_classification.eps>
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <8.13184> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 124.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 113.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <8.13184> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 124.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 113.
+File: figure/system_mahalnobis.eps Graphic file (type eps)
+<figure/system_mahalnobis.eps>
+ [3]
 File: figure/device.eps Graphic file (type eps)
 <figure/device.eps>
 File: figure/met_over.eps Graphic file (type eps)
@@ -208,16 +216,16 @@ File: figure/sensor.eps Graphic file (type eps)
 <figure/sensor.eps>
 File: figure/print.eps Graphic file (type eps)
 <figure/print.eps>
- [4] [5]
+ [4]
+
+LaTeX Warning: Reference `' on page 5 undefined on input line 190.
+
+[5]
 File: figure/EER.eps Graphic file (type eps)
 <figure/EER.eps>
 File: figure/PCA.eps Graphic file (type eps)
 <figure/PCA.eps>
- [6] (./dicomo2020.bbl
-LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <9.61035> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 1.
-LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <9.61035> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 1.
+ (./dicomo2020.bbl [6]
 LaTeX Font Info:    Calculating math sizes for size <8.8711> on input line 1.
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <8.8711> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 1.
@@ -232,20 +240,21 @@ LaTeX Font Info:    Font shape `JT1/gt/m/it' in size <8.8711> not available
 LaTeX Font Warning: Font shape `JY1/gt/m/it' undefined
 (Font)              using `JY1/gt/m/n' instead on input line 70.
 
-) [7
-
-] (./dicomo2020.aux)
+) [7] (./dicomo2020.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: There were undefined references.
+
  ) 
 Here is how much of TeX's memory you used:
- 1692 strings out of 494660
- 22621 string characters out of 6179649
- 90457 words of memory out of 5000000
- 5534 multiletter control sequences out of 15000+600000
+ 1697 strings out of 494660
+ 22792 string characters out of 6179649
+ 89457 words of memory out of 5000000
+ 5538 multiletter control sequences out of 15000+600000
  41258 words of font info for 170 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 33i,11n,22p,2341b,423s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 33i,10n,25p,1877b,424s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on dicomo2020.dvi (7 pages, 54956 bytes).
+Output written on dicomo2020.dvi (7 pages, 55040 bytes).

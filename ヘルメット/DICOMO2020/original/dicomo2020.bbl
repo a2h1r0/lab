@@ -6,15 +6,15 @@
 \newblock 電子情報通信学会技術研究報告 : 信学技報, Vol. 112, No. 384, pp.
   69--74, jan 2013.
 
-\bibitem{finger_print}
-越前功, 大金建夫.
-\newblock 写真からの指紋復元の脅威とその対策技術.
-\newblock 情報処理, Vol.~58, No.~9, pp. 824--829, 2017.
-
 \bibitem{face}
 当麻凌平, 花泉弘.
 \newblock ステレオカメラを用いた顔認証システム.
 \newblock  第80回全国大会講演論文集, 第2018巻, pp. 453--454, 2018.
+
+\bibitem{finger_print}
+越前功, 大金建夫.
+\newblock 写真からの指紋復元の脅威とその対策技術.
+\newblock 情報処理, Vol.~58, No.~9, pp. 824--829, 2017.
 
 \bibitem{door}
 佐藤公則, 篠原耕成, 鹿嶋雅之, 渡邊睦.
