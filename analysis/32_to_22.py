@@ -29,11 +29,8 @@ def make_dataset():
 
 
 
-cols_full = ['in0','in1','in2','in3','in4','in5','in6','in7',
-             'in8','in9','inあ','inい','inう','inA','inB','inC',
-             'in10','in11','in12','in13','in14','in15','in16',
-             'in17','in18','in19','inア','inイ','inウ','inD','inE',
-             'inF']
+cols_full = ['0','1','2','3','4','5','6','7','8','9','あ','い','う','A','B','C','10',
+             '11','12','13','14','15','16','17','18','19','ア','イ','ウ','D','E','F']
 
 
 clf = svm.SVC(C=1.0, kernel='linear')
@@ -48,11 +45,12 @@ with open(filename, 'w', newline="") as f:
         combinations = list(itertools.combinations(cols_full, num))    # 組み合わせの取得
         print('組み合わせはk='+str(len(combinations))+'通りです．')
         score = 0
-        for index in range(len(combinations)):
+        for combination in combinations:
             cols = copy.copy(cols_full)
-            for item in combinations[0]:
+            for item in combination:
                 cols.remove(item)
-                
+
+            cols = ['in'+s for s in cols]                
             cols.append('Number')
             
             vector_ave = cal(tester, cols)  # ベクトルの平均値を計算
@@ -62,17 +60,15 @@ with open(filename, 'w', newline="") as f:
             temp = np.mean(cross_val_score(clf, data, label, cv=5))
             if temp > score:
                 score = temp
-                sensors = combinations[0]
+                sensors = combination
             
             if score == 1.0:
                 break
 
-            del combinations[0]
-            
-
             
         print('Cross-Validation scores: {}\n'.format(score))
      
+        sensors = ['in'+s for s in sensors]
         string = ''
         for s in sensors:
             string += (s + ', ')
