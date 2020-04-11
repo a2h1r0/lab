@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  10 APR 2020 20:32
+This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  11 APR 2020 23:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -217,15 +217,14 @@ File: figure/sensor.eps Graphic file (type eps)
 File: figure/print.eps Graphic file (type eps)
 <figure/print.eps>
  [4]
-
-LaTeX Warning: Reference `' on page 5 undefined on input line 190.
-
-[5]
+File: figure/half.eps Graphic file (type eps)
+<figure/half.eps>
+ [5]
 File: figure/EER.eps Graphic file (type eps)
 <figure/EER.eps>
 File: figure/PCA.eps Graphic file (type eps)
 <figure/PCA.eps>
- (./dicomo2020.bbl [6]
+ [6] (./dicomo2020.bbl
 LaTeX Font Info:    Calculating math sizes for size <8.8711> on input line 1.
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <8.8711> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 1.
@@ -244,17 +243,14 @@ LaTeX Font Warning: Font shape `JY1/gt/m/it' undefined
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: There were undefined references.
-
  ) 
 Here is how much of TeX's memory you used:
- 1697 strings out of 494660
- 22792 string characters out of 6179649
- 89457 words of memory out of 5000000
- 5538 multiletter control sequences out of 15000+600000
+ 1701 strings out of 494660
+ 22857 string characters out of 6179649
+ 90457 words of memory out of 5000000
+ 5541 multiletter control sequences out of 15000+600000
  41258 words of font info for 170 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 33i,10n,25p,1877b,424s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 33i,10n,22p,1877b,423s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on dicomo2020.dvi (7 pages, 55040 bytes).
+Output written on dicomo2020.dvi (7 pages, 56940 bytes).
