@@ -169,8 +169,8 @@ INPUT figure/sensor.eps
 INPUT figure/sensor.eps
 INPUT figure/print.eps
 INPUT figure/print.eps
-INPUT figure/half.eps
-INPUT figure/half.eps
+INPUT figure/Acc.eps
+INPUT figure/Acc.eps
 INPUT figure/EER.eps
 INPUT figure/EER.eps
 INPUT figure/PCA.eps

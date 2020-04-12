@@ -1,16 +1,16 @@
 # Fdb version 3
-["bibtex dicomo2020"] 1586611182 "dicomo2020.aux" "dicomo2020.bbl" "dicomo2020" 1586615039
-  "dicomo2020.aux" 1586615031 3580 4b31659f6836721c9893aee27d4ca7bb ""
+["bibtex dicomo2020"] 1586690119 "dicomo2020.aux" "dicomo2020.bbl" "dicomo2020" 1586691825
+  "dicomo2020.aux" 1586691817 3616 530cd639d9374c37c9e6443152f86235 ""
   "junsrt.bst" 0 -1 0 ""
   "references.bib" 1584357458 4471 e004d4e7ea98c9f8e926e36f9b55c506 ""
   (generated)
-  "dicomo2020.blg"
   "dicomo2020.bbl"
-["dvipdf"] 1586615031 "dicomo2020.dvi" "dicomo2020.pdf" "dicomo2020" 1586615039
-  "dicomo2020.dvi" 1586615031 56940 217187b3c855cbf3ad0a60265a0f1bc2 "latex"
+  "dicomo2020.blg"
+["dvipdf"] 1586691817 "dicomo2020.dvi" "dicomo2020.pdf" "dicomo2020" 1586691825
+  "dicomo2020.dvi" 1586691817 62892 d7fe7dcfd46922ca163c722bdf251494 "latex"
   (generated)
   "dicomo2020.pdf"
-["latex"] 1586615027 "dicomo2020.tex" "dicomo2020.dvi" "dicomo2020" 1586615039
+["latex"] 1586691812 "dicomo2020.tex" "dicomo2020.dvi" "dicomo2020" 1586691825
   "c:/texlive/2018/texmf-dist/fonts/map/fontname/texfonts.map" 1555255864 3332 103109f5612ad95229751940c61aada0 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm" 1555257512 2124 2601a75482e9426d33db523edf23570a ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/jis/jis.tfm" 1555257073 468 53f854284f6afa6c36aaa2d1090ecc12 ""
@@ -85,14 +85,14 @@
   "c:/texlive/2018/texmf-dist/tex/latex/txfonts/omstxsy.fd" 1555257672 329 6ac7e19535b9f1d64e4d8e3f77dc30a3 ""
   "c:/texlive/2018/texmf-var/web2c/eptex/platex.fmt" 1555257977 1039133 daccf4819d98fe52246b2b3ed4031184 ""
   "c:/texlive/2018/texmf.cnf" 1555257954 673 4ae7b2f49cee444c5343a45b5d0f169c ""
-  "dicomo2020.aux" 1586615031 3580 4b31659f6836721c9893aee27d4ca7bb ""
-  "dicomo2020.bbl" 1586611182 3234 732a0700414a8f50666ff8d3154f0cc8 "bibtex dicomo2020"
-  "dicomo2020.tex" 1586615027 34132 bda07947f941e03482a80f394dc086c1 ""
+  "dicomo2020.aux" 1586691817 3616 530cd639d9374c37c9e6443152f86235 ""
+  "dicomo2020.bbl" 1586690119 3234 732a0700414a8f50666ff8d3154f0cc8 "bibtex dicomo2020"
+  "dicomo2020.tex" 1586691811 38177 e470aa562b690b38674c3a0d0c563d80 ""
   "dicomopapers.cls" 1579428071 130364 37f579d9742282e79b7936490e0df242 ""
+  "figure/Acc.eps" 1586677066 24268 204768b6901eec36bae649d0e7cb8339 ""
   "figure/EER.eps" 1580472017 108981 240557957971294cc2883c55ae9fcbd0 ""
   "figure/PCA.eps" 1580472017 34324 44893ddf4af301a46f14feb4220463f2 ""
   "figure/device.eps" 1580250728 4481561 fc7fcfa9ddf06fff607c9b2cd51bc793 ""
-  "figure/half.eps" 1586609648 20686 fbbf7173393900858e5fce70b864f845 ""
   "figure/met_in.eps" 1580250728 5271927 92e856549bf683f5b66b70ec9bfc6a50 ""
   "figure/met_over.eps" 1580250728 5096377 387e85916d5d1566b636f174e7feec31 ""
   "figure/print.eps" 1580250728 12180155 b68fd668b75c6b4372e305b552b7a867 ""
@@ -101,5 +101,5 @@
   "figure/system_mahalnobis.eps" 1586505509 6876038 2dbed9919e37569c9d83d7d18b25c008 ""
   (generated)
   "dicomo2020.log"
-  "dicomo2020.dvi"
   "dicomo2020.aux"
+  "dicomo2020.dvi"
