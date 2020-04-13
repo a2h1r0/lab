@@ -1,0 +1,33 @@
+不使用センサ	結果
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in0, in1, in2, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inE, inF"	1
+"in1, in2, in4, in6, in7, in8, in9, inあ, inい, inう, inA, inB, inC, in10, in11, in12, in13, in14, in15, in17, in18, in19, inア, inイ, inウ, inD, inE, inF"	0.994444444
+"in0, in1, in2, in4, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, inC, in10, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inウ, inD, inF"	0.972222222
+"in0, in1, in2, in4, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, inC, in10, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inウ, inD, inE"	0.922222222
+"in0, in1, in2, in3, in4, in5, in6, in7, in8, in9, inあ, inい, inう, inA, inB, inC, in11, in12, in13, in14, in15, in16, in17, in18, in19, inア, inイ, inウ, inD, inE, inF"	0.6

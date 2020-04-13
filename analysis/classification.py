@@ -36,7 +36,7 @@ clf = svm.SVC(C=1.0, kernel='linear')
 
 with open(filename, 'w', newline="") as f:
     writer = csv.writer(f)
-    writer.writerow(['使用センサ', '結果'])
+    writer.writerow(['不使用センサ', '結果'])
 
     for num in range(len(cols_full)):
         print(str(len(cols_full)-num)+'個のセンサを使用します．')    

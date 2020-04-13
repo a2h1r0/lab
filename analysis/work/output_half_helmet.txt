@@ -1,4 +1,4 @@
-使用センサ	結果
+不使用センサ	結果
 all	1
 in1	1
 "in1, in4"	1
@@ -17,5 +17,5 @@ in1	1
 "in1, in2, in4, in6, in7, in8, in9, in10, in11, in12, in13, in14, in15, in18, in19"	1
 "in1, in2, in4, in6, in7, in8, in9, in10, in11, in12, in13, in14, in15, in17, in18, in19"	0.994444444
 "in1, in2, in4, in5, in6, in7, in8, in9, in10, in11, in12, in14, in15, in16, in17, in18, in19"	0.966666667
-"in0, in1, in2, in4, in5, in6, in7, in8, in9, in10, in11, in12, in13, in14, in15, in17, in18, in19"	0.93333
-"in0, in1, in2, in3, in4, in5, in6, in7, in8, in9, in11, in12, in13, in14, in15, in16, in17, in18, in19"	0.888
+"in0, in1, in2, in4, in5, in6, in7, in8, in9, in10, in11, in12, in13, in14, in15, in17, in18, in19"	0.9
+"in0, in1, in2, in3, in4, in5, in6, in7, in8, in9, in11, in12, in13, in14, in15, in16, in17, in18, in19"	0.6
