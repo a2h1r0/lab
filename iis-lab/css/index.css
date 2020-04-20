@@ -1,0 +1,309 @@
+@charset "UTF-8";
+
+/*--- 共通設定 ---*/
+h1 {
+  font-family: 'Caveat', cursive;
+  font-size: xx-large;
+}
+li {
+  list-style: none;
+}
+/*--- ここまで ---*/
+
+
+/*--- タイトル ---*/
+.top {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+}
+
+/* ビデオ */
+.top-video {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  -webkit-transform : translateY(-50%);
+  transform : translateY(-50%);
+}
+.top-video video {
+  max-width: 100%;
+}
+
+/* 矢印 */
+.downs *, .downs *:before, .downs *:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.downs {
+  position: absolute;
+  display: flex;
+  height: 10px;
+  margin: -15% 50%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.downs .down {
+  position: absolute;
+  display: inline-block;
+  padding-top: 1.8em;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  -webkit-animation: down-move 2s ease-in-out infinite;
+  animation: down-move 2s ease-in-out infinite;
+  text-decoration: none;
+  color: white;
+  border-color: white;
+}
+.downs .down:before {
+  font-size: 2em;
+  line-height: 1.9em;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2em;
+  height: 2em;
+  margin-left: -1em;
+  content: '▼';
+  -webkit-transition: transform 0.5s ease-in;
+  transition: transform 0.5s ease-in;
+  text-align: center;
+  border: 0.13em solid #ffffff;
+  border-color: inherit;
+  border-radius: 10em;
+}
+.downs .down:hover {
+  color: #ec407a;
+  border-color: #ec407a;
+}
+.downs .down:hover:before {
+  transform: rotate(360deg);
+}
+@-webkit-keyframes down-move {
+  0% {
+    top: 1%;
+    opacity: 0.1;
+  }
+  70% {
+    top: 100%;
+    opacity: 1;
+  }
+  100% {
+    top: 1%;
+    opacity: 0.3;
+  }
+}
+@keyframes down-move {
+  0% {
+    top: 1%;
+    opacity: 0.1;
+  }
+  70% {
+    top: 100%;
+    opacity: 1;
+  }
+  100% {
+    top: 1%;
+    opacity: 0.3;
+  }
+}
+/*--- ここまで ---*/
+
+
+/*--- About us ---*/
+/* 体裁調整 */
+.about {  /* 親要素(エリア)にflexを指定 */
+  display: flex;
+}
+.detail { /* エリアの左半分に設置 */
+  width: 100%;
+}
+.detail p {
+  margin-left: 3%;
+  font-size: large;
+}
+.pic {  /* エリアの右半分に設置 */
+  display: flex;
+  justify-content: center;  /* 画像は中央に */
+  align-items: center;
+  width: 100%;
+}
+.pic img {  /* エリア内で画像を横幅100%で表示 */
+  display: block;
+  max-width: 80%;
+}
+
+/* 詳細説明のスクロールイン */
+.detail {
+  width: 100%;
+  opacity: 0;
+  transform: translate(0, 100px);
+  transition: all 300ms;
+}
+.detail.scrollin {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+/* 画像のスクロールイン */
+.pic {
+  opacity: 0;
+  transform: translate(0, 100px);
+  transition: all 300ms;
+}
+.pic.scrollin {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* ホームページへのボタンの調整 */
+.about a {
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  padding: 0.1em;
+  text-decoration: none;
+  color: white;
+  background: #3cb371;
+  transition: .4s;
+}
+.about a:hover {
+  background: #66cdaa;
+}
+/*--- ここまで ---*/
+
+
+/*--- ニュース ---*/
+.news li {  /* ニュースの箇条書き部分 */
+  margin: 2%;
+}
+.news li time { /* 日時 */
+  display: table-cell;
+  width: 90px;
+  font-family: 'Teko', serif;
+  font-size: large;
+}
+.news li p {  /* ニュース中身 */
+  display: table-cell;
+  padding-left: 35px;
+  vertical-align: middle;
+}
+/*--- ここまで ---*/
+
+
+/*--- メンバー ---*/
+.member ul h1 {
+  font-family: 'Teko', serif;
+}
+
+.professor {  /* 教授の行を独立 */
+  font-size: medium;
+  text-align: center;
+}
+
+/* 学生は3行 */
+.doctor {
+  display: flex;
+}
+.master {
+  display: flex;
+}
+.bachelor {
+  display: flex;
+}
+/* それぞれ複数列で表示 */
+.doctor ul {
+  width: 100%;
+  font-size: medium;
+  text-align: center;
+}
+.master ul {
+  width: 100%;
+  font-size: medium;
+  text-align: center;
+}
+.bachelor ul {
+  width: 100%;
+  font-size: medium;
+  text-align: center;
+}
+
+/* メンバーが多い要素はさらに2列に分割 */
+/* 表示位置の調整のため，大きさ25%で端から25%寄せることで左右要素を50%ずつにしている */
+/* jQueryでサイズを可変にしているが(日本語，英語で)，念の為CSSでデフォルト値を設定しておく．いらんと思うけど． */
+.member-left {
+  width: 25%;
+  float: left;
+  margin-left: 25%;
+}
+.member-right {
+  width: 25%;
+  float: right;
+  margin-right: 25%;
+}
+/*--- ここまで ---*/
+
+
+/*--- コース案内 ---*/
+.course p { /* 本文の中央寄せ */
+  text-align:center;
+}
+
+/* 学部生向けボタンの調整 */
+.button {
+  text-align:center;
+}
+.button a {
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  padding: 5px 11px 5px 15px;
+  text-decoration: none;
+  color: #67c5ff;
+  transition: .4s;
+  margin: 1% 3% 3%;  /* 上，左右，下 */
+}
+.button a:before {
+  position: absolute;
+  display: inline-block;
+  content: '';
+  width: 4px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 3px;
+  background:#67c5ff;
+}
+.button a:after {
+  position: absolute;
+  display: inline-block;
+  content: '';
+  width: 4px;
+  height: 100%;
+  top:0;
+  left: 100%;
+  border-radius: 3px;
+  background:#67c5ff;
+}
+.button a:hover:before, .button a:hover:after {
+  -webkit-transform: rotate(10deg);
+  transform: rotate(10deg);
+}
+
+/* コースページへのボタンの調整 */
+.univ {
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  color: #d2b48c;
+  background: white;
+  transition: .4s;
+}
+.univ:hover {
+  background: #d2b48c;
+  color: white;
+}
+/*--- ここまで ---*/
