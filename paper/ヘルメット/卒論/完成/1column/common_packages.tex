@@ -1,0 +1,278 @@
+%-----------------------------------------------------------------%
+\makeatletter% @付きのコマンドが使えるようにする。
+%ファイル末尾で \makeatother で最後で解除すること
+%-----------------------------------------------------------------%
+
+% パッケージ読み込み部:開始
+% 有用そうなのをいくつか列挙しておきます．
+% 他にも様々あります．
+%   参考URL:http://www.biwako.shiga-u.ac.jp/sensei/kumazawa/texindex.html
+
+% 画像挿入用パッケージ: graphicx
+% 文字等に色づけする場合に必要: color
+% 
+%   画像の利用方法 (png, jpg/jpeg, pdf、などが利用できる)
+%   例 
+%     \begin{figure}
+%       \includegraphics[width=10cm,bb=0 0 600 600]{image/sample.png}
+%     \end{figure}
+%
+%   注
+%     []にて指定している値は，[表示横幅, bb=0 0 画像横pixel数 画像縦pixel数]です．
+%     bb=以後は，ebbコマンドなどでsample.bbを作成しておけば不要です．
+%     Windows : makebb.bat
+%     @echo on
+%      for %%i in (*.png)  do ebb %%i
+%      for %%i in (*.pdf)  do ebb %%i
+%      for %%i in (*.jpg)  do ebb %%i
+%      for %%i in (*.jpeg) do ebb %%i
+%
+%     Linux / MacOSX : makebb.sh
+%      #!/bin/sh -e
+%      cd `dirname "$0"`
+%      xbb *.pdf *.png *.jpg *.jpeg && ls *xbb | \
+%      perl -ne 'chomp; ~s/\.xbb//g; print "mv $_.xbb $_.bb\n"' | \
+%      sh 
+%
+% =======
+%
+\usepackage[dvipdfmx]{graphicx, color}
+
+% 背景にすかし文字 (DRAFT) を表示 : pdfdraftcopy : graphicx に依存
+%   提出用と間違えるのを予防
+%   開発元URL: http://sarovar.org/projects/pdfdraftcopy/
+%
+% IsDraft が \def されている場合だけ有効
+\@ifundefined{IsDraft}{}{\usepackage[watermark]{pdfdraftcopy}
+\watermarkgraphic{images/draft_copy.pdf}}
+
+% ブロックコメント
+% \begin{comment} \end{comment}
+\usepackage{comment}
+
+% しおりの作成、目次や参考文献をクリッカブルリンクへ
+% いろいろなパッケージと互換性問題があるようなので，他のパッケージを利用する場合にはチェックすること
+% 依存関係情報: http://oku.edu.mie-u.ac.jp/~okumura/texwiki/?hyperref#z442922c
+%
+\usepackage[dvipdfm
+	, bookmarks=true
+	, bookmarksopen=true
+ 	, bookmarksnumbered=true
+	, CJKbookmarks=true
+%
+	, backref=true
+	, pdfborder={0 0 0} % width
+%
+	, colorlinks=false
+	, frenchlinks=false
+%	, linkbordercolor={1 1 1} % RGB
+%	, citebordercolor={1 1 1} %RGB
+%	, urlbordercolor={1 1 1} %RGB
+%	, pdfhighlight=/I
+]{hyperref}
+% しおりの文字化け解消．必要な文字コード指定を入れる．
+%\AtBeginDvi{\special{pdf:tounicode 90ms-RKSJ-UCS2}}% SJIS 
+%\AtBeginDvi{\special{pdf:tounicode EUC-UCS2}} % EUC
+%\AtBeginDvi{\special{pdf:tounicode UTF8-UCS2}} % UTF-8
+%
+% 文字コードを自動判定してしおりの文字化けを解消できるパッケージ．
+% 上のオプションをオフにしてこちらを使ってもよい．
+\usepackage{pxjahyper}
+%
+% PDFのメタ情報を設定したければ以下を追加
+%\hypersetup{
+%	pdftitle={タイトル},
+%	pdfsubject={小見出し},
+%	pdfauthor={PDF制作者名},
+%	pdfkeywords={キーワード1; キーワード2; キーワード3;},
+%}
+
+% urlをそのまま表記可能にする．
+%   本来であれば><%#^~などはエスケープしないといけない
+%   また、1 word として認識されるために、自動で折り返してくれないURLを、
+%   途中で折り返しをしてくれる。
+%
+% 使い方:
+%    \url{http://www.ubi.cs.ritsumei.ac.jp}
+%    \url{<a href=``http://www.ubi.cs.ritsumei.ac.jp''>Link</a>}
+\usepackage{url}
+\urlstyle{rm}
+% 数式パッケージ
+%   美文書作成などを参照してください．
+%\usepackage{amsmath, amssymb}
+
+% 表用パッケージ
+%   きれいな表が書けます．
+%   参考URL: http://www.biwako.shiga-u.ac.jp/sensei/kumazawa/tex/hhline.html
+\usepackage{hhline, multirow}
+
+% 表の見栄えを良くする
+% 表の架線が上下だけ太くなります．
+%   参考URL: http://www.biwako.shiga-u.ac.jp/sensei/kumazawa/tex/booktabs.html
+\usepackage{booktabs}
+
+% いろいろな囲み線作成用
+%   様々な場面で利用できます．便利です．
+%   参考URL: http://www.biwako.shiga-u.ac.jp/sensei/kumazawa/tex/fancybox.html 
+%   参考URL: http://www.biwako.shiga-u.ac.jp/sensei/kumazawa/tex/ascmac.html
+\usepackage{fancybox, ascmac}
+
+% 可換図を書けるように
+%   参考URL: http://www.biwako.shiga-u.ac.jp/sensei/kumazawa/tex/amscd.html
+% \usepackage{amscd}
+
+%% 以下、私作のコマンド
+\usepackage{here}
+\usepackage{bm}
+
+%
+% \TS{hoehoge}: パラグラフのトピックセンテンスを指定
+% \listofts: トピックセンテンスを抽出してリスト化: 目次のような感じ
+%
+% \TODO{}: TODO を出力 (赤色で TODO: hogehoge)
+% \listoftodo: TODOを抽出してリスト化: 目次のような感じ
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\def\RED#1{{\color{red}#1}}%
+%
+\def\TS#1{\AddToContLine{lots}{#1}#1}%
+\newcommand{\listtsname}{Paragraph Topic Sentenses (\RED{for Debug})}%
+\newcommand{\listofts}{\listof{ts}}%
+%
+\newcommand{\TODO}{\secdef\@TODO\@sTODO}%
+\def\@TODO[#1]#2{\@sTODO{#2}\@ifundefined{PrintTodo}{}{\\}}%
+\def\@sTODO#1{\AddToContLine{lotodo}{#1}\@ifundefined{PrintTodo}{}{\RED{TODO: #1}}}% started TODO means [ \TODO*{hogehoge} ]
+\newcommand{\listtodoname}{List of TODO (\RED{for Debug})}%
+\newcommand{\listoftodo}{\@ifundefined{PrintTodo}{}{\listof{todo}}}%
+\newcommand{\forceListoftodo}{\listof{todo}}%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\listof#1{%
+  \if@twocolumn\@restonecoltrue\onecolumn%
+  \else\@restonecolfalse\fi%
+  \abstract{{\csname list#1name\endcsname}}%
+  \@mkboth{{\csname list#1name\endcsname}}{}%
+  \@starttoc{lo#1}%
+  \if@restonecol\twocolumn\fi%
+}%
+\def\AddToContLine#1#2{%
+\@ifundefined{c@atcl#1}{\newcounter{atcl#1}[chapter]}{}%
+\ifnum \csname c@atcl#1\endcsname =0 % chapter用のダミーを追加
+  \refstepcounter{atcl#1}%
+  \addcontentsline{#1}{chapter}{\protect\numberline{\@chapapp\thechapter\@chappos}}%
+\fi%
+\ifnum \c@section>0 %
+  \ifnum \c@subsection >0 %
+    \ifnum \c@paragraph >0 %
+      \ifnum \c@subparagraph >0 %
+        \AddToContLineSec{#1}{subparagraph}{#2}%
+      \else\AddToContLineSec{#1}{paragraph}{#2}\fi%
+    \else\AddToContLineSec{#1}{subsection}{#2}\fi%
+  \else\AddToContLineSec{#1}{section}{#2}\fi%
+\else%
+  \ifnum \csname c@atcl#1\endcsname >0 %
+    \addcontentsline{#1}{section}{\protect\numberline{}#2}%
+  \else%
+    \refstepcounter{atcl#1}%
+    \addcontentsline{#1}{chapter}{\protect\numberline{\@chapapp\thechapter\@chappos}#2}%
+  \fi%
+\fi%
+}%
+\def\AddToContLineSec#1#2#3{%
+  \@ifundefined{c@atcl#2#1}{\newcounter{atcl#2#1}[#2]}{}
+  \ifnum \csname c@atcl#2#1\endcsname >0 %  各セクションの一番始めで無ければ章番号無し
+    \addcontentsline{#1}{#2}{\protect\numberline{}#3}%
+  \else%
+    \refstepcounter{atcl#2#1}%  セクションの一番始めであれば章番号付き
+    \addcontentsline{#1}{#2}{\protect\numberline{\csname the#2\endcsname}#3}%
+  \fi%
+}%
+%
+\def\BoldFirstRef#1#2{\@ifundefined{c@#1}{\newcounter{#1}\textbf{#2}}{#2}}%
+\@ifundefined{figref}{\def\figref#1{\BoldFirstRef{figref#1}{図 \ref{#1}}}}{}% 図出力
+\@ifundefined{tabref}{\def\tabref#1{\BoldFirstRef{tabref#1}{表 \ref{#1}}}}{}% 表出力
+\@ifundefined{secref}{\def\secref#1{\ref{#1} 節}}{}%
+\@ifundefined{chapref}{\def\chapref#1{第 \ref{#1} 章}}{}%
+\def\SetJsDescriptionIndent#1{%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewenvironment{description}{%
+  \list{}{%
+    \leftmargin=#1
+    \labelwidth=\leftmargin
+    \labelsep=1zw
+    \advance \labelwidth by -\labelsep
+    \let \makelabel=\descriptionlabel}}{\endlist}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}%
+\def\abstract#1{%
+\chapter*{#1}\@mkboth{#1}{}%
+\@ifundefined{c@abstract}{\newcounter{abstract}\pagenumbering{roman}}{}%
+}%
+\def\startMain{%
+\if@openright\cleardoublepage\else\clearpage\fi%
+\pagenumbering{arabic}%
+}
+%-----------------------------------------------------------------%
+%-----------------------------------------------------------------%
+%
+%
+\def\BachelorThesis{卒　業　論　文}
+\def\MasterThesis{修　士　論　文}
+\def\DoctoralThesis{博　士　論　文}
+\def\@thesisTitle{圧力センサ搭載ヘルメットを用いた\\本人認証手法の提案}
+\def\@thesisSupervisor{卒業研究3 (1O)：双見 京介，村尾 和哉 担当} % 卒業研究3のクラス名と担当教員名を記載
+%\def\@thesisSupervisor{卒業研究3 (1H)：西尾 信彦 担当}
+\def\@thesisKind{\MasterThesis}
+\def\@thesisYear{2019年}
+%\def\@thesisYear{2019年}
+%\def\@thesisEraName{平成XX年}
+\def\@thesisSemester{秋学期} % 秋か春を記載
+%\def\@thesisSemester{秋学期}
+\def\@thesisAuther{藤井 敦寛}
+\def\@thesisNameOfGraduateSchool{立命館大学大学院}
+\def\@thesisNameOfUnderGraduate{立命館大学 情報理工学部}
+\def\@thesisNameOfMajor{情報理工学研究科情報理工学専攻}
+\def\@thesisNameOfGrade{情報システム学科 4回生 2600160357-3} % 2017年度入学者はコース名に変更
+%\def\@thesisNameOfGrade{情報システム学科 4回生 2600xxxxxxxx}
+\def\thesisTitle#1{\gdef\@thesisTitle{#1}}
+\def\thesisKind#1{\gdef\@thesisKind{#1}}
+\def\thesisYear#1{\gdef\@thesisYear{#1}}
+\def\thesisEraName#1{\gdef\@thesisEraName{#1}}
+\def\thesisAuther#1{\gdef\@thesisAuther{#1}}
+\def\thesisNameOfGraduateSchool#1{\gdef\@thesisNameOfGraduateSchool{#1}}
+\def\thesisNameOfMajor#1{\gdef\@thesisNameOfMajor{#1}}
+\def\makeThesisTitle{
+\begin{titlepage}%
+\centering
+\begin{minipage}[]{\fullwidth}
+\large
+　
+
+% 表紙の配置や文字のサイズは以下で調整
+\vspace{6mm}
+{\@thesisYear}度（{\@thesisSemester}）\\
+{\@thesisSupervisor}\\%
+\begin{center}
+\vspace{2mm}
+{\Large {\@thesisKind}}\\
+\vspace{27mm}
+%
+{\LARGE {\@thesisTitle}}\\%
+\vspace{84mm}%
+{\@thesisNameOfUnderGraduate}\\%
+%{\@thesisNameOfGraduateSchool}\\%
+{\@thesisNameOfGrade}\\%
+%{\@thesisNameOfMajor}\\%
+%
+\vspace{7mm}%
+{\Large {\@thesisAuther}}%
+\end{center}%
+\end{minipage}%
+\end{titlepage}%
+}
+%
+%-----------------------------------------------------------------%
+\makeatother%
+%-----------------------------------------------------------------%
