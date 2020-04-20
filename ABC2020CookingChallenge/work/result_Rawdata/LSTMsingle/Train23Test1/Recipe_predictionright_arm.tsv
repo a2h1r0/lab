@@ -1,0 +1,89 @@
+Filename	Groundtruth	EPOCH100	EPOCH200	EPOCH300	EPOCH400	EPOCH500	EPOCH600	EPOCH700	EPOCH800	EPOCH900	EPOCH1000	
+subject1_file_622	0	1	1	1	1	1	1	1	1	1	1	
+subject1_file_869	0	1	1	1	1	1	1	1	1	1	1	
+subject1_file_807	0	0	0	1	1	1	1	1	1	1	1	
+subject1_file_463	0	1	1	1	1	0	0	2	0	0	0	
+subject1_file_830	0	1	1	1	1	2	2	2	2	2	2	
+subject1_file_272	0	1	2	2	2	2	2	0	0	0	0	
+subject1_file_382	0	1	1	1	1	1	1	1	1	1	1	
+subject1_file_588	0	0	0	0	0	0	0	0	0	0	0	
+subject1_file_140	0	1	1	1	0	0	0	0	0	0	0	
+subject1_file_213	0	1	1	1	1	1	1	1	1	1	1	
+subject1_file_685	0	1	1	1	1	1	1	0	0	0	0	
+subject1_file_389	0	1	1	1	1	2	0	0	0	0	0	
+subject1_file_247	0	1	1	1	1	1	1	1	1	1	1	
+subject1_file_808	0	1	1	1	1	1	0	0	0	0	0	
+subject1_file_238	0	1	1	1	1	1	1	1	2	2	1	
+subject1_file_985	0	1	2	2	2	2	2	2	2	2	2	
+subject1_file_499	0	1	1	1	1	1	1	1	1	1	1	
+subject1_file_980	0	0	2	0	0	0	0	0	0	0	0	
+subject1_file_310	0	0	0	0	2	2	2	2	2	2	2	
+subject1_file_793	0	1	1	1	1	1	2	2	2	2	2	
+subject1_file_618	0	1	1	1	0	0	0	0	0	0	0	
+subject1_file_780	0	1	1	1	1	1	1	1	1	1	1	
+subject1_file_313	0	1	1	1	1	1	2	2	2	0	0	
+subject1_file_958	0	1	1	1	1	1	0	1	1	1	1	
+subject1_file_98	0	1	1	1	1	1	1	1	0	0	1	
+subject1_file_424	0	1	1	1	1	1	1	1	1	1	1	
+subject1_file_964	0	0	2	2	0	0	0	0	1	1	1	
+subject1_file_884	0	1	1	1	1	1	1	1	1	1	1	
+subject1_file_263	0	0	2	2	2	2	2	2	2	2	2	
+subject1_file_784	0	1	1	1	1	1	1	2	2	0	0	
+subject1_file_684	0	1	1	1	1	1	2	2	0	0	0	
+subject1_file_968	0	1	1	1	1	1	1	1	1	0	0	
+subject1_file_786	0	1	1	1	1	2	2	2	1	1	1	
+subject1_file_243	0	1	1	1	1	2	2	2	2	2	2	
+subject1_file_957	0	1	1	1	1	1	1	0	0	0	0	
+subject1_file_319	0	0	1	0	0	0	0	0	0	0	0	
+subject1_file_853	0	1	1	1	1	0	0	2	2	2	2	
+subject1_file_11	0	1	1	1	1	1	1	1	0	0	0	
+subject1_file_814	0	1	1	1	1	1	1	1	1	1	1	
+subject1_file_873	1	1	1	1	1	1	1	0	0	0	0	
+subject1_file_513	1	1	1	1	1	0	0	0	0	0	0	
+subject1_file_721	1	1	1	1	1	1	1	1	1	1	1	
+subject1_file_204	1	1	1	1	1	1	1	1	1	1	1	
+subject1_file_768	1	1	1	1	1	0	1	1	2	2	1	
+subject1_file_254	1	0	0	0	2	2	2	2	2	2	2	
+subject1_file_536	1	1	1	1	1	2	0	0	0	0	0	
+subject1_file_96	1	1	1	1	1	1	1	1	2	2	0	
+subject1_file_37	1	1	1	1	1	1	1	1	1	1	1	
+subject1_file_281	1	1	1	1	1	1	1	1	1	1	1	
+subject1_file_849	1	1	1	1	1	1	1	1	1	1	1	
+subject1_file_485	1	1	1	1	1	1	1	1	2	2	2	
+subject1_file_496	1	1	1	1	1	1	1	1	1	1	1	
+subject1_file_564	1	1	1	1	1	1	1	1	1	1	1	
+subject1_file_871	1	1	1	1	1	1	1	1	1	1	1	
+subject1_file_743	1	1	1	1	1	1	1	1	1	1	1	
+subject1_file_417	2	1	1	1	1	0	0	0	1	1	1	
+subject1_file_39	2	0	0	0	0	0	0	0	0	0	0	
+subject1_file_858	2	1	1	1	1	1	1	1	1	1	1	
+subject1_file_353	2	1	1	1	1	1	1	1	1	1	1	
+subject1_file_979	2	2	2	2	2	2	2	0	0	0	0	
+subject1_file_348	2	1	1	1	1	1	1	1	1	0	0	
+subject1_file_302	2	1	1	1	1	1	1	1	1	1	1	
+subject1_file_570	2	1	1	1	1	1	2	2	2	2	2	
+subject1_file_162	2	0	0	0	0	0	0	0	0	0	0	
+subject1_file_969	2	1	1	0	1	1	1	1	1	1	1	
+subject1_file_72	2	1	1	1	1	1	1	1	1	1	1	
+subject1_file_734	2	1	1	1	1	0	0	1	1	1	1	
+subject1_file_759	2	1	1	1	1	0	1	1	0	0	0	
+subject1_file_320	2	0	0	0	0	0	2	2	2	2	2	
+subject1_file_385	2	1	1	1	1	1	1	1	1	1	1	
+subject1_file_430	2	1	1	1	1	1	1	1	0	0	0	
+subject1_file_526	2	0	1	1	1	1	1	1	1	1	1	
+subject1_file_976	2	1	0	0	1	1	1	1	1	1	1	
+subject1_file_309	2	0	0	0	2	2	2	2	2	2	2	
+subject1_file_45	2	1	1	1	1	1	1	1	1	1	1	
+subject1_file_770	2	1	1	1	1	1	1	1	2	2	1	
+subject1_file_211	2	0	0	0	0	0	0	0	0	0	0	
+subject1_file_713	2	1	1	1	1	1	1	1	1	1	0	
+subject1_file_462	2	0	1	1	1	1	1	1	0	1	1	
+subject1_file_287	2	1	1	1	1	0	0	1	2	2	1	
+Total Train loss	-----	0.9953127503395081	0.9417469501495361	0.886509895324707	0.8192715644836426	0.7620663642883301	0.6996596455574036	0.6128466129302979	0.5098457932472229	0.4433574080467224	0.4126679003238678	
+Train Accuracy	-----	0.5024154589371981	0.5314009661835749	0.5362318840579711	0.5893719806763285	0.6328502415458938	0.6811594202898551	0.7198067632850241	0.7536231884057971	0.782608695652174	0.8260869565217391	
+Training time	-----	0:00:18.993763	0:00:19.047551	0:00:18.974827	0:00:19.148563	0:00:18.914100	0:00:19.014768	0:00:19.146042	0:00:19.107876	0:00:18.900053	0:00:19.079512	
+Total Test loss	-----	1.2424248456954956	1.4577805995941162	1.6166713237762451	1.8141828775405884	2.022778034210205	2.241797924041748	2.6469736099243164	3.1502814292907715	3.43149995803833	3.7517731189727783	
+Test Accuracy	-----	0.2875	0.2375	0.25	0.2875	0.275	0.35	0.325	0.35	0.3875	0.3625	
+Testing time	-----	0:00:37.795203	0:00:37.695404	0:00:37.932574	0:00:37.436357	0:00:37.616780	0:00:37.637864	0:00:37.398798	0:00:37.669928	0:00:37.781086	0:00:37.366728	
+threshold sigmoid train	-----	---	---	---	---	---	---	---	---	---	---	
+threshold sigmoid test	-----	---	---	---	---	---	---	---	---	---	---	
