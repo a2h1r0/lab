@@ -1,0 +1,12 @@
+使用センサ,結果
+all,1.0
+in1,1.0
+"in1, in2",1.0
+"in0, in1, in5",1.0
+"in0, in1, in2, in5",1.0
+"in0, in1, in2, in5, in7",1.0
+"in0, in1, in2, in4, in5, inC",1.0
+"in0, in1, in2, in4, in5, in6, inA",1.0
+"in0, in1, in2, in4, in5, in6, in7, inA",1.0
+"in0, in1, in2, in4, in5, in6, in7, in8, inA",1.0
+"in0, in1, in2, in4, in5, in6, in7, in8, inあ, inA",1.0
