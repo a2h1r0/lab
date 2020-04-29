@@ -50,6 +50,8 @@ INPUT c:/texlive/2018/texmf-dist/tex/latex/hyperref/hdvipdfm.def
 INPUT c:/texlive/2018/texmf-dist/tex/latex/hyperref/hdvipdfm.def
 INPUT c:/texlive/2018/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 INPUT c:/texlive/2018/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+INPUT c:/texlive/2018/texmf-dist/tex/platex/pxjahyper/pxjahyper.sty
+INPUT c:/texlive/2018/texmf-dist/tex/platex/pxjahyper/pxjahyper.sty
 INPUT Atsuhiro Fujii.aux
 INPUT Atsuhiro Fujii.aux
 OUTPUT Atsuhiro Fujii.aux
@@ -87,8 +89,6 @@ INPUT c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT c:/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT c:/texlive/2018/texmf-dist/tex/latex/base/omscmr.fd
 INPUT c:/texlive/2018/texmf-dist/tex/latex/base/omscmr.fd
-INPUT Figure_1.eps
-INPUT Figure_1.eps
 OUTPUT Atsuhiro Fujii.dvi
 INPUT Atsuhiro Fujii.aux
 INPUT ./Atsuhiro Fujii.out

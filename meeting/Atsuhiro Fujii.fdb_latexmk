@@ -1,13 +1,12 @@
 # Fdb version 3
-["dvipdf"] 1587527884 "Atsuhiro Fujii.dvi" "Atsuhiro Fujii.pdf" "Atsuhiro Fujii" 1587527886
-  "Atsuhiro Fujii.dvi" 1587527884 4232 d290e890ffafcb924bf1b5202bdac8a2 "latex"
+["dvipdf"] 1588132314 "Atsuhiro Fujii.dvi" "Atsuhiro Fujii.pdf" "Atsuhiro Fujii" 1588132314
+  "Atsuhiro Fujii.dvi" 1588132314 4976 46e6623e61c4e16be27850990901f925 "latex"
   (generated)
   "Atsuhiro Fujii.pdf"
-["latex"] 1587527883 "Atsuhiro Fujii.tex" "Atsuhiro Fujii.dvi" "Atsuhiro Fujii" 1587527886
-  "Atsuhiro Fujii.aux" 1587527884 1233 5dd6a305127321f892370bd6400827e9 ""
-  "Atsuhiro Fujii.out" 1587527884 209 0e1c933d86e2c33eea2df010eef894d7 ""
-  "Atsuhiro Fujii.tex" 1587527881 1617 a13a09f874c5ff0bc40322f827ed4955 ""
-  "Figure_1.eps" 1587386555 24895 d202c5aa92a38145806a04d270dd9861 ""
+["latex"] 1588132313 "Atsuhiro Fujii.tex" "Atsuhiro Fujii.dvi" "Atsuhiro Fujii" 1588132314
+  "Atsuhiro Fujii.aux" 1588132314 1085 d1995884d87161ec87113dd9d41a46be ""
+  "Atsuhiro Fujii.out" 1588132314 263 51727900260109560b9bda86c3a1b59d ""
+  "Atsuhiro Fujii.tex" 1588132312 2455 530605dc6c6088e6a26d726f31442d45 ""
   "c:/texlive/2018/texmf-dist/fonts/map/fontname/texfonts.map" 1555255864 3332 103109f5612ad95229751940c61aada0 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm" 1555257073 1196 5981e79c37b2cfd27b3612a6783cd4b6 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm" 1555257073 1196 1be730212205a270378fba11a44765dc ""
@@ -52,10 +51,11 @@
   "c:/texlive/2018/texmf-dist/tex/latex/url/url.sty" 1555257740 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "c:/texlive/2018/texmf-dist/tex/platex/base/jarticle.cls" 1555257006 25482 32df9caf874898579f5671c872fa9366 ""
   "c:/texlive/2018/texmf-dist/tex/platex/base/jsize10.clo" 1555257006 8451 5c3bfde75f3b49be56eee546f2e06ca0 ""
+  "c:/texlive/2018/texmf-dist/tex/platex/pxjahyper/pxjahyper.sty" 1555257091 31930 8cfcbda6f31d388ab1de8524f6efd674 ""
   "c:/texlive/2018/texmf-var/web2c/eptex/platex.fmt" 1555257977 1039133 daccf4819d98fe52246b2b3ed4031184 ""
   "c:/texlive/2018/texmf.cnf" 1555257954 673 4ae7b2f49cee444c5343a45b5d0f169c ""
   (generated)
   "Atsuhiro Fujii.dvi"
   "Atsuhiro Fujii.out"
-  "Atsuhiro Fujii.log"
   "Atsuhiro Fujii.aux"
+  "Atsuhiro Fujii.log"
