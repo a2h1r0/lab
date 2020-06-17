@@ -1,0 +1,737 @@
+%%
+%% This is file `sample-authordraft.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% samples.dtx  (with options: `authordraft')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from sample-authordraft.tex.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file samples.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%
+%% The first command in your LaTeX source must be the \documentclass command.
+\documentclass[sigchi,authordraft]{acmart}
+
+%% 追加
+\usepackage{bm}
+\newcommand\figref[1]{\textbf{Figure~\ref{fig:#1}}}
+\newcommand\tabref[1]{\textbf{Table~\ref{tab:#1}}}
+%% ここまで
+
+%%%% As of March 2017, [siggraph] is no longer used. Please use sigconf (above) for SIGGRAPH conferences.
+
+%%%% As of May 2020, [sigchi] and [sigchi-a] are no longer used. Please use sigconf (above) for SIGCHI conferences.
+
+%%%% Proceedings format for SIGPLAN conferences 
+% \documentclass[sigplan, anonymous, authordraft]{acmart}
+
+%%%% Proceedings format for conferences using one-column small layout
+% \documentclass[acmsmall,authordraft]{acmart}
+
+% NOTE that a single column version is required for submission and peer review. This can be done by changing the \doucmentclass[...]{acmart} in this template to 
+% \documentclass[manuscript,screen]{acmart}
+
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    \normalfont B\kern-0.5em{\scshape i\kern-0.25em b}\kern-0.8em\TeX}}}
+
+%% Rights management information.  This information is sent to you
+%% when you complete the rights form.  These commands have SAMPLE
+%% values in them; it is your responsibility as an author to replace
+%% the commands and values with those provided to you when you
+%% complete the rights form.
+\setcopyright{acmcopyright}
+\copyrightyear{2018}
+\acmYear{2018}
+\acmDOI{10.1145/1122445.1122456}
+
+%% These commands are for a PROCEEDINGS abstract or paper.
+\acmConference[Woodstock '18]{Woodstock '18: ACM Symposium on Neural
+  Gaze Detection}{June 03--05, 2018}{Woodstock, NY}
+\acmBooktitle{Woodstock '18: ACM Symposium on Neural Gaze Detection,
+  June 03--05, 2018, Woodstock, NY}
+\acmPrice{15.00}
+\acmISBN{978-1-4503-XXXX-X/18/06}
+
+
+%%
+%% Submission ID.
+%% Use this when submitting an article to a sponsored event. You'll
+%% receive a unique submission ID from the organizers
+%% of the event, and this ID should be used as the parameter to this command.
+%%\acmSubmissionID{123-A56-BU3}
+
+%%
+%% The majority of ACM publications use numbered citations and
+%% references.  The command \citestyle{authoryear} switches to the
+%% "author year" style.
+%%
+%% If you are preparing content for an event
+%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
+%% citations and references.
+%% Uncommenting
+%% the next command will enable that style.
+%%\citestyle{acmauthoryear}
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title{Personal identification method using a helmet with pressure sensors}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+%% Of note is the shared affiliation of the first two authors, and the
+%% "authornote" and "authornotemark" commands
+%% used to denote shared contribution to the research.
+\author{Atsuhiro Fujii}
+\affiliation{%
+  \institution{Ritsumeikan University}
+  \city{Shiga}
+  \country{Japan}}
+\email{atsuhiro.fujii@iis.ise.ritsumei.ac.jp}
+
+\author{Kazuya Murao}
+\affiliation{%
+  \institution{Ritsumeikan University}
+  \city{Shiga}
+  \country{Japan}}
+\email{murao@cs.ritsumei.ac.jp}
+
+%%
+%% By default, the full list of authors will be used in the page
+%% headers. Often, this list is too long, and will overlap
+%% other information printed in the page headers. This command allows
+%% the author to define a more concise list
+%% of authors' names for this purpose.
+\renewcommand{\shortauthors}{Trovato and Tobin, et al.}
+
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
+\begin{abstract}
+Helmets are widely used in social life. In this study, a helmet equipped with 32 pressure sensors was used to identify individuals based on their head shape. We propose a method to distinguish between the two. The proposed method can be used to display the name on a display mounted on top of the helmet, or to label the operator to eye tracking data. It can also be used as a door key in factories when access to the room is restricted by job title or other reasons. The proposed method has two mechanisms: personal identification, which identifies a person when registered he or she wears a helmet, and identity authentication, which authenticates the person wearing the helmet if he or she is a registrant and rejects it if he or she is not. After implementing a prototype device and software for analysis, we collected data from 9 subjects and obtained an accuracy of 100\% for personal identification and an average EER of all subjects of about 7.6\% for identity authentication.
+
+%ヘルメットは社会生活において広く利用されている．本研究では32個の圧力センサを搭載したヘルメットを装着することで，頭部形状から個人を識別する手法を提案する．提案手法によって，ヘルメット上部に取り付けたディスプレイに名前を表示したり，視線情報などのデータを記録する際に手間なく作業者のラベルを付与できる．また，工場などで役職などにより入室できる部屋が制限されている場合に扉の鍵としても使用できる．提案手法は，あらかじめデータが登録された複数の人物のうちの1人がヘルメットを装着したときにその人物を識別する個人識別と，ヘルメットを装着した人物が登録者であれば認証し，登録者でなければ拒否する本人認証の2つの機構を備える．プロトタイプデバイスと解析用のソフトウェアを実装した後，被験者9人データを採取し，個人識別では精度が100\%，本人認証では被験者全員の平均EERが約7.6\%という結果を得た．
+\end{abstract}
+
+%%
+%% The code below is generated by the tool at http://dl.acm.org/ccs.cfm.
+%% Please copy and paste the code instead of the example below.
+%%
+\begin{CCSXML}
+<ccs2012>
+ <concept>
+  <concept_id>10010520.10010553.10010562</concept_id>
+  <concept_desc>Computer systems organization~Embedded systems</concept_desc>
+  <concept_significance>500</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>10010520.10010575.10010755</concept_id>
+  <concept_desc>Computer systems organization~Redundancy</concept_desc>
+  <concept_significance>300</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>10010520.10010553.10010554</concept_id>
+  <concept_desc>Computer systems organization~Robotics</concept_desc>
+  <concept_significance>100</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>10003033.10003083.10003095</concept_id>
+  <concept_desc>Networks~Network reliability</concept_desc>
+  <concept_significance>100</concept_significance>
+ </concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Computer systems organization~Embedded systems}
+\ccsdesc[300]{Computer systems organization~Redundancy}
+\ccsdesc{Computer systems organization~Robotics}
+\ccsdesc[100]{Networks~Network reliability}
+
+%%
+%% Keywords. The author(s) should pick words that accurately describe
+%% the work being presented. Separate the keywords with commas.
+\keywords{datasets, neural networks, gaze detection, text tagging}
+
+%% A "teaser" image appears between the author and affiliation
+%% information and the body of the document, and typically spans the
+%% page.
+% \begin{teaserfigure}
+%   \includegraphics[width=\textwidth]{sampleteaser}
+%   \caption{Seattle Mariners at Spring Training, 2010.}
+%   \Description{Enjoying the baseball game from the third-base
+%   seats. Ichiro Suzuki preparing to bat.}
+%   \label{fig:teaser}
+% \end{teaserfigure}
+
+%%
+%% This command processes the author and affiliation and title
+%% information and builds the first part of the formatted document.
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+Helmets are used in sports, leisure, motorcycle riding, factory, disaster site, etc. It is widely used. These are all worn to protect the head in the event of an accident\cite{helmet}. It is considered important from a safety point of view that there is no gap between the head and the helmet.\par
+
+%ヘルメットは，スポーツやレジャー，バイク乗車時，工場，災害現場など，社会生活において広く利用されている．これらはいずれも，事故発生時に頭部を保護する目的で着用\cite{helmet}するものであり，頭部との隙間がないことが安全面において重要だとされている．\par
+
+Almost all workers in factories and disaster sites wear helmets. In addition, various people who do not know each other, such as short-term workers and vendors, come and go. If each person has one helmet, a tape with his or her name on the helmet allows the helmet wearer to be identified from a distance or overhead. If you own one helmet per person, tape your name on the helmet. This makes it possible to distinguish between them from a distance or overhead, even while wearing a helmet. Since the qualifications and the work to be engaged in vary from one worker to another, it is necessary to indicate the qualifications held by the worker. A sticker wrote the qualifications is available for sale and can be affixed to the helmet of such a worker so that he or she can be identified. However, in the case of a loaned helmet, the helmet is not marked with the name. No one can determine who it is, and a suspicious person could easily get in. Even if your name is displayed, the name on the helmet may be wrong.\par
+
+%特に，工場や災害現場ではほぼ全員がヘルメットを装着して作業し，短期労働者や業者など，互いに顔を知らないさまざまな人間が出入りしている．一人1個のヘルメットを所有している場合はヘルメットに氏名がテープ等で表示されていため，ヘルメットを装着したままでも遠くからあるいは頭上からでも識別できる．また，作業者によって所持している資格や従事可能な作業が異なるため，所有資格を示すステッカーが販売されており，そのような作業者のヘルメットに貼り付けて識別できるようにしている．しかし，貸与されたヘルメットの場合，ヘルメットに名前が表示されておらず，現場にいる者どうしも誰であるかを判断できず，不審者が容易に侵入できる可能性がある．また，仮に名前が表示されていたとしても，取り間違いによって，作業者とヘルメットの氏名が異なる場合もある．\par
+
+In this study, we propose a method for identifying individuals from the shape of their heads by mounting pressure sensors inside a helmet. The proposed method allows names and credentials to be displayed on a display attached to the top of the helmet. Therefore, they can recognize each other even if they share helmets, and they cannot be mistaken for each other. In addition, the data from cameras, eye tracking devices and various sensors attached to the helmet can be automatically the operator labeled. Furthermore, by attaching a GPS module and an antenna\cite{disaster_en}, the name and location of the worker can be determined in real time. If the information can be transmitted, it will be easier to understand the overall situation in the field. Furthermore, information on the gap and pressure between helmet and head can be obtained by acquiring the head shape, and it is possible to check whether the shape of the head matches that of the helmet.\par
+
+%本研究ではヘルメットの内部に圧力センサを搭載することで，頭部形状から個人を識別する手法を提案する．提案手法によって，ヘルメット上部に取り付けたディスプレイに名前や資格情報を表示できるため，ヘルメットが共用でも互いに認識でき，取り違えることもない．また，ヘルメットに取り付けられたカメラや視線計測装置，各種センサのデータを自動で作業者と紐づけることができる．さらに，GPSモジュールとアンテナ\cite{disaster_en}を取り付けることで，リアルタイムに作業員の名前と位置情報を送信することができれば，現場の全体の状況が把握しやすくなる．さらには，頭部形状を取得することによりヘルメットと頭部の隙間や圧迫の情報を取得できるため，ヘルメットと頭部形状が合っているかを確認することもできる．\par
+
+In addition, the proposed helmet can be used as a key for the door of a factory or other facility where access to the room is restricted due to position or qualification. It can also be used as a key for a motorcycle. Using the helmet for identification, which reduces the risk of key theft and vehicle theft.\par
+
+%このほか，工場などで役職や資格により入室できる部屋が制限されている場合の扉の鍵としての使用や，バイクの鍵としても使用できる．ヘルメットでの本人識別を行うため，鍵の盗難による侵入，車両盗難のリスクの減少にも繋がる．\par
+
+There are several methods to identify individuals: passwords, PINs, and stroke patterns; and physical characteristics such as face, fingerprints, handwriting, voice prints, and glitter; and behavioral characteristics such as handwriting and gait. Using only passwords, PINs, and stroke patterns that can be freely set by individuals to identify a large number of people has a risk of spoofing by brute force attacks and password duplication.\par
+
+%個人を識別する手法として，パスワードやPIN，ストロークパターンなどの本人がカギを自由に設定できる手法，顔，指紋や筆跡，声紋，光彩などの身体的特徴を用いる手法，筆跡や歩容などの行動的特徴を用いる手法がある．個人が自由に設定できるパスワードやPIN，ストロークパターンのみを用いて，本研究で想定するような多数の人間の識別を行うことは，パスワードの重複や総当たり攻撃によるなりすましの危険性がある．\par
+
+For physical characteristics, Chen et al.\cite{face_and_finger} propose a method to authenticate using the user's face and fingertips video images captured from the front and rear cameras of a mobile device. We thought to be able to identify the wearer using a camera pre-mounted on the outside of the helmet. However, the recognition accuracy may be reduced in dark places and in rainy weather. Also, it is troublesome to take a picture of one's own face before wearing the helmet each time. In fingerprint authentication\cite{finger_CNN}, there is a risk that fingerprints can be easily duplicated from photographs. The head shape used in this study has physical characteristics for each individual. In addition, it is difficult to replicate because of its three-dimensional shape.\par
+
+%身体的特徴に関して，Chenら\cite{face_and_finger}はスマートフォンなどの端末のフロントカメラとリアカメラから得られる顔と指先のビデオ映像からユーザ本人を認証する手法を提案している．ヘルメットの外部にあらかじめカメラを取り付けておくことで装着者を識別できると考えられるが，暗所や雨天では認識精度が低下する恐れがある．また，毎回ヘルメットを被る前に，ヘルメットを持って自身の顔を撮影することは面倒である．指紋認証\cite{finger_CNN}は，指紋が写真などから容易に複製されるリスクがある．本研究で用いた頭部形状は，個人ごとに身体的特徴を持つ．また，立体形状であるため複製が困難であると考える．\par
+
+In the case of using a behavioral characteristics, it may be possible to authenticate from the action of wearing a helmet. The authors proposed a method that is authenticate a smartphone from acceleration sensor data when taking it out of the pocket in the past\cite{murao_screen_unlock}. Although the number of occasions to take a smartphone is limited, such as in a pocket or on a desk, the number of occasions to take a helmet is varied, so it is considered difficult to apply this method to a helmet.\par
+
+%行動的特徴を使うアプローチの場合，ヘルメットを装着する時点で個人が識別されている必要があるため，ヘルメットを被る動作を特徴とすることも考えられる．筆者らはこれまでにスマートフォンをポケットから取り出す際の加速度センサデータから認証する手法\cite{murao_screen_unlock}を提案した．スマートフォンはポケットや机の上など取る場面が限定されるが，ヘルメットを取る場面は様々であり，この手法をヘルメットに適用することは困難であると考えられる．\par
+
+In the following sections, we will introduce the related studies in Section \ref{sec:related}, explain the proposed method in Section \ref{sec:method}, evaluate the proposed method with a discussion of the experiments and results in Section \ref{sec:evaluation}, and we conclude this study in Section \ref{sec:conclusion}.
+
+%以降本稿では，\ref{related}節で関連研究を紹介する．\ref{method}節で提案手法を説明し，\ref{evaluation}節で提案手法の評価実験と結果の考察を行い，最後に\ref{conclude}節で本研究をまとめる．
+
+\section{Related Work}
+\label{sec:related}
+In this section, we introduce research on personal identification, wareable devices, and head state recognition.
+
+% 本節では個人認証手法，身体部位装着型デバイス，頭部状態の認識に関する研究を紹介する．
+
+\subsection{Personal Authentication Method}
+%カメラを取り付ける手法
+Bednarik et al.\cite{eye_movement} proposed a biometric identification system that uses eye movements such as pupil size and variation, gaze velocity, and distance of the infrared reflection of the eye. Chen et al.\cite{face_and_finger} propose a method for authentication based on the consistency of two photopletismograms extracted from video images of the face and fingertips captured simultaneously by the front and rear cameras of a mobile device. Siddharth et al.\cite{palm_print} proposed a biometric authentication system based on palm print and palm vein. The system uses visible and infrared light to acquire images of the palm print and palm vein, and the authentication is performed by checking the data against the registration data in the database. Sayo et al.\cite{lip_motion} proposed an authentication method based on the camera capturing the shape of the lips which is a physical characteristics and the movement of the lips during speech which is behavioral characteristics. As another method using the mouth, Kim et al.\cite{teeth_and_voice} proposed an authentication method that combines dental images and voice.
+
+%Bednarikら\cite{eye_movement}は，瞳孔の大きさと変化，視線速度，目の赤外線反射の距離などの眼球運動を使用した生体認証を提案した．Chenら\cite{face_and_finger}はモバイルデバイスのフロントカメラとリアカメラで顔と指先のビデオ映像を同時に撮影し，個別の映像から抽出された2つのフォトプレチスモグラムを比較することにより，その一貫性から認証を行う手法を提案している．Siddharthら\cite{palm_print}は掌紋と掌静脈を用いた生体認証システムを提案している．このシステムでは，可視光線と赤外線を使用して掌紋と掌静脈の画像を取得し，データベース内の登録データと照合することで認証を行っている．Sayoら\cite{lip_motion}は，身体的特徴である口唇の形状と，行動的特徴である発話に伴う口唇の動きをカメラで撮影して認証する手法を提案した．また，口元を用いた他の手法として，Kimら\cite{teeth_and_voice}は歯の画像と音声を組み合わせた認証手法を提案している．\par
+
+For such a camera-based approach, if the camera is mounted on the outside of the helmet Individuals can be identified by turning toward the camera before putting on the helmet. However, there is a complication of taking a picture of one's own face with a camera. If it can be attached a camera to the side of the helmet's head, and grasping it when wearing the helmet, it is possible implement of palm print and palm vein authentication. However, this method also requires the user to hold the camera each time it is worn. In the case of a full-face helmet, a camera can be attached to the mouth of the helmet, so that the shape and movement of the lips and teeth can be acquired. However, the space around the mouth inside the helmet is limited, and it is difficult to distinguish the shape and movement of around the mouth with a single camera. In addition, there is the hassle and economic problem of mounting a camera on every helmet. In addition, it is not practical, as it has to be considered using in the dark and submerging in water due to bad weather.\par
+
+%このようなカメラを使用したアプローチの場合，カメラをヘルメットの外側に取り付けておけば，ヘルメットを装着する前にカメラの方を向くことで個人を識別できるが，わざわざカメラで自身の顔を撮影する煩雑さがある．掌紋と掌静脈での認証の場合はヘルメットの側頭部にカメラを取り付け，着用時に握ることで実装が可能であるが，こちらの手法も装着するたびカメラを握らなければならない．フルフェイス型ヘルメットであれば，ヘルメットの口元にカメラを取り付けることで，口唇の形状，動きや歯の画像を取得できるが，ヘルメット内部の口元の空間は限られるため，口とカメラの距離が近くなってしまい，1個のカメラで口唇の形状や動きを判別することは困難である．また，すべてのヘルメットにカメラを装着する手間や経済的な問題がある．悪天候による水没や暗所での使用も考慮しなければならず，現実的ではない．\par
+
+%ヘルメットでのジェスチャ認証
+Guerra-Casanova et al.\cite{accelerometer_authentification} proposed a method to authenticate users by gestures of their hands using a mobile device with an embedded accelerometer.\par
+
+%Guerra-Casanovaら\cite{accelerometer_authentification}は加速度センサを内蔵したモバイルデバイスを用いて，ユーザが手を動かすジェスチャーによって認証する手法を提案している．\par
+
+In the case of gesture authentication using accelerometers, there is a possibility that the acceleration characteristics of the motion until the helmet is worn can be used for authentication by mounting an accelerometer on the helmet. However, There are various wearing actions, such as wearing the helmet in a hurry and taking care not to let the interior of the helmet get wet in the rain. Therefore, It is not practical that we take data and learn from all the people who might wear it in different situations.\par
+
+%加速度センサを用いたジェスチャ認証の場合，ヘルメットに加速度センサを搭載することで，ヘルメットを装着するまでの動作の加速度の特徴量を用いて認証できる可能性がある．しかしながら，急いでいて動作が速くなる場合や，雨天時にヘルメットの内装が濡れないように気をつけながら装着する場合など，ヘルメットを装着する動作は多様であり，さまざまな状況において装着する可能性のある人全員のデータを採取して学習しておくことは現実的ではない．\par
+
+%指紋認証
+Nogueira et al.\cite{finger_CNN} used convolutional neural networks (CNN) for fingerprint authentication, and achieved a high classification accuracy. However, there is a risk that fingerprints can be easily duplicated from photographs.
+
+%Nogueiraら\cite{finger_CNN}は，畳み込みニューラルネットワーク（CNN）を用いて指紋認証を行うことで，高い分類精度を実現している．しかし，指紋は写真などから容易に複製できるリスクがある．
+
+\subsection{Body Part Mounted Devices}
+%デバイスとしての新規性
+Ham et al.\cite{smart_wristband} proposed a wristband device as an input device for smart glasses. This device has a touch screen panel (TSP) and inertial measurement unit (IMU), and it is manipulated by touching and the twisting of your wrist. Since the device can be worn on the wrist, the user is not restricted in his or her movements and has a high degree of freedom of movement. In addition, a touch panel is used for pointing to improve the stability of input. Hernandez et al.\cite{bioglass} proposed a method for recognizing pulse and respiration rates from accelerometers, gyroscopes, and cameras embedded in Google Glass, a head-worn wearable device. Nishajith et al.\cite{smart_cap} designed and implemented a head-worn wearable device which is named smart cap for assist visually impaired people with situational awareness. This devices are consists of Raspberry Pi 3, Raspberry Pi NoIR Camera V2, and an earpiece and power supply. Raspberry Pi NoIR (No Infrared)  Camera V2 is an infrared camera module for Raspberry Pi. An audio description of the object detected in the image obtained from this infrared camera is given through the earpiece.\par
+
+%Hamら\cite{smart_wristband}はスマートグラス用の入力デバイスとして，リストバンド型のデバイスを提案している．このデバイスはタッチパネルと慣性計測ユニットを搭載しており，タッチや手首をひねるなどのモーションで操作ができる．手首にデバイスを装着することで使用できるため，ユーザは動きを制限されず，自由度が高い．また，ポインティングにはタッチパネルを使用することで，入力の安定性を向上させた．Hernandezら\cite{bioglass}は頭部装着型のウェアラブルデバイスである，Google Glassに内蔵された加速度センサ，ジャイロセンサ，カメラから脈拍数と呼吸数を認識する手法を提案している．Nishajithら\cite{smart_cap}は，視覚障害者の状況認識を支援するウェアラブルデバイスとして，スマートキャップの設計と実装を行った．デバイスはRaspberry Pi 3，Raspberry Pi NoIR Camera V2，イヤホン，電源から構成される．Raspberry Pi NoIR（No Infrared） Camera V2とはRaspberry Piの赤外線カメラモジュールである．この赤外線カメラで得られる画像から検出された対象物について，イヤホンを通して音声で説明する．\par
+
+These are all studies on wearable devices worn on body parts, and the shape of device is varied. Head-worn wearable devices such as cap and eyeglass exist, but there are no studies using helmets to the best of our knowledge.
+
+%これらはいずれも身体部位に装着するウェアラブルデバイスに関する研究であり，さまざまな形状のデバイスを用いた研究が行われている．特に，頭部装着型のウェアラブルデバイスとしては帽子型や眼鏡型などが存在するが，ヘルメットを用いた研究は筆者らの知る限り存在しない．
+
+\subsection{Head State Recognition}
+%頭部形状を認識するという点での新規性
+Electroencephalogram (EEG) headsets are used to measure brain waves. However, since the measurement is performed by placing electrodes on the scalp, the muscle signals are detected locally. Although it is often removed as noise, Toth et al.\cite{facial_expression_headset} focused on this muscle signal, and six different facial expressions were classified using the muscle signals and the gyroscope values which were got from a cheap Electroencephalogram (EEG) headset. It uses of only existing EEG devices for classification of facial expressions. Then we don't need addition EMG sensor, and can build more hybrid brain-computer interface (BCI) system. Kwon et al.\cite{facial_expression_glasses} designed a spectacle-type wearable device which is used to detect the user's emotions based on facial expressions and physiological reactions. The designed device can capture facial expressions with a built-in camera. In addition, it can obtain physiological responses such as photopletis mogram (PPG) and electrodermal activity (EDA). These are used to detect the user's emotions.\par
+
+%Electroencephalogram（EEG）ヘッドセットは脳波の計測に用いられるが，頭皮に電極を配置して計測を行うため，局所的に筋信号が検出される．多くの場合はノイズとして除去されるが，Tothら\cite{facial_expression_headset}はこの筋信号に注目し，安価なElectroencephalogram（EEG）ヘッドセットから得られる筋信号とジャイロセンサの値を用いて，6種類の表情の分類を行った．表情の分類に既存の脳波デバイスを使用することで，別途追加で筋電位（EMG）センサを用意する必要がなくなり，よりハイブリッドな脳コンピュータインタフェース（BCI）システムを構築できる．Kwonら\cite{facial_expression_glasses}は顔の表情と生理反応を利用して，利用者の感情を検出するメガネ型ウェアラブルデバイスを設計している．設計したデバイスは，内蔵したカメラで顔の表情が取得できる．また，フォトプレチスモグラム（PPG）や皮膚電気活動（EDA）などの生理的反応を取得できる．これらを用いて利用者の感情を検出する．\par
+
+These researches acquire dynamic information such as facial expressions and physical responses in the face area. On the other hand, our research differs from them in that it obtains static features of the head shape.\par
+
+%これらの研究は，表情や顔部分の身体的反応などの動的な情報を取得するものであり，対して本研究は静的な頭部形状の特徴を取得するという点で異なる．\par
+
+In this paper, we propose a method to identify individuals by acquiring their head shape by wearing a helmet with a pressure sensor in the interior. This method does not require any special behavior for personal identification, and you are not limited movement by the device. In addition, it is necessary to know the exact three-dimensional shape of the head in order to replicate the head shape, and that makes difficult to replicate the head shape.
+
+%本研究では内装に圧力センサを搭載したヘルメットを装着することで，頭部形状を取得して個人識別する手法を提案する．提案手法は個人識別のために特別な動作を必要とせず，デバイスの搭載によって動作が制限されることもない．さらに，認証に用いる頭部形状を複製するには立体形状を正確に把握する必要があり，複製が困難である．
+
+\section{Proposed Method}
+\label{sec:method}
+This section describes the details of the proposed method.
+
+%本節では提案手法の詳細を述べる．
+
+\subsection{Overview}
+In the proposed method, the user wears a helmet equipped with a pressure sensor and acquires the shape of his or her head. It identifies the wearer is pre-registered person or not. In this study, two usage environments are assumed. As shown in \figref{system_classification}, the first is an environment in which multiple persons are registered and when one of the registered persons wears a helmet, the system recognizes who has worn it. As shown in \figref{system_mahalanobis}, the second environment has one or more persons registered in it. When a person including a non-registered wears a helmet, he or she who is a registered person is authenticated. On the other hand, he or she who is non-registerd person is rejected. The former environment is called personal classification and the latter environment is called identity authentication.
+
+%提案手法は，利用者が圧力センサを搭載したヘルメットを装着することで，頭部形状を取得し，装着者が事前に登録された人物であるかを識別する．本研究では2つの利用環境を想定する．一つ目は\figref{system_classification}に示すように，複数の人物が登録されており，登録された人物（登録者）のうちのいずれかがヘルメットを装着した際に，その人物が登録者のうち誰かを認識する環境である．二つ目は，\figref{system_mahalanobis}に示すように，1人以上の人物が登録されており，登録された人物以外を含む人物がヘルメットを装着した際に，その人物が登録者であれば認証し，登録者でなければ拒否する環境である．前者の環境を個人識別，後者の環境を本人認証と呼ぶ．
+
+\begin{figure}[!t]
+  \centering
+    \includegraphics[width=1\linewidth]{figure/system_classification.eps}
+  \caption{Structure of the Personal Identification System}
+  \label{fig:system_classification}
+\end{figure}
+
+\begin{figure}[!t]
+  \centering
+    \includegraphics[width=1\linewidth]{figure/system_mahalanobis.eps}
+  \caption{Structure of the Identity Authentication System}
+  \label{fig:system_mahalanobis}
+\end{figure}
+
+The inner side of the helmet contains 32 pressure sensors to acquire data in 32 dimensions. The proposed system provides helmets to people who are expected to wear helmets at work in advance. We ask the user to wear a helmet and collect pressure sensor data as training data. In individual identification, all users are asked to wear a helmet several times and collected 32 dimensions pressure sensor data as training data. Then, the system uses the Support Vector Machine (SVM) to build a recognition model from the training data. This model is used to obtain identification results from the features of the input data of an unknown registrant in the identification phase. On the other hand, in identity authentication, the user is asked to wear a helmet several times and collected 32 dimensions pressure sensor data as training data. Then, Mahalanobis' Distance between the training data and the input data of the person including non-registrants is calculated in the identification phase. If this distance is less than or equal to the threshold, the user is authenticated.
+
+%ヘルメットの内側には32個の圧力センサが搭載されており，32次元のデータを取得する．提案システムでは，業務などでヘルメットを装着すると想定される人物を登録者として事前にヘルメットを装着してもらい，圧力センサデータを学習データとして収集しておく．個人識別では，識別したい利用者全員にヘルメットを複数回装着してもらうことで頭部の32次元の圧力センサデータ群を収集し，Support Vector Machine（SVM）を用いて学習データから認識モデルを構築しておく．そして，識別フェーズで未知の登録者の入力データの特徴から識別結果を求める．一方，本人認証では，認証したい利用者にヘルメットを複数回装着してもらうことで頭部の32次元の圧力センサデータ群を収集しておく．そして，識別フェーズで登録者以外も含む人物の入力データと学習データ群とのマハラノビス距離を計算し，距離が閾値以下であれば本人であるとして認証する．
+
+\subsection{Hardware}
+We implemented a helmet equipped with a pressure sensor used in the proposed method. \figref{device} shows the configuration of the device and \figref{met_over} shows the appearance of the device.\par
+
+%提案手法に用いる圧力センサを搭載したヘルメットを実装した．デバイスの構成を\figref{device}に，デバイスの外観を\figref{met_over}に示す．\par
+
+\begin{figure}[!t]
+  \begin{center}
+    \includegraphics[width=0.65\linewidth]{figure/device.eps}
+  \end{center}
+  \caption{Structure of the device}
+  \label{fig:device}
+\end{figure}
+
+\begin{figure}[!t]
+  \begin{center}
+    \includegraphics[width=0.6\linewidth]{figure/met_over.eps}
+  \end{center}
+  \caption{Appearance of the device}
+  \label{fig:met_over}
+\end{figure}
+
+The head of the helmet wearer must be in close contact with the sensor to obtain the correct pressure value. Therefore, a full-face helmet (BB100 manufactured by B\&B) with high adhesion was used. The pressure sensors were FSR402 and FSR402 ShortTail manufactured by Interlink Electronics, Inc. The Arduino MEGA2560 R3 was used as a microcomputer. The helmets used were free size, and it was difficult to attach and remove the interior. Therefore, we removed the interior of the top of the head and installed a thick urethane sponge as shown in \figref{met_in}. In addition, a cut was made in the center of the urethane sponge and a pressure sensor was inserted as shown in \figref{sensor}. There are 4 pressure sensors at the top of the head, 16 around the top of the head, 6 at the back of the head, and 6 at the cheek pads on both sides. A total of 32 units were installed. The wiring for the pressure sensor goes through a hole drilled in the top of the helmet. Then, it is connected to 5V power supply port, GND and analog input port which is on Arduino MEGA2560 R3 via a printed circuit board with a 10K$\Omega$ resistor which is mounted outside the helmet. The printed circuit board attached to the outside of the helmet is shown in \figref{print}. The printed circuit board is bolted to the left cheek area using a threaded hole drilled for securing the helmet shield. It is fixed and removable.
+
+%圧力値を正しく取得するには，センサとヘルメット装着者の頭部が密着している必要があるため，密着度の高いフルフェイス型ヘルメット（B\&B社製BB100）を用いた．圧力センサとしてインターリンクエレクトロニクス社製のFSR402およびFSR402 ShortTailを合計32個使用した．マイコンとしてArduino MEGA2560 R3を使用した．使用したヘルメットはフリーサイズであり，内装の脱着が困難であったため，\figref{met_in}に示すように頭頂部の内装を取り外して，新たに厚みのあるウレタンスポンジを取り付けた．また，\figref{sensor}に示すようにウレタンスポンジの中央部に切り込みを入れて圧力センサを挿し込んだ．圧力センサは頭頂部に4個，頭頂部周囲に16個，後頭部に6個，左右チークパッド部に6個の合計32個を搭載した．配線はヘルメットの頭頂部にドリルで開けた穴から，ヘルメット外部に取り付けた10K$\Omega$の抵抗を配線してあるプリント基板を経由して，Arduino MEGA2560 R3の5V電源，GND，アナログ入力ポートに接続した．ヘルメット外部に取り付けたプリント基板を\figref{print}に示す．プリント基板はヘルメットのシールド固定用に開けられたネジ穴を用いて左頬部分にボルトで固定しており，取り外しが可能である．
+
+\begin{figure}[!t]
+  \begin{center}
+    \includegraphics[width=0.6\linewidth]{figure/met_in.eps}
+  \end{center}
+  \caption{Inside of the device}
+  \label{fig:met_in}
+\end{figure}
+
+\begin{figure}[!t]
+  \begin{center}
+    \includegraphics[width=0.6\linewidth]{figure/sensor.eps}
+  \end{center}
+  \caption{Mounting Method for Pressure Sensors}
+  \label{fig:sensor}
+\end{figure}
+
+\begin{figure}[!t]
+  \begin{center}
+    \includegraphics[width=0.6\linewidth]{figure/print.eps}
+  \end{center}
+  \caption{A printed circuit board connected to 32 pressure sensors}
+  \label{fig:print}
+\end{figure}
+
+
+\subsection{Personal Identification Method}
+In an environment which multiple persons are registered in the system and a helmet-wearing person is identified among them, we use the Support Vector Machine (SVM) which is a machine learning algorithm. The SVM is a pattern recognition model using supervised learning that can be applied to classification and regression. In the proposed method, the SVM is trained by the data with the registrant labels in advance. The data of one of the registrants is then entered, and it identifies whom the data is.\par
+
+%複数人がシステムに登録されており，その中からヘルメットを装着した人物を識別する手法では，機械学習アルゴリズムの一つであるSupport Vector Machine（SVM）を用いる．SVMは分類や回帰へ適用できる教師あり学習を用いるパターン認識モデルである．提案手法では登録者でラベル付けしたデータを事前に収集してSVMを学習させておき，その後，登録者のうち1名のデータを入力して登録者を識別する．\par
+
+The data acquisition starts when the user puts on the helmet. The voltage values of all the pressure sensors are almost 5V without a helmet. The voltage of the pressure sensors decreases when the helmet is worn. 32 pressure sensors data $p(t)=[p_{0,t},\dots,p_{31,t}]$ are acquired for 2 seconds from the time $t=T_s$[s] when the values are stable. The average value $x(t)=\frac{1}{N}\sum_{t=T_S}^{T_S+N-1}p(t)$ of $N$ samples of data obtained in 2 seconds per dimension from this 32-dimensional data is calculation. We then obtain a single 32-dimensional vector as a feature. We collect training data $[\bm{x}_i,y_i]$ $(i=1,\dots, m)$ by wearing a helmet $m$ times in advance and train the SVM. $y$ is the registrant label (such as the registrant's name and number). Then, the input data $\bm{x}$ of the user to be identified is entered into the SVM and the identification result $\hat{y}$ is obtained. In this propose method, we used linear SVM.
+
+%データの取得はユーザがヘルメットを装着することで開始する．ヘルメットを装着していない状態ではすべての圧力センサの電圧値がほぼ5Vである．ヘルメットの装着時に圧力センサの電圧値が下降し，値が安定した時刻$t=T_s$[s]から2秒間の32個の圧力センサデータ$p(t)=[p_{0,t},\dots,p_{31,t}]$を取得する．この32次元のデータから次元ごとに2秒間に得られたデータの$N$サンプルの平均値$x(t)=\frac{1}{N}\sum_{t=T_S}^{T_S+N-1}p(t)$を計算し，1つの32次元のベクトルを特徴量として得る．事前に$m$回ヘルメットを被って学習データ$[\bm{x}_i,y_i]$ $(i=1,\dots, m)$を収集し，SVMを学習させる．ただし，$y$は登録者ラベル（登録者名や登録者番号など）である．そして，識別したいユーザの入力データ$\bm{x}$をSVMに入力し，識別結果$\hat{y}$を得る．本手法では線形SVMを使用した．
+
+\subsection{Identity Authentication Method}
+\subsubsection{Calculation of distance from registered data}
+In an identity authentication environment, one or more users are registered in the system. When a registered person wears a helmet, he or she is authenticated. On the other hand, if an unregistered person wears a helmet, he or she is rejected as a stranger. The proposed method uses the Mahalanobis distance as a method to calculate the distance between the training data of the user and the input data of the unknown wearer. The Mahalanobis distance is one of the methods for calculating the distance between multiple variables, and it can be normalized considering the distribution of the data.\par
+
+%本人認証とは，1人以上の利用者がシステムに登録されており，登録されている人がヘルメットを装着した場合は本人であると認証し，登録されていない人がヘルメットを装着した場合は他人であるとして拒否する手法である．提案手法では，本人認証したい利用者の学習データと未知の装着者の入力データの距離計算方法として，マハラノビス距離を用いる．マハラノビス距離とは多変数間の距離計算手法のひとつであり，データの分布を考慮して正規化した距離を計算できる．\par
+
+As in the case of individual identification, we obtain the pressure sensors data $p(t)=[p_{0,t},\dots,p_{31,t}]$ for 2 seconds from time $t=T_s$[s] when the voltage of the pressure sensors decreases and the value is stable after wearing a helmet. The average value $x(t)=\frac{1}{N}\sum_{t=T_S}^{T_S+N-1}p(t)$ of $N$ samples of data obtained in 2 seconds per dimension from this 32-dimensional data is calculation. We then obtain a single 32-dimensional vector as a feature.
+
+%データの取得は個人識別の場合と同様に，ヘルメットの装着時に圧力センサの電圧値が下降し，値が安定した時刻$t=T_s$[s]から2秒間の32個の圧力センサデータ$p(t)=[p_{0,t},\dots,p_{31,t}]$を取得する．この32次元のデータから次元ごとに2秒間に得られたデータの$N$サンプルの平均値$x(t)=\frac{1}{N}\sum_{t=T_S}^{T_S+N-1}p(t)$を計算し，1つの32次元のベクトルを特徴量として得る．\par
+
+We collect training data $[\bm{x}_i,y_i]$ $(i=1,\dots, m)$ by wearing a helmet $m$ times in advance. $y$ is the registrant label (such as the registrant's name and number). The mean vector $\bm{\mu}$ and the variance-covariance matrix $\bm{\Sigma}$ of the training data are calculated by Equations \ref{eqn:mu} and \ref{eqn:sigma}.
+
+\begin{eqnarray}
+\label{eqn:mu}
+  \bm{\mu} &=& \frac{1}{m}\sum_{i=1}^{m}\bm{x}_i \\
+\label{eqn:sigma}
+  \bm{\Sigma} &=& \frac{1}{m}\sum_{i=1}^{m}(\bm{x}_i-\bm{\mu})(\bm{x}_i-\bm{\mu})^T
+\end{eqnarray}
+
+%事前に$m$回ヘルメットを被って学習データ$[\bm{x}_i,y_i]$ $(i=1,\dots, m)$を収集する．ただし，$y$は登録者ラベル（登録者名や登録者番号など）である．学習データの平均値ベクトル$\bm{\mu}$と分散共分散行列$\bm{\Sigma}$を次式で求める．
+
+% \begin{eqnarray}
+%   \bm{\mu} &=& \frac{1}{m}\sum_{i=1}^{m}\bm{x}_i \\
+%   \bm{\Sigma} &=& \frac{1}{m}\sum_{i=1}^{m}(\bm{x}_i-\bm{\mu})(\bm{x}_i-\bm{\mu})^T
+% \end{eqnarray}
+
+Let $\bm{x}$ is the input data of the user to be identified. In this case, if the input data are got from the pre-registered user, the input data $\bm{x}$ and the training data $\bm{x}_i$ follows the probability distribution of the same variance-covariance matrix $\bm{\Sigma}$, so the Mahalanobis distance between the input data $\bm{x}$ and the training data $\bm{x}_i$ can be defined as Equation \ref{eqn:mahalanobis}.
+
+\begin{eqnarray}
+\label{eqn:mahalanobis}
+  d(\bm{x},\bm{x}_i) = \sqrt{(\bm{x}-\bm{x}_i)^{T}\bm{\Sigma}^{-1}(\bm{x}-\bm{x}_i)}
+\end{eqnarray}
+
+%識別したいユーザの入力データ$\bm{x}$とする．このとき，入力データが事前に登録された本人のデータであれば，入力データ$\bm{x}$と学習データ$\bm{x}_i$は同じ分散共分散行列$\bm{\Sigma}$の確率分布に従うため，入力データ$\bm{x}$と学習データ$\bm{x}_i$のマハラノビス距離は
+% \begin{eqnarray}
+%   d(\bm{x},\bm{x}_i) = \sqrt{(\bm{x}-\bm{x}_i)^{T}\bm{\Sigma}^{-1}(\bm{x}-\bm{x}_i)}
+% \end{eqnarray}
+%と定義できる．
+
+\subsubsection{Authentication Decision}
+Let $\theta$ is the threshold value, and if Equation \ref{eqn:authentication} is satisfied, the input data $\bm{x}$ is determined to be got from one of the registered users and the user is authenticated. On the other hand, if Equation \ref{eqn:authentication} is not satisfied, the input data $\bm{x}$ is determined to be got from non-registered user and the user is rejected. When multiple users are registered, the mean vector $\bm{\mu}$ and the variance-covariance matrix $\bm{\Sigma}$ of each is computed in the same way. It computes the Mahalanobis distance between the input data and each registrant's data set. Then, if Equation \ref{eqn:authentication} is satisfied at least once, it is authenticated, and if it is not satisfied at least once, it is rejected.
+
+\begin{equation}
+\label{eqn:authentication}
+  \theta \geq min_i(d(\bm{x},\bm{x}_i))~(i=1,\dots,m)
+\end{equation}
+
+%閾値を$\theta$とおき，
+% \begin{equation}
+% \label{eqn:authentication}
+%   \theta \geq min_i(d(\bm{x},\bm{x}_i))~(i=1,\dots,m)
+% \end{equation}
+%を満たす場合，入力データ$\bm{x}$は登録されているいずれかの所有者から得られたデータであると判定し認証する．式\ref{eqn:authentication}を満たさない場合，入力データ$\bm{x}$は登録されているいずれの所有者でもない人物のデータであると判定し拒否する．利用者が複数人登録されている場合は，同様の手順でそれぞれの平均値ベクトル$\bm{\mu}$と分散共分散行列$\bm{\Sigma}$を計算しておく．入力データと登録者一人一人のデータ群とのマハラノビス距離を計算し，一度でも式\ref{eqn:authentication}を満たした場合は認証し，一度も満たさない場合は拒否する．
+
+\subsection{Software}
+The program of Arduino MEGA was implemented by Arduino IDE. A computer program that receives data from Arduino MEGA and saves it in csv format was implemented by Python. A computer program to analyze the data was implemented by Python.\par
+
+%Arduino MEGAのプログラムはArduino IDEで実装した．Arduino MEGAからのデータを受信してcsv形式で保存するコンピュータのプログラムはPythonで実装した．保存したデータの解析プログラムはPythonで実装した．\par
+
+In the individual identification environment, the system read the csv file of the pre-collected sensor data and train and identify using sklearn.svm.SVC. sklearn.svm.SVC is a scikit-learn\cite{scikit-learn} library which is implemented the standard soft margin SVM. We also used sklearn.model\_selection.cross\_val\_score which is a library for cross-validation and sklearn.model\_selection.GridSearchCV which is a library for grid search, for evaluation.\par
+
+%個人識別では，事前に収集したセンサデータのcsvファイルを読み出し，sklearn.svm.SVCを用いて学習と識別を行う．sklearn.svm.SVCとは標準的なソフトマージンSVMを実装したscikit-learn\cite{scikit-learn}のライブラリである．また，評価のために交差検証を行うライブラリであるsklearn.model\_selection.cross\_val\_score\textcolor{blue}{および，グリッドサーチを行うライブラリであるsklearn.model\_selection.GridSearchCV}を使用した．\par
+
+In the authentication environment, the system read the csv file of the pre-collected sensor data and compute the variance-covariance matrix using sklearn.covariance.MinCovDet. The system compute the Mahalanobis distance of the input data $\bm{x}$ for all training data $\bm{x}_i$ from the inverse of the variance-covariance matrix using scipy.spatial.distance. Minimum Covariance Determinant(MCD) is an algorithm that is robust to outlier values for estimating a variance-covariance matrix. sklearn.covariance.MinCovDet is a scikit-learn library that is implemented Fast-MCD\cite{fast_mcd} which is a faster version of MCD. scipy.spatial.distance is a SciPy\cite{scipy} library that is implemented functions for calculating various distance.
+
+%本人認証では，事前に収集したセンサデータのcsvファイルを読み出し，sklearn.covariance.MinCovDetを用いて分散共分散行列を計算する．分散共分散行列の逆行列から，scipy.spatial.distanceを用いてすべての学習データ$\bm{x}_i$に対する入力データ$\bm{x}$のマハラノビス距離を計算する．sklearn.covariance.MinCovDetとは，異常値に対して頑健な分散共分散行列の推定アルゴリズムであるMinimum Covariance Determinant（MCD）を高速化したFast-MCD\cite{fast_mcd}を実装したscikit-learnのライブラリである．また，scipy.spatial.distanceとは，さまざまな距離計算の関数を実装したSciPy\cite{scipy}のライブラリである．
+
+\section{Evaluation}
+\label{sec:evaluation}
+In this section, we describe the experiments we conducted to evaluate the effectiveness of the proposed method.
+
+%本節では，提案手法の有効性を評価するために行った実験について説明する．
+
+\subsection{Data Collection}
+We asked 9 subjects (A~I, all male, mean age 23 years) to wear helmets implemented in Section \ref{sec:method} and collected sensor data. The sampling rate is approximately 30 Hz. Put it on for 2 seconds to collect data, then remove it and put it back on for 2 seconds to collect data as a set (2 samples). A total of 180 samples (2 seconds$\times$20 samples$\times$9 subjects) were collected from 10 sets on different days. In order to collect data on the various positions of the sensor and head as the helmet was worn, a rest period of at least 30 minutes was provided between sets. A maximum of four sets of data were collected per person per day.
+
+%被験者9名（A$\sim$I，全員男性，平均年齢23歳）に\ref{method}節で実装したヘルメットを装着させ，サンプリングレート約30Hzでセンサデータを収集した．2秒間装着してデータを採取し，取り外して再び2秒間装着してデータを採取する試行を1セット（2サンプル）として，日を変えて10セット，合計で2秒$\times$20サンプル$\times$9人のデータを収集した．ヘルメットの装着具合の変化にともなうセンサと頭部のさまざまな位置関係のデータを収集するために，セット間に30分以上の休憩時間を設けた．また，データの収集は1人あたり1日最大4セットとした．
+
+\subsection{Personal Identification Method}
+\subsubsection{Evaluation Environment}
+We evaluated the proposed method by 5-fold cross-validation that 80\% (16 samples) of data collected from each subjects were trained and 20\% (4 samples) were test data. In order to investigate the effect of the number of sensors used, we performed the trials described above for all combinations of sensors from 1 sensor to 32 sensors.\par
+
+%収集したデータに対して，各被験者のデータの80\%（16サンプル）を学習させ，20\%（4サンプル）をテストデータとする5分割交差検証によって評価した．使用するセンサの個数による影響も調査するため，1個使用する場合から32個使用する場合までのすべてのセンサの組合せにおいて前述の試行を行った．\par
+
+To simulate a half helmet used at a construction site, we evaluated all combinations of sensors from 1 to 20 sensors in the same way, with only 4 sensors at the top of the head and 16 sensors around the top of the head out of 32 sensors. In this evaluation, we call a full-face helmet when 32 sensors are used and a half helmet when 20 sensors are used.
+
+%また，工事現場などで使用されるハーフ型ヘルメットを想定し，32個のセンサのうち頭頂部の4個と頭頂部周囲の16個の合計20個のセンサに限定して，同様に1個使用する場合から20個使用する場合までの全てのセンサの組合せにおいて評価した．本評価では，32個のセンサを使用する場合をフルフェイス型ヘルメット，20個のセンサを使用する場合をハーフ型ヘルメットと呼ぶ．
+
+\subsubsection{Results and Discussion}
+The accuracy of individual identification by full-face helmets is shown in \tabref{full_num}. When the number of sensors is 32, the accuracy is in one way using all 32 sensors, and when the number of sensors is 31, the highest accuracy is recorded among the $_{32}C_{31}=32$ ways using the 31 sensors out of 32. We evaluated the accuracy with 32 or 31 sensors and found that it was 1.00. Therefore, the number of sensors was increased from one, and the accuracy was evaluated until it reached 1.00.\par
+
+%フルフェイス型ヘルメットでの個人識別の精度を\tabref{full_num}に示す．センサ数が32個の場合は，32個すべてを使用する1通りでの精度であり，センサ数が31個の場合は，32個のうち31個を使用する$_{32}C_{31}=$32通りの中で最も高かった精度である．ここで，センサ数が32個および31個の場合の精度を評価したところ1.00であったため，センサ数を1個から増やしていき，精度が1.00に到達するところまでを評価した．\par
+
+From the results, we succeeded in identifying 9 people with 100\% accuracy when the number of sensors was 5. The accuracy of 99.4\% with 4 sensors, 97.2\% with 3 sensors, and 92.2\% with 2 sensors was high. However, the accuracy dropped significantly to 60\% when the number of sensors was one. In this case, the combination of sensors with the highest accuracy for each number of sensors of 5 or less is recorded. Then, the parameters are searched for using the grid search in the combination, and the highest results are shown in \tabref{full_num}.\par
+
+%結果より，センサ数が5個のとき，9人の識別に100\%の精度で成功した．センサ数が4個で99.4\%，3個で97.2\%，2個で92.2\%と高い精度が得られたが，センサ数が1個では60\%と大幅に下がった．このとき，センサ数が5個以下のそれぞれの個数で精度が最も高かったセンサの組み合わせを記録しておき，さらにその組み合わせにおいてグリッドサーチでパラメータを探索した上で結果としている．\par
+
+\begin{table}[!t]
+  \centering
+  \caption{Personal identification accuracy when the number of sensors on a full-face helmet is reduced from 32 to 1}
+  \begin{tabular}{c|c} \hline\hline
+    Sensor Number & Accuracy \\ \hline
+    32 & 1.000 \\
+    31 & 1.000 \\
+    \vdots & \vdots \\
+    5 & 1.000 \\
+    4 & 0.994 \\
+    3 & 0.972 \\
+    2 & 0.922 \\
+    1 & 0.600 \\ \hline
+  \end{tabular}
+  \label{tab:full_num}
+\end{table}
+
+The accuracy of individual identification by half-face helmets is shown in \tabref{half_num}. We evaluated the accuracy with 20 or 19 sensors and found that it was 1.00. Therefore, the number of sensors was increased from one, and the accuracy was evaluated until it reached 1.00 as well as the environment in a full-face helmet.\par
+
+%ハーフ型ヘルメットでの個人識別の精度を\tabref{half_num}に示す．この結果もフルフェイス型ヘルメットと同様にセンサ数が20個および19個の場合の精度を評価したところ1.00であったため，センサ数を1個から増やしていき，精度が1.00に到達するところまで評価した．\par
+
+From the results, we succeeded in identifying 9 people with 100\% accuracy when the number of sensors was 5. The accuracy of 99.4\% with 4 sensors, 96.7\% with 3 sensors, and 90.0\% with 2 sensors was high. However, the accuracy dropped significantly to 60\% when the number of sensors was one. In this case, the combination of sensors with the highest accuracy for each number of sensors of 5 or less is recorded. Then, the parameters are searched for using the grid search in the combination, and the highest results are shown in \tabref{half_num}.\par
+
+%結果より，センサ数が5個のとき，9人の識別に100\%の精度で成功した．センサ数が4個，3個，2個の場合では99.4\%，96.7\%，90.0\%と高い精度が得られたが，センサ数が1個では60\%と大幅に下がった．この結果も同様に，センサ数が5個以下で個数ごとの精度が最も高くなる組み合わせにおいて，さらにグリッドサーチでパラメータを探索して得られた値である．
+
+\begin{table}[!t]
+  \centering
+  \caption{Personal identification accuracy when the number of sensors on a half helmet is reduced from 20 to 1}
+  \begin{tabular}{c|c} \hline\hline
+    Sensor Number & Accuracy \\ \hline
+    20 & 1.000 \\
+    19 & 1.000 \\
+    \vdots & \vdots \\
+    5 & 1.000 \\
+    4 & 0.994 \\
+    3 & 0.967 \\
+    2 & 0.900 \\
+    1 & 0.600 \\ \hline
+  \end{tabular}
+  \label{tab:half_num}
+\end{table}
+
+Both of the full-face helmet and the half-helmet used 5 sensors for 100\% accuracy from the data set used in this experiment. However, the number of sensors required to achieve high accuracy may more increases as the number of registrants increases.
+
+%これらの結果より，本実験で使用したデータセットに対して，フルフェイス型ヘルメットおよびハーフ型ヘルメットのどちらにおいても，センサ数5個で100\%の精度で識別できることを確認した．しかしながら，登録者数が増加した場合，高い精度を得るためには必要となるセンサ数が増加すると考えられる．
+
+\subsection{Identity Authentication Method}
+\subsubsection{Evaluation Environment}
+Of the data collected, one subject was considered to be the individual and the remaining eight subjects were considered to be strangers. 80\%(16 samples) of the individual data were registered as training data, and the remaining 20\%(4 samples) data were used as test data. The authentication accuracy of the person was measured by 5-fold cross-validation. In addition, we measured the authentication accuracy of others' using data from all eight strangers(160 samples) for the five patterns of training data used in cross-validation. All nine subjects were evaluated on a rotation basis.\par
+
+%収集したデータのうち，1名の被験者を本人，残り8名の被験者を他人として，本人としたデータの80\%（16サンプル）を学習データとして登録し，残り20\%（4サンプル）をテストデータとして5分割交差検証を行い本人の認証精度を計測した．さらに，交差検証で使用した5パターンの学習データに対して，他人とした8名すべてのデータ（160サンプル）を用いて他人の認証精度を計測した．また，本人を9名全員ローテーションして評価した．\par
+
+FRR, FAR, and EER are used as evaluation indicators of authentication accuracy. FRR(False Reject Rate) is the rate at which a registered person is mistakenly considered to be a stranger and rejected. FAR (False Accept Rate) is the rate at which a stranger is mistakenly considered to be a registered person and authenticated. The smaller the threshold value is set, the stricter the authentication decision becomes. Then FRR increases. On the other hand, the larger the threshold value is set, the looser the authentication decision becomes. Then FAR increases. There is a trade-off between FRR and FAR, and the value at which FRR and FAR become equal is called EER(Equal Error Rate). Normally, the value of EER is used as an indicator to evaluate the performance of authentification methods, and the smaller EER, the better the performance.
+
+%認証精度の評価指標として，FRR，FAR，EERを用いる．FRR（False Reject Rate：本人拒否率）は本人を他人であると誤って判断し拒否する割合である．FAR（False Accept Rate：他人受入率）は他人を本人であると誤って判断し認証する割合である．認証するか否かを決定する閾値を小さく設定するほど認証判定が厳密になるためFRRが増加し，対して閾値を大きく設定するほど認証判定が緩くなるためFARが増加する．FRRとFARはトレードオフの関係にあり，FRRとFARが同値になるときの値をEER（Equal Error Rate：等誤り率）と呼ぶ．通常，本人認証手法の性能評価においてはEERの値が指標として用いられ，EERが小さいほど性能が良いとされる．
+
+\subsubsection{Results and Discussion}
+EER of each subject is shown in \tabref{EER_num}. FRR and FAR of each subject with varying thresholds are shown in \figref{EER}. "Total" indicates the mean of all subjects. \tabref{EER_num} shows that EER of subjects A, E, G, and I was roughly less than 0.01, which is a good result. This means that in the dataset used for evaluation, the individual fails to authenticate less than once in 100 times, and the strangers break through the authentication less than once in 100 times. EER of 0.012 for face authentification was reported in reference \cite{face_auth}. Therefore, comparable performance was achieved in these subjects. \figref{EER} shows that for subject E, FRR and FAR crossed at a threshold of about 60, which is greater than the other subjects. This is because there were outliers in the collected pressure data samples, and it was necessary to increase the threshold value to authenticate the outliers correctly.\par
+
+%各被験者のEERを\tabref{EER_num}に示す．また，閾値を変化させたときの各被験者のFRRとFARを\figref{EER}に示す．Totalは被験者全員の平均を示している．\tabref{EER_num}より被験者A，E，G，IのEERはおおよそ0.01以下と良い結果が得られた．これは，検証に用いたデータセットにおいて，本人は100回に1回以下の割合で認証に失敗し，他人は100回に1回以下の割合で認証を突破することを意味している．文献\cite{face_auth}において，顔認証のEERが0.012であると報告されていることを考慮すると，これらの被験者については同等の性能が得られたといえる．\figref{EER}より，被験者Eについては，閾値が他の被験者よりも大きい60程度でFRRとFARが交差している．これは収集した圧力データのサンプルに外れ値が存在したため，外れ値を正しく認証するために閾値を大きくする必要があったためである．\par
+
+\begin{table}[!t]
+  \centering
+  \caption{EER of each subject and the average EER of all subjects in the identity authentification}
+  \begin{tabular}{c|c} \hline\hline
+    Subject & EER \\ \hline
+    A & 0.002 \\
+    B & 0.095 \\
+    C & 0.050 \\
+    D & 0.055 \\
+    E & 0.006 \\
+    F & 0.094 \\
+    G & 0.012 \\
+    H & 0.050 \\
+    I & 0.000 \\ \hline
+    Total & 0.076 \\ \hline
+  \end{tabular}
+  \label{tab:EER_num}
+\end{table}
+
+\begin{figure}[!t]
+  \centering
+    \includegraphics[width=1\linewidth]{figure/EER.eps}
+  \caption{FRR and FAR}
+  \label{fig:EER}
+\end{figure}
+
+The next most accurate subjects are C, D, and H, with EER of approximately 0.05. In order to determine the cause of the decline in accuracy, all collected data were compressed to the first principal component and the second principal component by principal component analysis. The results of this data plotted on a two-dimensional plane are shown in \figref{PCA}. Looking at subject C's data in \figref{PCA}, one sample of subject C's data group is in close proximity to subject I's data group, but there is no overlap with the other subjects' data groups. However, the dispersion in the first principal component direction is large. On the other hand, the data groups of subjects D and H overlapped each other significantly, which may affected the accuracy of the both subjects.\par
+
+%次に精度が良い被験者はC，D，Hであり，EERはおおよそ0.05である．ここで精度の低下の要因を究明するために，収集したすべてのデータに対して主成分分析を行い，第一主成分および第二主成分の2次元に圧縮したデータを2次元平面上にプロットし，目視で確認した．結果を\figref{PCA}に示す．\figref{PCA}より，被験者Cについて見ると，被験者Cのデータ群のうち1サンプルが被験者Iのデータ群と近い位置にあるが，他の被験者のデータ群との重なりは見られない．しかしながら，第一主成分方向の分散が大きい．一方，被験者D，Hのデータ群は互いに大きく重なっており，両者が影響し合って精度が低下したと考えられる．\par
+
+\begin{figure}[!t]
+  \centering
+    \includegraphics[width=1\linewidth]{figure/PCA.eps}
+  \caption{Principal component distribution of 32-dimensional features compressed into two dimensions by PCA}
+  \label{fig:PCA}
+\end{figure}
+
+The least accurate subjects are B and F, with EER of approximately 0.095. Subject B's data group has a small variance, but there is some overlap with subject I's data group. However, subject I's EER in the dataset used for evaluation was 0. This means that it was authenticated without error. Therefore, the overlap of these data groups is likely due to the loss of data when they are compressed into two dimensions by principal component analysis. On the other hand, subject F's data group does not show any overlap with the other subjects' data groups, but there is a large variance to both directions for the first and second principal components. Considering the effect of data compression by principal component analysis, duplication with other subjects' data groups can be inferred in the 32-dimensional data. The accuracy of subjects B and C, who has data groups located close to subject F's data groups, may have been affected by the scattered data of subject F. In particular, the accuracy of subject B is likely to be lower than that of subject C because the two samples of subject B are located in close proximity to subject F's data group.\par
+
+%最も精度が悪かった被験者はB，Fであり，これらの被験者のEERはおおよそ0.095であった．被験者Bのデータ群は分散が小さいが，被験者Iのデータ群との重なりが見られる．しかしながら，検証に用いたデータセットにおける被験者IのEERは0であり，誤りなく判別ができていた．したがって，これらのデータ群の重なりは主成分分析で2次元に圧縮した際のデータの損失による影響だと考えられる．一方，被験者Fのデータ群は他の被験者のデータ群との重なりが見られないが，第一主成分と第二主成分の両方向の分散が大きい．主成分分析によるデータ圧縮の影響を考慮すると，32次元のデータでは他の被験者のデータ群との重複が推察される．被験者Fのデータの散らばりに影響されて，被験者Fのデータ群の近くに位置する被験者B，Cの精度も低下したと考えられる．特に，被験者Bは2サンプルが被験者Fのデータ群と近い位置に存在するため，被験者Cに比べて精度が低下したと考えられる．\par
+
+The mean EER of all subjects was approximately 0.076. It is necessary to validate with data from a larger number of subjects because there was a difference in EER between subjects. The proposed method uses the distance between the training data and the input data for authentication, so that the accuracy is expected to be improved by increasing the number of training data. In addition, we will also examine a method for authentication using time series pressure data during helmet wearing operation.
+
+%被験者全員の平均EERは約0.076であった．被験者ごとのEERに差が見られたことから，より多くの被験者のデータを用いて検証する必要がある．また，提案手法は学習データと入力データの距離を用いて認証を行うため，学習データ数をさらに増やすことで精度の改善が見込まれる．このほか，ヘルメットを装着する一連の流れにおける時系列圧力データを用いて認証する手法についても今後検証する．
+
+\section{Conclusion}
+\label{sec:conclusion}
+In this study, we proposed a method to identify individuals based on individual differences in head shapes which is measured by wearing a helmet with pressure sensors inside. Then, we implemented the prototype device and evaluated the proposed method. The prototype device is a commercial full-face helmet with a pressure sensor attached. In the evaluation, we created a data collection program to acquire data from the prototype device and obtained the sensor value for 2 seconds 20 times from all 9 subjects as head shape data. Using the acquired data, we evaluated the accuracy of individual identification to determine who is wearing the helmet among the registrants and the accuracy of identity authentication to determine whether the helmet wearer is the registrant or not.\par
+
+%本研究では，圧力センサを内部に取り付けたヘルメットを装着することで頭部の形状を計測して，頭部形状の個人差から個人を識別する手法を提案し，プロトタイプデバイスの実装と評価を行った．プロトタイプデバイスは市販のフルフェイス型ヘルメットを加工し，圧力センサを取り付けた．評価では，プロトタイプデバイスからデータを取得するためにデータ収集プログラムを作成し，頭部形状データとして被験者9人からそれぞれ2秒間のセンサ値を20回分取得した．複数の登録者のうち誰が装着したのかを判別することを目的とした個人識別と，二輪車の鍵のように用いることを想定して1名の登録者であるか他人であるかを判別することを目的とする本人認証を行った．\par
+
+Since the accuracy was very high in the individual identification environment in the evaluation experiments, we tested how the discrimination accuracy changed by decreasing the number of sensors used for identification. The results showed that the most efficient number of sensors to identify the data set used in this experiment was five for both full-face and half helmets. EER of 4 out of 9 subjects was less than 0.012, and the average EER was 0.076 in the environment of the authentication. These results suggest that our method is effective as a personal identification method. In the future, we will collect more data and evaluate the proposed method in a real environment.
+
+%評価実験では，個人識別では非常に精度が高かったため，識別に使用するセンサ数を減少させて識別精度がどのように変化するかを検証した．その結果，本実験で使用したデータセットに対して一番効率の良いセンサ数は，フルフェイス型ヘルメットおよび，ハーフ型ヘルメットのどちらの場合も5個であった．本人認証では認証の精度の評価指標であるEERが9名中4名が0.012以下，平均0.076という結果が得られた．これらの結果より，本手法は個人識別手法として有効であると考えられる．今後はさらなるデータの収集を行い，実環境での提案手法の評価を行う．
+
+
+% \section{Citations and Bibliographies}
+
+% The use of \BibTeX\ for the preparation and formatting of one's
+% references is strongly recommended. Authors' names should be complete
+% --- use full first names (``Donald E. Knuth'') not initials
+% (``D. E. Knuth'') --- and the salient identifying features of a
+% reference should be included: title, year, volume, number, pages,
+% article DOI, etc.
+
+% The bibliography is included in your source document with these two
+% commands, placed just before the \verb|\end{document}| command:
+% \begin{verbatim}
+%   \bibliographystyle{ACM-Reference-Format}
+%   \bibliography{bibfile}
+% \end{verbatim}
+% where ``\verb|bibfile|'' is the name, without the ``\verb|.bib|''
+% suffix, of the \BibTeX\ file.
+
+% Citations and references are numbered by default. A small number of
+% ACM publications have citations and references formatted in the
+% ``author year'' style; for these exceptions, please include this
+% command in the {\bfseries preamble} (before
+% ``\verb|\begin{document}|'') of your \LaTeX\ source:
+% \begin{verbatim}
+%   \citestyle{acmauthoryear}
+% \end{verbatim}
+
+%   Some examples.  A paginated journal article \cite{Abril07}, an
+%   enumerated journal article \cite{Cohen07}, a reference to an entire
+%   issue \cite{JCohen96}, a monograph (whole book) \cite{Kosiur01}, a
+%   monograph/whole book in a series (see 2a in spec. document)
+%   \cite{Harel79}, a divisible-book such as an anthology or compilation
+%   \cite{Editor00} followed by the same example, however we only output
+%   the series if the volume number is given \cite{Editor00a} (so
+%   Editor00a's series should NOT be present since it has no vol. no.),
+%   a chapter in a divisible book \cite{Spector90}, a chapter in a
+%   divisible book in a series \cite{Douglass98}, a multi-volume work as
+%   book \cite{Knuth97}, an article in a proceedings (of a conference,
+%   symposium, workshop for example) (paginated proceedings article)
+%   \cite{Andler79}, a proceedings article with all possible elements
+%   \cite{Smith10}, an example of an enumerated proceedings article
+%   \cite{VanGundy07}, an informally published work \cite{Harel78}, a
+%   doctoral dissertation \cite{Clarkson85}, a master's thesis:
+%   \cite{anisi03}, an online document / world wide web resource
+%   \cite{Thornburg01, Ablamowicz07, Poker06}, a video game (Case 1)
+%   \cite{Obama08} and (Case 2) \cite{Novak03} and \cite{Lee05} and
+%   (Case 3) a patent \cite{JoeScientist001}, work accepted for
+%   publication \cite{rous08}, 'YYYYb'-test for prolific author
+%   \cite{SaeediMEJ10} and \cite{SaeediJETC10}. Other cites might
+%   contain 'duplicate' DOI and URLs (some SIAM articles)
+%   \cite{Kirschmer:2010:AEI:1958016.1958018}. Boris / Barbara Beeton:
+%   multi-volume works as books \cite{MR781536} and \cite{MR781537}. A
+%   couple of citations with DOIs:
+%   \cite{2004:ITE:1009386.1010128,Kirschmer:2010:AEI:1958016.1958018}. Online
+%   citations: \cite{TUGInstmem, Thornburg01, CTANacmart}. Artifacts:
+%   \cite{R} and \cite{UMassCitations}.
+
+% \section{Acknowledgments}
+
+% Identification of funding sources and other support, and thanks to
+% individuals and groups that assisted in the research and the
+% preparation of the work should be included in an acknowledgment
+% section, which is placed just before the reference section in your
+% document.
+
+% This section has a special environment:
+% \begin{verbatim}
+%   \begin{acks}
+%   ...
+%   \end{acks}
+% \end{verbatim}
+% so that the information contained therein can be more easily collected
+% during the article metadata extraction phase, and to ensure
+% consistency in the spelling of the section heading.
+
+% Authors should not prepare this section as a numbered or unnumbered {\verb|\section|}; please use the ``{\verb|acks|}'' environment.
+
+% \section{Appendices}
+
+% If your work needs an appendix, add it before the
+% ``\verb|\end{document}|'' command at the conclusion of your source
+% document.
+
+% Start the appendix with the ``\verb|appendix|'' command:
+% \begin{verbatim}
+%   \appendix
+% \end{verbatim}
+% and note that in the appendix, sections are lettered, not
+% numbered. This document has two appendices, demonstrating the section
+% and subsection identification method.
+
+% \section{SIGCHI Extended Abstracts}
+
+% The ``\verb|sigchi-a|'' template style (available only in \LaTeX\ and
+% not in Word) produces a landscape-orientation formatted article, with
+% a wide left margin. Three environments are available for use with the
+% ``\verb|sigchi-a|'' template style, and produce formatted output in
+% the margin:
+% \begin{itemize}
+% \item {\verb|sidebar|}:  Place formatted text in the margin.
+% \item {\verb|marginfigure|}: Place a figure in the margin.
+% \item {\verb|margintable|}: Place a table in the margin.
+% \end{itemize}
+
+% %%
+% %% The acknowledgments section is defined using the "acks" environment
+% %% (and NOT an unnumbered section). This ensures the proper
+% %% identification of the section in the article metadata, and the
+% %% consistent spelling of the heading.
+% \begin{acks}
+% To Robert, for the bagels and explaining CMYK and color spaces.
+% \end{acks}
+
+%%
+%% The next two lines define the bibliography style to be used, and
+%% the bibliography file.
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+% %%
+% %% If your work has an appendix, this is the place to put it.
+% \appendix
+
+% \section{Research Methods}
+
+% \subsection{Part One}
+
+% Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+% malesuada, quam in pulvinar varius, metus nunc fermentum urna, id
+% sollicitudin purus odio sit amet enim. Aliquam ullamcorper eu ipsum
+% vel mollis. Curabitur quis dictum nisl. Phasellus vel semper risus, et
+% lacinia dolor. Integer ultricies commodo sem nec semper.
+
+% \subsection{Part Two}
+
+% Etiam commodo feugiat nisl pulvinar pellentesque. Etiam auctor sodales
+% ligula, non varius nibh pulvinar semper. Suspendisse nec lectus non
+% ipsum convallis congue hendrerit vitae sapien. Donec at laoreet
+% eros. Vivamus non purus placerat, scelerisque diam eu, cursus
+% ante. Etiam aliquam tortor auctor efficitur mattis.
+
+% \section{Online Resources}
+
+% Nam id fermentum dui. Suspendisse sagittis tortor a nulla mollis, in
+% pulvinar ex pretium. Sed interdum orci quis metus euismod, et sagittis
+% enim maximus. Vestibulum gravida massa ut felis suscipit
+% congue. Quisque mattis elit a risus ultrices commodo venenatis eget
+% dui. Etiam sagittis eleifend elementum.
+
+% Nam interdum magna at lectus dignissim, ac dignissim lorem
+% rhoncus. Maecenas eu arcu ac neque placerat aliquam. Nunc pulvinar
+% massa et mattis lacinia.
+
+\end{document}
+\endinput
+%%
+%% End of file `sample-authordraft.tex'.
