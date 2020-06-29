@@ -28,9 +28,9 @@ def use_cols(num):
     elif num == 4:
         return ['0','3','5','16']
     elif num == 3:
-        return ['3','11','E']
+        return ['0','3','13']
     elif num == 2:
-        return ['3','F']
+        return ['3','16']
     elif num == 1:
         return ['10']
 
