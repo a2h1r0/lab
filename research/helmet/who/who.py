@@ -67,8 +67,8 @@ test = np.array(test).reshape(1,-1)
 
 
 # Arduinoの用意
-ser = serial.Serial('COM4', 57600)
-ser2 = serial.Serial('COM3', 57600)        
+ser = serial.Serial('COM5', 57600)
+ser2 = serial.Serial('COM6', 57600)        
 sleep(1)    # ポート準備に1秒待機**これがないとシリアル通信がうまく動かない**
         
 def voltage_get():

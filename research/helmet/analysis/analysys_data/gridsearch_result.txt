@@ -1,0 +1,116 @@
+Full
+
+runfile('C:/Users/fujii/Desktop/met/analysis/grid_search_5_to_1_full.py', wdir='C:/Users/fujii/Desktop/met/analysis')
+5個のセンサを使用します．
+1.0
+{'C': 1, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+4個のセンサを使用します．
+0.9944444444444445
+{'C': 1, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+3個のセンサを使用します．
+0.9722222222222223
+{'C': 1, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+2個のセンサを使用します．
+0.9222222222222222
+{'C': 1, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+1個のセンサを使用します．
+0.6166666666666668
+{'C': 100, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+
+Full edit
+
+runfile('C:/Users/fujii/Desktop/met/analysis/grid_search_5_to_1_full_edit.py', wdir='C:/Users/fujii/Desktop/met/analysis')
+Reloaded modules: calculate_vector_ave_cols
+5個のセンサを使用します．
+1.0
+{'C': 1, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+4個のセンサを使用します．
+0.9944444444444445
+{'C': 1, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+3個のセンサを使用します．
+0.9722222222222223
+{'C': 1, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+2個のセンサを使用します．
+0.9222222222222222
+{'C': 1, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+1個のセンサを使用します．
+0.6166666666666668
+{'C': 100, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+
+Half
+
+runfile('C:/Users/fujii/Desktop/met/analysis/grid_search_5_to_1_half.py', wdir='C:/Users/fujii/Desktop/met/analysis')
+Reloaded modules: calculate_vector_ave_cols
+5個のセンサを使用します．
+1.0
+{'C': 1, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+4個のセンサを使用します．
+0.9944444444444445
+{'C': 1, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+3個のセンサを使用します．
+0.9833333333333334
+{'C': 100, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+2個のセンサを使用します．
+0.9277777777777778
+{'C': 10, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
+
+
+1個のセンサを使用します．
+0.6166666666666668
+{'C': 100, 'degree': 1, 'gamma': 0.01, 'kernel': 'linear'}
+
+----------------
