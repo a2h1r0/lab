@@ -1,16 +1,16 @@
-This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2019/W32TeX) (preloaded format=platex 2019.12.11)  1 JUL 2020 12:51
+This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  14 JUL 2020 23:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
 **"Atsuhiro Fujii.tex"
 (./Atsuhiro Fujii.tex
-pLaTeX2e <2019-10-01>+1 (based on LaTeX2e <2019-10-01> patch level 3)
-(c:/w32tex/share/texmf-dist/tex/platex/base/jarticle.cls
-Document Class: jarticle 2019/10/17 v1.8c Standard pLaTeX class
+pLaTeX2e <2018-12-01> (based on LaTeX2e <2018-12-01>)
+(c:/texlive/2018/texmf-dist/tex/platex/base/jarticle.cls
+Document Class: jarticle 2018/10/25 v1.8a Standard pLaTeX class
 \c@@paper=\count83
-(c:/w32tex/share/texmf-dist/tex/platex/base/jsize10.clo
-File: jsize10.clo 2019/10/17 v1.8c Standard pLaTeX file (size option)
+(c:/texlive/2018/texmf-dist/tex/platex/base/jsize10.clo
+File: jsize10.clo 2018/10/25 v1.8a Standard pLaTeX file (size option)
 )
 \c@part=\count84
 \c@section=\count85
@@ -29,149 +29,141 @@ LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
 \@lnumwidth=\dimen119
 \bibindent=\dimen120
 \heisei=\count92
-) (c:/w32tex/share/texmf-dist/tex/latex/graphics/graphicx.sty
+) (c:/texlive/2018/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
- (c:/w32tex/share/texmf-dist/tex/latex/graphics/keyval.sty
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks15
-) (c:/w32tex/share/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2019/11/01 v1.3d Standard LaTeX Graphics (DPC,SPQR)
- (c:/w32tex/share/texmf-dist/tex/latex/graphics/trig.sty
+) (c:/texlive/2018/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-) (c:/w32tex/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) (c:/texlive/2018/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: dvipdfmx.def on input line 105.
- (c:/w32tex/share/texmf-dist/tex/latex/graphics-def/dvipdfmx.def
+Package graphics Info: Driver file: dvipdfmx.def on input line 99.
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics-def/dvipdfmx.def
 File: dvipdfmx.def 2017/06/24 v5.0g Graphics/color driver for dvipdfmx
 ))
 \Gin@req@height=\dimen121
 \Gin@req@width=\dimen122
-) (c:/w32tex/share/texmf-dist/tex/latex/url/url.sty
+) (c:/texlive/2018/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip10
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
-) (c:/w32tex/share/texmf-dist/tex/latex/graphics/color.sty
+) (c:/texlive/2018/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
- (c:/w32tex/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: dvips.def on input line 147.
- (c:/w32tex/share/texmf-dist/tex/latex/graphics-def/dvips.def
+ (c:/texlive/2018/texmf-dist/tex/latex/graphics-def/dvips.def
 File: dvips.def 2017/06/20 v3.1d Graphics/color driver for dvips
-) (c:/w32tex/share/texmf-dist/tex/latex/graphics/dvipsnam.def
+) (c:/texlive/2018/texmf-dist/tex/latex/graphics/dvipsnam.def
 File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
-)) (c:/w32tex/share/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2019/11/10 v7.00c Hypertext links for LaTeX
- (c:/w32tex/share/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+)) (c:/texlive/2018/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2018/11/30 v6.88e Hypertext links for LaTeX
+ (c:/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
+ (c:/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
-) (c:/w32tex/share/texmf-dist/tex/generic/iftex/iftex.sty
-Package: iftex 2019/11/07 v1.0c TeX engine tests
-) (c:/w32tex/share/texmf-dist/tex/latex/pdftexcmds/pdftexcmds.sty
-Package: pdftexcmds 2019/11/24 v0.31 Utility functions of pdfTeX for LuaTeX (HO)
-
-(c:/w32tex/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty
-Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
-)
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
+Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: pdfTeX >= 1.30 not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode not found.
-) (c:/w32tex/share/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
-Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
- (c:/w32tex/share/texmf-dist/tex/generic/oberdiek/etexcmds.sty
-Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
- (c:/w32tex/share/texmf-dist/tex/generic/iftex/ifluatex.sty
-Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
-))) (c:/w32tex/share/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
-Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
-) (c:/w32tex/share/texmf-dist/tex/generic/oberdiek/pdfescape.sty
 Package: pdfescape 2016/05/16 v1.14 Implements pdfTeX's escape features (HO)
-) (c:/w32tex/share/texmf-dist/tex/latex/oberdiek/hycolor.sty
-Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
- (c:/w32tex/share/texmf-dist/tex/latex/oberdiek/xcolor-patch.sty
-Package: xcolor-patch 2016/05/16 xcolor patch
- (c:/w32tex/share/texmf-dist/tex/latex/oberdiek/hopatch.sty
+Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO)
+Package: bitset 2016/05/16 v1.2 Handle bit-vector datatype (HO)
+Package: uniquecounter 2016/05/16 v1.3 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2016/05/16 v1.5 Let assignment for LaTeX macros (HO)
 Package: hopatch 2016/05/16 v1.3 Wrapper for package hooks (HO)
-))) (c:/w32tex/share/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
-Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
-) (c:/w32tex/share/texmf-dist/tex/latex/oberdiek/auxhook.sty
+Package: xcolor-patch 2016/05/16 xcolor patch
+Package: atveryend 2016/05/16 v1.9 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
+Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
+Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
+) (c:/texlive/2018/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+(c:/texlive/2018/texmf-dist/tex/latex/oberdiek/auxhook.sty
 Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
-) (c:/w32tex/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty
-Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
+) (c:/texlive/2018/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
 \@linkdim=\dimen123
 \Hy@linkcounter=\count93
 \Hy@pagecounter=\count94
- (c:/w32tex/share/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2019/11/10 v7.00c Hyperref: PDFDocEncoding definition (HO)
+ (c:/texlive/2018/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2018/11/30 v6.88e Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-) (c:/w32tex/share/texmf-dist/tex/generic/oberdiek/intcalc.sty
-Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
 )
 \Hy@SavedSpaceFactor=\count95
- (c:/w32tex/share/texmf-dist/tex/latex/config/hyperref.cfg
+ (c:/texlive/2018/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-Package hyperref Info: Hyper figures OFF on input line 4535.
-Package hyperref Info: Link nesting OFF on input line 4540.
-Package hyperref Info: Hyper index ON on input line 4543.
-Package hyperref Info: Plain pages OFF on input line 4550.
-Package hyperref Info: Backreferencing OFF on input line 4555.
+Package hyperref Info: Hyper figures OFF on input line 4519.
+Package hyperref Info: Link nesting OFF on input line 4524.
+Package hyperref Info: Hyper index ON on input line 4527.
+Package hyperref Info: Plain pages OFF on input line 4534.
+Package hyperref Info: Backreferencing OFF on input line 4539.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4788.
+Package hyperref Info: Bookmarks ON on input line 4772.
 \c@Hy@tempcnt=\count96
-LaTeX Info: Redefining \url on input line 5147.
+LaTeX Info: Redefining \url on input line 5125.
 \XeTeXLinkMargin=\dimen124
- (c:/w32tex/share/texmf-dist/tex/generic/oberdiek/bitset.sty
-Package: bitset 2016/05/16 v1.2 Handle bit-vector datatype (HO)
-
-(c:/w32tex/share/texmf-dist/tex/generic/oberdiek/bigintcalc.sty
-Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO)
-))
 \Fld@menulength=\count97
 \Field@Width=\dimen125
 \Fld@charsize=\dimen126
-Package hyperref Info: Hyper figures OFF on input line 6418.
-Package hyperref Info: Link nesting OFF on input line 6423.
-Package hyperref Info: Hyper index ON on input line 6426.
-Package hyperref Info: backreferencing OFF on input line 6433.
-Package hyperref Info: Link coloring OFF on input line 6438.
-Package hyperref Info: Link coloring with OCG OFF on input line 6443.
-Package hyperref Info: PDF/A mode OFF on input line 6448.
-LaTeX Info: Redefining \ref on input line 6488.
-LaTeX Info: Redefining \pageref on input line 6492.
- (c:/w32tex/share/texmf-dist/tex/generic/atbegshi/atbegshi.sty
-Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
-)
+Package hyperref Info: Hyper figures OFF on input line 6380.
+Package hyperref Info: Link nesting OFF on input line 6385.
+Package hyperref Info: Hyper index ON on input line 6388.
+Package hyperref Info: backreferencing OFF on input line 6395.
+Package hyperref Info: Link coloring OFF on input line 6400.
+Package hyperref Info: Link coloring with OCG OFF on input line 6405.
+Package hyperref Info: PDF/A mode OFF on input line 6410.
+LaTeX Info: Redefining \ref on input line 6450.
+LaTeX Info: Redefining \pageref on input line 6454.
 \Hy@abspage=\count98
 \c@Item=\count99
 \c@Hfootnote=\count100
 )
 Package hyperref Info: Driver: hdvipdfm.
- (c:/w32tex/share/texmf-dist/tex/latex/hyperref/hdvipdfm.def
-File: hdvipdfm.def 2019/11/10 v7.00c Hyperref driver for dvipdfm
+ (c:/texlive/2018/texmf-dist/tex/latex/hyperref/hdvipdfm.def
+File: hdvipdfm.def 2018/11/30 v6.88e Hyperref driver for dvipdfm
 \pdfm@box=\box43
 \c@Hy@AnnotLevel=\count101
 \HyField@AnnotCount=\count102
 \Fld@listcount=\count103
 \c@bookmark@seq@number=\count104
- (c:/w32tex/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
-Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
- (c:/w32tex/share/texmf-dist/tex/latex/atveryend/atveryend.sty
-Package: atveryend 2019/12/05 v1.10 Hooks at the very end of document (HO)
-Package atveryend Info: \enddocument detected (standard20110627).
-) (c:/w32tex/share/texmf-dist/tex/generic/oberdiek/uniquecounter.sty
-Package: uniquecounter 2016/05/16 v1.3 Provide unlimited unique counter (HO)
-)
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 286.
+ (c:/texlive/2018/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 282.
 )
 \Hy@SectionHShift=\skip43
-) (c:/w32tex/share/texmf-dist/tex/latex/pxjahyper/pxjahyper.sty
-Package: pxjahyper 2019/11/23 v0.4a
- (c:/w32tex/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count105
-)) (./Atsuhiro Fujii.aux)
+) (c:/texlive/2018/texmf-dist/tex/platex/pxjahyper/pxjahyper.sty
+Package: pxjahyper 2018/07/15 v0.3d
+) (./Atsuhiro Fujii.aux)
 \openout1 = `"Atsuhiro Fujii.aux"'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
@@ -194,14 +186,12 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 13.
 LaTeX Font Info:    ... okay on input line 13.
 \AtBeginShipoutBox=\box44
 Package hyperref Info: Link coloring OFF on input line 13.
- (c:/w32tex/share/texmf-dist/tex/latex/hyperref/nameref.sty
-Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
- (c:/w32tex/share/texmf-dist/tex/latex/oberdiek/refcount.sty
-Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
-) (c:/w32tex/share/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+ (c:/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
+ (c:/texlive/2018/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count106
+\c@section@level=\count105
 )
 LaTeX Info: Redefining \ref on input line 13.
 LaTeX Info: Redefining \pageref on input line 13.
@@ -220,34 +210,34 @@ LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 16.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 16.
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 22.
- (c:/w32tex/share/texmf-dist/tex/latex/base/omscmr.fd
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 22.
+ (c:/texlive/2018/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 22.
 File: Figure_1.eps Graphic file (type eps)
  <Figure_1.eps>
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 66.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 72.
  [1
 
 
 ] [2]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 66.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 72.
  (./Atsuhiro Fujii.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 66.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 66.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 72.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 72.
 Package rerunfilecheck Info: File `"Atsuhiro Fujii".out' has not changed.
 (rerunfilecheck)             Checksum: 51727900260109560B9BDA86C3A1B59D;263.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 66.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 72.
  ) 
 Here is how much of TeX's memory you used:
- 5637 strings out of 492749
- 82178 string characters out of 6141886
- 179180 words of memory out of 5000000
- 10018 multiletter control sequences out of 15000+600000
+ 5164 strings out of 494660
+ 74856 string characters out of 6179649
+ 165638 words of memory out of 5000000
+ 9014 multiletter control sequences out of 15000+600000
  13088 words of font info for 51 fonts, out of 8000000 for 9000
- 929 hyphenation exceptions out of 8191
- 39i,8n,28p,942b,328s stack positions out of 5000i,500n,10000p,500000b,80000s
+ 36 hyphenation exceptions out of 8191
+ 28i,8n,28p,219b,328s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on "Atsuhiro Fujii.dvi" (2 pages, 5612 bytes).
+Output written on "Atsuhiro Fujii.dvi" (2 pages, 5980 bytes).
