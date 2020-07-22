@@ -1,13 +1,12 @@
 # Fdb version 3
-["dvipdf"] 1594735824 "Atsuhiro Fujii.dvi" "Atsuhiro Fujii.pdf" "Atsuhiro Fujii" 1594735827
-  "Atsuhiro Fujii.dvi" 1594735824 5980 8aa68963da2d32b1eed530a038b3ddc7 "latex"
+["dvipdf"] 1595378468 "Atsuhiro Fujii.dvi" "Atsuhiro Fujii.pdf" "Atsuhiro Fujii" 1595378468
+  "Atsuhiro Fujii.dvi" 1595378467 5924 e84a5063a605d64e88dae5269b4197ac "latex"
   (generated)
   "Atsuhiro Fujii.pdf"
-["latex"] 1594735823 "Atsuhiro Fujii.tex" "Atsuhiro Fujii.dvi" "Atsuhiro Fujii" 1594735826
-  "Atsuhiro Fujii.aux" 1594735824 1233 5dd6a305127321f892370bd6400827e9 ""
-  "Atsuhiro Fujii.out" 1594735824 263 51727900260109560b9bda86c3a1b59d ""
-  "Atsuhiro Fujii.tex" 1594735822 2613 2243a6bbf274602a879eca4bbf24ccc3 ""
-  "Figure_1.eps" 1593699349 47315 102df39525d66898d1cca1180aff0bf3 ""
+["latex"] 1595378467 "Atsuhiro Fujii.tex" "Atsuhiro Fujii.dvi" "Atsuhiro Fujii" 1595378468
+  "Atsuhiro Fujii.aux" 1595378467 1085 d1995884d87161ec87113dd9d41a46be ""
+  "Atsuhiro Fujii.out" 1595378467 263 51727900260109560b9bda86c3a1b59d ""
+  "Atsuhiro Fujii.tex" 1595378465 2966 6b06b45588eacfe15baa1bc55aecb762 ""
   "c:/texlive/2018/texmf-dist/fonts/map/fontname/texfonts.map" 1555255864 3332 103109f5612ad95229751940c61aada0 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm" 1555257073 1196 5981e79c37b2cfd27b3612a6783cd4b6 ""
   "c:/texlive/2018/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm" 1555257073 1196 1be730212205a270378fba11a44765dc ""
@@ -56,7 +55,7 @@
   "c:/texlive/2018/texmf-var/web2c/eptex/platex.fmt" 1555257977 1039133 daccf4819d98fe52246b2b3ed4031184 ""
   "c:/texlive/2018/texmf.cnf" 1555257954 673 4ae7b2f49cee444c5343a45b5d0f169c ""
   (generated)
-  "Atsuhiro Fujii.log"
-  "Atsuhiro Fujii.dvi"
   "Atsuhiro Fujii.out"
   "Atsuhiro Fujii.aux"
+  "Atsuhiro Fujii.dvi"
+  "Atsuhiro Fujii.log"
