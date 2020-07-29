@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  22 JUL 2020 09:41
+This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2019.4.15)  29 JUL 2020 12:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -232,10 +232,10 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 76.
 Here is how much of TeX's memory you used:
  5158 strings out of 494660
  74787 string characters out of 6179649
- 165616 words of memory out of 5000000
+ 164616 words of memory out of 5000000
  9010 multiletter control sequences out of 15000+600000
  13088 words of font info for 51 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  28i,8n,28p,219b,321s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on "Atsuhiro Fujii.dvi" (1 page, 5924 bytes).
+Output written on "Atsuhiro Fujii.dvi" (1 page, 5696 bytes).

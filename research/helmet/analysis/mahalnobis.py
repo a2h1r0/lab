@@ -138,11 +138,11 @@ for index, name in enumerate(tester_index):
     plt.legend(fontsize=18, loc='upper right')  # 凡例の表示
 
 plt.subplot(5, 2, 10)
-plt.title("Total", fontsize=18)
+plt.title("Average", fontsize=18)
 plt.plot(thresholds, FRR_total, 'red', label="FRR")
 plt.plot(thresholds, FAR_total, 'blue', linestyle="dashed", label="FAR")
 plt.xlabel("Threshold", fontsize=18)
 plt.ylabel("Rate", fontsize=18)
 plt.tick_params(labelsize=18)
 plt.legend(fontsize=18, loc='upper right')  # 凡例の表示
-#plt.savefig("EER.eps", bbox_inches='tight', pad_inches=0)
+plt.savefig("EER.eps", bbox_inches='tight', pad_inches=0)
