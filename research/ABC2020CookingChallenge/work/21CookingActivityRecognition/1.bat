@@ -1,0 +1,12 @@
+python ABCchallenge_convLstm.py 1 0 0 12 3
+python ABCchallenge_convLstm.py 1 0 0 13 2
+python ABCchallenge_convLstm.py 1 0 0 23 1
+python ABCchallenge_convLstm.py 1 1 0 12 3
+python ABCchallenge_convLstm.py 1 1 0 13 2
+python ABCchallenge_convLstm.py 1 1 0 23 1
+python ABCchallenge_convLstm.py 1 0 1 12 3
+python ABCchallenge_convLstm.py 1 0 1 13 2
+python ABCchallenge_convLstm.py 1 0 1 23 1
+python ABCchallenge_convLstm.py 1 1 1 12 3
+python ABCchallenge_convLstm.py 1 1 1 13 2
+python ABCchallenge_convLstm.py 1 1 1 23 1

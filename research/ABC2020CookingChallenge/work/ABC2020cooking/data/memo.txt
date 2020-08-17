@@ -1,0 +1,4 @@
+・レシピは3種類（sandwich, fruit salad, cereal）
+・行動は10種類（Take', 'Put', 'Peel', 'other', 'Wash', 'Cut', 'Add', 'Mix', 'Pour', 'Open'）
+・シングルがあるのは4種類('Take', 'Put', 'Peel', 'other')
+・シングルがないのは6種類('Wash', 'Cut', 'Add', 'Mix', 'Pour', 'Open')
