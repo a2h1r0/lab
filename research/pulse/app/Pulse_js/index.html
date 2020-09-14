@@ -18,34 +18,39 @@
     </style>
 
     <script>
-      $("body").css("background-color", "rgb(155, 155, 155)");
       setInterval(() => {
-        $("body").css("background-color", "rgb(150, 150, 150)");
+        setTimeout(function () {
+          $("body").css("background-color", "rgb(0, 0, 0)");
 
-        // 5ミリ秒待機して戻す
-        sleep(5, function () {
-          $("body").css("background-color", "rgb(155, 155, 155)");
-        });
+          setTimeout(function () {
+            $("body").css("background-color", "rgb(8, 8, 8)");
+
+            setTimeout(function () {
+              $("body").css("background-color", "rgb(16, 16, 16)");
+
+              setTimeout(function () {
+                $("body").css("background-color", "rgb(24, 24, 24)");
+
+                setTimeout(function () {
+                  $("body").css("background-color", "rgb(32, 32, 32)");
+
+                  setTimeout(function () {
+                    $("body").css("background-color", "rgb(40, 40, 40)");
+
+                    setTimeout(function () {
+                      $("body").css("background-color", "rgb(48, 48, 48)");
+
+                      setTimeout(function () {
+                        $("body").css("background-color", "rgb(56, 56, 56)");
+                      }, 100);
+                    }, 100);
+                  }, 100);
+                }, 100);
+              }, 100);
+            }, 100);
+          }, 100);
+        }, 100);
       }, 800);
-
-      function sleep(waitMilliSec, callbackFunc) {
-        // 経過時間（ミリ秒）
-        var waitedMilliSec = 0;
-
-        var timerId = setInterval(function () {
-          waitedMilliSec++;
-
-          if (waitedMilliSec >= waitMilliSec) {
-            // タイマー停止
-            clearInterval(timerId);
-
-            // 完了時、コールバック関数を実行
-            if (callbackFunc) {
-              callbackFunc();
-            }
-          }
-        }, 1);
-      }
     </script>
   </body>
 </html>
