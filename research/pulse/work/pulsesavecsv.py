@@ -9,7 +9,7 @@ from scipy.signal import find_peaks
 
 data = []
 
-FINISH = 10000000
+FINISH = 1000000
 
 count = 0
 counter = 0
@@ -41,8 +41,7 @@ while(1):
     else:
         continue
 
-    # データ受信の終了条件 自動で停止しないが無くてもいい
-    if(ard_time >= FINISH):
+    if(ard_time >= FINISH*1000000):
         break
 
 with open(filename, 'a', newline='') as f:
@@ -56,27 +55,4 @@ with open(filename, 'a', newline='') as f:
             pulse = int(data[i][1])
             writer.writerow([ard_time, pulse])
 
-csv_file = pd.read_csv(filename, encoding="utf-8", sep=",", header=0)
-
-t = np.array(csv_file["ard_micro"])
-pulse_value = np.array(csv_file["pulse"])
-
-num = 10  # 移動平均の個数
-x = np.ones(num)/num
-x1 = np.convolve(pulse_value, x, mode='same')  # 移動平均
-maxid = signal.argrelmax(pulse_value, order=10)
-
-print((len(maxid))*2)
-"""
-#波形の表示
-def peak_detect(x,y,lab,ID):
-    plt.plot(x, y, label=lab, c="blue", alpha=1)
-    plt.plot(x[ID], y[ID], "ro", label="peak_max")
-    plt.xlabel("time")
-    plt.ylabel("pulse")
-    plt.legend(loc="upper right")
-
-peak_detect(t, x1, "pulse", maxid)
-"""
-plt.plot(t, x1)
-plt.show()
+ser.close()
