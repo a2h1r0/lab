@@ -18,57 +18,72 @@
     </style>
 
     <script>
-      setInterval(() => {
+      const filename = "20200926_233009_fujii.csv";
+      const skip_rows = 2;
+      const HIGH = 580;
+      const LOW = 470;
+
+      var pulseData = [];
+      var RGBdata = [];
+
+      function getCSV() {
+        var req = new XMLHttpRequest();
+        req.open("get", filename, true);
+        req.send(null);
+
+        req.onload = function () {
+          convertCSVtoArray(req.responseText);
+          makeRGBdata();
+          main();
+        };
+      }
+
+      function convertCSVtoArray(csvString) {
+        csvString.split("\n").forEach((row) => {
+          pulseData.push(row.split(",")[1]);
+        });
+
+        for (var i = 0; i < skip_rows; i++) {
+          pulseData.shift();
+        }
+
+        console.log("---csv_data---");
+        console.log(pulseData);
+        console.log("--------------");
+      }
+
+      function makeRGBdata() {
+        pulseData.forEach((row) => {
+          if (row < LOW) {
+            RGBdata.push("rgb(168, 37, 38)");
+          } else if (HIGH < row) {
+            RGBdata.push("rgb(165, 34, 35)");
+          } else {
+            RGBdata.push("rgb(167, 35, 37)");
+          }
+        });
+
+        console.log("---RGB_data---");
+        console.log(RGBdata);
+        console.log("--------------");
+      }
+
+      var colors = [];
+      function main() {
+        if (colors.length === 0) {
+          colors = [].concat(RGBdata);
+        }
+
+        console.log(colors[0]);
+        $("body").css("background-color", colors[0]);
+        colors.shift();
+
         setTimeout(function () {
-          $("body").css("background-color", "rgb(165, 34, 35)");
+          main();
+        }, 10);
+      }
 
-          setTimeout(function () {
-            $("body").css("background-color", "rgb(168, 37, 38)");
-
-            setTimeout(function () {
-              $("body").css("background-color", "rgb(167, 35, 37)");
-            }, 500);
-          }, 100);
-        }, 100);
-      }, 700);
-
-      //   setTimeout(function () {
-      //     $("body").css("background-color", "rgb(165, 34, 35)");
-
-      //     setTimeout(function () {
-      //       $("body").css("background-color", "rgb(168, 37, 38)");
-      //     }, 600);
-      //   }, 100);
-      // }, 700);
-
-      //   setTimeout(function () {
-      //     $("body").css("background-color", "rgb(164, 33, 34)");
-
-      //     setTimeout(function () {
-      //       $("body").css("background-color", "rgb(166, 38, 49)");
-
-      //       setTimeout(function () {
-      //         $("body").css("background-color", "rgb(166, 38, 49)");
-
-      //         setTimeout(function () {
-      //           $("body").css("background-color", "rgb(166, 38, 49)");
-
-      //           setTimeout(function () {
-      //             $("body").css("background-color", "rgb(166, 38, 49)");
-
-      //             setTimeout(function () {
-      //               $("body").css("background-color", "rgb(166, 38, 49)");
-
-      //               setTimeout(function () {
-      //                 $("body").css("background-color", "rgb(166, 38, 49)");
-      //               }, 100);
-      //             }, 100);
-      //           }, 100);
-      //         }, 100);
-      //       }, 100);
-      //     }, 100);
-      //   }, 100);
-      // }, 700);
+      getCSV();
     </script>
   </body>
 </html>

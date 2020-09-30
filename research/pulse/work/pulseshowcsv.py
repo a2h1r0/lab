@@ -6,7 +6,7 @@ from scipy.signal import find_peaks
 
 t = []
 y = []
-with open('20200928_212642_surface.csv') as f:
+with open('20200926_233009_fujii.csv') as f:
 
     reader = csv.reader(f)
     next(reader)
