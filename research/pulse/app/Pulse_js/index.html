@@ -20,7 +20,7 @@
     <script>
       const filename = "20200926_233009_fujii.csv";
       const skip_rows = 2;
-      const HIGH = 580;
+      const HIGH = 570;
       const LOW = 470;
 
       var pulseData = [];
@@ -55,11 +55,11 @@
       function makeRGBdata() {
         pulseData.forEach((row) => {
           if (row < LOW) {
-            RGBdata.push("rgb(168, 37, 38)");
+            RGBdata.push("rgb(163, 32, 33)");
           } else if (HIGH < row) {
-            RGBdata.push("rgb(165, 34, 35)");
+            RGBdata.push("rgb(152, 21, 22)");
           } else {
-            RGBdata.push("rgb(167, 35, 37)");
+            RGBdata.push("rgb(162, 30, 32)");
           }
         });
 

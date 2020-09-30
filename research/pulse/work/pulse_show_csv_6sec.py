@@ -13,6 +13,11 @@ with open('./work/20200926_233009_fujii.csv') as f:
     next(reader)
 
     for row in reader:
+        if float(row[0]) < 2:
+            continue
+        elif 8 < float(row[0]):
+            break
+
         t.append(float(row[0]))
         y.append(float(row[1]))
 

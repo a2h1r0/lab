@@ -7,52 +7,43 @@ import matplotlib.pyplot as plt
 from scipy import signal
 from scipy.signal import find_peaks
 
-data = []
+write_data = []
 
 FINISH = 1000000
 
-count = 0
-counter = 0
-
 ser = serial.Serial("COM3", 115200)
 now = datetime.datetime.today()
-# fitbit_normal_2m_2
-# chinese_normal_2m_2
-# applewatch_normal_2m_1
 
 filename = now.strftime("%Y%m%d") + "_" + \
-    now.strftime("%H%M%S") + "applewatch_normal_2m_2.csv"
+    now.strftime("%H%M%S") + "_name_.csv"
 
 ser.reset_input_buffer()
 
-while(1):
+while True:
     read_data = ser.readline().rstrip().decode(encoding="utf-8")
-    devide_data = read_data.split(",")
-    print(count, counter, devide_data)
-    count += 1
+    data = read_data.split(",")
+    print(data)
 
-    if(str.isdecimal(devide_data[0]) and len(devide_data) == 2):
-        ard_time = float(devide_data[0])
-        if str.isdecimal(devide_data[1]):
-            data.append(devide_data)
-            counter += 1
+    if str.isdecimal(data[0]) and len(data) == 2:
+        time = float(data[0])
+        if str.isdecimal(data[1]):
+            write_data.append(data)
         else:
             continue
     else:
         continue
 
-    if(ard_time >= FINISH*1000000):
+    if time >= FINISH*1000000:
         break
 
 with open(filename, 'a', newline='') as f:
     writer = csv.writer(f, delimiter=',')
-    writer.writerow(["ard_micro", "pulse"])
+    writer.writerow(["time", "pulse"])
 
-    for i in range(len(data)):
-        if(len(data[i]) == 2 and str.isdecimal(devide_data[0])
-                and str.isdecimal(devide_data[1])):
-            ard_time = float(data[i][0])/1000000
-            pulse = int(data[i][1])
-            writer.writerow([ard_time, pulse])
+    for i in range(len(write_data)):
+        if len(write_data[i]) == 2 and str.isdecimal(data[0]) and str.isdecimal(data[1]):
+            time = float(write_data[i][0])/1000000
+            pulse = int(write_data[i][1])
+            writer.writerow([time, pulse])
 
 ser.close()
