@@ -15,23 +15,24 @@
 \maketitle
 
 \section{進捗状況}
-前回，黒白で試してたところを，色を赤色に変化させた上で，手動で生データの波形に近づけてみました．生データに閾値を設けて，3段階（跳ね上がりの最大に近い場合，最低に近い場合，それ以外の大部分）に分けた上で，その3段階で色を変化させて描画した結果です．改良の余地としては，3段階のところを更に分割するあたりだと思います．もう少し手動で綺麗にしてからディープラーニングでしょうか．
+日経平均株価の予測問題をLSTMで実装中ですが，Lossがマイナスになってしまいました．
+数値予測の基礎が怪しいので，少し質問したいです．
 
-\begin{figure*}[h]
-  \begin{center}
-    \includegraphics[width=1\textwidth]{../figure/20200926_233009_fujii_6sec.png}
-    \caption{自分の脈}
-    \label{fig}
-  \end{center}
-\end{figure*}
+% \begin{figure*}[h]
+%   \begin{center}
+%     \includegraphics[width=1\textwidth]{../figure/20200926_233009_fujii_6sec.png}
+%     \caption{自分の脈}
+%     \label{fig}
+%   \end{center}
+% \end{figure*}
 
-\begin{figure*}[h]
-  \begin{center}
-    \includegraphics[width=1\textwidth]{../figure/20200930_surface.png}
-    \caption{生成した脈}
-    \label{fig}
-  \end{center}
-\end{figure*}
+% \begin{figure*}[h]
+%   \begin{center}
+%     \includegraphics[width=1\textwidth]{../figure/20200930_surface.png}
+%     \caption{生成した脈}
+%     \label{fig}
+%   \end{center}
+% \end{figure*}
 
 
 \begin{multicols}{2}

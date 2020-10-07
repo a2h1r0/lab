@@ -117,12 +117,8 @@ INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
 INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT ../figure/20200926_233009_fujii_6sec.png
-INPUT extractbb -B cropbox -O ../figure/20200926_233009_fujii_6sec.png
-INPUT ../figure/20200930_surface.png
-INPUT extractbb -B cropbox -O ../figure/20200930_surface.png
-OUTPUT out/Atsuhiro_Fujii.dvi
 INPUT c:/w32tex/share/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
+OUTPUT out/Atsuhiro_Fujii.dvi
 INPUT out/Atsuhiro_Fujii.aux
 INPUT out/Atsuhiro_Fujii.out
 INPUT out/Atsuhiro_Fujii.out
