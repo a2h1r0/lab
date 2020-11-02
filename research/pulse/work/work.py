@@ -64,7 +64,7 @@ class LSTM(nn.Module):
             input (:obj:`Tensor`): 学習データ
 
         Returns:
-            out (:obj:`Tensor`): 予測結果
+            :obj:`Tensor`: 予測結果
         """
 
         _, lstm_out = self.lstm(input)
@@ -81,8 +81,8 @@ def create_dataset(dataset):
         dataset (array): ファイルから読み込んだ時系列データ
 
     Returns:
-        X (array): 入力データ
-        Y (array): 正解データ
+        array: 入力データ
+        array: 正解データ
     """
 
     X, Y = [], []
@@ -92,8 +92,10 @@ def create_dataset(dataset):
         # X終了の次のデータ（過去の時系列データから未来を予測）
         Y.append(dataset[i + WINDOW_SIZE])
 
-    X = np.reshape(np.array(X), [-1, WINDOW_SIZE, 1])
-    Y = np.reshape(np.array(Y), [-1, 1])
+    # X = np.reshape(np.array(X), [-1, WINDOW_SIZE, 1])
+    # Y = np.reshape(np.array(Y), [-1, 1])
+    X = np.reshape(np.array(X), [-1, WINDOW_SIZE])
+    Y = np.array(Y)
     return X, Y
 
 
@@ -107,10 +109,10 @@ def split_data(x, y):
         y (array): 正解データ
 
     Returns:
-        train_x (array): 学習入力データ
-        train_y (array): 学習正解データ
-        test_x (array): テスト入力データ
-        test_y (array): テスト正解データ
+        array: 学習入力データ
+        array: 学習正解データ
+        array: テスト入力データ
+        array: テスト正解データ
     """
 
     pos = round(len(x) * (1 - TESTDATA_SIZE))
@@ -154,10 +156,10 @@ def Training():
     for epoch in range(EPOCH_NUM):
         optimizer.zero_grad()
         # batch size x time steps x feature_num
-        RGBデータ，TKに入れる = model(train_x)
-        # TKの処理
-        # Arduinoの処理
-        loss_train = criterion(Arduinoから取得したセンサ値, y_target.view(-1, 1))
+        # RGBデータ，TKに入れる = model(train_x)
+        # # TKの処理
+        # # Arduinoの処理
+        # loss_train = criterion(Arduinoから取得したセンサ値, y_target.view(-1, 1))
         loss_train.backward()
         optimizer.step()
 
@@ -200,7 +202,7 @@ def Training():
 
 
 def main():
-    Training(search="\"^(20)\"", wait_load=False)
+    Training()
 
 
 if __name__ == '__main__':
