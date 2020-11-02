@@ -40,7 +40,18 @@ model_name = "./work/pulse.mdl"
 
 
 class LSTM(nn.Module):
+    """
+    LSTMモデル
+    """
+
     def __init__(self, input_size, hidden_size, output_size):
+        """
+        Args:
+            input_size (int): 入力次元数
+            hidden_size (int): 隠れ層サイズ
+            output_size (int): 出力サイズ
+        """
+
         super(LSTM, self).__init__()
         self.hidden_size = hidden_size
         self.lstm = torch.nn.LSTM(
@@ -48,38 +59,71 @@ class LSTM(nn.Module):
         self.fc = torch.nn.Linear(hidden_size, output_size)
 
     def forward(self, input):
+        """
+        Args:
+            input (:obj:`Tensor`): 学習データ
+
+        Returns:
+            out (:obj:`Tensor`): 予測結果
+        """
+
         _, lstm_out = self.lstm(input)
         out = self.fc(lstm_out[0].view(-1, self.hidden_size))
         return out
 
 
-def prepare_data(batch_idx, time_steps, X_data, feature_num, device):
-    feats = torch.zeros((len(batch_idx), time_steps, feature_num),
-                        dtype=torch.float, device=device)
-    for b_i, b_idx in enumerate(batch_idx):
-        feats[b_i, :, 0] = X_data[b_idx + 1 - time_steps: b_idx + 1]
-
-    return feats
-
-
 def create_dataset(dataset):
+    """データセットの作成
+
+    入力データと，それに対する正解データを作成．
+
+    Args:
+        dataset (array): ファイルから読み込んだ時系列データ
+
+    Returns:
+        X (array): 入力データ
+        Y (array): 正解データ
+    """
+
     X, Y = [], []
-    for i in range(0, len(dataset)-WINDOW_SIZE, STEP_SIZE):
-        X.append(dataset[i:i+WINDOW_SIZE])
-        Y.append(dataset[i+WINDOW_SIZE])
+    for i in range(0, len(dataset) - WINDOW_SIZE, STEP_SIZE):
+        # ウィンドウサイズ単位の配列
+        X.append(dataset[i:i + WINDOW_SIZE])
+        # X終了の次のデータ（過去の時系列データから未来を予測）
+        Y.append(dataset[i + WINDOW_SIZE])
+
     X = np.reshape(np.array(X), [-1, WINDOW_SIZE, 1])
     Y = np.reshape(np.array(Y), [-1, 1])
     return X, Y
 
 
 def split_data(x, y):
+    """データセットの分割
+
+    学習データと，テストデータに分割．
+
+    Args:
+        x (array): 入力データ
+        y (array): 正解データ
+
+    Returns:
+        train_x (array): 学習入力データ
+        train_y (array): 学習正解データ
+        test_x (array): テスト入力データ
+        test_y (array): テスト正解データ
+    """
+
     pos = round(len(x) * (1 - TESTDATA_SIZE))
-    trainX, trainY = x[:pos], y[:pos]
-    testX, testY = x[pos:], y[pos:]
-    return trainX, trainY, testX, testY
+    train_x, train_y = x[:pos], y[:pos]
+    test_x, test_y = x[pos:], y[pos:]
+    return train_x, train_y, test_x, test_y
 
 
-def Training(search="", wait_load=False):
+def Training():
+    """
+    学習
+    """
+
     #--- データの読み込み ---#
     print("Train Data Load Start...")
     df = pd.read_csv(path, header=0)
@@ -87,13 +131,13 @@ def Training(search="", wait_load=False):
     human_pulse = df['pulse'].values
 
     X, Y = create_dataset(human_pulse)
-    trainX, trainY, testX, testY = split_data(X, Y)
+    train_x, train_y, test_x, test_y = split_data(X, Y)
 
     # データの変換
-    trainX = torch.tensor(trainX, dtype=torch.float, device=device)
-    trainY = torch.tensor(trainY, dtype=torch.float, device=device)
-    testX = torch.tensor(testX, dtype=torch.float, device=device)
-    testY = torch.tensor(testY, dtype=torch.float, device=device)
+    train_x = torch.tensor(train_x, dtype=torch.float, device=device)
+    train_y = torch.tensor(train_y, dtype=torch.float, device=device)
+    test_x = torch.tensor(test_x, dtype=torch.float, device=device)
+    test_y = torch.tensor(test_y, dtype=torch.float, device=device)
 
     #--- 学習開始 ---#
     print("INPUT_DIMENSION:{}\tHIDDEN_SIZE:{}\tOUTPUT_DIMENSION:{}".format(
@@ -110,8 +154,10 @@ def Training(search="", wait_load=False):
     for epoch in range(EPOCH_NUM):
         optimizer.zero_grad()
         # batch size x time steps x feature_num
-        train_scores = model(feats)
-        loss_train = criterion(train_scores, y_target.view(-1, 1))
+        RGBデータ，TKに入れる = model(train_x)
+        # TKの処理
+        # Arduinoの処理
+        loss_train = criterion(Arduinoから取得したセンサ値, y_target.view(-1, 1))
         loss_train.backward()
         optimizer.step()
 
