@@ -153,12 +153,20 @@ def Training():
     criterion = nn.L1Loss()
     optimizer = torch.optim.Adam(model.parameters())
 
+    # ディスプレイクラスの定義
+    display = Display()
+
     for epoch in range(EPOCH_NUM):
         optimizer.zero_grad()
-        # batch size x time steps x feature_num
         # RGBデータ，TKに入れる = model(train_x)
-        # # TKの処理
-        # # Arduinoの処理
+        color = model(train_x)
+        display.start(color)
+
+        # Arduinoの取得処理
+        # time.sleep(0.5)
+
+        display.exit()
+
         # loss_train = criterion(Arduinoから取得したセンサ値, y_target.view(-1, 1))
         loss_train.backward()
         optimizer.step()

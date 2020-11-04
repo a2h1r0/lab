@@ -1,86 +1,84 @@
-import sys
-import tkinter as tk
-import time
-
-
-# def main():
-#     root = tk.Tk()
-#     root.title("configure method")
-#     root.geometry('300x200')
-#     root.label = tk.Label(root, text="Text")
-
-#     root.button = tk.Button(root,
-#                             text="Click to change text below",
-#                             command=changeText(root))
-#     root.button.pack()
-#     root.label.pack()
-#     root.mainloop()
-
-
-# def changeText(root):
-#     # root.label['text'] = "Text updated"
-#     root.label.configure(text="Text Updated")
-
-
-# if __name__ == '__main__':
-#     main()
-
-# class Test():
-#     def __init__(self):
-#         self.root = tk.Tk()
-#         self.label = tk.Label(self.root, text="Text")
-
-#         self.button = tk.Button(self.root,
-#                                 text="Click to change text below",
-#                                 command=self.changeText)
-#         self.button.pack()
-#         self.label.pack()
-#         self.root.mainloop()
-#         time.sleep(10)
-#         self.label.configure(text="aaa")
-
-#     def changeText(self):
-#         self.label.configure(text="Text Updated")
-
-
-# app = Test()
-
-
-import sys
 import tkinter
-from PIL import Image, ImageTk
-import threading
 import time
+import threading
 
 
-def show():
+class Display:
+    """
+    ディスプレイ表示制御クラス
+    """
 
-    # 外から触れるようにグローバル変数で定義
-    global item, canvas
+    def start(self, color):
+        """ディスプレイの表示開始
 
-    root = tkinter.Tk()
-    root.title('test')
-    root.geometry("400x300")
-    canvas = tkinter.Canvas(bg="black", width=400, height=300)
-    root.mainloop()
+        引数で渡された色で点灯する．
+
+        Args:
+            color (string): 表示色
+        """
+
+        global thread
+        # スレッドの立ち上げ
+        thread = threading.Thread(target=self.tk_show, args=(color,))
+        thread.start()
+
+    def exit(self):
+        """
+        ディスプレイの表示終了
+        """
+
+        # 処理終了
+        self.running = False
+        # スレッドの終了
+        thread.join()
+
+    def tk_show(self, color):
+        """Tkinterの処理
+
+        Args:
+            color (string): 表示色
+        """
+
+        # 処理開始
+        self.running = True
+        # 定義
+        self.window = tkinter.Tk()
+        self.window.geometry('2000x2000')
+        self.window.attributes("-topmost", True)
+        self.window.configure(background=color)
+        # 終了チェックの割り込み
+        self.window.after(100, self._check_to_quit)
+        # メインループ
+        self.window.mainloop()
+        # 後処理
+        del self.window
+
+    def _check_to_quit(self):
+        """
+        Tkinterの終了確認
+        """
+
+        if self.running:
+            # 終了確認の継続
+            self.window.after(100, self._check_to_quit)
+        else:
+            # メインループの停止
+            self.window.destroy()
 
 
-# スレッドを立ててtkinterの画像表示を開始する
-thread1 = threading.Thread(target=show)
-thread1.start()
+def main():
+    display = Display()
 
-time.sleep(1)  # 3秒毎に切り替え
-canvas = tkinter.Canvas(bg="red", width=400, height=300)
-canvas.update()
-# 切り替えたい画像を定義
-# img2 = Image.open('your_image2.jpg')
-# img2 = ImageTk.PhotoImage(img2)
+    display.start('blue')
+    # 処理
+    time.sleep(0.5)
+    display.exit()
 
-# itemを差し替え
-# canvas.itemconfig(item, image=img2)
-# time.sleep(3)
+    display.start('red')
+    # 処理
+    time.sleep(0.5)
+    display.exit()
 
-# # itemをもとに戻す
-# img = Image.open('your_image.jpg')
-# img = ImageTk.PhotoImage(img)
-# canvas.itemconfig(item, image=img)
+
+if __name__ == '__main__':
+    main()
