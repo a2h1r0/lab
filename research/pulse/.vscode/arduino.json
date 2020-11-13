@@ -1,0 +1,6 @@
+{
+    "port": "COM3",
+    "board": "arduino:avr:uno",
+    "programmer": "AVR ISP",
+    "sketch": "work\\ArduinoILI9341Touch\\ArduinoILI9341Touch.ino"
+}
