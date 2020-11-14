@@ -20,31 +20,6 @@ char color[7] = {'\0'};
 
 /**
  * @fn
- * シリアルから送信される表示色の受け取り
- * @param *color 表示色格納配列
- * @return void
- */
-void receiveColor(char *color)
-{
-  int i = 0;
-  char byte;
-
-  while (1)
-  {
-    if (Serial.available())
-    {
-      byte = Serial.read();
-      color[i] = byte;
-      if (byte == ';')
-        break;
-      i++;
-    }
-  }
-  color[i] = '\0'; // \0: end of string
-}
-
-/**
- * @fn
  * 初期化
  */
 void setup()
@@ -60,11 +35,14 @@ void setup()
 void loop()
 {
   // 表示色の受け取り
-  receiveColor(color);
+  Serial.readStringUntil('\0').toCharArray(color, 7);
+
   // 描画
-  tft.fillRect(150, 150, DRAW_SIZE, DRAW_SIZE, strtol(color, NULL, 16));
+  tft.fillRect(10, 10, DRAW_SIZE, DRAW_SIZE, strtol(color, NULL, 16));
+
   // 描画の待機
-  delay(10);
+  // delay(10);
+
   // 脈波の読み取り
   Serial.println(analogRead(A0));
 }
