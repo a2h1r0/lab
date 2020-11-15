@@ -7,6 +7,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 import matplotlib.pyplot as plt
+import serial
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -34,9 +35,7 @@ n_epocs = 5
 lstm_hidden_dim = 16
 target_dim = 1
 
-path = "./work/20200926_233009_fujii.csv"
-
-model_name = "./work/pulse.mdl"
+path = "./research/pulse/work/20200926_233009_fujii.csv"
 
 
 class LSTM(nn.Module):
@@ -121,6 +120,26 @@ def split_data(x, y):
     return train_x, train_y, test_x, test_y
 
 
+def send_color_and_get_pulse(color):
+    """色データの送信と脈波の取得
+
+    色データを送信し，ディスプレイに描画．
+    その後，脈波センサからデータを取得する．
+
+    Args:
+        color (string): 色データ
+
+    Returns:
+        int: 脈波値
+    """
+
+    # 色データの送信
+    ser.write(color.encode('UTF-8'))
+
+    # 脈波値の受信
+    return ser.readline().rstrip().decode(encoding="utf-8")
+
+
 def Training():
     """
     学習
@@ -136,7 +155,9 @@ def Training():
     train_x, train_y, test_x, test_y = split_data(X, Y)
 
     # データの変換
-    train_x = torch.tensor(train_x, dtype=torch.float, device=device)
+    # バッチサイズは1
+    train_x = torch.tensor(train_x, dtype=torch.float,
+                           device=device).view(len(train_x), 1, -1)
     train_y = torch.tensor(train_y, dtype=torch.float, device=device)
     test_x = torch.tensor(test_x, dtype=torch.float, device=device)
     test_y = torch.tensor(test_y, dtype=torch.float, device=device)
@@ -153,9 +174,21 @@ def Training():
     criterion = nn.L1Loss()
     optimizer = torch.optim.Adam(model.parameters())
 
-    # ディスプレイクラスの定義
-    display = Display()
+    model.train()
+    optimizer.zero_grad()
 
+    # 学習サイクル
+    # 予測値（色データ）の取得
+    color = model(train_x)
+
+    # ディスプレイの描画と脈波の取得
+    pulse_data = send_color_and_get_pulse(color)
+
+    print(pulse_data)
+    # time.sleep(0.5)
+
+
+'''
     for epoch in range(EPOCH_NUM):
         optimizer.zero_grad()
         # RGBデータ，TKに入れる = model(train_x)
@@ -165,7 +198,6 @@ def Training():
         # Arduinoの取得処理
         # time.sleep(0.5)
 
-        display.exit()
 
         # loss_train = criterion(Arduinoから取得したセンサ値, y_target.view(-1, 1))
         loss_train.backward()
@@ -207,9 +239,14 @@ def Training():
     # plt.plot(np.arange(train_data_t.size), train_data_t)
     plt.plot(np.arange(predict.size), predict)
     plt.show()
+'''
 
 
 def main():
+    # シリアル通信の初期化
+    ser = serial.Serial("COM3", 9600)
+    ser.reset_input_buffer()
+
     Training()
 
 
