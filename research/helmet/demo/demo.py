@@ -13,8 +13,8 @@ import itertools
 import copy
 
 
-PORT1 = 'COM5'
-PORT2 = 'COM4'
+USB_PORT1 = 'COM5'
+USB_PORT2 = 'COM4'
 
 
 time = 2    # **データ取得時間(秒)**
@@ -63,8 +63,8 @@ test = np.array(test).reshape(1, -1)
 
 
 # Arduinoの用意
-ser = serial.Serial(PORT1, 57600)
-ser2 = serial.Serial(PORT2, 57600)
+ser = serial.Serial(USB_PORT1, 57600)
+ser2 = serial.Serial(USB_PORT2, 57600)
 sleep(1)    # ポート準備に1秒待機**これがないとシリアル通信がうまく動かない**
 
 

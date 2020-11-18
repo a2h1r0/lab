@@ -8,8 +8,8 @@ import csv
 import os.path
 
 
-PORT1 = 'COM5'
-PORT2 = 'COM4'
+USB_PORT1 = 'COM5'
+USB_PORT2 = 'COM4'
 
 
 time = 2    # **データ取得時間(秒)**
@@ -45,8 +45,8 @@ with open(filename, 'a', newline='') as f:  # 保存先をオープン
         print(str(number)+"回目のデータ取得です．\n")
 
         # Arduinoの用意
-        ser = serial.Serial(PORT1, 57600)
-        ser2 = serial.Serial(PORT2, 57600)
+        ser = serial.Serial(USB_PORT1, 57600)
+        ser2 = serial.Serial(USB_PORT2, 57600)
         sleep(1)    # ポート準備に1秒待機**これがないとシリアル通信がうまく動かない**
 
         input("被ったらEnter:")
