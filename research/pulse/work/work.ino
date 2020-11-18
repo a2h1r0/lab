@@ -16,7 +16,7 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_CLK, TFT_R
 #define DRAW_SIZE 50
 
 //! 表示色格納配列
-char color[7] = {'\0'};
+char color[5] = {'\0'};
 
 /**
  * @fn
@@ -34,15 +34,19 @@ void setup()
  */
 void loop()
 {
-  // 表示色の受け取り
-  Serial.readStringUntil('\0').toCharArray(color, 7);
+  // PCからデータが送信されると実行
+  if (Serial.available() > 0)
+  {
+    // 表示色の受け取り（colorに格納）
+    Serial.readStringUntil('\0').toCharArray(color, sizeof color);
 
-  // 描画
-  tft.fillRect(10, 10, DRAW_SIZE, DRAW_SIZE, strtol(color, NULL, 16));
+    // 描画（atoiではオーバーフローする）
+    tft.fillRect(10, 10, DRAW_SIZE, DRAW_SIZE, atol(color));
 
-  // 描画の待機
-  // delay(10);
+    // 描画の待機
+    // delay(10);
 
-  // 脈波の読み取り
-  Serial.println(analogRead(A0));
+    // 脈波の読み取り
+    Serial.println(analogRead(A0));
+  }
 }
