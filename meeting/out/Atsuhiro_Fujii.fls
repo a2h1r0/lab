@@ -1,7 +1,7 @@
-PWD c:/Users/atsu3/GitHub/univ/research/pulse/meeting
+PWD c:/Users/atsu3/GitHub/univ/meeting
 INPUT c:/w32tex/share/texmf-dist/web2c/texmf.cnf
 INPUT c:/w32tex/share/texmf-dist/web2c/eptex/platex.fmt
-INPUT c:/Users/atsu3/GitHub/univ/research/pulse/meeting/Atsuhiro_Fujii.tex
+INPUT c:/Users/atsu3/GitHub/univ/meeting/Atsuhiro_Fujii.tex
 OUTPUT out/Atsuhiro_Fujii.log
 INPUT c:/w32tex/share/texmf-dist/tex/platex/base/jarticle.cls
 INPUT c:/w32tex/share/texmf-dist/tex/platex/base/jarticle.cls

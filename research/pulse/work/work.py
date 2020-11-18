@@ -206,6 +206,9 @@ def Training():
     optimizer.zero_grad()
 
     # 学習サイクル
+    # for epoch in range(EPOCH_NUM):
+    # print('EPOCH:' + str(epoch))
+
     # 予測値（色データ）の取得
     colors = model(train_x)
 
@@ -217,7 +220,23 @@ def Training():
         pulse_values.append(pulse_value)
 
     print(pulse_values)
-    # time.sleep(0.5)
+
+    # loss計算のためにTensorに変換
+    # pulse_values = torch.tensor(np.array(
+    #     pulse_values, dtype=int), dtype=torch.float, device=device).view(-1, 1)
+
+    '''
+        pulse_values.size()
+        torch.Size([32, 1])
+        train_y.size()
+        torch.Size([110, 1])
+        train_x.size()
+        torch.Size([110, 32, 1])
+        '''
+
+    # loss_train = criterion(pulse_values, pulse_values)
+    # loss_train.backward()
+    # optimizer.step()
 
 
 '''
