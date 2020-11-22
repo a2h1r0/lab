@@ -7,6 +7,8 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import torch.nn.functional as F
 import torch.optim as optim
 import matplotlib.pyplot as plt
+import os
+os.chdir(os.path.dirname(__file__))
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -23,9 +25,9 @@ n_epocs = 5
 lstm_hidden_dim = 16
 target_dim = 1
 
-path = "./work/nikkei-225-index-historical-chart-data.csv"
+path = "./nikkei-225-index-historical-chart-data.csv"
 
-model_name = "./work/nikkei.mdl"
+model_name = "./nikkei.mdl"
 
 
 class LSTM(nn.Module):

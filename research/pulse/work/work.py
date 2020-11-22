@@ -12,6 +12,11 @@ from time import sleep
 import threading
 from collections import deque
 import socket
+from scipy.spatial.distance import euclidean
+from fastdtw import fastdtw
+from soft_dtw import SoftDTW
+import os
+os.chdir(os.path.dirname(__file__))
 
 
 SAMPLE_SIZE = 64  # サンプルサイズ（学習して再現する脈波の長さ）
@@ -19,7 +24,7 @@ SAMPLE_SIZE = 64  # サンプルサイズ（学習して再現する脈波の長
 TESTDATA_SIZE = 0.3  # テストデータの割合
 
 # EPOCH_NUM = 1000  # 学習サイクル数
-EPOCH_NUM = 1  # 学習サイクル数
+EPOCH_NUM = 10  # 学習サイクル数
 
 WINDOW_SIZE = 32  # ウィンドウサイズ
 STEP_SIZE = 1  # ステップ幅
@@ -99,6 +104,35 @@ class LSTM(nn.Module):
         return converted_data.astype('str')
 
 
+class DTWLoss(nn.Module):
+    """Loss関数
+
+    DTWで予測データと正解データの距離を計算する．
+    """
+
+    def __init__(self):
+        super(DTWLoss, self).__init__()
+
+    def forward(self, inputs, targets):
+        """
+        Args:
+            inputs (:obj:`Numpy`): 予測データ [脈波値1, 脈波値2, 脈波値3, 脈波値4, ...]
+            targets (:obj:`Numpy`): 正解データ [脈波値1, 脈波値2, 脈波値3, 脈波値4, ...]
+
+        Returns:
+            loss (:obj:`Tensor`): 損失
+        """
+
+        # DTW計算
+        distance, _ = fastdtw(
+            inputs.reshape(-1, 1), targets.reshape(-1, 1), dist=euclidean)
+
+        # Tensorで出力
+        loss = torch.tensor(int(distance), dtype=torch.int, device=device)
+
+        return loss
+
+
 def get_pulse():
     """脈波の取得
 
@@ -124,7 +158,7 @@ def get_pulse():
         # センサ値取得時間用キューの更新（単位はミリ秒で保存）
         pulse_get_timestamps.append(timestamp)
         # 生脈波用キューの更新
-        raw_pulse_values.append(data[1])
+        raw_pulse_values.append(int(data[1]))
 
         # 送信するデータが存在する場合（ディスプレイ点灯開始時）または，データ取得中の場合
         if (send_to_display_data is not None) or (pseudo_pulse_get_start_time is not None):
@@ -136,15 +170,15 @@ def get_pulse():
             # 点灯時間（学習データと同じ時間）だけ取得
             # 現在時刻が(取得開始時刻 + 点灯時間)より大きいかつ，サンプル数が学習データと同じだけ集まったら取得終了
             if (timestamp > (pseudo_pulse_get_start_time + display_lighting_time)) and (len(pseudo_pulse_values) == SAMPLE_SIZE):
-                # 脈波の取得開始時刻の初期化
-                pseudo_pulse_get_start_time = None
                 # ディスプレイ点灯時間の初期化
                 display_lighting_time = None
+                # 脈波の取得開始時刻の初期化
+                pseudo_pulse_get_start_time = None
 
             # 取得時間内
             else:
                 # 擬似脈波用キューの更新
-                pseudo_pulse_values.append(data[2])
+                pseudo_pulse_values.append(int(data[2]))
 
 
 def draw_display():
@@ -192,12 +226,17 @@ def train():
     global send_to_display_data
     #*** ディスプレイ点灯時間用変数 ***#
     global display_lighting_time
+    #*** 擬似脈波取得開始時間用変数 ***#
+    global pseudo_pulse_get_start_time
+
+    #*** 処理終了通知用変数 ***#
+    global finish
 
     # モデルの定義
     model = LSTM(input_size=INPUT_DIMENSION,
                  hidden_size=HIDDEN_SIZE, output_size=OUTPUT_DIMENSION)
     model.to(device)
-    criterion = nn.L1Loss()
+    criterion = SoftDTW(gamma=1.0, normalize=True)
     optimizer = torch.optim.Adam(model.parameters())
 
     model.train()
@@ -215,7 +254,7 @@ def train():
 
         #--- データセットの作成 ---#
         # 学習に使用するデータの取得
-        train_pulse_values = np.array(raw_pulse_values, dtype=int)
+        train_pulse_values = raw_pulse_values
 
         # 全サンプルでの点灯時間の取得（最終サンプルのタイムスタンプ - 開始サンプルのタイムスタンプ）
         display_lighting_time = pulse_get_timestamps[-1] - \
@@ -241,17 +280,15 @@ def train():
             sleep(0.000001)
             continue
 
-        print(train_pulse_values)
-        print(pseudo_pulse_values)
+        # 擬似脈波と生脈波の差が損失
+        loss_train = criterion(torch.tensor(
+            pseudo_pulse_values, dtype=torch.float, device=device, requires_grad=True).view(-1, 1), train_pulse_values.view(-1, 1))
 
-        # # 予測結果を1件ずつ処理
-        # pulse_values = []
-        # for color in colors:
-        #     # ディスプレイの描画と脈波の取得
-        #     pulse_value = send_color_and_get_pulse(color)
-        #     pulse_values.append(pulse_value)
+        loss_train.backward()
+        optimizer.step()
 
-        # print(pulse_values)
+    # 処理終了
+    finish = True
 
 
 def main():
@@ -260,7 +297,7 @@ def main():
     train_thread.setDaemon(True)
     train_thread.start()
 
-    while True:
+    while not finish:
         try:
             # 脈波の更新
             get_pulse()
@@ -277,6 +314,9 @@ if __name__ == '__main__':
     raw_pulse_values = deque(maxlen=SAMPLE_SIZE)
     # 擬似脈波用キュー
     pseudo_pulse_values = deque(maxlen=SAMPLE_SIZE)
+
+    #*** グローバル：処理終了通知用変数（センサデータ取得終了の制御） ***#
+    finish = False
 
     #*** グローバル：データ送信用変数（画面点灯の制御） ***#
     send_to_display_data = None
