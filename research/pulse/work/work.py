@@ -138,6 +138,8 @@ def get_pulse():
             if (timestamp > (pseudo_pulse_get_start_time + display_lighting_time)) and (len(pseudo_pulse_values) == SAMPLE_SIZE):
                 # 脈波の取得開始時刻の初期化
                 pseudo_pulse_get_start_time = None
+                # ディスプレイ点灯時間の初期化
+                display_lighting_time = None
 
             # 取得時間内
             else:
@@ -162,26 +164,23 @@ def draw_display():
     #*** ディスプレイ点灯時間用変数 ***#
     global display_lighting_time
 
-    while True:
-        # 送信するデータが存在する場合
-        if send_to_display_data is not None:
-            # 1サンプルあたりの点灯時間の取得（全サンプルでの点灯時間 ÷ サンプル長）
-            color_lighting_time = str(
-                display_lighting_time / len(send_to_display_data))
+    # 1サンプルあたりの点灯時間の取得（全サンプルでの点灯時間 ÷ サンプル長）
+    color_lighting_time = str(
+        display_lighting_time / len(send_to_display_data))
 
-            # 1サンプルずつ送信
-            for color_data in send_to_display_data:
-                # 終端文字の追加
-                color_data += '\0'
+    # 1サンプルずつ送信
+    for color_data in send_to_display_data:
+        # 終端文字の追加
+        color_data += '\0'
 
-                # 送信のためにデータを整形（点灯時間,色データ\0）
-                data = color_lighting_time + ',' + color_data
+        # 送信のためにデータを整形（点灯時間,色データ\0）
+        data = color_lighting_time + ',' + color_data
 
-                # 色データの送信
-                socket_client.send(data.encode('UTF-8'))
+        # 色データの送信
+        socket_client.send(data.encode('UTF-8'))
 
-            # 送信データの初期化（完了通知）
-            send_to_display_data = None
+    # 送信データの初期化（完了通知）
+    send_to_display_data = None
 
 
 def train():
@@ -205,53 +204,54 @@ def train():
     optimizer.zero_grad()
 
     #--- 学習サイクル ---#
-    # for epoch in range(EPOCH_NUM):
-    # print('EPOCH: ' + str(epoch))
+    for epoch in range(EPOCH_NUM):
+        print('EPOCH: ' + str(epoch))
 
-    # データが貯まるまで待機
-    while True:
-        # サンプルがSAMPLE_SIZE個存在している場合
-        if len(raw_pulse_values) == SAMPLE_SIZE:
-            break
+        # サンプルがSAMPLE_SIZE個貯まるまで待機
+        while len(raw_pulse_values) < SAMPLE_SIZE:
+            # 1μsの遅延**これを入れないと回りすぎてセンサデータ取得の動作が遅くなる**
+            sleep(0.000001)
+            continue
 
-    #--- データセットの作成 ---#
-    # 学習に使用するデータの取得
-    train_pulse_values = np.array(raw_pulse_values, dtype=int)
+        #--- データセットの作成 ---#
+        # 学習に使用するデータの取得
+        train_pulse_values = np.array(raw_pulse_values, dtype=int)
 
-    # 全サンプルでの点灯時間の取得（最終サンプルのタイムスタンプ - 開始サンプルのタイムスタンプ）
-    display_lighting_time = pulse_get_timestamps[-1] - \
-        pulse_get_timestamps[0]
+        # 全サンプルでの点灯時間の取得（最終サンプルのタイムスタンプ - 開始サンプルのタイムスタンプ）
+        display_lighting_time = pulse_get_timestamps[-1] - \
+            pulse_get_timestamps[0]
 
-    # LSTM入力形式に変換
-    train_pulse_values = torch.tensor(
-        train_pulse_values, dtype=torch.float, device=device).view(-1, 1, 1)
+        # LSTM入力形式に変換
+        train_pulse_values = torch.tensor(
+            train_pulse_values, dtype=torch.float, device=device).view(-1, 1, 1)
 
-    #--- 学習 ---#
-    # 予測値（色データ）の取得
-    colors = model(train_pulse_values)
+        #--- 学習 ---#
+        # 予測値（色データ）の取得
+        colors = model(train_pulse_values)
 
-    # ディスプレイ送信用データの作成
-    send_to_display_data = colors
+        # ディスプレイ送信用データの作成
+        send_to_display_data = colors
 
-    # 処理が完了するまで待機
-    while True:
-        # データの送信が完了しているかつ，脈波の取得が完了している場合
-        if (send_to_display_data is None) and (pseudo_pulse_get_start_time is None):
-            # ディスプレイ点灯時間の初期化
-            display_lighting_time = None
-            break
+        # 画面の描画
+        draw_display()
 
-    print(train_pulse_values)
-    print(pseudo_pulse_values)
+        # 脈波の取得が完了するまで待機
+        while pseudo_pulse_get_start_time is not None:
+            # 1μsの遅延**これを入れないと回りすぎてセンサデータ取得の動作が遅くなる**
+            sleep(0.000001)
+            continue
 
-    # # 予測結果を1件ずつ処理
-    # pulse_values = []
-    # for color in colors:
-    #     # ディスプレイの描画と脈波の取得
-    #     pulse_value = send_color_and_get_pulse(color)
-    #     pulse_values.append(pulse_value)
+        print(train_pulse_values)
+        print(pseudo_pulse_values)
 
-    # print(pulse_values)
+        # # 予測結果を1件ずつ処理
+        # pulse_values = []
+        # for color in colors:
+        #     # ディスプレイの描画と脈波の取得
+        #     pulse_value = send_color_and_get_pulse(color)
+        #     pulse_values.append(pulse_value)
+
+        # print(pulse_values)
 
 
 def main():
@@ -259,10 +259,6 @@ def main():
     train_thread = threading.Thread(target=train)
     train_thread.setDaemon(True)
     train_thread.start()
-    # ディスプレイ制御スレッドの開始
-    draw_display_thread = threading.Thread(target=draw_display)
-    draw_display_thread.setDaemon(True)
-    # draw_display_thread.start()
 
     while True:
         try:
