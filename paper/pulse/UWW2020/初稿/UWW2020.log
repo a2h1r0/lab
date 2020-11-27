@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2020/W32TeX) (preloaded format=platex 2020.9.25)  25 NOV 2020 14:30
+This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2020/W32TeX) (preloaded format=platex 2020.9.25)  27 NOV 2020 23:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -64,54 +64,61 @@ File: l3backend-dvips.def 2020-09-24 L3 backend support: dvips
 \g__pdf_backend_annotation_int=\count178
 \g__pdf_backend_link_int=\count179
 \g__pdf_backend_link_sf_int=\count180
-) (out/UWW2020.aux)
+) (./UWW2020.aux)
 \openout1 = `UWW2020.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
 LaTeX Font Info:    Font shape `JT1/mc/b/n' in size <12> not available
-(Font)              Font shape `JT1/mc/bx/n' tried instead on input line 56.
+(Font)              Font shape `JT1/mc/bx/n' tried instead on input line 61.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 56.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 61.
 LaTeX Font Info:    Font shape `JY1/mc/b/n' in size <12> not available
-(Font)              Font shape `JY1/mc/bx/n' tried instead on input line 56.
+(Font)              Font shape `JY1/mc/bx/n' tried instead on input line 61.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 56.
-File: fig1.eps Graphic file (type eps)
-<fig1.eps>
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 104.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 104.
-[1
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 61.
+LaTeX Font Info:    Font shape `JT1/mc/b/n' in size <10> not available
+(Font)              Font shape `JT1/mc/bx/n' tried instead on input line 72.
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 72.
+LaTeX Font Info:    Font shape `JY1/mc/b/n' in size <10> not available
+(Font)              Font shape `JY1/mc/bx/n' tried instead on input line 72.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 72.
+File: pulse.png Graphic file (type bmp)
+<pulse.png>
+(./UWW2020.bbl
+LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
+(Font)              No change on input line 7.
+LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
+(Font)              No change on input line 19.
+) [1
 
 
-] [2
-
-] (out/UWW2020.aux) ) 
+] (./UWW2020.aux) ) 
 Here is how much of TeX's memory you used:
- 975 strings out of 481386
- 14746 string characters out of 5917849
- 267167 words of memory out of 5000000
- 16817 multiletter control sequences out of 15000+600000
- 540661 words of font info for 52 fonts, out of 8000000 for 9000
+ 976 strings out of 481386
+ 14822 string characters out of 5917849
+ 265200 words of memory out of 5000000
+ 16813 multiletter control sequences out of 15000+600000
+ 540980 words of font info for 53 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 36i,8n,33p,660b,335s stack positions out of 5000i,500n,10000p,500000b,80000s
+ 36i,5n,33p,1311b,335s stack positions out of 5000i,500n,10000p,500000b,80000s
 
-Output written on out/UWW2020.dvi (2 pages, 10896 bytes).
+Output written on UWW2020.dvi (1 page, 8912 bytes).

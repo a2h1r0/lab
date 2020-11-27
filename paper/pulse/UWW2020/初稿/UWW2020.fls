@@ -2,7 +2,7 @@ PWD c:/Users/atsu3/GitHub/univ/paper/pulse/UWW2020/èâçe
 INPUT c:/w32tex/share/texmf-dist/web2c/texmf.cnf
 INPUT c:/w32tex/share/texmf-dist/web2c/eptex/platex.fmt
 INPUT c:/Users/atsu3/GitHub/univ/paper/pulse/UWW2020/èâçe/UWW2020.tex
-OUTPUT out/UWW2020.log
+OUTPUT UWW2020.log
 INPUT c:/w32tex/share/texmf-dist/tex/platex/base/jarticle.cls
 INPUT c:/w32tex/share/texmf-dist/tex/platex/base/jarticle.cls
 INPUT c:/w32tex/share/texmf-dist/tex/platex/base/jsize10.clo
@@ -27,17 +27,20 @@ INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/dvipsnam.def
 INPUT c:/w32tex/share/texmf-dist/tex/latex/graphics/dvipsnam.def
 INPUT c:/w32tex/share/texmf-dist/tex/latex/l3backend/l3backend-dvips.def
 INPUT c:/w32tex/share/texmf-dist/tex/latex/l3backend/l3backend-dvips.def
-INPUT out/UWW2020.aux
-INPUT out/UWW2020.aux
-OUTPUT out/UWW2020.aux
+INPUT UWW2020.aux
+INPUT UWW2020.aux
+OUTPUT UWW2020.aux
 INPUT c:/w32tex/share/texmf-dist/fonts/map/fontname/texfonts.map
 INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin8.tfm
 INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/min8.tfm
 INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT c:/w32tex/share/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
-INPUT fig1.eps
-INPUT fig1.eps
-OUTPUT out/UWW2020.dvi
-INPUT out/UWW2020.aux
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
+INPUT pulse.png
+INPUT extractbb -B cropbox -O pulse.png
+INPUT UWW2020.bbl
+INPUT UWW2020.bbl
+INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
+OUTPUT UWW2020.dvi
+INPUT UWW2020.aux
