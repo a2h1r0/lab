@@ -1,6 +1,6 @@
 {
-    "port": "COM3",
-    "board": "arduino:avr:uno",
-    "programmer": "AVR ISP",
-    "sketch": "research\\pulse\\work\\work.ino"
+  "port": "COM3",
+  "board": "arduino:avr:uno",
+  "programmer": "AVR ISP",
+  "sketch": "research\\pulse\\UWW2020\\UWW2020.ino"
 }
