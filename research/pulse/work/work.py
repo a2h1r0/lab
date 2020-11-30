@@ -19,7 +19,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-SAMPLE_SIZE = 64  # サンプルサイズ（学習して再現する脈波の長さ）
+SAMPLE_SIZE = 256  # サンプルサイズ（学習して再現する脈波の長さ）
 
 TESTDATA_SIZE = 0.3  # テストデータの割合
 
@@ -95,13 +95,10 @@ class LSTM(nn.Module):
         # 色の最大値は16進数FFFFFF（色コード）
         COLOR_MAX = 16777215
 
-        # Tensorから1次元のNumpyへ
-        out = out.detach().cpu().numpy().reshape(-1)
+        # 出力の最大値を色の最大値に合わせる
+        converted_data = out * COLOR_MAX
 
-        # 出力の最大値を色の最大値に合わせる（整数）
-        converted_data = np.array(out * COLOR_MAX, dtype=int)
-
-        return converted_data.astype('str')
+        return converted_data
 
 
 class DTWLoss(nn.Module):
@@ -254,24 +251,25 @@ def train():
 
         #--- データセットの作成 ---#
         # 学習に使用するデータの取得
-        train_pulse_values = raw_pulse_values
+        train_raw_pulse_values = raw_pulse_values
 
         # 全サンプルでの点灯時間の取得（最終サンプルのタイムスタンプ - 開始サンプルのタイムスタンプ）
         display_lighting_time = pulse_get_timestamps[-1] - \
             pulse_get_timestamps[0]
 
         # LSTM入力形式に変換
-        train_pulse_values = torch.tensor(
-            train_pulse_values, dtype=torch.float, device=device).view(-1, 1, 1)
+        train_raw_pulse_values = torch.tensor(
+            train_raw_pulse_values, dtype=torch.float, device=device).view(-1, 1, 1)
 
         #--- 学習 ---#
         # 予測値（色データ）の取得
-        colors = model(train_pulse_values)
+        colors = model(train_raw_pulse_values)
 
-        # ディスプレイ送信用データの作成
-        send_to_display_data = colors
+        # ディスプレイ送信用データの作成（Tensorから1次元の整数，文字列のNumpyへ）
+        send_to_display_data = np.array(
+            colors.detach().cpu().numpy().reshape(-1), dtype=int).astype('str')
 
-        # 画面の描画
+        #--- 画面の描画 ---#
         draw_display()
 
         # 脈波の取得が完了するまで待機
@@ -280,9 +278,20 @@ def train():
             sleep(0.000001)
             continue
 
+        #--- LSTMの出力値を取得した擬似脈波の値に変換 ---#
+        # 擬似脈波をTensorに変換
+        train_pseudo_pulse_values = torch.tensor(
+            pseudo_pulse_values, dtype=torch.float, device=device).view(1, -1)
+
+        # colorsとの差分を計算
+        diff = colors - train_pseudo_pulse_values
+
+        # LSTMの出力値を変換（colors → train_pseudo_pulse_values）
+        colors = colors - (colors - train_pseudo_pulse_values)
+
         # 擬似脈波と生脈波の差が損失
-        loss_train = criterion(torch.tensor(
-            pseudo_pulse_values, dtype=torch.float, device=device, requires_grad=True).view(-1, 1), train_pulse_values.view(-1, 1))
+        loss_train = criterion(
+            colors.view(-1, 1), train_raw_pulse_values.view(-1, 1))
 
         loss_train.backward()
         optimizer.step()
