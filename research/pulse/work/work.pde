@@ -17,6 +17,9 @@ void setup() {
 	// サーバの設定
 	server = new Server(this, PORT);
 	println("Server address : " + server.ip());
+	
+	// フレームレートの設定
+	frameRate(120);
 }
 
 /* メインループ */
@@ -41,7 +44,13 @@ void draw() {
 			background(r, g, b);
 			
 			// 点灯時間の待機
-			delay(int(data[0]));
+			// delay(int(data[0]));
+			
+			// delayなしの状態で処理時間で10msほどかかる
+			// println(millis());
+			
+			// 描画完了通知の送信
+			client.write('0');
 		}
 	}
 }
