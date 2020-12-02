@@ -44,8 +44,8 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 now = datetime.datetime.today()
 time = now.strftime("%Y%m%d") + "_" + now.strftime("%H%M%S")
-SAVEFILE_RAW = time + "_raw_.csv"
-SAVEFILE_PSEUDO = time + "_pseudo_.csv"
+SAVEFILE_RAW = time + "_raw.csv"
+SAVEFILE_PSEUDO = time + "_pseudo.csv"
 
 
 class LSTM(nn.Module):
