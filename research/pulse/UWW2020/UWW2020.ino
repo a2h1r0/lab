@@ -17,6 +17,6 @@ void loop()
 {
     Serial.print(micros());
     Serial.print(",");
-    Serial.println(analogRead(A1));
+    Serial.println(analogRead(A0));
     delay(10);
 }
