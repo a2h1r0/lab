@@ -15,7 +15,7 @@ ser = serial.Serial("COM3", 115200)
 now = datetime.datetime.today()
 
 filename = "./research/pulse/UWW2020/" + now.strftime("%Y%m%d") + "_" + \
-    now.strftime("%H%M%S") + "_surface.csv"
+    now.strftime("%H%M%S") + "_fujii.csv"
 
 ser.reset_input_buffer()
 
@@ -33,7 +33,7 @@ while True:
     else:
         continue
 
-    if time >= FINISH*1000000:
+    if time >= FINISH*8000000:
         break
 
 with open(filename, 'a', newline='') as f:
