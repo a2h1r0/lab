@@ -1,129 +1,240 @@
 package com.example.getpulse;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Typeface;
+import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.wearable.activity.WearableActivity;
+import android.support.wearable.view.BoxInsetLayout;
+import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.Wearable;
 
-import static android.graphics.Typeface.BOLD;
-import static android.graphics.Typeface.DEFAULT_BOLD;
-
-public class MainActivity extends WearableActivity implements SensorEventListener{
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+public class MainActivity extends Activity implements SensorEventListener {
     private final String TAG = MainActivity.class.getName();
+    private final float GAIN = 0.9f;
+    private TextView mTextView, tTextView;
+    private Button startbutton, endbutton, autobutton;
     private SensorManager mSensorManager;
-    public float hb=100.0f;
-    private TextView textView;
-    private TextView heartTextView;
-    public View backGround;
-    public boolean isDisp=true;
-    private LoopEngine loopEngine = new LoopEngine();
-    public ImageView imageView;
-    boolean set = false;
-    @Override
-    protected void onStart(){
-        super.onStart();
-    }
+    private GoogleApiClient mGoogleApiClient;
+    private String mNode;
+    private float x=0,y=0,z=0, hr=0;
+    int count = 0;
+    int ppg = 0;
+    ArrayList<Integer> ppgs = new ArrayList<>();
+    Boolean is_recording = false, is_auto = false;
+    private Date date;
+    private long startTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setAmbientEnabled();
-        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        textView = (TextView) findViewById(R.id.text);
-        heartTextView = (TextView) findViewById(R.id.text_heart);
-        backGround = (View) findViewById(R.id.View);
-        textView.setTextSize(20.0f);
-        heartTextView.setTextSize(0.0f);
-        loopEngine.start();
-        //heartTextView.setTextColor(Color.argb(80, 67, 135, 233));
-        textView.setTextColor(Color.argb(255, 140, 140, 140));
-        textView.setTypeface(Typeface.create(DEFAULT_BOLD, BOLD));
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        mTextView = (TextView) findViewById(R.id.pulse);
+        mTextView.setTextSize(20.0f);
+        tTextView = (TextView) findViewById(R.id.time);
+        tTextView.setTextSize(20.0f);
+        startbutton = findViewById(R.id.start_button);
+        endbutton = findViewById(R.id.end_button);
+        autobutton = findViewById(R.id.auto_button);
+
+        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_ALL);
+        for (Sensor currentSensor : sensorList) {
+            Log.d("List sensors", "Name: "+currentSensor.getName() + " /Type_String: " +currentSensor.getStringType()+ " /Type_number: "+currentSensor.getType());
+        }
+        //List sensors: Name: Heart Rate PPG Raw Data /Type_String: com.google.wear.sensor.ppg /Type_number: 65572
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                    @Override
+                    public void onConnected(Bundle bundle) {
+                        Log.d(TAG, "onConnected");
+//                        NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
+                        Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+                            @Override
+                            public void onResult(NodeApi.GetConnectedNodesResult nodes) {
+                                //Nodeは１個に限定
+                                if (nodes.getNodes().size() > 0) {
+                                    mNode = nodes.getNodes().get(0).getId();
+                                }
+                            }
+                        });
+                    }
+                    @Override
+                    public void onConnectionSuspended(int i) {
+                        Log.d(TAG, "onConnectionSuspended");
+                    }
+                })
+                .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(ConnectionResult connectionResult) {
+                        Log.d(TAG, "onConnectionFailed : " + connectionResult.toString());
+                    }
+                })
+                .build();
+
+        startbutton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                is_recording = true;
+                ppgs.clear(); //arraylistの要素を削除
+                //現在日時の取得
+                date = new Date();
+                startTime = System.currentTimeMillis();
+                //sensorValues = new StringBuilder();
+                Log.d("CSV", "Start Sensing");
+            }
+        });
+
+        endbutton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                is_recording = false;
+                is_auto = false;
+                Log.d("CSV", "Finish Sensing");
+
+                try {
+                    SaveToExternalStorage(ppgs);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        autobutton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                is_recording = true;
+                is_auto = true;
+                ppgs.clear(); //arraylistの要素を削除
+                //現在日時の取得
+                date = new Date();
+                startTime = System.currentTimeMillis();
+                //sensorValues = new StringBuilder();
+                Log.d("CSV", "Start Sensing");
+            }
+        });
+
     }
-    private LinearLayout.LayoutParams createParam(int w, int h){
-        return new LinearLayout.LayoutParams(w, h);
+
+    private void SaveToExternalStorage(ArrayList data) throws IOException {
+        FileOutputStream fileOutputStream = null;
+        try {
+            //フォーマット
+            String day = new SimpleDateFormat("-yyyy-MM-dd-HH-mm-ss").format(date);
+
+            String filePath = getExternalFilesDir(null).toString() + "/pulse" + day + ".csv";
+            Log.d("CSV", "filePath: " + filePath);
+            fileOutputStream = new FileOutputStream(filePath, true);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8);
+            BufferedWriter bw = new BufferedWriter(outputStreamWriter);
+            for(int i=0; i<data.size(); i++) {
+                bw.write(String.valueOf(data.get(i)));
+                bw.newLine();
+                bw.flush();
+            }
+            Log.d("CSV", "Finish to write..");
+        } catch(Exception ex) {
+            Log.d("CSV", "Exception: " + ex.toString());
+        }finally {
+            fileOutputStream.close();
+        }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
-        Sensor sensor = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-        mSensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        //Sensor accSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        //mSensorManager.registerListener(this, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        //Sensor hrSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
+        //mSensorManager.registerListener(this, hrSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        Sensor ppgSensor = mSensorManager.getDefaultSensor(65572);
+        mSensorManager.registerListener(this, ppgSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        mGoogleApiClient.connect();
     }
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(this);
+        mGoogleApiClient.disconnect();
     }
     @Override
     public void onSensorChanged(SensorEvent event) {
-        //ここで変数宣言すると，起動中は破棄されずメモリリークする
-        if(set==false)textView.setTextSize(60.0f);
-        if (event.sensor.getType() == Sensor.TYPE_HEART_RATE) {
-            hb = event.values[0];
-            textView.setText(""+(int)hb);
-            set = true;
-        }
+        if(count>= 2) {
+            count = 0;
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                //x = (x * GAIN + event.values[0] * (1 - GAIN));
+                //y = (y * GAIN + event.values[1] * (1 - GAIN));
+                //z = (z * GAIN + event.values[2] * (1 - GAIN));
+                x = event.values[0];
+                y = event.values[1];
+                z = event.values[2];
+                if (mTextView != null)
+                    mTextView.setText(String.format("X : %f\nY : %f\nZ : %f" , x, y, z));
+                //転送セット
+                String SEND_DATA = x + "," + y + "," + z;
+                if (mNode != null) {
+                    Wearable.MessageApi.sendMessage(mGoogleApiClient, mNode, SEND_DATA, null).setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
+                        @Override
+                        public void onResult(MessageApi.SendMessageResult result) {
+                            if (!result.getStatus().isSuccess()) {
+                                Log.d(TAG, "ERROR : failed to send Message" + result.getStatus());
+                            }
+                        }
+                    });
+                }
+            }
+            else if (event.sensor.getType() == Sensor.TYPE_HEART_RATE) {
+                hr = event.values[0];
+                if (mTextView != null)
+                    mTextView.setText(String.format("心拍数 : %f" , hr));
+            }
+            else if (event.sensor.getType() == 65572) {
+                ppg = (int) event.values[0];
+                //float ppg = event.values[0];
+                if(is_recording == true) {
+                    ppgs.add(ppg); //ArrayListに脈波データを追加
+                    //Log.d("CSV", Integer.toString(ppg));
+                    long endTime = System.currentTimeMillis();
+                    // カウント時間 = 経過時間 - 開始時間
+                    long diffTime = (endTime - startTime);
+                    //Log.d("CSV", Long.toString(diffTime));
+                    SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss.SS", Locale.US);
+                    tTextView.setText(dataFormat.format(diffTime));
+
+                    if(is_auto == true) {
+                        if(diffTime >= 30000) //何ミリ秒で計測終了するか
+                            endbutton.performClick(); //endbuttonを押す
+                    }
+                }
+                if (mTextView != null)
+                    mTextView.setText(String.format("PPG : %d" , ppg));
+            }
+        }else count++;
     }
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        Log.d(TAG,"onAccuracyChanged!!");
     }
-    public void update(){
-        if(set) {
-            if (isDisp) {
-                backGround.setBackgroundColor(Color.argb(80, 231, 232, 226));
-                //heartTextView.setTextSize(100.0f);
-                textView.setTextSize(60.0f);
-//                ImageView img = (ImageView) findViewById(R.id.imageView);
-                Resources res = getResources();
-//                Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.heart);
-                // bitmapの画像を250*250で作成する
-//                Bitmap bitmap2 = Bitmap.createScaledBitmap(bitmap, 250, 250, false);
-//                img.setImageBitmap(bitmap2);
-            } else {
-                backGround.setBackgroundColor(Color.argb(10, 231, 232, 226));
-                //heartTextView.setTextSize(800.0f);
-                textView.setTextSize(70.0f);
-//                ImageView img = (ImageView) findViewById(R.id.imageView);
-                Resources res = getResources();
-//                Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.heart);
-                // bitmapの画像を300*300で作成する
-//                Bitmap bitmap2 = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
-//                img.setImageBitmap(bitmap2);
-            }
-        }
-        isDisp = !isDisp;
-    }
-    //一定時間後にupdateを呼ぶためのオブジェクト
-    class LoopEngine extends Handler {
-        private boolean isUpdate;
-        public void start(){
-            this.isUpdate = true;
-            handleMessage(new Message());
-        }
-        public void stop(){
-            this.isUpdate = false;
-        }
-        @Override
-        public void handleMessage(Message msg) {
-            this.removeMessages(0);//既存のメッセージは削除
-            if(this.isUpdate){
-                MainActivity.this.update();//自信が発したメッセージを取得してupdateを実行
-                sendMessageDelayed(obtainMessage(0), (long)(60/hb*1000));//鼓動の間隔でメッセージを出力
-            }
-        }
-    };
+
 }

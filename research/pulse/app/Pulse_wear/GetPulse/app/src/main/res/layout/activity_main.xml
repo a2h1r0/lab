@@ -1,36 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey"
-    android:padding="@dimen/box_inset_layout_padding"
     tools:context=".MainActivity"
-    tools:deviceIds="wear">
+    tools:deviceIds="wear"
+    android:orientation="vertical">
 
-    <View
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/start" />
+
+    <Button
+        android:id="@+id/end_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/end" />
+
+    <TextView
+        android:id="@+id/pulse"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:paddingStart="40dp"
+        android:text="@string/pulse"
+        app:layout_box="all" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:paddingStart="40dp"
+        android:text="@string/time"
+        app:layout_box="all" />
+
+    <Button
+        android:id="@+id/auto_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/auto" />
+
+    <TextView
+        android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/View"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_vertical|center_horizontal"/>
-    <TextView
-        android:id="@+id/text_heart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_box="all"
-        android:text="♥"
-        android:gravity="center_vertical|center_horizontal" />
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_box="all"
-        android:text="心拍数測定中\nちょっと待ってね"
-        android:textSize="40sp"
-        android:gravity="center_vertical|center_horizontal"
-        android:textColor="@color/black_54p"/>
+        android:textColor="@android:color/white"
+        app:layout_box="all" />
 
-</androidx.wear.widget.BoxInsetLayout>
+</LinearLayout>

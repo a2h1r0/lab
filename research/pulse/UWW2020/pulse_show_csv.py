@@ -8,10 +8,9 @@ os.chdir(os.path.dirname(__file__))
 
 t = []
 y = []
-with open('20201128_194859_surface.csv') as f:
+with open('20201205_124505_surface.csv') as f:
 
     reader = csv.reader(f)
-    next(reader)
     next(reader)
 
     for row in reader:
