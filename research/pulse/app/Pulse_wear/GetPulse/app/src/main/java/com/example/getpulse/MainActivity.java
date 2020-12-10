@@ -42,7 +42,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     private float x=0,y=0,z=0, hr=0;
     int count = 0;
     int ppg = 0;
-    ArrayList<Integer> ppgs = new ArrayList<>();
+    ArrayList<Integer> values = new ArrayList<>();
+    ArrayList<Float> timestamps = new ArrayList<>();
     Boolean is_recording = false, is_auto = false;
     private Date date;
     private long startTime;
@@ -100,7 +101,8 @@ public class MainActivity extends Activity implements SensorEventListener {
         startbutton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 is_recording = true;
-                ppgs.clear(); //arraylistの要素を削除
+                timestamps.clear(); //arraylistの要素を削除
+                values.clear();
                 //現在日時の取得
                 date = new Date();
                 startTime = System.currentTimeMillis();
@@ -116,7 +118,7 @@ public class MainActivity extends Activity implements SensorEventListener {
                 Log.d("CSV", "Finish Sensing");
 
                 try {
-                    SaveToExternalStorage(ppgs);
+                    SaveToExternalStorage(timestamps, values);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -127,7 +129,8 @@ public class MainActivity extends Activity implements SensorEventListener {
             public void onClick(View view){
                 is_recording = true;
                 is_auto = true;
-                ppgs.clear(); //arraylistの要素を削除
+                timestamps.clear(); //arraylistの要素を削除
+                values.clear();
                 //現在日時の取得
                 date = new Date();
                 startTime = System.currentTimeMillis();
@@ -138,22 +141,24 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     }
 
-    private void SaveToExternalStorage(ArrayList data) throws IOException {
+    private void SaveToExternalStorage(ArrayList timestamps, ArrayList values) throws IOException {
         FileOutputStream fileOutputStream = null;
         try {
             //フォーマット
-            String day = new SimpleDateFormat("-yyyy-MM-dd-HH-mm-ss").format(date);
+            String day = new SimpleDateFormat("yyyyMMdd_HHmmss").format(date);
 
-            String filePath = getExternalFilesDir(null).toString() + "/pulse" + day + ".csv";
+            String filePath = getExternalFilesDir(null).toString() + "/" + day + "_ticwatch.csv";
             Log.d("CSV", "filePath: " + filePath);
             fileOutputStream = new FileOutputStream(filePath, true);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8);
             BufferedWriter bw = new BufferedWriter(outputStreamWriter);
-            for(int i=0; i<data.size(); i++) {
-                bw.write(String.valueOf(data.get(i)));
+            bw.write("time,pulse");
+            bw.newLine();
+            for(int i = 0; i < values.size(); i++) {
+                bw.write(String.valueOf(timestamps.get(i)) + "," + String.valueOf(values.get(i)));
                 bw.newLine();
-                bw.flush();
             }
+            bw.flush();
             Log.d("CSV", "Finish to write..");
         } catch(Exception ex) {
             Log.d("CSV", "Exception: " + ex.toString());
@@ -214,7 +219,6 @@ public class MainActivity extends Activity implements SensorEventListener {
                 ppg = (int) event.values[0];
                 //float ppg = event.values[0];
                 if(is_recording == true) {
-                    ppgs.add(ppg); //ArrayListに脈波データを追加
                     //Log.d("CSV", Integer.toString(ppg));
                     long endTime = System.currentTimeMillis();
                     // カウント時間 = 経過時間 - 開始時間
@@ -222,6 +226,9 @@ public class MainActivity extends Activity implements SensorEventListener {
                     //Log.d("CSV", Long.toString(diffTime));
                     SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss.SS", Locale.US);
                     tTextView.setText(dataFormat.format(diffTime));
+
+                    timestamps.add((float)diffTime / 1000); //ArrayListに脈波データを追加
+                    values.add(ppg);
 
                     if(is_auto == true) {
                         if(diffTime >= 30000) //何ミリ秒で計測終了するか
