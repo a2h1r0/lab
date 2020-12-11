@@ -8,7 +8,7 @@ os.chdir(os.path.dirname(__file__))
 
 t = []
 y = []
-with open('20201205_124505_surface.csv') as f:
+with open('20201211_213002_ticwatch.csv') as f:
 
     reader = csv.reader(f)
     next(reader)

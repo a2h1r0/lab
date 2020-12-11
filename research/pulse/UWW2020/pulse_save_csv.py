@@ -33,7 +33,7 @@ while True:
     else:
         continue
 
-    if time >= FINISH*8000000:
+    if time >= FINISH*3200000:
         break
 
 with open(filename, 'a', newline='') as f:
