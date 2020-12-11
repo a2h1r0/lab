@@ -18,15 +18,17 @@
     </style>
 
     <script>
-      const filename = "20201128_173737_fujii.csv";
+      const filename = "20201211_205544_fujii.csv";
       const skip_rows = 2;
-      const HIGH = 685;
-      const LOW = 465;
+      const HIGH = 770;
+      const LOW = 395;
 
       var pulseData = [];
       var RGBdata = [];
 
       function getCSV() {
+        $("#start").text("準備中");
+
         var req = new XMLHttpRequest();
         req.open("get", filename, true);
         req.send(null);
@@ -35,8 +37,7 @@
           convertCSVtoArray(req.responseText);
           makeRGBdata();
 
-          $("#start").css("color", "red");
-          main();
+          $("#start").text("開始");
         };
       }
 
@@ -88,6 +89,6 @@
       getCSV();
     </script>
 
-    <a href="javascript.void(0);" onclick="main()" id="start">開始</a>
+    <a href="javascript:void(0)" onclick="main()" id="start">準備中</a>
   </body>
 </html>
