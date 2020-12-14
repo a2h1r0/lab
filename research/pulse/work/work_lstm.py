@@ -48,12 +48,12 @@ SAVEFILE_RAW = time + "_raw.csv"
 SAVEFILE_PSEUDO = time + "_pseudo.csv"
 
 
-class GAN(nn.Module):
+class LSTM(nn.Module):
     """
     LSTMモデル
     """
 
-    def __init__(self, device='cpu'):
+    def __init__(self, input_size, hidden_size, output_size):
         """
         Args:
             input_size (int): 入力次元数
@@ -61,12 +61,13 @@ class GAN(nn.Module):
             output_size (int): 出力サイズ
         """
 
-        super().__init__()
-        self.device = device
-        self.G = Generator(device=device)
-        self.D = Discriminator(device=device)
+        super(LSTM, self).__init__()
+        self.hidden_size = hidden_size
+        self.lstm = torch.nn.LSTM(
+            input_size=input_size, hidden_size=hidden_size)
+        self.fc = torch.nn.Linear(hidden_size, output_size)
 
-    def forward(self, x):
+    def forward(self, input):
         """
         Args:
             input (:obj:`Tensor`): 学習データ
@@ -75,115 +76,37 @@ class GAN(nn.Module):
             :obj:`Numpy`: 予測結果の色データ
         """
 
-        x = self.G(x)
-        y = self.D(x)
+        _, lstm_out = self.lstm(input)
+        linear_out = self.fc(lstm_out[0].view(-1, self.hidden_size))
+        out = torch.sigmoid(linear_out)
 
-        return y
+        # 色データの生成
+        color_data = self.convert_to_color_data(out)
 
+        # 予測結果の色データを出力
+        return color_data
 
-class Discriminator(nn.Module):
-    """
-    LSTMモデル
-    """
+    def convert_to_color_data(self, out):
+        """色データへの変換
 
-    def __init__(self, device='cpu'):
-        """
+        予測結果から色データを生成する．
+
         Args:
-            input (:obj:`Tensor`): 学習データ
+            out (:obj:`Tensor`): 予測結果
 
         Returns:
             :obj:`Numpy`: 予測結果の色データ
         """
 
-        super().__init__()
-        self.device = device
-        self.conv1 = nn.Conv2d(1, 128,
-                               kernel_size=(3, 3), stride=(2, 2), padding=1)
-        self.relu1 = nn.LeakyReLU(0.2)
-        self.conv2 = nn.Conv2d(128, 256,
-                               kernel_size=(3, 3), stride=(2, 2), padding=1)
-        self.bn2 = nn.BatchNorm2d(256)
-        self.relu2 = nn.LeakyReLU(0.2)
-        self.fc = nn.Linear(256*7*7, 1024)
-        self.bn3 = nn.BatchNorm1d(1024)
-        self.relu3 = nn.LeakyReLU(0.2)
-        self.out = nn.Linear(1024, 1)
+        # 色の最大値は16進数FFFFFF（色コード）
+        COLOR_MAX = 16777215
 
-    def forward(self, x):
-        """
-        Args:
-            input (:obj:`Tensor`): 学習データ
+        # 出力の最大値を色の最大値に合わせる
+        converted_data = out * COLOR_MAX
+        # 四捨五入するがfloatなので，データ送信時にはさらにintに変換する
+        converted_data = torch.round(converted_data)
 
-        Returns:
-            :obj:`Numpy`: 予測結果の色データ
-        """
-
-        h = self.conv1(x)
-        h = self.relu1(h)
-        h = self.conv2(h)
-        h = self.bn2(h)
-        h = self.relu2(h)
-        h = h.view(-1, 256*7*7)
-        h = self.fc(h)
-        h = self.bn3(h)
-        h = self.relu3(h)
-        h = self.out(h)
-        y = torch.sigmoid(h)
-
-        return y
-
-
-class Generator(nn.Module):
-    """
-    LSTMモデル
-    """
-
-    def __init__(self, input_dim=100, device='cpu'):
-        """
-        Args:
-            input_size (int): 入力次元数
-            hidden_size (int): 隠れ層サイズ
-            output_size (int): 出力サイズ
-        """
-
-        super().__init__()
-        self.device = device
-        self.linear = nn.Linear(input_dim, 256*14*14)
-        self.bn1 = nn.BatchNorm1d(256*14*14)
-        self.relu1 = nn.ReLU()
-        self.conv1 = nn.Conv2d(256, 128,
-                               kernel_size=(3, 3), padding=1)
-        self.bn2 = nn.BatchNorm2d(128)
-        self.relu2 = nn.ReLU()
-        self.conv2 = nn.Conv2d(128, 64,
-                               kernel_size=(3, 3), padding=1)
-        self.bn3 = nn.BatchNorm2d(64)
-        self.relu3 = nn.ReLU()
-        self.conv3 = nn.Conv2d(64, 1, kernel_size=(1, 1))
-
-    def forward(self, x):
-        """
-        Args:
-            input_size (int): 入力次元数
-            hidden_size (int): 隠れ層サイズ
-            output_size (int): 出力サイズ
-        """
-
-        h = self.linear(x)
-        h = self.bn1(h)
-        h = self.relu1(h)
-        h = h.view(-1, 256, 14, 14)
-        h = F.interpolate(h, size=(28, 28))
-        h = self.conv1(h)
-        h = self.bn2(h)
-        h = self.relu2(h)
-        h = self.conv2(h)
-        h = self.bn3(h)
-        h = self.relu3(h)
-        h = self.conv3(h)
-        y = torch.sigmoid(h)
-
-        return y
+        return converted_data
 
 
 def get_pulse():
@@ -199,7 +122,7 @@ def get_pulse():
     #*** ディスプレイ点灯時間用変数 ***#
     global display_lighting_time
     #*** 学習擬似脈波用変数 ***#
-    global pseudo_pulse
+    global train_pseudo_pulse
 
     #*** 処理終了通知用変数 ***#
     global finish
@@ -255,7 +178,7 @@ def get_pulse():
                     pseudo_writer.writerow([timestamp, 'start'])
 
                 # データ取得中かつ，擬似脈波受付可能状態の場合
-                if (pseudo_pulse_get_start_time is not None) and (pseudo_pulse is None):
+                if (pseudo_pulse_get_start_time is not None) and (train_pseudo_pulse is None):
 
                     # 点灯時間（学習データと同じ時間）だけ取得
                     # 現在時刻が(取得開始時刻 + 点灯時間)より大きいかつ，サンプル数が学習データと同じだけ集まったら取得終了
@@ -265,7 +188,7 @@ def get_pulse():
                         # 脈波の取得開始時刻の初期化
                         pseudo_pulse_get_start_time = None
                         # 学習用に擬似脈波をコピー
-                        pseudo_pulse = pseudo_pulse_values
+                        train_pseudo_pulse = pseudo_pulse_values
 
                         # 取得完了時刻の書き込み
                         pseudo_writer.writerow([timestamp, 'finish'])
@@ -324,9 +247,9 @@ def draw_display():
     send_to_display_data = None
 
 
-def main():
+def train():
     """
-    メイン処理
+    学習
     """
 
     #*** 学習生脈波用変数 ***#
@@ -336,24 +259,46 @@ def main():
     #*** ディスプレイ点灯時間用変数 ***#
     global display_lighting_time
     #*** 学習擬似脈波用変数 ***#
-    global pseudo_pulse
+    global train_pseudo_pulse
 
     #*** 処理終了通知用変数 ***#
     global finish
 
-    def get_pesudo_pulse(colors):
-        """擬似脈波の取得
+    # モデルの定義
+    model = LSTM(input_size=INPUT_DIMENSION,
+                 hidden_size=HIDDEN_SIZE, output_size=OUTPUT_DIMENSION)
+    model.to(device)
+    criterion = SoftDTW(gamma=1.0, normalize=True)
+    optimizer = torch.optim.Adam(model.parameters())
 
-        Args:
-            colors (int): 色データ
-        """
+    model.train()
+    optimizer.zero_grad()
 
+    #--- 学習サイクル ---#
+    for epoch in range(EPOCH_NUM):
+        print('EPOCH: ' + str(epoch+1))
+
+        # 生脈波の取得が完了するまで待機
+        while train_raw_pulse is None:
+            # 1μsの遅延**これを入れないと回りすぎてセンサデータ取得の動作が遅くなる**
+            sleep(0.000001)
+            continue
+
+        # LSTM入力形式に変換
+        tensor_raw = torch.tensor(
+            train_raw_pulse, dtype=torch.float, device=device).view(-1, 1, 1)
+
+        #--- 学習 ---#
+        # 予測値（色データ）の取得
+        out = model(tensor_raw)
+
+        #--- 画面の描画 ---#
         # 学習擬似脈波の初期化
-        pseudo_pulse = None
+        train_pseudo_pulse = None
 
         # ディスプレイ送信用データの作成（Tensorから1次元の整数，文字列のNumpyへ）
         send_to_display_data = np.array(
-            colors.detach().cpu().numpy().reshape(-1), dtype=int).astype('str')
+            out.detach().cpu().numpy().reshape(-1), dtype=int).astype('str')
 
         # 描画開始
         # print('描画開始')
@@ -361,114 +306,45 @@ def main():
         # print('描画終了')
 
         # 擬似脈波の取得が完了するまで待機
-        while pseudo_pulse is None:
+        while train_pseudo_pulse is None:
             # 1μsの遅延**これを入れないと回りすぎてセンサデータ取得の動作が遅くなる**
             sleep(0.000001)
             continue
 
-    '''モデルの構築'''
-    model = GAN(device=device).to(device)
+        #--- LSTMの出力値を取得した擬似脈波の値に変換 ---#
+        # 学習擬似脈波をTensorに変換
+        tensor_pseudo = torch.tensor(
+            train_pseudo_pulse, dtype=torch.float, device=device).view(1, -1)
 
-    def convert_to_image(pulse):
-        """脈波値を画像に変換
+        # LSTMの出力値（色データ）と擬似脈波値の差分を計算
+        diff = out - tensor_pseudo
 
-        Args:
-            pulse (int): 脈波値
+        # LSTMの出力値を変換（out → tensor_pseudo）
+        out = out - (out - tensor_pseudo)
 
-        Returns:
-            :obj:`Tensor`: 画像データ
-        """
+        # 擬似脈波と生脈波の差が損失
+        loss_train = criterion(
+            out.view(-1, 1), tensor_raw.view(-1, 1))
 
-        # todo: 二次元フーリエ変換
-        return torch.empty(batch_size, 100).uniform_(0, 1).to(device)
-
-    '''モデルの訓練'''
-    criterion = nn.BCELoss()
-    optimizer_D = optimizers.Adam(model.D.parameters(), lr=0.0002)
-    optimizer_G = optimizers.Adam(model.G.parameters(), lr=0.0002)
-
-    def compute_loss(preds, label):
-        """損失の計算
-
-        Args:
-            preds (:obj:`Tensor`): 予測結果
-            label (:obj:`Tensor`): 正解ラベル
-
-        Returns:
-            :obj:`Tensor`: 損失
-        """
-
-        return criterion(preds, label)
-
-    def train_step(raw_pulse):
-        model.D.train()
-        model.G.train()
-
-        # ---------------------
-        #  識別器の学習
-        # ---------------------
-        #-- 本物データ --#
-        # 生波形に対する予測
-        raw_pulse_img = convert_to_image(raw_pulse)
-        preds = model.D(raw_pulse_img).squeeze()
-        label = torch.ones(1).float().to(device)
-        loss_D_real = compute_loss(preds, label)
-
-        #-- 偽物（擬似）データ --#
-        # 生波形から色データを生成
-        colors = model.G(raw_pulse_img)
-        get_pesudo_pulse(colors)
-        # 擬似脈波に対する予測
-        pseudo_pulse_img = convert_to_image(pseudo_pulse)
-        preds = model.D(pseudo_pulse_img.detach()).squeeze()
-        label = torch.zeros(1).float().to(device)
-        loss_D_fake = compute_loss(preds, label)
-
-        #-- 学習 --#
-        loss_D = loss_D_real + loss_D_fake
-        optimizer_D.zero_grad()
-        loss_D.backward()
-        optimizer_D.step()
-
-        # ---------------------
-        #  生成器の学習
-        # ---------------------
-        # 生波形から色データを生成
-        colors = model.G(raw_pulse_img)
-        get_pesudo_pulse(colors)
-        # 擬似脈波に対する予測
-        pseudo_pulse_img = convert_to_image(pseudo_pulse)
-        preds = model.D(pseudo_pulse_img).squeeze()
-        label = torch.ones(1).float().to(device)  # 偽物画像のラベルを「本物画像(1)」とする
-        loss_G = compute_loss(preds, label)
-
-        #-- 学習 --#
-        optimizer_G.zero_grad()
-        loss_G.backward()
-        optimizer_G.step()
-
-        return loss_D, loss_G
-
-    '''学習サイクル'''
-    for epoch in range(EPOCH_NUM):
-        # 生脈波の取得が完了するまで待機
-        while train_raw_pulse is None:
-            # 1μsの遅延**これを入れないと回りすぎてセンサデータ取得の動作が遅くなる**
-            sleep(0.000001)
-            continue
-
-        # 学習
-        loss_D, loss_G = train_step(train_raw_pulse)
-
-        print('Epoch: {}, D Cost: {:.3f}, G Cost: {:.3f}'.format(
-            epoch+1, loss_D.item(), loss_G.item()))
+        loss_train.backward()
+        optimizer.step()
 
         # 学習完了通知（次の脈波を取得）
         train_raw_pulse = None
-        pseudo_pulse = None
+        train_pseudo_pulse = None
 
     # 処理終了
     finish = True
+
+
+def main():
+    # 学習スレッドの開始
+    train_thread = threading.Thread(target=train)
+    train_thread.setDaemon(True)
+    train_thread.start()
+
+    # 脈波取得の開始
+    get_pulse()
 
 
 if __name__ == '__main__':
@@ -487,7 +363,7 @@ if __name__ == '__main__':
     #*** グローバル：学習生脈波用変数 ***#
     train_raw_pulse = None
     #*** グローバル：学習擬似脈波用変数 ***#
-    pseudo_pulse = None
+    train_pseudo_pulse = None
     #*** グローバル：データ送信用変数（画面点灯の制御） ***#
     send_to_display_data = None
     #*** グローバル：ディスプレイ点灯時間用変数（画面点灯時間，擬似脈波取得時間の制御） ***#
@@ -506,13 +382,8 @@ if __name__ == '__main__':
     socket_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     socket_client.connect((SOCKET_ADDRESS, SOCKET_PORT))
 
-    # 学習スレッドの開始
-    train_thread = threading.Thread(target=main)
-    train_thread.setDaemon(True)
-    train_thread.start()
-
-    # 脈波取得の開始
-    get_pulse()
+    # メイン処理
+    main()
 
     # シリアル通信の終了
     ser.close()
