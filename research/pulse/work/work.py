@@ -30,6 +30,8 @@ EPOCH_NUM = 100  # 学習サイクル数
 WINDOW_SIZE = 32  # ウィンドウサイズ
 STEP_SIZE = 1  # ステップ幅
 BATCH_SIZE = WINDOW_SIZE  # バッチサイズ
+MAP_SIZE = 5  # CNNのマップサイズ
+KERNEL_SIZE = 10  # カーネルサイズ
 
 VECTOR_SIZE = 1  # 扱うベクトルのサイズ（脈波は1次元）
 
@@ -66,19 +68,19 @@ class GAN(nn.Module):
         self.G = Generator(device=device)
         self.D = Discriminator(device=device)
 
-    def forward(self, x):
-        """
-        Args:
-            input (:obj:`Tensor`): 学習データ
+    # def forward(self, x):
+    #     """
+    #     Args:
+    #         input (:obj:`Tensor`): 学習データ
 
-        Returns:
-            :obj:`Numpy`: 予測結果の色データ
-        """
+    #     Returns:
+    #         :obj:`Numpy`: 予測結果の色データ
+    #     """
 
-        x = self.G(x)
-        y = self.D(x)
+    #     x = self.G(x)
+    #     y = self.D(x)
 
-        return y
+    #     return y
 
 
 class Discriminator(nn.Module):
@@ -97,40 +99,26 @@ class Discriminator(nn.Module):
 
         super().__init__()
         self.device = device
-        self.conv1 = nn.Conv2d(1, 128,
-                               kernel_size=(3, 3), stride=(2, 2), padding=1)
-        self.relu1 = nn.LeakyReLU(0.2)
-        self.conv2 = nn.Conv2d(128, 256,
-                               kernel_size=(3, 3), stride=(2, 2), padding=1)
-        self.bn2 = nn.BatchNorm2d(256)
-        self.relu2 = nn.LeakyReLU(0.2)
-        self.fc = nn.Linear(256*7*7, 1024)
-        self.bn3 = nn.BatchNorm1d(1024)
-        self.relu3 = nn.LeakyReLU(0.2)
-        self.out = nn.Linear(1024, 1)
+        self.conv1 = nn.Conv1d(
+            in_channels=1, out_channels=MAP_SIZE, kernel_size=KERNEL_SIZE, bias=False)
+        self.fc = nn.Linear(in_features=MAP_SIZE,
+                            out_features=OUTPUT_DIMENSION)
 
-    def forward(self, x):
+    def forward(self, input):
         """
         Args:
             input (:obj:`Tensor`): 学習データ
 
         Returns:
-            :obj:`Numpy`: 予測結果の色データ
+            :obj:`Tensor`: 識別結果
         """
 
-        h = self.conv1(x)
-        h = self.relu1(h)
-        h = self.conv2(h)
-        h = self.bn2(h)
-        h = self.relu2(h)
-        h = h.view(-1, 256*7*7)
-        h = self.fc(h)
-        h = self.bn3(h)
-        h = self.relu3(h)
-        h = self.out(h)
-        y = torch.sigmoid(h)
+        conv1_out = self.conv1(input)
+        linear_out = self.fc(conv1_out.view(-1))
+        # linear_out = self.fc(conv1_out.view(-1, self.hidden_size))
+        out = torch.sigmoid(linear_out)
 
-        return y
+        return out
 
 
 class Generator(nn.Module):
@@ -138,7 +126,7 @@ class Generator(nn.Module):
     LSTMモデル
     """
 
-    def __init__(self, input_dim=100, device='cpu'):
+    def __init__(self, device='cpu'):
         """
         Args:
             input_size (int): 入力次元数
@@ -148,18 +136,10 @@ class Generator(nn.Module):
 
         super().__init__()
         self.device = device
-        self.linear = nn.Linear(input_dim, 256*14*14)
-        self.bn1 = nn.BatchNorm1d(256*14*14)
-        self.relu1 = nn.ReLU()
-        self.conv1 = nn.Conv2d(256, 128,
-                               kernel_size=(3, 3), padding=1)
-        self.bn2 = nn.BatchNorm2d(128)
-        self.relu2 = nn.ReLU()
-        self.conv2 = nn.Conv2d(128, 64,
-                               kernel_size=(3, 3), padding=1)
-        self.bn3 = nn.BatchNorm2d(64)
-        self.relu3 = nn.ReLU()
-        self.conv3 = nn.Conv2d(64, 1, kernel_size=(1, 1))
+        self.fc = nn.Linear(in_features=SAMPLE_SIZE,
+                            out_features=MAP_SIZE)
+        self.conv1 = nn.ConvTranspose1d(
+            in_channels=MAP_SIZE, out_channels=1, kernel_size=KERNEL_SIZE, bias=False)
 
     def forward(self, x):
         """
@@ -169,21 +149,12 @@ class Generator(nn.Module):
             output_size (int): 出力サイズ
         """
 
-        h = self.linear(x)
-        h = self.bn1(h)
-        h = self.relu1(h)
-        h = h.view(-1, 256, 14, 14)
-        h = F.interpolate(h, size=(28, 28))
-        h = self.conv1(h)
-        h = self.bn2(h)
-        h = self.relu2(h)
-        h = self.conv2(h)
-        h = self.bn3(h)
-        h = self.relu3(h)
-        h = self.conv3(h)
-        y = torch.sigmoid(h)
+        linear_out = self.fc(input)
+        conv1_out = self.conv1(linear_out.view(-1))
+        # conv1_out = self.fc(linear_out.view(-1, self.hidden_size))
+        out = torch.sigmoid(conv1_out)
 
-        return y
+        return out
 
 
 def get_pulse():
@@ -369,19 +340,6 @@ def main():
     '''モデルの構築'''
     model = GAN(device=device).to(device)
 
-    def convert_to_image(pulse):
-        """脈波値を画像に変換
-
-        Args:
-            pulse (int): 脈波値
-
-        Returns:
-            :obj:`Tensor`: 画像データ
-        """
-
-        # todo: 二次元フーリエ変換
-        return torch.empty(batch_size, 100).uniform_(0, 1).to(device)
-
     '''モデルの訓練'''
     criterion = nn.BCELoss()
     optimizer_D = optimizers.Adam(model.D.parameters(), lr=0.0002)
@@ -409,18 +367,17 @@ def main():
         # ---------------------
         #-- 本物データ --#
         # 生波形に対する予測
-        raw_pulse_img = convert_to_image(raw_pulse)
-        preds = model.D(raw_pulse_img).squeeze()
+        preds = model.D(raw_pulse).squeeze()
         label = torch.ones(1).float().to(device)
         loss_D_real = compute_loss(preds, label)
 
         #-- 偽物（擬似）データ --#
         # 生波形から色データを生成
-        colors = model.G(raw_pulse_img)
+        # 同じ生波形を使って良いのか？
+        colors = model.G(raw_pulse)
         get_pesudo_pulse(colors)
         # 擬似脈波に対する予測
-        pseudo_pulse_img = convert_to_image(pseudo_pulse)
-        preds = model.D(pseudo_pulse_img.detach()).squeeze()
+        preds = model.D(pseudo_pulse.detach()).squeeze()
         label = torch.zeros(1).float().to(device)
         loss_D_fake = compute_loss(preds, label)
 
@@ -434,11 +391,11 @@ def main():
         #  生成器の学習
         # ---------------------
         # 生波形から色データを生成
-        colors = model.G(raw_pulse_img)
+        # 同じ生波形を使って良いのか？
+        colors = model.G(raw_pulse)
         get_pesudo_pulse(colors)
         # 擬似脈波に対する予測
-        pseudo_pulse_img = convert_to_image(pseudo_pulse)
-        preds = model.D(pseudo_pulse_img).squeeze()
+        preds = model.D(pseudo_pulse).squeeze()
         label = torch.ones(1).float().to(device)  # 偽物画像のラベルを「本物画像(1)」とする
         loss_G = compute_loss(preds, label)
 
