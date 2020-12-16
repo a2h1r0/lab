@@ -1,13 +1,13 @@
 # Fdb version 3
-["dvipdf"] 1606961112 "Atsuhiro_Fujii.dvi" "Atsuhiro_Fujii.pdf" "Atsuhiro_Fujii" 1606961118
-  "Atsuhiro_Fujii.dvi" 1606961112 6120 697f7aaf54d6d4822d67adc83d0c7b75 "latex"
+["dvipdf"] 1608132925 "Atsuhiro_Fujii.dvi" "Atsuhiro_Fujii.pdf" "Atsuhiro_Fujii" 1608132930
+  "Atsuhiro_Fujii.dvi" 1608132925 5752 84ec1fe88590489eab1891794673758c "latex"
   (generated)
   "Atsuhiro_Fujii.pdf"
-["latex"] 1606961104 "c:/Users/atsu3/GitHub/univ/meeting/Atsuhiro_Fujii.tex" "Atsuhiro_Fujii.dvi" "Atsuhiro_Fujii" 1606961118
-  "Atsuhiro_Fujii.aux" 1606961112 1135 893f66a5422385ae41e4b882196b53ea "latex"
-  "Atsuhiro_Fujii.out" 1606961112 263 51727900260109560b9bda86c3a1b59d "latex"
-  "Atsuhiro_Fujii.tex" 1606961086 2976 7005bc1cace1dc8767eddb3d5cbc7ed4 ""
-  "c:/Users/atsu3/GitHub/univ/meeting/Atsuhiro_Fujii.tex" 1606961086 2976 7005bc1cace1dc8767eddb3d5cbc7ed4 ""
+["latex"] 1608132919 "c:/Users/atsu3/GitHub/univ/meeting/Atsuhiro_Fujii.tex" "Atsuhiro_Fujii.dvi" "Atsuhiro_Fujii" 1608132930
+  "Atsuhiro_Fujii.aux" 1608132925 1085 d1995884d87161ec87113dd9d41a46be "latex"
+  "Atsuhiro_Fujii.out" 1608132925 263 51727900260109560b9bda86c3a1b59d "latex"
+  "Atsuhiro_Fujii.tex" 1608132906 2837 be37aa7d2b1fe1f702ac85ea634ee384 ""
+  "c:/Users/atsu3/GitHub/univ/meeting/Atsuhiro_Fujii.tex" 1608132906 2837 be37aa7d2b1fe1f702ac85ea634ee384 ""
   "c:/w32tex/share/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1349595399 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm" 1519818042 1196 5981e79c37b2cfd27b3612a6783cd4b6 ""
@@ -70,9 +70,8 @@
   "c:/w32tex/share/texmf-dist/tex/platex/base/jsize10.clo" 1586687400 8603 a046e616e50ded70606529f6f3055e39 ""
   "c:/w32tex/share/texmf-dist/web2c/eptex/platex.fmt" 1600989504 2477659 73a1612bf2e36548c4e65b9d647f2d4b ""
   "c:/w32tex/share/texmf-dist/web2c/texmf.cnf" 1598510145 36534 988ffa67973aa3cd8a89945361bf806e ""
-  "pulse.png" 1606961052 476614 b9cf627cfc323166dfcb2b9166f3f4c6 ""
   (generated)
-  "Atsuhiro_Fujii.out"
-  "Atsuhiro_Fujii.log"
   "Atsuhiro_Fujii.aux"
+  "Atsuhiro_Fujii.log"
   "Atsuhiro_Fujii.dvi"
+  "Atsuhiro_Fujii.out"
