@@ -1,0 +1,25 @@
+\begin{thebibliography}{1}
+
+\bibitem{accuracy_in_low_intensity}
+S.~{Spinsante}, S.~{Porfiri}, and L.~{Scalise}.
+\newblock Accuracy of heart rate measurements by a smartwatch in low intensity
+  activities.
+\newblock In {\em 2019 IEEE International Symposium on Medical Measurements and
+  Applications (MeMeA)}, pp. 1--6, 2019.
+
+\bibitem{fatigue_detection}
+今井龍一, 神谷大介, 井上晴可, 田中成典, 櫻井淳.
+\newblock スマートウォッチを用いた疲労度検出の試行に関する研究.
+\newblock 日本知能情報ファジィ学会 ファジィ システム シンポジウム 講演論文集,
+  Vol.~34, pp. 407--408, 2018.
+
+\bibitem{arrhythmia_detection}
+Dong Han, Syed~Khairul Bashar, Fahimeh Mohagheghian, Eric Ding, Cody Whitcomb,
+  David~D. McManus, and Ki~H. Chon.
+\newblock Premature atrial and ventricular contraction detection using
+  photoplethysmographic data from a smartwatch.
+\newblock {\em Sensors (Basel, Switzerland)}, Vol.~20, No.~19, p. 5683, Oct
+  2020.
+\newblock 33028000[pmid].
+
+\end{thebibliography}
