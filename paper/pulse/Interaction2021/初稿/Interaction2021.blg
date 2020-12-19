@@ -3,49 +3,45 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Interaction2021.aux
 The style file: junsrt.bst
 Database file #1: ../../references.bib
-Warning--I didn't find a database entry for "smart_wristband"
-Warning--I didn't find a database entry for "bioglass"
-Warning--I didn't find a database entry for "smart_cap"
-You've used 5 entries,
+You've used 11 entries,
             2270 wiz_defined-function locations,
-            578 strings with 5401 characters,
-and the built_in function-call counts, 2203 in all, are:
-= -- 187
-> -- 65
-< -- 8
-+ -- 25
-- -- 20
-* -- 95
-:= -- 248
-add.period$ -- 16
-call.type$ -- 5
-change.case$ -- 5
+            615 strings with 7018 characters,
+and the built_in function-call counts, 4721 in all, are:
+= -- 400
+> -- 151
+< -- 15
++ -- 57
+- -- 46
+* -- 224
+:= -- 558
+add.period$ -- 37
+call.type$ -- 11
+change.case$ -- 11
 chr.to.int$ -- 0
-cite$ -- 5
-duplicate$ -- 157
-empty$ -- 193
-format.name$ -- 40
-if$ -- 574
+cite$ -- 11
+duplicate$ -- 307
+empty$ -- 421
+format.name$ -- 92
+if$ -- 1203
 int.to.chr$ -- 0
-int.to.str$ -- 5
-missing$ -- 5
-newline$ -- 28
-num.names$ -- 5
-pop$ -- 35
+int.to.str$ -- 11
+missing$ -- 10
+newline$ -- 59
+num.names$ -- 15
+pop$ -- 77
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 148
+skip$ -- 271
 stack$ -- 0
-substring$ -- 104
-swap$ -- 76
-text.length$ -- 8
+substring$ -- 260
+swap$ -- 130
+text.length$ -- 15
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 13
-width$ -- 6
-write$ -- 60
-is.kanji.str$ -- 66
-(There were 3 warnings)
+while$ -- 35
+width$ -- 13
+write$ -- 132
+is.kanji.str$ -- 148

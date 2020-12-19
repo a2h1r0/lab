@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2020/W32TeX) (preloaded format=platex 2020.9.25)  18 DEC 2020 23:37
+This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2020/W32TeX) (preloaded format=platex 2020.9.25)  19 DEC 2020 22:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2970,78 +2970,70 @@ LaTeX Font Info:    Calculating math sizes for size <9.61035> on input line 64.
 LaTeX Font Info:    Calculating math sizes for size <11.82813> on input line 64.
 LaTeX Font Info:    Calculating math sizes for size <8.13184> on input line 64.
 LaTeX Font Info:    Font shape `JT1/mc/b/n' in size <11.82813> not available
-(Font)              Font shape `JT1/mc/bx/n' tried instead on input line 66.
+(Font)              Font shape `JT1/mc/bx/n' tried instead on input line 70.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <11.82813> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 66.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 70.
 LaTeX Font Info:    Font shape `JY1/mc/b/n' in size <11.82813> not available
-(Font)              Font shape `JY1/mc/bx/n' tried instead on input line 66.
+(Font)              Font shape `JY1/mc/bx/n' tried instead on input line 70.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <11.82813> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 66.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 70.
 LaTeX Font Info:    Font shape `JT1/mc/b/n' in size <9.61035> not available
-(Font)              Font shape `JT1/mc/bx/n' tried instead on input line 74.
+(Font)              Font shape `JT1/mc/bx/n' tried instead on input line 88.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <9.61035> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 74.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 88.
 LaTeX Font Info:    Font shape `JY1/mc/b/n' in size <9.61035> not available
-(Font)              Font shape `JY1/mc/bx/n' tried instead on input line 74.
+(Font)              Font shape `JY1/mc/bx/n' tried instead on input line 88.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <9.61035> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 74.
-
-LaTeX Warning: Reference `method' on page 1 undefined on input line 74.
-
-
-LaTeX Warning: Reference `evaluation' on page 1 undefined on input line 74.
-
-
-LaTeX Warning: Reference `conclude' on page 1 undefined on input line 74.
-
-
-LaTeX Warning: Citation `smart_wristband' on page 1 undefined on input line 83.
-
-
-LaTeX Warning: Citation `bioglass' on page 1 undefined on input line 84.
-
-
-LaTeX Warning: Citation `smart_cap' on page 1 undefined on input line 85.
-
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 88.
 [1
 
 
-] [2]
+]
 File: sensors.eps Graphic file (type eps)
 <sensors.eps>
 LaTeX Font Info:    Font shape `JT1/mc/b/n' in size <8.13184> not available
-(Font)              Font shape `JT1/mc/bx/n' tried instead on input line 134.
+(Font)              Font shape `JT1/mc/bx/n' tried instead on input line 144.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <8.13184> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 134.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 144.
 LaTeX Font Info:    Font shape `JY1/mc/b/n' in size <8.13184> not available
-(Font)              Font shape `JY1/mc/bx/n' tried instead on input line 134.
+(Font)              Font shape `JY1/mc/bx/n' tried instead on input line 144.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <8.13184> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 134.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 144.
+[2]
 File: pulse.eps Graphic file (type eps)
 <pulse.eps>
 (./Interaction2021.bbl
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 13.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 20.
+(Font)              No change on input line 21.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
 (Font)              No change on input line 28.
 LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
-(Font)              No change on input line 36.
-) [3
+(Font)              No change on input line 35.
+LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
+(Font)              No change on input line 41.
+LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
+(Font)              No change on input line 48.
+LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
+(Font)              No change on input line 56.
+LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
+(Font)              No change on input line 64.
+LaTeX Font Info:    Kanji font shape `JY1/gt/m/it' undefined
+(Font)              No change on input line 72.
 
-] (./Interaction2021.aux)
+Underfull \hbox (badness 4518) in paragraph at lines 68--74
+[]\OT1/cmr/m/n/8.8711 Dong Han, Syed Khairul Bashar, Fahimeh Mo-
+ []
 
-LaTeX Warning: There were undefined references.
-
- ) 
+) [3] (./Interaction2021.aux) ) 
 Here is how much of TeX's memory you used:
- 1752 strings out of 481386
- 26001 string characters out of 5917849
+ 1758 strings out of 481386
+ 26088 string characters out of 5917849
  277501 words of memory out of 5000000
- 17569 multiletter control sequences out of 15000+600000
+ 17575 multiletter control sequences out of 15000+600000
  560517 words of font info for 143 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
  36i,7n,33p,1266b,380s stack positions out of 5000i,500n,10000p,500000b,80000s
 
-Output written on Interaction2021.dvi (3 pages, 21440 bytes).
+Output written on Interaction2021.dvi (3 pages, 24860 bytes).

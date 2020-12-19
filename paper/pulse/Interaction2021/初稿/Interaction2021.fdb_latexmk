@@ -1,20 +1,20 @@
 # Fdb version 3
-["bibtex Interaction2021"] 1608302221 "Interaction2021.aux" "Interaction2021.bbl" "Interaction2021" 1608302227
-  "../../references.bib" 1608302220 2863 e4602cd8de5392e1a998b61bdccce1f5 ""
-  "Interaction2021.aux" 1608302223 1670 709bf9d33b083a9711f0c807f50d4ae0 "latex"
+["bibtex Interaction2021"] 1608384359 "Interaction2021.aux" "Interaction2021.bbl" "Interaction2021" 1608384461
+  "../../references.bib" 1608381513 5807 54c7c6b31b27b52e8c05fc954744bfdb ""
+  "Interaction2021.aux" 1608384439 2075 b9a748b2d4652cfed97938779170164a "latex"
   "junsrt.bst" 0 -1 0 ""
   (generated)
   "Interaction2021.bbl"
   "Interaction2021.blg"
-["dvipdf"] 1608302224 "Interaction2021.dvi" "Interaction2021.pdf" "Interaction2021" 1608302227
-  "Interaction2021.dvi" 1608302223 21440 8b2389f4a1e3b0a9fdf5f0e0a32f9ffe "latex"
+["dvipdf"] 1608384440 "Interaction2021.dvi" "Interaction2021.pdf" "Interaction2021" 1608384461
+  "Interaction2021.dvi" 1608384439 24860 e67a9f7d1aff7e04601bcd7e522434f3 "latex"
   (generated)
   "Interaction2021.pdf"
-["latex"] 1608302221 "c:/Users/atsu3/GitHub/univ/paper/pulse/Interaction2021/初稿/Interaction2021.tex" "Interaction2021.dvi" "Interaction2021" 1608302227
-  "Interaction2021.aux" 1608302223 1670 709bf9d33b083a9711f0c807f50d4ae0 "latex"
-  "Interaction2021.bbl" 1608302221 1685 05da0876f068ee4a0aa83799ec2310ed "bibtex Interaction2021"
-  "Interaction2021.tex" 1608301634 13859 0de432826c6168fc5a0ad3ebca8418b4 ""
-  "c:/Users/atsu3/GitHub/univ/paper/pulse/Interaction2021/初稿/Interaction2021.tex" 1608301634 13859 0de432826c6168fc5a0ad3ebca8418b4 ""
+["latex"] 1608384437 "c:/Users/atsu3/GitHub/univ/paper/pulse/Interaction2021/初稿/Interaction2021.tex" "Interaction2021.dvi" "Interaction2021" 1608384461
+  "Interaction2021.aux" 1608384439 2075 b9a748b2d4652cfed97938779170164a "latex"
+  "Interaction2021.bbl" 1608384359 3809 bacf22b04a3a3140e9c7c957ca4527e5 "bibtex Interaction2021"
+  "Interaction2021.tex" 1608384460 14415 9a3e81f604aede742758924d62993b7b ""
+  "c:/Users/atsu3/GitHub/univ/paper/pulse/Interaction2021/初稿/Interaction2021.tex" 1608384460 14415 9a3e81f604aede742758924d62993b7b ""
   "c:/w32tex/share/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/jis/jis.tfm" 1519818042 468 53f854284f6afa6c36aaa2d1090ecc12 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/jis/jisg.tfm" 1519818042 468 53f854284f6afa6c36aaa2d1090ecc12 ""
@@ -71,6 +71,6 @@
   "pulse.eps" 1608212156 44465 a7fe07a0ccae9ee97f3f6884f918b24a ""
   "sensors.eps" 1608212156 190030 ce95e082d78595ccc9705370354f0825 ""
   (generated)
+  "Interaction2021.dvi"
   "Interaction2021.log"
   "Interaction2021.aux"
-  "Interaction2021.dvi"
