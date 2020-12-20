@@ -1,20 +1,20 @@
 # Fdb version 3
-["bibtex Interaction2021"] 1608384359 "Interaction2021.aux" "Interaction2021.bbl" "Interaction2021" 1608384461
+["bibtex Interaction2021"] 1608440100 "Interaction2021.aux" "Interaction2021.bbl" "Interaction2021" 1608440144
   "../../references.bib" 1608381513 5807 54c7c6b31b27b52e8c05fc954744bfdb ""
-  "Interaction2021.aux" 1608384439 2075 b9a748b2d4652cfed97938779170164a "latex"
+  "Interaction2021.aux" 1608440111 2333 6e56a9afc1c183d8d96062fd4352134b "latex"
   "junsrt.bst" 0 -1 0 ""
   (generated)
   "Interaction2021.bbl"
   "Interaction2021.blg"
-["dvipdf"] 1608384440 "Interaction2021.dvi" "Interaction2021.pdf" "Interaction2021" 1608384461
-  "Interaction2021.dvi" 1608384439 24860 e67a9f7d1aff7e04601bcd7e522434f3 "latex"
+["dvipdf"] 1608440112 "Interaction2021.dvi" "Interaction2021.pdf" "Interaction2021" 1608440144
+  "Interaction2021.dvi" 1608440111 28980 693f8a350a613e470260a130163e4ab3 "latex"
   (generated)
   "Interaction2021.pdf"
-["latex"] 1608384437 "c:/Users/atsu3/GitHub/univ/paper/pulse/Interaction2021/初稿/Interaction2021.tex" "Interaction2021.dvi" "Interaction2021" 1608384461
-  "Interaction2021.aux" 1608384439 2075 b9a748b2d4652cfed97938779170164a "latex"
-  "Interaction2021.bbl" 1608384359 3809 bacf22b04a3a3140e9c7c957ca4527e5 "bibtex Interaction2021"
-  "Interaction2021.tex" 1608384460 14415 9a3e81f604aede742758924d62993b7b ""
-  "c:/Users/atsu3/GitHub/univ/paper/pulse/Interaction2021/初稿/Interaction2021.tex" 1608384460 14415 9a3e81f604aede742758924d62993b7b ""
+["latex"] 1608440108 "c:/Users/atsu3/GitHub/univ/paper/pulse/Interaction2021/初稿/Interaction2021.tex" "Interaction2021.dvi" "Interaction2021" 1608440144
+  "Interaction2021.aux" 1608440111 2333 6e56a9afc1c183d8d96062fd4352134b "latex"
+  "Interaction2021.bbl" 1608440100 3809 bacf22b04a3a3140e9c7c957ca4527e5 "bibtex Interaction2021"
+  "Interaction2021.tex" 1608440143 17209 d1e62b9246824c19342909a8020bfe4d ""
+  "c:/Users/atsu3/GitHub/univ/paper/pulse/Interaction2021/初稿/Interaction2021.tex" 1608440143 17209 d1e62b9246824c19342909a8020bfe4d ""
   "c:/w32tex/share/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/jis/jis.tfm" 1519818042 468 53f854284f6afa6c36aaa2d1090ecc12 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/jis/jisg.tfm" 1519818042 468 53f854284f6afa6c36aaa2d1090ecc12 ""
@@ -66,6 +66,7 @@
   "c:/w32tex/share/texmf-dist/tex/latex/l3backend/l3backend-dvips.def" 1600930916 32860 63891baa3c1e8b2b5e9009dbcf141ebc ""
   "c:/w32tex/share/texmf-dist/web2c/eptex/platex.fmt" 1600989504 2477659 73a1612bf2e36548c4e65b9d647f2d4b ""
   "c:/w32tex/share/texmf-dist/web2c/texmf.cnf" 1598510145 36534 988ffa67973aa3cd8a89945361bf806e ""
+  "future_work.eps" 1608436933 53506 02e4b8dbe394bbdd72c2088388302408 ""
   "ipsj.cls" 1545705580 140382 9665a005d63d379e2c2ab86fccc1a6cc ""
   "ipsjtech.sty" 1545705828 6577 2e717653302d501044af6be4348af3dc ""
   "pulse.eps" 1608212156 44465 a7fe07a0ccae9ee97f3f6884f918b24a ""
