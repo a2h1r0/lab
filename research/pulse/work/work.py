@@ -4,7 +4,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim as optim
+import torch.optim as optimizers
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 import matplotlib.pyplot as plt
 import serial
@@ -31,7 +31,7 @@ WINDOW_SIZE = 32  # ウィンドウサイズ
 STEP_SIZE = 1  # ステップ幅
 BATCH_SIZE = WINDOW_SIZE  # バッチサイズ
 MAP_SIZE = 5  # CNNのマップサイズ
-KERNEL_SIZE = 10  # カーネルサイズ
+KERNEL_SIZE = 1  # カーネルサイズ
 
 VECTOR_SIZE = 1  # 扱うベクトルのサイズ（脈波は1次元）
 
@@ -102,7 +102,7 @@ class Discriminator(nn.Module):
         self.conv1 = nn.Conv1d(
             in_channels=1, out_channels=MAP_SIZE, kernel_size=KERNEL_SIZE, bias=False)
         self.fc = nn.Linear(in_features=MAP_SIZE,
-                            out_features=OUTPUT_DIMENSION)
+                            out_features=1)
 
     def forward(self, input):
         """
@@ -114,7 +114,7 @@ class Discriminator(nn.Module):
         """
 
         conv1_out = self.conv1(input)
-        linear_out = self.fc(conv1_out.view(-1))
+        linear_out = self.fc(conv1_out.view(-1, MAP_SIZE))
         # linear_out = self.fc(conv1_out.view(-1, self.hidden_size))
         out = torch.sigmoid(linear_out)
 
@@ -136,12 +136,12 @@ class Generator(nn.Module):
 
         super().__init__()
         self.device = device
-        self.fc = nn.Linear(in_features=SAMPLE_SIZE,
-                            out_features=MAP_SIZE)
-        self.conv1 = nn.ConvTranspose1d(
-            in_channels=MAP_SIZE, out_channels=1, kernel_size=KERNEL_SIZE, bias=False)
+        self.conv1 = nn.Conv1d(
+            in_channels=1, out_channels=MAP_SIZE, kernel_size=KERNEL_SIZE, bias=False)
+        self.fc = nn.Linear(in_features=MAP_SIZE,
+                            out_features=1)
 
-    def forward(self, x):
+    def forward(self, input):
         """
         Args:
             input_size (int): 入力次元数
@@ -149,12 +149,38 @@ class Generator(nn.Module):
             output_size (int): 出力サイズ
         """
 
-        linear_out = self.fc(input)
-        conv1_out = self.conv1(linear_out.view(-1))
-        # conv1_out = self.fc(linear_out.view(-1, self.hidden_size))
-        out = torch.sigmoid(conv1_out)
+        conv1_out = self.conv1(input)
+        linear_out = self.fc(conv1_out.view(-1, MAP_SIZE))
+        # linear_out = self.fc(conv1_out.view(-1, self.hidden_size))
+        out = torch.sigmoid(linear_out)
 
-        return out
+        # 色データの生成
+        color_data = self.convert_to_color_data(out)
+
+        # 予測結果の色データを出力
+        return color_data
+
+    def convert_to_color_data(self, out):
+        """色データへの変換
+
+        予測結果から色データを生成する．
+
+        Args:
+            out (:obj:`Tensor`): 予測結果
+
+        Returns:
+            :obj:`Numpy`: 予測結果の色データ
+        """
+
+        # 色の最大値は16進数FFFFFF（色コード）
+        COLOR_MAX = 16777215
+
+        # 出力の最大値を色の最大値に合わせる
+        converted_data = out * COLOR_MAX
+        # 四捨五入するがfloatなので，データ送信時にはさらにintに変換する
+        converted_data = torch.round(converted_data)
+
+        return converted_data
 
 
 def get_pulse():
@@ -176,12 +202,12 @@ def get_pulse():
     global finish
 
     # データ書き込みファイルのオープン
-    raw_file = open(SAVEFILE_RAW, 'x', newline='')
-    raw_writer = csv.writer(raw_file, delimiter=',')
-    raw_writer.writerow(["time", "pulse"])
-    pseudo_file = open(SAVEFILE_PSEUDO, 'x', newline='')
-    pseudo_writer = csv.writer(pseudo_file, delimiter=',')
-    pseudo_writer.writerow(["time", "pulse"])
+    # raw_file = open(SAVEFILE_RAW, 'x', newline='')
+    # raw_writer = csv.writer(raw_file, delimiter=',')
+    # raw_writer.writerow(["time", "pulse"])
+    # pseudo_file = open(SAVEFILE_PSEUDO, 'x', newline='')
+    # pseudo_writer = csv.writer(pseudo_file, delimiter=',')
+    # pseudo_writer.writerow(["time", "pulse"])
 
     # 脈波の取得開始時刻の初期化
     pseudo_pulse_get_start_time = None
@@ -200,8 +226,8 @@ def get_pulse():
                 timestamp = float(data[0])/1000
 
                 #--- データの保存 ---#
-                raw_writer.writerow([timestamp, int(data[1])])
-                pseudo_writer.writerow([timestamp, int(data[2])])
+                # raw_writer.writerow([timestamp, int(data[1])])
+                # pseudo_writer.writerow([timestamp, int(data[2])])
 
                 # センサ値取得時間用キューの更新（単位はミリ秒で保存）
                 pulse_get_timestamps.append(timestamp)
@@ -223,7 +249,7 @@ def get_pulse():
                     # 脈波の取得開始時刻（データ取得中状態）
                     pseudo_pulse_get_start_time = timestamp
                     # 取得開始時刻の書き込み
-                    pseudo_writer.writerow([timestamp, 'start'])
+                    # pseudo_writer.writerow([timestamp, 'start'])
 
                 # データ取得中かつ，擬似脈波受付可能状態の場合
                 if (pseudo_pulse_get_start_time is not None) and (pseudo_pulse is None):
@@ -239,7 +265,7 @@ def get_pulse():
                         pseudo_pulse = pseudo_pulse_values
 
                         # 取得完了時刻の書き込み
-                        pseudo_writer.writerow([timestamp, 'finish'])
+                        # pseudo_writer.writerow([timestamp, 'finish'])
                         # print('擬似脈波取得完了')
 
                     # 取得時間内
@@ -267,10 +293,19 @@ def draw_display():
         pulse_value (int): 脈波値
     """
 
+    #*** 学習生脈波用変数 ***#
+    global train_raw_pulse
     #*** データ送信用変数 ***#
     global send_to_display_data
     #*** ディスプレイ点灯時間用変数 ***#
     global display_lighting_time
+
+    train_raw_pulse = None
+
+    while display_lighting_time is None:
+        # 1μsの遅延**これを入れないと回りすぎてセンサデータ取得の動作が遅くなる**
+        sleep(0.000001)
+        continue
 
     # 1サンプルあたりの点灯時間の取得（全サンプルでの点灯時間 ÷ サンプル長）
     color_lighting_time = str(
@@ -300,10 +335,6 @@ def main():
     メイン処理
     """
 
-    #*** 学習生脈波用変数 ***#
-    global train_raw_pulse
-    #*** データ送信用変数 ***#
-    global send_to_display_data
     #*** ディスプレイ点灯時間用変数 ***#
     global display_lighting_time
     #*** 学習擬似脈波用変数 ***#
@@ -318,6 +349,11 @@ def main():
         Args:
             colors (int): 色データ
         """
+
+        #*** データ送信用変数 ***#
+        global send_to_display_data
+        #*** 学習擬似脈波用変数 ***#
+        global pseudo_pulse
 
         # 学習擬似脈波の初期化
         pseudo_pulse = None
@@ -341,7 +377,8 @@ def main():
     model = GAN(device=device).to(device)
 
     '''モデルの訓練'''
-    criterion = nn.BCELoss()
+    criterion = SoftDTW(gamma=1.0, normalize=True)
+    # criterion = nn.BCELoss()
     optimizer_D = optimizers.Adam(model.D.parameters(), lr=0.0002)
     optimizer_G = optimizers.Adam(model.G.parameters(), lr=0.0002)
 
@@ -359,6 +396,9 @@ def main():
         return criterion(preds, label)
 
     def train_step(raw_pulse):
+        #*** 学習擬似脈波用変数 ***#
+        global pseudo_pulse
+
         model.D.train()
         model.G.train()
 
@@ -366,20 +406,21 @@ def main():
         #  識別器の学習
         # ---------------------
         #-- 本物データ --#
-        # 生波形に対する予測
+        # 生波形に対する識別
         preds = model.D(raw_pulse).squeeze()
-        label = torch.ones(1).float().to(device)
-        loss_D_real = compute_loss(preds, label)
+        label = torch.ones(len(raw_pulse)).float().to(device)
+        loss_D_real = compute_loss(preds.view(-1, 1), label.view(-1, 1))
 
         #-- 偽物（擬似）データ --#
         # 生波形から色データを生成
         # 同じ生波形を使って良いのか？
         colors = model.G(raw_pulse)
         get_pesudo_pulse(colors)
-        # 擬似脈波に対する予測
-        preds = model.D(pseudo_pulse.detach()).squeeze()
+        # 擬似脈波に対する識別
+        preds = model.D(torch.tensor(
+            pseudo_pulse, dtype=torch.float, device=device).view(-1, 1, 1)).squeeze()
         label = torch.zeros(1).float().to(device)
-        loss_D_fake = compute_loss(preds, label)
+        loss_D_fake = compute_loss(preds.view(-1, 1), label.view(-1, 1))
 
         #-- 学習 --#
         loss_D = loss_D_real + loss_D_fake
@@ -394,10 +435,11 @@ def main():
         # 同じ生波形を使って良いのか？
         colors = model.G(raw_pulse)
         get_pesudo_pulse(colors)
-        # 擬似脈波に対する予測
-        preds = model.D(pseudo_pulse).squeeze()
+        # 擬似脈波に対する識別
+        preds = model.D(torch.tensor(
+            pseudo_pulse, dtype=torch.float, device=device).view(-1, 1, 1)).squeeze()
         label = torch.ones(1).float().to(device)  # 偽物画像のラベルを「本物画像(1)」とする
-        loss_G = compute_loss(preds, label)
+        loss_G = compute_loss(preds.view(-1, 1), label.view(-1, 1))
 
         #-- 学習 --#
         optimizer_G.zero_grad()
@@ -414,15 +456,14 @@ def main():
             sleep(0.000001)
             continue
 
+        # LSTM入力形式に変換
+        tensor_raw = torch.tensor(
+            train_raw_pulse, dtype=torch.float, device=device).view(-1, 1, 1)
         # 学習
-        loss_D, loss_G = train_step(train_raw_pulse)
+        loss_D, loss_G = train_step(tensor_raw)
 
         print('Epoch: {}, D Cost: {:.3f}, G Cost: {:.3f}'.format(
             epoch+1, loss_D.item(), loss_G.item()))
-
-        # 学習完了通知（次の脈波を取得）
-        train_raw_pulse = None
-        pseudo_pulse = None
 
     # 処理終了
     finish = True
