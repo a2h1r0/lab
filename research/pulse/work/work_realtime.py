@@ -17,12 +17,11 @@ from fastdtw import fastdtw
 from soft_dtw import SoftDTW
 import datetime
 import csv
-import random
 import os
 os.chdir(os.path.dirname(__file__))
 
 
-SAMPLE_SIZE = 512  # サンプルサイズ（学習して再現する脈波の長さ）
+SAMPLE_SIZE = 256  # サンプルサイズ（学習して再現する脈波の長さ）
 
 TESTDATA_SIZE = 0.3  # テストデータの割合
 
@@ -49,8 +48,6 @@ now = datetime.datetime.today()
 time = now.strftime("%Y%m%d") + "_" + now.strftime("%H%M%S")
 SAVEFILE_RAW = time + "_raw.csv"
 SAVEFILE_PSEUDO = time + "_pseudo.csv"
-
-TRAIN_DATA = '20201201_153431_raw.csv'
 
 
 class GAN(nn.Module):
@@ -263,23 +260,21 @@ def get_pulse():
             # print(data)
 
             # 正常値が受信できていることを確認
-            if len(data) == 2 and data[0].isdecimal() and data[1].isdecimal():
+            if len(data) == 3 and data[0].isdecimal() and data[1].isdecimal() and data[2].isdecimal():
                 timestamp = float(data[0])/1000
 
                 #--- データの保存 ---#
                 # raw_writer.writerow([timestamp, int(data[1])])
                 # pseudo_writer.writerow([timestamp, int(data[2])])
 
-                # # センサ値取得時間用キューの更新（単位はミリ秒で保存）
-                # pulse_get_timestamps.append(timestamp)
-                # # 生脈波用キューの更新
-                # raw_pulse_values.append(int(data[1]))
+                # センサ値取得時間用キューの更新（単位はミリ秒で保存）
+                pulse_get_timestamps.append(timestamp)
+                # 生脈波用キューの更新
+                raw_pulse_values.append(int(data[1]))
 
                 #--- データセットの作成 ---#
                 # サンプルがSAMPLE_SIZE個貯まるまで待機
-                if train_raw_pulse is None:
-                    pulse_get_timestamps, raw_pulse_values = make_train_pulse()
-
+                if (len(raw_pulse_values) == SAMPLE_SIZE) and (train_raw_pulse is None):
                     # 全サンプルでの点灯時間の取得（最終サンプルのタイムスタンプ - 開始サンプルのタイムスタンプ）
                     display_lighting_time = pulse_get_timestamps[-1] - \
                         pulse_get_timestamps[0]
@@ -314,7 +309,7 @@ def get_pulse():
                     # 取得時間内
                     else:
                         # 擬似脈波用キューの更新
-                        pseudo_pulse_values.append(int(data[1]))
+                        pseudo_pulse_values.append(int(data[2]))
 
         except KeyboardInterrupt:
             break
@@ -322,24 +317,6 @@ def get_pulse():
     # データ書き込みファイルのクローズ
     raw_file.close()
     pseudo_file.close()
-
-
-def make_train_pulse():
-    """学習用データの作成
-
-    Returns:
-        pulse_value (int): 脈波値
-    """
-
-    #*** 学習ファイルデータ用変数 ***#
-    global train_data
-
-    index = random.randint(1, len(train_data)-SAMPLE_SIZE)
-
-    timestamps = train_data[index:index+SAMPLE_SIZE, 0]
-    pulse_data = train_data[index:index+SAMPLE_SIZE, 1]
-
-    return timestamps, pulse_data
 
 
 def draw_display():
@@ -533,19 +510,10 @@ def main():
 if __name__ == '__main__':
     print("\n初期化中...")
 
-    #*** グローバル：学習ファイルデータ用変数 ***#
-    train_data = []
-    with open(TRAIN_DATA) as f:
-        reader = csv.reader(f)
-
-        # ヘッダーのスキップ
-        next(reader)
-
-        for row in reader:
-            # データの追加
-            train_data.append([float(row[0]), float(row[1])])
-    train_data = np.array(train_data)
-
+    # センサ値取得時間用キュー
+    pulse_get_timestamps = deque(maxlen=SAMPLE_SIZE)
+    # 生脈波用キュー
+    raw_pulse_values = deque(maxlen=SAMPLE_SIZE)
     # 擬似脈波用キュー
     pseudo_pulse_values = deque(maxlen=SAMPLE_SIZE)
 

@@ -9,7 +9,7 @@ from scipy.signal import find_peaks
 
 write_data = []
 
-FINISH = 1000000
+FINISH = 1800
 
 ser = serial.Serial("COM3", 115200)
 now = datetime.datetime.today()
@@ -17,33 +17,24 @@ now = datetime.datetime.today()
 filename = now.strftime("%Y%m%d") + "_" + \
     now.strftime("%H%M%S") + "_name_.csv"
 
-ser.reset_input_buffer()
-
-while True:
-    read_data = ser.readline().rstrip().decode(encoding="utf-8")
-    data = read_data.split(",")
-    print(data)
-
-    if str.isdecimal(data[0]) and len(data) == 2:
-        time = float(data[0])
-        if str.isdecimal(data[1]):
-            write_data.append(data)
-        else:
-            continue
-    else:
-        continue
-
-    if time >= FINISH*1000000:
-        break
-
 with open(filename, 'a', newline='') as f:
     writer = csv.writer(f, delimiter=',')
     writer.writerow(["time", "pulse"])
 
-    for i in range(len(write_data)):
-        if len(write_data[i]) == 2 and str.isdecimal(data[0]) and str.isdecimal(data[1]):
-            time = float(write_data[i][0])/1000000
-            pulse = int(write_data[i][1])
-            writer.writerow([time, pulse])
+    ser.reset_input_buffer()
+    while True:
+        read_data = ser.readline().rstrip().decode(encoding="utf-8")
+        data = read_data.split(",")
+        print(data)
 
-ser.close()
+        if str.isdecimal(data[0]) and str.isdecimal(data[1]) and len(data) == 2:
+            time = float(data[0])/1000000
+            pulse = int(data[1])
+            writer.writerow([time, pulse])
+        else:
+            continue
+
+        if time >= FINISH:
+            break
+
+    ser.close()
