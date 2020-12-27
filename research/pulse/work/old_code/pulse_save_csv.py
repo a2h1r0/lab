@@ -15,7 +15,7 @@ ser = serial.Serial("COM3", 115200)
 now = datetime.datetime.today()
 
 filename = now.strftime("%Y%m%d") + "_" + \
-    now.strftime("%H%M%S") + "_name_.csv"
+    now.strftime("%H%M%S") + "_name.csv"
 
 with open(filename, 'a', newline='') as f:
     writer = csv.writer(f, delimiter=',')

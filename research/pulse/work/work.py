@@ -22,11 +22,11 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-SAMPLE_SIZE = 512  # サンプルサイズ（学習して再現する脈波の長さ）
+SAMPLE_SIZE = 256  # サンプルサイズ（学習して再現する脈波の長さ）
 
 TESTDATA_SIZE = 0.3  # テストデータの割合
 
-EPOCH_NUM = 100  # 学習サイクル数
+EPOCH_NUM = 5000  # 学習サイクル数
 
 WINDOW_SIZE = 32  # ウィンドウサイズ
 STEP_SIZE = 1  # ステップ幅
@@ -51,6 +51,7 @@ SAVEFILE_RAW = time + "_raw.csv"
 SAVEFILE_PSEUDO = time + "_pseudo.csv"
 
 TRAIN_DATA = '20201201_153431_raw.csv'
+LOSS_DATA = time + '_loss.csv'
 
 
 class GAN(nn.Module):
@@ -320,8 +321,8 @@ def get_pulse():
             break
 
     # データ書き込みファイルのクローズ
-    raw_file.close()
-    pseudo_file.close()
+    # raw_file.close()
+    # pseudo_file.close()
 
 
 def make_train_pulse():
@@ -403,6 +404,11 @@ def main():
 
     #*** 処理終了通知用変数 ***#
     global finish
+
+    # データ書き込みファイルのオープン
+    loss_file = open(LOSS_DATA, 'a', newline='')
+    loss_writer = csv.writer(loss_file, delimiter=',')
+    loss_writer.writerow(['Epoch', 'D Loss', 'G Loss'])
 
     def get_pesudo_pulse(colors):
         """擬似脈波の取得
@@ -523,8 +529,10 @@ def main():
         # 学習
         loss_D, loss_G = train_step(tensor_raw)
 
-        print('Epoch: {}, D Cost: {:.3f}, G Cost: {:.3f}'.format(
-            epoch+1, loss_D.item(), loss_G.item()))
+        write_data = [epoch+1, loss_D.item(), loss_G.item()]
+        loss_writer.writerow(write_data)
+        print('Epoch: {}, D Loss: {:.3f}, G Loss: {:.3f}'.format(
+            write_data[0], write_data[1], write_data[2]))
 
     # 処理終了
     finish = True
