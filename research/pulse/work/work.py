@@ -22,7 +22,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-SAMPLE_SIZE = 256  # サンプルサイズ（学習して再現する脈波の長さ）
+SAMPLE_SIZE = 1024  # サンプルサイズ（学習して再現する脈波の長さ）
 
 TESTDATA_SIZE = 0.3  # テストデータの割合
 
