@@ -22,6 +22,12 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
+USB_PORT = 'COM3'
+
+SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
+SOCKET_PORT = 10000  # Processingサーバのポート
+
+
 SAMPLE_SIZE = 1024  # サンプルサイズ（学習して再現する脈波の長さ）
 
 TESTDATA_SIZE = 0.3  # テストデータの割合
@@ -40,15 +46,10 @@ INPUT_DIMENSION = 1  # LSTMの入力次元数（脈波の時系列データは�
 HIDDEN_SIZE = 24  # LSTMの隠れ層
 OUTPUT_DIMENSION = SAMPLE_SIZE  # LSTMの出力次元数（SAMPLE_SIZE個の色データ）
 
-USB_PORT = 'COM3'
-
-SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
-SOCKET_PORT = 10000  # Processingサーバのポート
-
 now = datetime.datetime.today()
 time = now.strftime("%Y%m%d") + "_" + now.strftime("%H%M%S")
 SAVEFILE_RAW = time + "_raw.csv"
-SAVEFILE_PSEUDO = time + "_pseudo.csv"
+SAVEFILE_GENERATED = time + "_generated.csv"
 
 TRAIN_DATA = '20201201_153431_raw.csv'
 LOSS_DATA = time + '_loss.csv'
@@ -238,28 +239,28 @@ def get_pulse():
     #*** ディスプレイ点灯時間用変数 ***#
     global display_lighting_time
     #*** 学習擬似脈波用変数 ***#
-    global pseudo_pulse
+    global generated_pulse
 
     #*** 処理終了通知用変数 ***#
     global finish
 
     # データ書き込みファイルのオープン
-    # raw_file = open(SAVEFILE_RAW, 'x', newline='')
+    # raw_file = open(SAVEFILE_RAW, 'a', newline='')
     # raw_writer = csv.writer(raw_file, delimiter=',')
     # raw_writer.writerow(["time", "pulse"])
-    # pseudo_file = open(SAVEFILE_PSEUDO, 'x', newline='')
-    # pseudo_writer = csv.writer(pseudo_file, delimiter=',')
-    # pseudo_writer.writerow(["time", "pulse"])
+    generated_file = open(SAVEFILE_GENERATED, 'a', newline='')
+    generated_writer = csv.writer(generated_file, delimiter=',')
+    generated_writer.writerow(["time", "pulse"])
 
     # 脈波の取得開始時刻の初期化
-    pseudo_pulse_get_start_time = None
+    generated_pulse_get_start_time = None
 
     # 終了フラグが立つまで脈波を取得し続ける
     while not finish:
         try:
             # 脈波値の受信
             read_data = ser.readline().rstrip().decode(encoding='UTF-8')
-            # data[0]: micros, data[1]: raw_pulse, data[2]: pseudo_pulse
+            # data[0]: micros, data[1]: raw_pulse, data[2]: generated_pulse
             data = read_data.split(",")
             # print(data)
 
@@ -269,11 +270,11 @@ def get_pulse():
 
                 #--- データの保存 ---#
                 # raw_writer.writerow([timestamp, int(data[1])])
-                # pseudo_writer.writerow([timestamp, int(data[2])])
+                # generated_writer.writerow([timestamp, int(data[2])])
 
-                # # センサ値取得時間用キューの更新（単位はミリ秒で保存）
+                # センサ値取得時間用キューの更新（単位はミリ秒で保存）
                 # pulse_get_timestamps.append(timestamp)
-                # # 生脈波用キューの更新
+                # 生脈波用キューの更新
                 # raw_pulse_values.append(int(data[1]))
 
                 #--- データセットの作成 ---#
@@ -289,40 +290,40 @@ def get_pulse():
                     # print('生脈波取得完了')
 
                 # ディスプレイ点灯開始時に時刻を保存
-                if (send_to_display_data is not None) and (pseudo_pulse_get_start_time is None):
+                if (send_to_display_data is not None) and (generated_pulse_get_start_time is None):
                     # 脈波の取得開始時刻（データ取得中状態）
-                    pseudo_pulse_get_start_time = timestamp
+                    generated_pulse_get_start_time = timestamp
                     # 取得開始時刻の書き込み
-                    # pseudo_writer.writerow([timestamp, 'start'])
+                    generated_writer.writerow([timestamp, 'start'])
 
                 # データ取得中かつ，擬似脈波受付可能状態の場合
-                if (pseudo_pulse_get_start_time is not None) and (pseudo_pulse is None):
+                if (generated_pulse_get_start_time is not None) and (generated_pulse is None):
 
                     # 点灯時間（学習データと同じ時間）だけ取得
                     # 現在時刻が(取得開始時刻 + 点灯時間)より大きいかつ，サンプル数が学習データと同じだけ集まったら取得終了
-                    if (timestamp > (pseudo_pulse_get_start_time + display_lighting_time)) and (len(pseudo_pulse_values) == SAMPLE_SIZE):
+                    if (timestamp > (generated_pulse_get_start_time + display_lighting_time)) and (len(generated_pulse_values) == SAMPLE_SIZE):
                         # ディスプレイ点灯時間の初期化
                         display_lighting_time = None
                         # 脈波の取得開始時刻の初期化
-                        pseudo_pulse_get_start_time = None
+                        generated_pulse_get_start_time = None
                         # 学習用に擬似脈波をコピー
-                        pseudo_pulse = pseudo_pulse_values
+                        generated_pulse = generated_pulse_values
 
                         # 取得完了時刻の書き込み
-                        # pseudo_writer.writerow([timestamp, 'finish'])
+                        generated_writer.writerow([timestamp, 'finish'])
                         # print('擬似脈波取得完了')
 
                     # 取得時間内
                     else:
                         # 擬似脈波用キューの更新
-                        pseudo_pulse_values.append(int(data[1]))
+                        generated_pulse_values.append(int(data[1]))
 
         except KeyboardInterrupt:
             break
 
     # データ書き込みファイルのクローズ
     # raw_file.close()
-    # pseudo_file.close()
+    generated_file.close()
 
 
 def make_train_pulse():
@@ -400,7 +401,7 @@ def main():
     #*** ディスプレイ点灯時間用変数 ***#
     global display_lighting_time
     #*** 学習擬似脈波用変数 ***#
-    global pseudo_pulse
+    global generated_pulse
 
     #*** 処理終了通知用変数 ***#
     global finish
@@ -420,10 +421,10 @@ def main():
         #*** データ送信用変数 ***#
         global send_to_display_data
         #*** 学習擬似脈波用変数 ***#
-        global pseudo_pulse
+        global generated_pulse
 
         # 学習擬似脈波の初期化
-        pseudo_pulse = None
+        generated_pulse = None
 
         # ディスプレイ送信用データの作成（Tensorから1次元の整数，文字列のNumpyへ）
         send_to_display_data = np.array(
@@ -435,7 +436,7 @@ def main():
         # print('描画終了')
 
         # 擬似脈波の取得が完了するまで待機
-        while pseudo_pulse is None:
+        while generated_pulse is None:
             # 1μsの遅延**これを入れないと回りすぎてセンサデータ取得の動作が遅くなる**
             sleep(0.000001)
             continue
@@ -464,7 +465,7 @@ def main():
 
     def train_step(raw_pulse):
         #*** 学習擬似脈波用変数 ***#
-        global pseudo_pulse
+        global generated_pulse
 
         model.D.train()
         model.G.train()
@@ -485,7 +486,7 @@ def main():
         get_pesudo_pulse(colors)
         # 擬似脈波に対する識別
         preds = model.D(torch.tensor(
-            pseudo_pulse, dtype=torch.float, device=device).view(-1, 1, 1)).squeeze()
+            generated_pulse, dtype=torch.float, device=device).view(-1, 1, 1)).squeeze()
         label = torch.zeros(1).float().to(device)
         loss_D_fake = compute_loss(preds.view(-1, 1), label.view(-1, 1))
 
@@ -504,7 +505,7 @@ def main():
         get_pesudo_pulse(colors)
         # 擬似脈波に対する識別
         preds = model.D(torch.tensor(
-            pseudo_pulse, dtype=torch.float, device=device).view(-1, 1, 1)).squeeze()
+            generated_pulse, dtype=torch.float, device=device).view(-1, 1, 1)).squeeze()
         label = torch.ones(1).float().to(device)  # 偽物画像のラベルを「本物画像(1)」とする
         loss_G = compute_loss(preds.view(-1, 1), label.view(-1, 1))
 
@@ -555,7 +556,7 @@ if __name__ == '__main__':
     train_data = np.array(train_data)
 
     # 擬似脈波用キュー
-    pseudo_pulse_values = deque(maxlen=SAMPLE_SIZE)
+    generated_pulse_values = deque(maxlen=SAMPLE_SIZE)
 
     #*** グローバル：処理終了通知用変数（センサデータ取得終了の制御） ***#
     finish = False
@@ -563,7 +564,7 @@ if __name__ == '__main__':
     #*** グローバル：学習生脈波用変数 ***#
     train_raw_pulse = None
     #*** グローバル：学習擬似脈波用変数 ***#
-    pseudo_pulse = None
+    generated_pulse = None
     #*** グローバル：データ送信用変数（画面点灯の制御） ***#
     send_to_display_data = None
     #*** グローバル：ディスプレイ点灯時間用変数（画面点灯時間，擬似脈波取得時間の制御） ***#

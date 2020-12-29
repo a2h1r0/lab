@@ -55,7 +55,7 @@ with open(PSEUDO_DATA) as f:
 
         # データの追加
         t_pseudo.append(float(row[0]))
-        y_pseudo.append(float(row[1]))
+        y_pseudo.append(int(row[1]))
 
 
 plt.figure(figsize=(16, 9))
