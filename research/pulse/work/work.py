@@ -13,7 +13,6 @@ import threading
 from collections import deque
 import socket
 from scipy.spatial.distance import euclidean
-from fastdtw import fastdtw
 from soft_dtw import SoftDTW
 import datetime
 import csv
@@ -28,9 +27,7 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 1024  # サンプルサイズ（学習して再現する脈波の長さ）
-
-TESTDATA_SIZE = 0.3  # テストデータの割合
+SAMPLE_SIZE = 256  # サンプルサイズ（学習して再現する脈波の長さ）
 
 EPOCH_NUM = 5000  # 学習サイクル数
 
@@ -244,86 +241,81 @@ def get_pulse():
     #*** 処理終了通知用変数 ***#
     global finish
 
-    # データ書き込みファイルのオープン
-    # raw_file = open(SAVEFILE_RAW, 'a', newline='')
-    # raw_writer = csv.writer(raw_file, delimiter=',')
-    # raw_writer.writerow(["time", "pulse"])
-    generated_file = open(SAVEFILE_GENERATED, 'a', newline='')
-    generated_writer = csv.writer(generated_file, delimiter=',')
-    generated_writer.writerow(["time", "pulse"])
-
     # 脈波の取得開始時刻の初期化
     generated_pulse_get_start_time = None
 
-    # 終了フラグが立つまで脈波を取得し続ける
-    while not finish:
-        try:
-            # 脈波値の受信
-            read_data = ser.readline().rstrip().decode(encoding='UTF-8')
-            # data[0]: micros, data[1]: raw_pulse, data[2]: generated_pulse
-            data = read_data.split(",")
-            # print(data)
+    # with open(SAVEFILE_RAW, 'a', newline='') as raw_file:
+    # raw_writer = csv.writer(raw_file, delimiter=',')
+    # raw_writer.writerow(["time", "pulse"])
+    with open(SAVEFILE_GENERATED, 'a', newline='') as generated_file:
+        generated_writer = csv.writer(generated_file, delimiter=',')
+        generated_writer.writerow(["time", "pulse"])
 
-            # 正常値が受信できていることを確認
-            if len(data) == 2 and data[0].isdecimal() and data[1].isdecimal():
-                timestamp = float(data[0])/1000
+        # 終了フラグが立つまで脈波を取得し続ける
+        while not finish:
+            try:
+                # 脈波値の受信
+                read_data = ser.readline().rstrip().decode(encoding='UTF-8')
+                # data[0]: micros, data[1]: raw_pulse, data[2]: generated_pulse
+                data = read_data.split(",")
+                # print(data)
 
-                #--- データの保存 ---#
-                # raw_writer.writerow([timestamp, int(data[1])])
-                # generated_writer.writerow([timestamp, int(data[2])])
+                # 正常値が受信できていることを確認
+                if len(data) == 2 and data[0].isdecimal() and data[1].isdecimal():
+                    timestamp = float(data[0])/1000
 
-                # センサ値取得時間用キューの更新（単位はミリ秒で保存）
-                # pulse_get_timestamps.append(timestamp)
-                # 生脈波用キューの更新
-                # raw_pulse_values.append(int(data[1]))
+                    #--- データの保存 ---#
+                    # raw_writer.writerow([timestamp, int(data[1])])
+                    generated_writer.writerow([timestamp, int(data[1])])
 
-                #--- データセットの作成 ---#
-                # サンプルがSAMPLE_SIZE個貯まるまで待機
-                if train_raw_pulse is None:
-                    pulse_get_timestamps, raw_pulse_values = make_train_pulse()
+                    # センサ値取得時間用キューの更新（単位はミリ秒で保存）
+                    # pulse_get_timestamps.append(timestamp)
+                    # 生脈波用キューの更新
+                    # raw_pulse_values.append(int(data[1]))
 
-                    # 全サンプルでの点灯時間の取得（最終サンプルのタイムスタンプ - 開始サンプルのタイムスタンプ）
-                    display_lighting_time = pulse_get_timestamps[-1] - \
-                        pulse_get_timestamps[0]
-                    # 学習に使用するデータの取得
-                    train_raw_pulse = raw_pulse_values
-                    # print('生脈波取得完了')
+                    #--- データセットの作成 ---#
+                    # サンプルがSAMPLE_SIZE個貯まるまで待機
+                    if train_raw_pulse is None:
+                        pulse_get_timestamps, raw_pulse_values = make_train_pulse()
 
-                # ディスプレイ点灯開始時に時刻を保存
-                if (send_to_display_data is not None) and (generated_pulse_get_start_time is None):
-                    # 脈波の取得開始時刻（データ取得中状態）
-                    generated_pulse_get_start_time = timestamp
-                    # 取得開始時刻の書き込み
-                    generated_writer.writerow([timestamp, 'start'])
+                        # 全サンプルでの点灯時間の取得（最終サンプルのタイムスタンプ - 開始サンプルのタイムスタンプ）
+                        display_lighting_time = pulse_get_timestamps[-1] - \
+                            pulse_get_timestamps[0]
+                        # 学習に使用するデータの取得
+                        train_raw_pulse = raw_pulse_values
+                        # print('生脈波取得完了')
 
-                # データ取得中かつ，擬似脈波受付可能状態の場合
-                if (generated_pulse_get_start_time is not None) and (generated_pulse is None):
+                    # ディスプレイ点灯開始時に時刻を保存
+                    if (send_to_display_data is not None) and (generated_pulse_get_start_time is None):
+                        # 脈波の取得開始時刻（データ取得中状態）
+                        generated_pulse_get_start_time = timestamp
+                        # 取得開始時刻の書き込み
+                        generated_writer.writerow([timestamp, 'start'])
 
-                    # 点灯時間（学習データと同じ時間）だけ取得
-                    # 現在時刻が(取得開始時刻 + 点灯時間)より大きいかつ，サンプル数が学習データと同じだけ集まったら取得終了
-                    if (timestamp > (generated_pulse_get_start_time + display_lighting_time)) and (len(generated_pulse_values) == SAMPLE_SIZE):
-                        # ディスプレイ点灯時間の初期化
-                        display_lighting_time = None
-                        # 脈波の取得開始時刻の初期化
-                        generated_pulse_get_start_time = None
-                        # 学習用に擬似脈波をコピー
-                        generated_pulse = generated_pulse_values
+                    # データ取得中かつ，擬似脈波受付可能状態の場合
+                    if (generated_pulse_get_start_time is not None) and (generated_pulse is None):
 
-                        # 取得完了時刻の書き込み
-                        generated_writer.writerow([timestamp, 'finish'])
-                        # print('擬似脈波取得完了')
+                        # 点灯時間（学習データと同じ時間）だけ取得
+                        # 現在時刻が(取得開始時刻 + 点灯時間)より大きいかつ，サンプル数が学習データと同じだけ集まったら取得終了
+                        if (timestamp > (generated_pulse_get_start_time + display_lighting_time)) and (len(generated_pulse_values) == SAMPLE_SIZE):
+                            # ディスプレイ点灯時間の初期化
+                            display_lighting_time = None
+                            # 脈波の取得開始時刻の初期化
+                            generated_pulse_get_start_time = None
+                            # 学習用に擬似脈波をコピー
+                            generated_pulse = generated_pulse_values
 
-                    # 取得時間内
-                    else:
-                        # 擬似脈波用キューの更新
-                        generated_pulse_values.append(int(data[1]))
+                            # 取得完了時刻の書き込み
+                            generated_writer.writerow([timestamp, 'finish'])
+                            # print('擬似脈波取得完了')
 
-        except KeyboardInterrupt:
-            break
+                        # 取得時間内
+                        else:
+                            # 擬似脈波用キューの更新
+                            generated_pulse_values.append(int(data[1]))
 
-    # データ書き込みファイルのクローズ
-    # raw_file.close()
-    generated_file.close()
+            except KeyboardInterrupt:
+                break
 
 
 def make_train_pulse():
@@ -405,11 +397,6 @@ def main():
 
     #*** 処理終了通知用変数 ***#
     global finish
-
-    # データ書き込みファイルのオープン
-    loss_file = open(LOSS_DATA, 'a', newline='')
-    loss_writer = csv.writer(loss_file, delimiter=',')
-    loss_writer.writerow(['Epoch', 'D Loss', 'G Loss'])
 
     def get_pesudo_pulse(colors):
         """擬似脈波の取得
@@ -530,10 +517,19 @@ def main():
         # 学習
         loss_D, loss_G = train_step(tensor_raw)
 
+        # データの保存
         write_data = [epoch+1, loss_D.item(), loss_G.item()]
-        loss_writer.writerow(write_data)
         print('Epoch: {}, D Loss: {:.3f}, G Loss: {:.3f}'.format(
             write_data[0], write_data[1], write_data[2]))
+
+        # 毎度クローズしないと，処理中断時に保存されない
+        with open(LOSS_DATA, 'a', newline='') as loss_file:
+            loss_writer = csv.writer(loss_file, delimiter=',')
+            # ヘッダーの書き込み
+            if epoch == 0:
+                loss_writer.writerow(['Epoch', 'D Loss', 'G Loss'])
+            # データの書き込み
+            loss_writer.writerow(write_data)
 
     # 処理終了
     finish = True
