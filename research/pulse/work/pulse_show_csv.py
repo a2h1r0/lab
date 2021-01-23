@@ -6,11 +6,11 @@ from scipy.signal import find_peaks
 import os
 os.chdir(os.path.dirname(__file__))
 
-START = 200
-END = 250
+START = 313
+END = 363
 
-RAW_DATA = '20201201_153431_raw.csv'
-PSEUDO_DATA = '20201201_153431_pseudo.csv'
+RAW_DATA = '20201202_154312_raw.csv'
+GENERATED_DATA = '20201202_154312_pseudo.csv'
 
 
 t_raw = []
@@ -33,9 +33,9 @@ with open(RAW_DATA) as f:
         t_raw.append(float(row[0]))
         y_raw.append(float(row[1]))
 
-t_pseudo = []
-y_pseudo = []
-with open(PSEUDO_DATA) as f:
+t_generated = []
+y_generated = []
+with open(GENERATED_DATA) as f:
     reader = csv.reader(f)
 
     # ヘッダーのスキップ
@@ -54,13 +54,14 @@ with open(PSEUDO_DATA) as f:
             continue
 
         # データの追加
-        t_pseudo.append(float(row[0]))
-        y_pseudo.append(int(row[1]))
+        t_generated.append(float(row[0]))
+        y_generated.append(int(row[1]))
 
 
 plt.figure(figsize=(16, 9))
 plt.plot(t_raw, y_raw, 'red', label="Subject")
-plt.plot(t_pseudo, y_pseudo, 'blue', linestyle="dashed", label="Pseudo")
+plt.plot(t_generated, y_generated, 'blue',
+         linestyle="dashed", label="generated")
 plt.xlabel("Time [ms]", fontsize=18)
 plt.ylabel("Pulse sensor value", fontsize=18)
 plt.tick_params(labelsize=18)
