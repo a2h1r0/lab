@@ -29,13 +29,13 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 SAMPLE_SIZE = 512  # サンプルサイズ（学習して再現する脈波の長さ）
 
-EPOCH_NUM = 5000  # 学習サイクル数
+EPOCH_NUM = 100  # 学習サイクル数
 
 WINDOW_SIZE = 32  # ウィンドウサイズ
 STEP_SIZE = 1  # ステップ幅
 BATCH_SIZE = WINDOW_SIZE  # バッチサイズ
 MAP_SIZE = 8  # CNNのマップサイズ
-KERNEL_SIZE = 8  # カーネルサイズ
+KERNEL_SIZE = 10  # カーネルサイズ
 
 VECTOR_SIZE = 1  # 扱うベクトルのサイズ（脈波は1次元）
 
@@ -105,31 +105,30 @@ class Discriminator(nn.Module):
 
         self.conv1 = nn.Conv1d(
             in_channels=1, out_channels=8, kernel_size=KERNEL_SIZE)
-        self.in1 = nn.InstanceNorm1d(8)
         self.relu1 = nn.ReLU(inplace=True)
 
         self.conv2 = nn.Conv1d(
             in_channels=8, out_channels=16, kernel_size=KERNEL_SIZE)
-        self.in2 = nn.InstanceNorm1d(16)
         self.relu2 = nn.ReLU(inplace=True)
 
         self.conv3 = nn.Conv1d(
             in_channels=16, out_channels=32, kernel_size=KERNEL_SIZE)
-        self.in3 = nn.InstanceNorm1d(32)
         self.relu3 = nn.ReLU(inplace=True)
 
         self.conv4 = nn.Conv1d(
             in_channels=32, out_channels=64, kernel_size=KERNEL_SIZE)
-        self.in4 = nn.InstanceNorm1d(64)
         self.relu4 = nn.ReLU(inplace=True)
 
         self.conv5 = nn.Conv1d(
             in_channels=64, out_channels=128, kernel_size=KERNEL_SIZE)
-        self.in5 = nn.InstanceNorm1d(128)
         self.relu5 = nn.ReLU(inplace=True)
 
         self.conv6 = nn.Conv1d(
-            in_channels=128, out_channels=1, kernel_size=1)
+            in_channels=128, out_channels=256, kernel_size=KERNEL_SIZE)
+        self.relu6 = nn.ReLU(inplace=True)
+
+        self.conv7 = nn.Conv1d(
+            in_channels=256, out_channels=1, kernel_size=1)
 
     def forward(self, input):
         """
@@ -141,26 +140,24 @@ class Discriminator(nn.Module):
         """
 
         conv1_out = self.conv1(input)
-        in1_out = self.in1(conv1_out)
-        relu1_out = self.relu1(in1_out)
+        relu1_out = self.relu1(conv1_out)
 
         conv2_out = self.conv2(relu1_out)
-        in2_out = self.in2(conv2_out)
-        relu2_out = self.relu2(in2_out)
+        relu2_out = self.relu2(conv2_out)
 
         conv3_out = self.conv3(relu2_out)
-        in3_out = self.in3(conv3_out)
-        relu3_out = self.relu3(in3_out)
+        relu3_out = self.relu3(conv3_out)
 
         conv4_out = self.conv4(relu3_out)
-        in4_out = self.in4(conv4_out)
-        relu4_out = self.relu4(in4_out)
+        relu4_out = self.relu4(conv4_out)
 
         conv5_out = self.conv5(relu4_out)
-        in5_out = self.in5(conv5_out)
-        relu5_out = self.relu5(in5_out)
+        relu5_out = self.relu5(conv5_out)
 
-        out = self.conv6(relu5_out)
+        conv6_out = self.conv6(relu5_out)
+        relu6_out = self.relu6(conv6_out)
+
+        out = self.conv7(relu6_out)
 
         return out
 
@@ -184,47 +181,48 @@ class Generator(nn.Module):
         ###--- Encoder ---###
         self.conv1 = nn.Conv1d(
             in_channels=1, out_channels=8, kernel_size=KERNEL_SIZE)
-        self.bn1 = nn.BatchNorm1d(8)
         self.relu1 = nn.ReLU(inplace=True)
 
         self.conv2 = nn.Conv1d(
             in_channels=8, out_channels=16, kernel_size=KERNEL_SIZE)
-        self.bn2 = nn.BatchNorm1d(16)
         self.relu2 = nn.ReLU(inplace=True)
 
         self.conv3 = nn.Conv1d(
             in_channels=16, out_channels=32, kernel_size=KERNEL_SIZE)
-        self.bn3 = nn.BatchNorm1d(32)
         self.relu3 = nn.ReLU(inplace=True)
 
         self.conv4 = nn.Conv1d(
             in_channels=32, out_channels=64, kernel_size=KERNEL_SIZE)
-        self.bn4 = nn.BatchNorm1d(64)
         self.relu4 = nn.ReLU(inplace=True)
 
-        ###--- Decoder ---###
-        self.conv5 = nn.ConvTranspose1d(
-            in_channels=64, out_channels=32, kernel_size=KERNEL_SIZE)
-        self.bn5 = nn.BatchNorm1d(32)
+        self.conv5 = nn.Conv1d(
+            in_channels=64, out_channels=128, kernel_size=KERNEL_SIZE)
         self.relu5 = nn.ReLU(inplace=True)
 
-        # Skip Connection (conv3)
+        ###--- Decoder ---###
         self.conv6 = nn.ConvTranspose1d(
-            in_channels=32 * 2, out_channels=16, kernel_size=KERNEL_SIZE)
-        self.bn6 = nn.BatchNorm1d(16)
+            in_channels=128, out_channels=64, kernel_size=KERNEL_SIZE)
         self.relu6 = nn.ReLU(inplace=True)
 
-        # Skip Connection (conv2)
+        # Skip Connection (conv4)
         self.conv7 = nn.ConvTranspose1d(
-            in_channels=16 * 2, out_channels=8, kernel_size=KERNEL_SIZE)
-        self.bn7 = nn.BatchNorm1d(8)
+            in_channels=64 * 2, out_channels=32, kernel_size=KERNEL_SIZE)
         self.relu7 = nn.ReLU(inplace=True)
 
-        # Skip Connection (conv1)
+        # Skip Connection (conv3)
         self.conv8 = nn.ConvTranspose1d(
-            in_channels=8 * 2, out_channels=1, kernel_size=KERNEL_SIZE)
-        self.bn8 = nn.BatchNorm1d(1)
+            in_channels=32 * 2, out_channels=16, kernel_size=KERNEL_SIZE)
         self.relu8 = nn.ReLU(inplace=True)
+
+        # Skip Connection (conv2)
+        self.conv9 = nn.ConvTranspose1d(
+            in_channels=16 * 2, out_channels=8, kernel_size=KERNEL_SIZE)
+        self.relu9 = nn.ReLU(inplace=True)
+
+        # Skip Connection (conv1)
+        self.conv10 = nn.ConvTranspose1d(
+            in_channels=8 * 2, out_channels=1, kernel_size=KERNEL_SIZE)
+        self.relu10 = nn.ReLU(inplace=True)
 
     def forward(self, input):
         """
@@ -236,40 +234,39 @@ class Generator(nn.Module):
 
         ###--- Encoder ---###
         conv1_out = self.conv1(input)
-        bn1_out = self.bn1(conv1_out)
-        x1 = self.relu1(bn1_out)
+        x1 = self.relu1(conv1_out)
 
         conv2_out = self.conv2(x1)
-        bn2_out = self.bn2(conv2_out)
-        x2 = self.relu2(bn2_out)
+        x2 = self.relu2(conv2_out)
 
         conv3_out = self.conv3(x2)
-        bn3_out = self.bn3(conv3_out)
-        x3 = self.relu3(bn3_out)
+        x3 = self.relu3(conv3_out)
 
         conv4_out = self.conv4(x3)
-        bn4_out = self.bn4(conv4_out)
-        x4 = self.relu4(bn4_out)
+        x4 = self.relu4(conv4_out)
+
+        conv5_out = self.conv5(x4)
+        x5 = self.relu5(conv5_out)
 
         ###--- Decoder ---###
-        conv5_out = self.conv5(x4)
-        bn5_out = self.bn5(conv5_out)
-        relu5_out = self.relu5(bn5_out)
+        conv6_out = self.conv6(x5)
+        relu6_out = self.relu6(conv6_out)
+
+        # Skip Connection (conv4)
+        conv7_out = self.conv7(torch.cat([relu6_out, x4], dim=1))
+        relu7_out = self.relu7(conv7_out)
 
         # Skip Connection (conv3)
-        conv6_out = self.conv6(torch.cat([relu5_out, x3], dim=1))
-        bn6_out = self.bn6(conv6_out)
-        relu6_out = self.relu6(bn6_out)
+        conv8_out = self.conv8(torch.cat([relu7_out, x3], dim=1))
+        relu8_out = self.relu8(conv8_out)
 
         # Skip Connection (conv2)
-        conv7_out = self.conv7(torch.cat([relu6_out, x2], dim=1))
-        bn7_out = self.bn7(conv7_out)
-        relu7_out = self.relu7(bn7_out)
+        conv9_out = self.conv9(torch.cat([relu8_out, x2], dim=1))
+        relu9_out = self.relu9(conv9_out)
 
         # Skip Connection (conv1)
-        conv8_out = self.conv8(torch.cat([relu7_out, x1], dim=1))
-        bn8_out = self.bn8(conv8_out)
-        out = self.relu8(bn8_out)
+        conv10_out = self.conv10(torch.cat([relu9_out, x1], dim=1))
+        out = self.relu10(conv10_out)
 
         return out
 
@@ -517,7 +514,7 @@ def main():
 
             # 生波形から同一の脈波データを生成
             generated_pulse = model.G(raw_pulse)
-            if epoch+1 == 1:
+            if (epoch+1) % 10 == 0:
                 generated_writer.writerow(
                     raw_pulse.to('cpu').detach().numpy().copy().squeeze())
                 generated_writer.writerow(
@@ -527,7 +524,7 @@ def main():
         generated_pulse_copy = generated_pulse.detach()
         # 擬似脈波に対する識別
         preds = model.D(generated_pulse)
-        label = torch.ones(1, 1, 477).float().to(
+        label = torch.ones(1, 1, 458).float().to(
             device)  # 偽物画像のラベルを「本物画像(1)」とする
         loss_G = compute_loss(preds, label)
 
@@ -543,13 +540,13 @@ def main():
         #-- 本物データ --#
         # 生波形に対する識別
         preds = model.D(raw_pulse)
-        label = torch.ones(1, 1, 477).float().to(device)
+        label = torch.ones(1, 1, 458).float().to(device)
         loss_D_real = compute_loss(preds, label)
 
         #-- 偽物（擬似）データ --#
         # 擬似脈波に対する識別
         preds = model.D(generated_pulse_copy)
-        label = torch.zeros(1, 1, 477).float().to(device)
+        label = torch.zeros(1, 1, 458).float().to(device)
         loss_D_fake = compute_loss(preds, label)
 
         #-- 学習 --#
