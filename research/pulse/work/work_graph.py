@@ -29,7 +29,7 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 SAMPLE_SIZE = 512  # サンプルサイズ（学習して再現する脈波の長さ）
 
-EPOCH_NUM = 100  # 学習サイクル数
+EPOCH_NUM = 10000  # 学習サイクル数
 
 WINDOW_SIZE = 32  # ウィンドウサイズ
 STEP_SIZE = 1  # ステップ幅
@@ -514,7 +514,7 @@ def main():
 
             # 生波形から同一の脈波データを生成
             generated_pulse = model.G(raw_pulse)
-            if (epoch+1) % 10 == 0:
+            if (epoch+1) % 1000 == 0:
                 generated_writer.writerow(
                     raw_pulse.to('cpu').detach().numpy().copy().squeeze())
                 generated_writer.writerow(
@@ -524,7 +524,7 @@ def main():
         generated_pulse_copy = generated_pulse.detach()
         # 擬似脈波に対する識別
         preds = model.D(generated_pulse)
-        label = torch.ones(1, 1, 458).float().to(
+        label = torch.ones(1, 1, SAMPLE_SIZE-54).float().to(
             device)  # 偽物画像のラベルを「本物画像(1)」とする
         loss_G = compute_loss(preds, label)
 
@@ -540,13 +540,13 @@ def main():
         #-- 本物データ --#
         # 生波形に対する識別
         preds = model.D(raw_pulse)
-        label = torch.ones(1, 1, 458).float().to(device)
+        label = torch.ones(1, 1, SAMPLE_SIZE-54).float().to(device)
         loss_D_real = compute_loss(preds, label)
 
         #-- 偽物（擬似）データ --#
         # 擬似脈波に対する識別
         preds = model.D(generated_pulse_copy)
-        label = torch.zeros(1, 1, 458).float().to(device)
+        label = torch.zeros(1, 1, SAMPLE_SIZE-54).float().to(device)
         loss_D_fake = compute_loss(preds, label)
 
         #-- 学習 --#
