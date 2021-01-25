@@ -27,7 +27,7 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 512  # サンプルサイズ（学習して再現する脈波の長さ）
+SAMPLE_SIZE = 2048  # サンプルサイズ（学習して再現する脈波の長さ）
 
 EPOCH_NUM = 10000  # 学習サイクル数
 
@@ -47,7 +47,7 @@ now = datetime.datetime.today()
 time = now.strftime("%Y%m%d") + "_" + now.strftime("%H%M%S")
 SAVEFILE_RAW = time + "_raw.csv"
 SAVEFILE_GENERATED = time + "_generated.csv"
-SAVEFILE_GENERATED2 = time + "_generated2.csv"
+SAVEFILE_GENERATED2 = time + "_autoencoder.csv"
 
 TRAIN_DATA = '20201202_154312_raw.csv'
 LOSS_DATA = time + '_loss.csv'
