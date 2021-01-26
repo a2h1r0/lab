@@ -1,5 +1,5 @@
 final int PORT = 10000;	// 通信に使用するポート番号
-final int WINDOW_SIZE = 500; // ウィンドウサイズ
+final int WINDOW_SIZE = 300; // ウィンドウサイズ
 
 
 import processing.net.*;
@@ -14,12 +14,12 @@ void settings() {
 
 /* 初期化 */
 void setup() {
-	// サーバの設定
-	server = new Server(this, PORT);
-	println("Server address : " + server.ip());
-	
-	// フレームレートの設定
-	frameRate(120);
+    // サーバの設定
+    server = new Server(this, PORT);
+    println("Server address : " + server.ip());
+    
+    // フレームレートの設定
+    frameRate(120);
 }
 
 /* メインループ */

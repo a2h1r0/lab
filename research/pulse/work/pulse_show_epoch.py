@@ -6,9 +6,9 @@ from scipy.signal import find_peaks
 import os
 os.chdir(os.path.dirname(__file__))
 
-EPOCH = 10000  # 描画するエポック数（1000刻み）
+EPOCH = 500  # 描画するエポック数（100刻み）
 
-GENERATED_DATA = '20210125_003104_autoencoder.csv'
+GENERATED_DATA = '20210125_222547_autoencoder.csv'
 
 
 t_raw = []
@@ -18,7 +18,7 @@ y_generated = []
 with open(GENERATED_DATA) as f:
     reader = csv.reader(f)
 
-    for index in range((EPOCH // 1000) - 1):
+    for index in range((EPOCH // 100) - 1):
         next(reader)
         next(reader)
 

@@ -27,9 +27,9 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 2048  # サンプルサイズ（学習して再現する脈波の長さ）
+SAMPLE_SIZE = 256  # サンプルサイズ（学習して再現する脈波の長さ）
 
-EPOCH_NUM = 10000  # 学習サイクル数
+EPOCH_NUM = 5000  # 学習サイクル数
 
 WINDOW_SIZE = 32  # ウィンドウサイズ
 STEP_SIZE = 1  # ステップ幅
@@ -47,7 +47,6 @@ now = datetime.datetime.today()
 time = now.strftime("%Y%m%d") + "_" + now.strftime("%H%M%S")
 SAVEFILE_RAW = time + "_raw.csv"
 SAVEFILE_GENERATED = time + "_generated.csv"
-SAVEFILE_GENERATED2 = time + "_autoencoder.csv"
 
 TRAIN_DATA = '20201202_154312_raw.csv'
 LOSS_DATA = time + '_loss.csv'
@@ -209,7 +208,7 @@ class Generator(nn.Module):
         # Skip Connection (conv1)
         self.conv10 = nn.ConvTranspose1d(
             in_channels=8 * 2, out_channels=1, kernel_size=KERNEL_SIZE)
-        self.relu10 = nn.ReLU(inplace=True)
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self, input):
         """
@@ -253,9 +252,35 @@ class Generator(nn.Module):
 
         # Skip Connection (conv1)
         conv10_out = self.conv10(torch.cat([relu9_out, x1], dim=1))
-        out = self.relu10(conv10_out)
+        out = self.sigmoid(conv10_out)
 
-        return out
+        # 色データの生成
+        color_data = self.convert_to_color_data(out)
+
+        # 予測結果の色データを出力
+        return color_data
+
+    def convert_to_color_data(self, out):
+        """色データへの変換
+
+        予測結果から色データを生成する．
+
+        Args:
+            out (:obj:`Tensor`): 予測結果
+
+        Returns:
+            :obj:`Numpy`: 予測結果の色データ
+        """
+
+        # 色の最大値は16進数FFFFFF（色コード）
+        COLOR_MAX = 16777215
+
+        # 出力の最大値を色の最大値に合わせる
+        converted_data = out * COLOR_MAX
+        # 四捨五入するがfloatなので，データ送信時にはさらにintに変換する
+        converted_data = torch.round(converted_data)
+
+        return converted_data
 
 
 def get_pulse():
@@ -276,15 +301,16 @@ def get_pulse():
     #*** 処理終了通知用変数 ***#
     global finish
 
+    epoch = 0
     # 脈波の取得開始時刻の初期化
     generated_pulse_get_start_time = None
 
     # with open(SAVEFILE_RAW, 'a', newline='') as raw_file:
-    #     raw_writer = csv.writer(raw_file, delimiter=',')
-    #     raw_writer.writerow(["time", "pulse"])
+    # raw_writer = csv.writer(raw_file, delimiter=',')
+    # raw_writer.writerow(["time", "pulse"])
     with open(SAVEFILE_GENERATED, 'a', newline='') as generated_file:
         generated_writer = csv.writer(generated_file, delimiter=',')
-        generated_writer.writerow(["time", "pulse"])
+        generated_writer.writerow(['Epoch', 'time', 'pulse'])
 
         # 終了フラグが立つまで脈波を取得し続ける
         while not finish:
@@ -301,7 +327,6 @@ def get_pulse():
 
                     #--- データの保存 ---#
                     # raw_writer.writerow([timestamp, int(data[1])])
-                    generated_writer.writerow([timestamp, int(data[1])])
 
                     # センサ値取得時間用キューの更新（単位はミリ秒で保存）
                     # pulse_get_timestamps.append(timestamp)
@@ -322,13 +347,15 @@ def get_pulse():
 
                     # ディスプレイ点灯開始時に時刻を保存
                     if (send_to_display_data is not None) and (generated_pulse_get_start_time is None):
+                        epoch += 1
                         # 脈波の取得開始時刻（データ取得中状態）
                         generated_pulse_get_start_time = timestamp
-                        # 取得開始時刻の書き込み
-                        generated_writer.writerow([timestamp, 'start'])
 
                     # データ取得中かつ，擬似脈波受付可能状態の場合
-                    if (generated_pulse_get_start_time is not None) and (generated_pulse is None):
+                    if (generated_pulse_get_start_time is not None) and (generated_pulse is None) and (display_lighting_time is not None):
+                        #--- データの保存 ---#
+                        generated_writer.writerow(
+                            [epoch, timestamp, int(data[1])])
 
                         # 点灯時間（学習データと同じ時間）だけ取得
                         # 現在時刻が(取得開始時刻 + 点灯時間)より大きいかつ，サンプル数が学習データと同じだけ集まったら取得終了
@@ -338,12 +365,8 @@ def get_pulse():
                             # 脈波の取得開始時刻の初期化
                             generated_pulse_get_start_time = None
                             # 学習用に擬似脈波をコピー
-                            generated_pulse = generated_pulse_values
-
-                            # 取得完了時刻の書き込み
-                            generated_writer.writerow(
-                                [timestamp, 'finish'])
-                            # print('擬似脈波取得完了')
+                            generated_pulse = torch.tensor(
+                                generated_pulse_values, dtype=torch.float, device=device).view(1, 1, -1)
 
                         # 取得時間内
                         else:
@@ -496,16 +519,9 @@ def main():
         # ---------------------
         #  生成器の学習
         # ---------------------
-        with open(SAVEFILE_GENERATED2, 'a', newline='') as generated_file:
-            generated_writer = csv.writer(generated_file, delimiter=',')
-
-            # 生波形から同一の脈波データを生成
-            generated_pulse = model.G(raw_pulse)
-            if (epoch+1) % 1000 == 0:
-                generated_writer.writerow(
-                    raw_pulse.to('cpu').detach().numpy().copy().squeeze())
-                generated_writer.writerow(
-                    generated_pulse.to('cpu').detach().numpy().copy().squeeze())
+        # 生波形から同一の脈波データを生成
+        colors = model.G(raw_pulse)
+        get_pesudo_pulse(colors)
 
         # 識別器の学習で使用するためコピー
         generated_pulse_copy = generated_pulse.detach()
@@ -621,6 +637,10 @@ if __name__ == '__main__':
     ser = serial.Serial(USB_PORT, 115200)
     ser.reset_input_buffer()
     sleep(3)  # ポート準備に3秒待機**これがないとシリアル通信がうまく動かない**
+
+    # ソケット通信（Processing）の初期化
+    socket_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket_client.connect((SOCKET_ADDRESS, SOCKET_PORT))
 
     # 学習スレッドの開始
     train_thread = threading.Thread(target=main)
