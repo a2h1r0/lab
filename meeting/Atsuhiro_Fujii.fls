@@ -117,7 +117,10 @@ INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
 INPUT c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm
 INPUT c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT c:/w32tex/share/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
+INPUT ../research/pulse/figure/512_autoencoder_300epoch.png
+INPUT extractbb -B cropbox -O ../research/pulse/figure/512_autoencoder_300epoch.png
+INPUT ../research/pulse/figure/2048_autoencoder_500epoch.png
+INPUT extractbb -B cropbox -O ../research/pulse/figure/2048_autoencoder_500epoch.png
 OUTPUT Atsuhiro_Fujii.dvi
 INPUT Atsuhiro_Fujii.aux
 INPUT ./Atsuhiro_Fujii.out

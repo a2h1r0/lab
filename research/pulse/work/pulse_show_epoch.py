@@ -8,7 +8,7 @@ os.chdir(os.path.dirname(__file__))
 
 EPOCH = 500  # 描画するエポック数（100刻み）
 
-GENERATED_DATA = '20210125_222547_autoencoder.csv'
+GENERATED_DATA = '20210125_003104_autoencoder.csv'
 
 
 t_raw = []
@@ -42,6 +42,6 @@ plt.plot(t_generated, y_generated, 'blue',
 #                 labelright=False,
 #                 labeltop=False)
 # plt.legend(fontsize=18, loc='upper right')
-# plt.savefig("pulse.png", bbox_inches='tight', pad_inches=0)
+plt.savefig("2048_autoencoder_500epoch.png", bbox_inches='tight', pad_inches=0)
 
 plt.show()
