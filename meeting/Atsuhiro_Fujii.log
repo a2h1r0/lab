@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2020/W32TeX) (preloaded format=platex 2020.9.25)  26 JAN 2021 23:37
+This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2020/W32TeX) (preloaded format=platex 2020.9.25)  28 JAN 2021 00:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -299,25 +299,35 @@ File: ../research/pulse/figure/2048_autoencoder_500epoch.png Graphic file (type 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 84.
+File: ../research/pulse/figure/256_generated_1400epoch.png Graphic file (type bmp)
+<../research/pulse/figure/256_generated_1400epoch.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+File: ../research/pulse/figure/256_generated_1400epoch_loss.png Graphic file (type bmp)
+<../research/pulse/figure/256_generated_1400epoch_loss.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 100.
 [1
 
-] [2]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 84.
+] [2] [3]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 100.
 (./Atsuhiro_Fujii.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 84.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 84.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 100.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 100.
 Package rerunfilecheck Info: File `Atsuhiro_Fujii.out' has not changed.
 (rerunfilecheck)             Checksum: 703F78CC776915177CD4D6D4485B396B;101.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 84.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 100.
  ) 
 Here is how much of TeX's memory you used:
- 5841 strings out of 481386
- 87951 string characters out of 5917849
- 362365 words of memory out of 5000000
- 21557 multiletter control sequences out of 15000+600000
+ 5851 strings out of 481386
+ 88375 string characters out of 5917849
+ 362437 words of memory out of 5000000
+ 21565 multiletter control sequences out of 15000+600000
  544536 words of font info for 66 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 43i,6n,37p,975b,361s stack positions out of 5000i,500n,10000p,500000b,80000s
+ 43i,6n,37p,975b,364s stack positions out of 5000i,500n,10000p,500000b,80000s
 
-Output written on Atsuhiro_Fujii.dvi (2 pages, 2500 bytes).
+Output written on Atsuhiro_Fujii.dvi (3 pages, 3500 bytes).

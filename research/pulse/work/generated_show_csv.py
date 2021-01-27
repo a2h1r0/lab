@@ -7,8 +7,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-GENERATED_DATA = '20210126_230202_generated.csv'
-SHOW_EPOCH = 2
+GENERATED_DATA = '20210126_235256_generated.csv'
+SHOW_EPOCH = 500
 
 
 t = []
@@ -31,6 +31,6 @@ plt.xlabel("Time [s]", fontsize=18)
 plt.ylabel("Pulse sensor value", fontsize=18)
 plt.tick_params(labelsize=18)
 plt.legend(fontsize=18, loc='upper right')
-# plt.savefig("pulse.png", bbox_inches='tight', pad_inches=0)
+# plt.savefig("../figure/256_generated_1400epoch.png", bbox_inches='tight', pad_inches=0)
 
 plt.show()

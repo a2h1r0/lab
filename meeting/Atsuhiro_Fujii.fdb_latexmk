@@ -1,15 +1,17 @@
 # Fdb version 3
-["dvipdf"] 1611671853 "Atsuhiro_Fujii.dvi" "Atsuhiro_Fujii.pdf" "Atsuhiro_Fujii" 1611671858
-  "Atsuhiro_Fujii.dvi" 1611671853 2500 581bb5486fcd8be7805978516b2420f1 "latex"
+["dvipdf"] 1611760991 "Atsuhiro_Fujii.dvi" "Atsuhiro_Fujii.pdf" "Atsuhiro_Fujii" 1611760995
+  "Atsuhiro_Fujii.dvi" 1611760990 3500 6928f0e628341f0ef46a46f6603950af "latex"
   (generated)
   "Atsuhiro_Fujii.pdf"
-["latex"] 1611671845 "c:/Users/atsu3/GitHub/univ/meeting/Atsuhiro_Fujii.tex" "Atsuhiro_Fujii.dvi" "Atsuhiro_Fujii" 1611671858
+["latex"] 1611760986 "c:/Users/atsu3/GitHub/univ/meeting/Atsuhiro_Fujii.tex" "Atsuhiro_Fujii.dvi" "Atsuhiro_Fujii" 1611760995
   "../research/pulse/figure/2048_autoencoder_500epoch.png" 1611671092 289266 b56c45ff362b20df27877056aeeec541 ""
+  "../research/pulse/figure/256_generated_1400epoch.png" 1611760759 69407 1e0dc8e8effa3a5e1d28b0f892182f3c ""
+  "../research/pulse/figure/256_generated_1400epoch_loss.png" 1611760753 93581 aea8d89021aef81f3c3e5644a81620e2 ""
   "../research/pulse/figure/512_autoencoder_300epoch.png" 1611671090 133292 a287af8da62073dd9d985f3ff7105208 ""
-  "Atsuhiro_Fujii.aux" 1611671853 1121 ceb90d99814c26ed7722bed3aad2317e "latex"
-  "Atsuhiro_Fujii.out" 1611671853 101 703f78cc776915177cd4d6d4485b396b "latex"
-  "Atsuhiro_Fujii.tex" 1611671836 3135 e56f6bcc34d5913ff6415108b816811f ""
-  "c:/Users/atsu3/GitHub/univ/meeting/Atsuhiro_Fujii.tex" 1611671836 3135 e56f6bcc34d5913ff6415108b816811f ""
+  "Atsuhiro_Fujii.aux" 1611760990 1515 2fd350285cb353c99dfbe01fffd70c3c "latex"
+  "Atsuhiro_Fujii.out" 1611760990 101 703f78cc776915177cd4d6d4485b396b "latex"
+  "Atsuhiro_Fujii.tex" 1611760985 3612 9853ecc041b2079e0a889ea45d181e29 ""
+  "c:/Users/atsu3/GitHub/univ/meeting/Atsuhiro_Fujii.tex" 1611760985 3612 9853ecc041b2079e0a889ea45d181e29 ""
   "c:/w32tex/share/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/goth10.tfm" 1519818042 1196 5981e79c37b2cfd27b3612a6783cd4b6 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/min10.tfm" 1519818042 1196 1be730212205a270378fba11a44765dc ""
@@ -72,7 +74,7 @@
   "c:/w32tex/share/texmf-dist/web2c/eptex/platex.fmt" 1600989504 2477659 73a1612bf2e36548c4e65b9d647f2d4b ""
   "c:/w32tex/share/texmf-dist/web2c/texmf.cnf" 1598510145 36534 988ffa67973aa3cd8a89945361bf806e ""
   (generated)
+  "Atsuhiro_Fujii.dvi"
+  "Atsuhiro_Fujii.out"
   "Atsuhiro_Fujii.log"
   "Atsuhiro_Fujii.aux"
-  "Atsuhiro_Fujii.out"
-  "Atsuhiro_Fujii.dvi"

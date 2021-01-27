@@ -6,7 +6,7 @@ from scipy.signal import find_peaks
 import os
 os.chdir(os.path.dirname(__file__))
 
-LOSS_DATA = '20210125_225730_loss.csv'
+LOSS_DATA = '20210126_235256_loss.csv'
 
 
 epoch = []
@@ -32,6 +32,7 @@ plt.xlabel("Epoch", fontsize=18)
 plt.ylabel("Loss", fontsize=18)
 plt.tick_params(labelsize=18)
 plt.legend(fontsize=18, loc='upper right')
-# plt.savefig("../figure/256.png", bbox_inches='tight', pad_inches=0)
+plt.savefig("../figure/256_generated_1400epoch_loss.png",
+            bbox_inches='tight', pad_inches=0)
 
 plt.show()

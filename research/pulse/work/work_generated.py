@@ -29,7 +29,7 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 SAMPLE_SIZE = 256  # サンプルサイズ（学習して再現する脈波の長さ）
 
-EPOCH_NUM = 5000  # 学習サイクル数
+EPOCH_NUM = 10000  # 学習サイクル数
 
 WINDOW_SIZE = 32  # ウィンドウサイズ
 STEP_SIZE = 1  # ステップ幅

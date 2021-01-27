@@ -121,6 +121,10 @@ INPUT ../research/pulse/figure/512_autoencoder_300epoch.png
 INPUT extractbb -B cropbox -O ../research/pulse/figure/512_autoencoder_300epoch.png
 INPUT ../research/pulse/figure/2048_autoencoder_500epoch.png
 INPUT extractbb -B cropbox -O ../research/pulse/figure/2048_autoencoder_500epoch.png
+INPUT ../research/pulse/figure/256_generated_1400epoch.png
+INPUT extractbb -B cropbox -O ../research/pulse/figure/256_generated_1400epoch.png
+INPUT ../research/pulse/figure/256_generated_1400epoch_loss.png
+INPUT extractbb -B cropbox -O ../research/pulse/figure/256_generated_1400epoch_loss.png
 OUTPUT Atsuhiro_Fujii.dvi
 INPUT Atsuhiro_Fujii.aux
 INPUT ./Atsuhiro_Fujii.out
