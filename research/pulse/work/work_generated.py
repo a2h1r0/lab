@@ -1,19 +1,15 @@
-import glob
-import pandas as pd
 import numpy as np
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 import torch.optim as optimizers
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 import matplotlib.pyplot as plt
 import serial
 from time import sleep
 import threading
 from collections import deque
 import socket
-from scipy.spatial.distance import euclidean
-from soft_dtw import SoftDTW
+# from soft_dtw import SoftDTW
+from model import Pix2Pix
 import datetime
 import csv
 import random
@@ -27,260 +23,17 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 256  # サンプルサイズ（学習して再現する脈波の長さ）
-
+SAMPLE_SIZE = 512  # サンプルサイズ
 EPOCH_NUM = 10000  # 学習サイクル数
-
-WINDOW_SIZE = 32  # ウィンドウサイズ
-STEP_SIZE = 1  # ステップ幅
-BATCH_SIZE = WINDOW_SIZE  # バッチサイズ
-MAP_SIZE = 8  # CNNのマップサイズ
-KERNEL_SIZE = 10  # カーネルサイズ
-
-VECTOR_SIZE = 1  # 扱うベクトルのサイズ（脈波は1次元）
-
-INPUT_DIMENSION = 1  # LSTMの入力次元数（脈波の時系列データは各時刻で1次元）
-HIDDEN_SIZE = 24  # LSTMの隠れ層
-OUTPUT_DIMENSION = SAMPLE_SIZE  # LSTMの出力次元数（SAMPLE_SIZE個の色データ）
+KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
 
 now = datetime.datetime.today()
 time = now.strftime("%Y%m%d") + "_" + now.strftime("%H%M%S")
-SAVEFILE_RAW = time + "_raw.csv"
-SAVEFILE_GENERATED = time + "_generated.csv"
+SAVEFILE_RAW = './data/' + time + "_raw.csv"
+SAVEFILE_GENERATED = './data/' + time + "_generated.csv"
 
 TRAIN_DATA = '20201202_154312_raw.csv'
-LOSS_DATA = time + '_loss.csv'
-
-
-class Pix2Pix(nn.Module):
-    """
-    LSTMモデル
-    """
-
-    def __init__(self, device='cpu'):
-        """
-        Args:
-            input_size (int): 入力次元数
-            hidden_size (int): 隠れ層サイズ
-            output_size (int): 出力サイズ
-        """
-
-        super().__init__()
-        self.device = device
-
-        self.G = Generator(device=device)
-        self.D = Discriminator(device=device)
-
-
-class Discriminator(nn.Module):
-    """
-    LSTMモデル
-    """
-
-    def __init__(self, device='cpu'):
-        """
-        Args:
-            input (:obj:`Tensor`): 学習データ
-
-        Returns:
-            :obj:`Numpy`: 予測結果の色データ
-        """
-
-        super().__init__()
-        self.device = device
-
-        self.conv1 = nn.Conv1d(
-            in_channels=1, out_channels=8, kernel_size=KERNEL_SIZE)
-        self.relu1 = nn.ReLU(inplace=True)
-
-        self.conv2 = nn.Conv1d(
-            in_channels=8, out_channels=16, kernel_size=KERNEL_SIZE)
-        self.relu2 = nn.ReLU(inplace=True)
-
-        self.conv3 = nn.Conv1d(
-            in_channels=16, out_channels=32, kernel_size=KERNEL_SIZE)
-        self.relu3 = nn.ReLU(inplace=True)
-
-        self.conv4 = nn.Conv1d(
-            in_channels=32, out_channels=64, kernel_size=KERNEL_SIZE)
-        self.relu4 = nn.ReLU(inplace=True)
-
-        self.conv5 = nn.Conv1d(
-            in_channels=64, out_channels=128, kernel_size=KERNEL_SIZE)
-        self.relu5 = nn.ReLU(inplace=True)
-
-        self.conv6 = nn.Conv1d(
-            in_channels=128, out_channels=256, kernel_size=KERNEL_SIZE)
-        self.relu6 = nn.ReLU(inplace=True)
-
-        self.conv7 = nn.Conv1d(
-            in_channels=256, out_channels=1, kernel_size=1)
-
-    def forward(self, input):
-        """
-        Args:
-            input (:obj:`Tensor`): 学習データ
-
-        Returns:
-            :obj:`Tensor`: 識別結果
-        """
-
-        conv1_out = self.conv1(input)
-        relu1_out = self.relu1(conv1_out)
-
-        conv2_out = self.conv2(relu1_out)
-        relu2_out = self.relu2(conv2_out)
-
-        conv3_out = self.conv3(relu2_out)
-        relu3_out = self.relu3(conv3_out)
-
-        conv4_out = self.conv4(relu3_out)
-        relu4_out = self.relu4(conv4_out)
-
-        conv5_out = self.conv5(relu4_out)
-        relu5_out = self.relu5(conv5_out)
-
-        conv6_out = self.conv6(relu5_out)
-        relu6_out = self.relu6(conv6_out)
-
-        out = self.conv7(relu6_out)
-
-        return out
-
-
-class Generator(nn.Module):
-    """
-    LSTMモデル
-    """
-
-    def __init__(self, device='cpu'):
-        """
-        Args:
-            input_size (int): 入力次元数
-            hidden_size (int): 隠れ層サイズ
-            output_size (int): 出力サイズ
-        """
-
-        super().__init__()
-        self.device = device
-
-        ###--- Encoder ---###
-        self.conv1 = nn.Conv1d(
-            in_channels=1, out_channels=8, kernel_size=KERNEL_SIZE)
-        self.relu1 = nn.ReLU(inplace=True)
-
-        self.conv2 = nn.Conv1d(
-            in_channels=8, out_channels=16, kernel_size=KERNEL_SIZE)
-        self.relu2 = nn.ReLU(inplace=True)
-
-        self.conv3 = nn.Conv1d(
-            in_channels=16, out_channels=32, kernel_size=KERNEL_SIZE)
-        self.relu3 = nn.ReLU(inplace=True)
-
-        self.conv4 = nn.Conv1d(
-            in_channels=32, out_channels=64, kernel_size=KERNEL_SIZE)
-        self.relu4 = nn.ReLU(inplace=True)
-
-        self.conv5 = nn.Conv1d(
-            in_channels=64, out_channels=128, kernel_size=KERNEL_SIZE)
-        self.relu5 = nn.ReLU(inplace=True)
-
-        ###--- Decoder ---###
-        self.conv6 = nn.ConvTranspose1d(
-            in_channels=128, out_channels=64, kernel_size=KERNEL_SIZE)
-        self.relu6 = nn.ReLU(inplace=True)
-
-        # Skip Connection (conv4)
-        self.conv7 = nn.ConvTranspose1d(
-            in_channels=64 * 2, out_channels=32, kernel_size=KERNEL_SIZE)
-        self.relu7 = nn.ReLU(inplace=True)
-
-        # Skip Connection (conv3)
-        self.conv8 = nn.ConvTranspose1d(
-            in_channels=32 * 2, out_channels=16, kernel_size=KERNEL_SIZE)
-        self.relu8 = nn.ReLU(inplace=True)
-
-        # Skip Connection (conv2)
-        self.conv9 = nn.ConvTranspose1d(
-            in_channels=16 * 2, out_channels=8, kernel_size=KERNEL_SIZE)
-        self.relu9 = nn.ReLU(inplace=True)
-
-        # Skip Connection (conv1)
-        self.conv10 = nn.ConvTranspose1d(
-            in_channels=8 * 2, out_channels=1, kernel_size=KERNEL_SIZE)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, input):
-        """
-        Args:
-            input_size (int): 入力次元数
-            hidden_size (int): 隠れ層サイズ
-            output_size (int): 出力サイズ
-        """
-
-        ###--- Encoder ---###
-        conv1_out = self.conv1(input)
-        x1 = self.relu1(conv1_out)
-
-        conv2_out = self.conv2(x1)
-        x2 = self.relu2(conv2_out)
-
-        conv3_out = self.conv3(x2)
-        x3 = self.relu3(conv3_out)
-
-        conv4_out = self.conv4(x3)
-        x4 = self.relu4(conv4_out)
-
-        conv5_out = self.conv5(x4)
-        x5 = self.relu5(conv5_out)
-
-        ###--- Decoder ---###
-        conv6_out = self.conv6(x5)
-        relu6_out = self.relu6(conv6_out)
-
-        # Skip Connection (conv4)
-        conv7_out = self.conv7(torch.cat([relu6_out, x4], dim=1))
-        relu7_out = self.relu7(conv7_out)
-
-        # Skip Connection (conv3)
-        conv8_out = self.conv8(torch.cat([relu7_out, x3], dim=1))
-        relu8_out = self.relu8(conv8_out)
-
-        # Skip Connection (conv2)
-        conv9_out = self.conv9(torch.cat([relu8_out, x2], dim=1))
-        relu9_out = self.relu9(conv9_out)
-
-        # Skip Connection (conv1)
-        conv10_out = self.conv10(torch.cat([relu9_out, x1], dim=1))
-        out = self.sigmoid(conv10_out)
-
-        # 色データの生成
-        color_data = self.convert_to_color_data(out)
-
-        # 予測結果の色データを出力
-        return color_data
-
-    def convert_to_color_data(self, out):
-        """色データへの変換
-
-        予測結果から色データを生成する．
-
-        Args:
-            out (:obj:`Tensor`): 予測結果
-
-        Returns:
-            :obj:`Numpy`: 予測結果の色データ
-        """
-
-        # 色の最大値は16進数FFFFFF（色コード）
-        COLOR_MAX = 16777215
-
-        # 出力の最大値を色の最大値に合わせる
-        converted_data = out * COLOR_MAX
-        # 四捨五入するがfloatなので，データ送信時にはさらにintに変換する
-        converted_data = torch.round(converted_data)
-
-        return converted_data
+LOSS_DATA = './data/' + time + '_loss.csv'
 
 
 def get_pulse():
@@ -353,10 +106,6 @@ def get_pulse():
 
                     # データ取得中かつ，擬似脈波受付可能状態の場合
                     if (generated_pulse_get_start_time is not None) and (generated_pulse is None) and (display_lighting_time is not None):
-                        #--- データの保存 ---#
-                        generated_writer.writerow(
-                            [epoch, timestamp, int(data[1])])
-
                         # 点灯時間（学習データと同じ時間）だけ取得
                         # 現在時刻が(取得開始時刻 + 点灯時間)より大きいかつ，サンプル数が学習データと同じだけ集まったら取得終了
                         if (timestamp > (generated_pulse_get_start_time + display_lighting_time)) and (len(generated_pulse_values) == SAMPLE_SIZE):
@@ -372,6 +121,10 @@ def get_pulse():
                         else:
                             # 擬似脈波用キューの更新
                             generated_pulse_values.append(int(data[1]))
+
+                        #--- データの保存 ---#
+                        generated_writer.writerow(
+                            [epoch, timestamp, int(data[1])])
 
             except KeyboardInterrupt:
                 break
@@ -488,7 +241,7 @@ def main():
             continue
 
     '''モデルの構築'''
-    model = Pix2Pix(device=device).to(device)
+    model = Pix2Pix(kernel_size=KERNEL_SIZE, device=device)
 
     '''モデルの訓練'''
     # criterion = SoftDTW(gamma=1.0, normalize=True)
@@ -527,7 +280,7 @@ def main():
         generated_pulse_copy = generated_pulse.detach()
         # 擬似脈波に対する識別
         preds = model.D(generated_pulse)
-        label = torch.ones(1, 1, SAMPLE_SIZE-54).float().to(
+        label = torch.ones(1, 1, SAMPLE_SIZE).float().to(
             device)  # 偽物画像のラベルを「本物画像(1)」とする
         loss_G = compute_loss(preds, label)
 
@@ -543,13 +296,13 @@ def main():
         #-- 本物データ --#
         # 生波形に対する識別
         preds = model.D(raw_pulse)
-        label = torch.ones(1, 1, SAMPLE_SIZE-54).float().to(device)
+        label = torch.ones(1, 1, SAMPLE_SIZE).float().to(device)
         loss_D_real = compute_loss(preds, label)
 
         #-- 偽物（擬似）データ --#
         # 擬似脈波に対する識別
         preds = model.D(generated_pulse_copy)
-        label = torch.zeros(1, 1, SAMPLE_SIZE-54).float().to(device)
+        label = torch.zeros(1, 1, SAMPLE_SIZE).float().to(device)
         loss_D_fake = compute_loss(preds, label)
 
         #-- 学習 --#

@@ -6,7 +6,7 @@ from scipy.signal import find_peaks
 import os
 os.chdir(os.path.dirname(__file__))
 
-LOSS_DATA = '20210126_235256_loss.csv'
+LOSS_DATA = '20210201_175657_loss.csv'
 
 
 epoch = []

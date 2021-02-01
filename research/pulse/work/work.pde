@@ -32,23 +32,16 @@ void draw() {
 		if (received_data != null) {
 			// 受信データの整形
 			String[] data = split(received_data, ',');
-			
-			// 16進数化（色コード形式）
-			String color_code = hex(int(data[1]), 6);
-			// RGB化（2桁ずつ10進数化）
-			int r = unhex(color_code.substring(0, 2));
-			int g = unhex(color_code.substring(2, 4));
-			int b = unhex(color_code.substring(4, 6));
-			
+
 			// 背景色の変更
-			background(r, g, b);
-			
+			background(int(data[1]));
+
 			// 点灯時間の待機
 			// delay(int(data[0]));
-			
+
 			// delayなしの状態で処理時間で10msほどかかる
 			// println(millis());
-			
+
 			// 描画完了通知の送信
 			client.write('0');
 		}
