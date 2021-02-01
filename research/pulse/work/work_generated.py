@@ -32,7 +32,7 @@ time = now.strftime("%Y%m%d") + "_" + now.strftime("%H%M%S")
 SAVEFILE_RAW = './data/' + time + "_raw.csv"
 SAVEFILE_GENERATED = './data/' + time + "_generated.csv"
 
-TRAIN_DATA = '20201202_154312_raw.csv'
+TRAIN_DATAS = ['20201202_154312_raw.csv', '20201201_153431_raw.csv']
 LOSS_DATA = './data/' + time + '_loss.csv'
 
 
@@ -140,10 +140,11 @@ def make_train_pulse():
     #*** 学習ファイルデータ用変数 ***#
     global train_data
 
-    index = random.randint(1, len(train_data)-SAMPLE_SIZE)
+    data = random.randint(0, len(train_data)-1)
+    index = random.randint(0, len(train_data[data])-SAMPLE_SIZE-1)
 
-    timestamps = train_data[index:index+SAMPLE_SIZE, 0]
-    pulse_data = train_data[index:index+SAMPLE_SIZE, 1]
+    timestamps = train_data[data][index:index+SAMPLE_SIZE, 0]
+    pulse_data = train_data[data][index:index+SAMPLE_SIZE, 1]
 
     return timestamps, pulse_data
 
@@ -356,16 +357,18 @@ if __name__ == '__main__':
 
     #*** グローバル：学習ファイルデータ用変数 ***#
     train_data = []
-    with open(TRAIN_DATA) as f:
-        reader = csv.reader(f)
+    for data in TRAIN_DATAS:
+        with open('./data/' + data) as f:
+            reader = csv.reader(f)
 
-        # ヘッダーのスキップ
-        next(reader)
+            # ヘッダーのスキップ
+            next(reader)
 
-        for row in reader:
-            # データの追加
-            train_data.append([float(row[0]), float(row[1])])
-    train_data = np.array(train_data)
+            read_data = []
+            for row in reader:
+                # データの追加
+                read_data.append([float(row[0]), float(row[1])])
+        train_data.append(np.array(read_data))
 
     # 擬似脈波用キュー
     generated_pulse_values = deque(maxlen=SAMPLE_SIZE)
