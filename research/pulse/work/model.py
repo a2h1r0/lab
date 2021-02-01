@@ -11,7 +11,7 @@ class Pix2Pix(nn.Module):
         device (string): 使用デバイス
     """
 
-    def __init__(self, kernel_size=16, device='cpu'):
+    def __init__(self, kernel_size=15, device='cpu'):
         super().__init__()
 
         self.D = Pix2Pix.Discriminator(kernel_size=kernel_size).to(device)
