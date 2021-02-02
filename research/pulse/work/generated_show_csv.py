@@ -7,13 +7,13 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-GENERATED_DATA = '20210201_175657_generated.csv'
-SHOW_EPOCH = 700
+GENERATED_DATA = '20210202_005159_generated.csv'
+SHOW_EPOCH = 400
 
 
 t = []
 y = []
-with open(GENERATED_DATA) as f:
+with open('./data/' + GENERATED_DATA) as f:
     reader = csv.reader(f)
     next(reader)
 

@@ -23,7 +23,7 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 256  # サンプルサイズ
+SAMPLE_SIZE = 512  # サンプルサイズ
 EPOCH_NUM = 10000  # 学習サイクル数
 KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
 
@@ -32,7 +32,11 @@ time = now.strftime("%Y%m%d") + "_" + now.strftime("%H%M%S")
 SAVEFILE_RAW = './data/' + time + "_raw.csv"
 SAVEFILE_GENERATED = './data/' + time + "_generated.csv"
 
-TRAIN_DATAS = ['20201202_154312_raw.csv', '20201201_153431_raw.csv']
+TRAIN_DATAS = ['20201202_154312_raw', '20201201_153431_raw', '20210202_133228_raw',
+               '20210202_134240_raw', '20210202_135317_raw', '20210202_140046_raw',
+               '20210202_140826_raw', '20210202_142202_raw', '20210202_144751_raw',
+               '20210202_150358_raw', '20210202_150940_raw', '20210202_153417_raw',
+               '20210202_155231_raw', '20210202_162038_raw', '20210202_162739_raw']
 LOSS_DATA = './data/' + time + '_loss.csv'
 
 
@@ -350,7 +354,7 @@ if __name__ == '__main__':
     #*** グローバル：学習ファイルデータ用変数 ***#
     train_data = []
     for data in TRAIN_DATAS:
-        with open('./data/' + data) as f:
+        with open('./data/' + data + '.csv') as f:
             reader = csv.reader(f)
 
             # ヘッダーのスキップ

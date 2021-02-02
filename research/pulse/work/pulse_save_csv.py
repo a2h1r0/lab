@@ -6,16 +6,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
 from scipy.signal import find_peaks
+import os
+os.chdir(os.path.dirname(__file__))
 
 write_data = []
 
-FINISH = 1800
+FINISH = 300
 
 ser = serial.Serial("COM3", 115200)
 now = datetime.datetime.today()
 
-filename = now.strftime("%Y%m%d") + "_" + \
-    now.strftime("%H%M%S") + "_name.csv"
+filename = './data/' + now.strftime("%Y%m%d") + "_" + \
+    now.strftime("%H%M%S") + "_raw.csv"
 
 with open(filename, 'a', newline='') as f:
     writer = csv.writer(f, delimiter=',')
