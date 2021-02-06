@@ -19,7 +19,7 @@ void setup() {
     println("Server address : " + server.ip());
     
     // フレームレートの設定
-    frameRate(60);
+    frameRate(1200);
 }
 
 /* メインループ */
@@ -30,14 +30,10 @@ void draw() {
 		// データの受信
 		String received_data = client.readStringUntil('\0').trim();
 		if (received_data != null) {
-			// 背景色の変更
+			// 描画
 			background(int(received_data));
-
-			// delayなしの状態で処理時間で10msほどかかる
-			// println(millis());
-
 			// 描画完了通知の送信
-			client.write('0');
+			client.write(0);
 		}
 	}
 }

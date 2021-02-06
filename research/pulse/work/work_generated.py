@@ -22,7 +22,7 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 512  # サンプルサイズ
+SAMPLE_SIZE = 1024  # サンプルサイズ
 EPOCH_NUM = 10000  # 学習サイクル数
 KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
 
@@ -51,13 +51,12 @@ def make_train_pulse():
     data = random.randrange(0, len(train_data)-1)
     index = random.randrange(0, len(train_data[data])-SAMPLE_SIZE)
 
-    timestamps = train_data[data][index:index+SAMPLE_SIZE, 0]
-    pulse_data = train_data[data][index:index+SAMPLE_SIZE, 1]
+    pulse_data = train_data[data][index:index+SAMPLE_SIZE]
 
-    return timestamps, pulse_data
+    return pulse_data
 
 
-def receive_pulse():
+def get_pulse():
     """脈波の取得
     脈波センサからデータを取得し，データ保存用キューを更新．
     """
@@ -65,18 +64,23 @@ def receive_pulse():
     #*** エポック数 ***#
     global epoch
 
-    #*** 学習データ取得フラグ ***#
-    global train_get_flag
-    #*** 学習脈波用変数 ***#
+    #*** 生脈波取得フラグ ***#
+    global raw_get_flag
+    #*** 生脈波用変数 ***#
     global numpy_raw_pulse
 
     #*** 生成脈波取得開始フラグ ***#
     global generated_get_flag
-    #*** 生成脈波取得終了時刻 ***#
-    global generated_get_finish
+    #*** 生成脈波用変数 ***#
+    global numpy_generated_pulse
 
     #*** 処理終了フラグ ***#
     global exit_flag
+
+    # 生脈波用キュー
+    raw_pulse = deque(maxlen=SAMPLE_SIZE)
+    # 擬似脈波用キュー
+    generated_pulse = deque(maxlen=SAMPLE_SIZE)
 
     # with open(SAVEFILE_RAW, 'a', newline='') as raw_file:
     # raw_writer = csv.writer(raw_file, delimiter=',')
@@ -97,18 +101,23 @@ def receive_pulse():
                 if len(data) == 2 and data[0].isdecimal() and data[1].isdecimal():
                     timestamp = float(data[0]) / 1000
                     # 生脈波の取得
-                    timestamps, raw_pulse = make_train_pulse()
+                    raw_pulse = make_train_pulse()
 
                     # 学習データの取得
-                    if train_get_flag:
+                    if raw_get_flag:
                         if len(raw_pulse) < SAMPLE_SIZE:
                             continue
                         else:
                             numpy_raw_pulse = raw_pulse
-                            train_get_flag = False
+                            # numpy_raw_pulse = np.array(raw_pulse)
+                            raw_get_flag = False
 
                     # 生成脈波の取得開始
                     if generated_get_flag:
+                        # 取得開始時刻
+                        if len(generated_pulse) == 0:
+                            generated_get_start = timestamp
+
                         if len(generated_pulse) < SAMPLE_SIZE:
                             # 擬似脈波の追加
                             generated_pulse.append(int(data[1]))
@@ -117,7 +126,12 @@ def receive_pulse():
                                 [epoch+1, timestamp, int(data[1])])
                         else:
                             # 取得終了時刻
-                            generated_get_finish = datetime.datetime.now()
+                            generated_get_finish = timestamp
+                            print('生成脈波取得時間: {:.2f}秒'.format(
+                                (generated_get_finish - generated_get_start) / 1000))
+
+                            numpy_generated_pulse = np.array(generated_pulse)
+                            generated_pulse.clear()
                             generated_get_flag = False
 
             except KeyboardInterrupt:
@@ -134,8 +148,8 @@ def get_generated_pulse(colors):
 
     #*** 生成脈波取得開始フラグ ***#
     global generated_get_flag
-    #*** 生成脈波取得終了時刻 ***#
-    global generated_get_finish
+    #*** 生成脈波用変数 ***#
+    global numpy_generated_pulse
 
     # ディスプレイ送信用データの作成（Tensorから1次元の整数，文字列のリストへ）
     display_data = np.array(
@@ -145,9 +159,6 @@ def get_generated_pulse(colors):
     # ---------------------
     #  生成脈波の取得
     # ---------------------
-    generated_pulse.clear()
-    # 取得開始時刻
-    generated_get_start = datetime.datetime.now()
     generated_get_flag = True
 
     # 描画開始時刻
@@ -171,19 +182,18 @@ def get_generated_pulse(colors):
     while generated_get_flag is not False:
         sleep(0.000001)
 
-    print('生成脈波取得時間: ' + str((generated_get_finish - generated_get_start).seconds) + '秒')
-    print('描画時間: ' + str((draw_finish - draw_start).seconds) + '秒')
+    print('描画時間: {:.2f}秒'.format((draw_finish - draw_start).total_seconds()))
 
-    return np.array(generated_pulse)
+    return numpy_generated_pulse
 
 
 def main():
     #*** エポック数 ***#
     global epoch
 
-    #*** 学習データ取得フラグ ***#
-    global train_get_flag
-    #*** 学習脈波用変数 ***#
+    #*** 生脈波取得フラグ ***#
+    global raw_get_flag
+    #*** 生脈波用変数 ***#
     global numpy_raw_pulse
 
     #*** 処理終了フラグ ***#
@@ -200,11 +210,11 @@ def main():
 
     '''学習サイクル'''
     for epoch in range(EPOCH_NUM):
-        print('\n----- Epoch: {} -----'.format(epoch+1))
+        print('\n----- Epoch: ' + str(epoch+1) + ' -----')
 
         # 学習データの取得
         numpy_raw_pulse = None
-        train_get_flag = True
+        raw_get_flag = True
         while numpy_raw_pulse is None:
             sleep(0.000001)
 
@@ -277,13 +287,6 @@ def main():
 if __name__ == '__main__':
     print("\n初期化中...")
 
-    # センサ値取得時間用キュー
-    timestamps = deque(maxlen=SAMPLE_SIZE)
-    # 生脈波用キュー
-    raw_pulse = deque(maxlen=SAMPLE_SIZE)
-    # 擬似脈波用キュー
-    generated_pulse = deque(maxlen=SAMPLE_SIZE)
-
     #*** グローバル：学習ファイルデータ用変数 ***#
     train_data = []
     for data in TRAIN_DATAS:
@@ -296,21 +299,21 @@ if __name__ == '__main__':
             read_data = []
             for row in reader:
                 # データの追加
-                read_data.append([float(row[0]), float(row[1])])
+                read_data.append([float(row[1])])
         train_data.append(np.array(read_data))
 
     #*** グローバル：エポック数 ***#
     epoch = 0
 
-    #*** グローバル：学習データ取得フラグ ***#
-    train_get_flag = False
-    #*** グローバル：学習生脈波用変数 ***#
+    #*** グローバル：生脈波取得フラグ ***#
+    raw_get_flag = False
+    #*** グローバル：生脈波用変数 ***#
     numpy_raw_pulse = None
 
     #*** グローバル：生成脈波取得開始フラグ ***#
     generated_get_flag = False
-    #*** グローバル：生成脈波取得終了時刻 ***#
-    generated_get_finish = None
+    #*** グローバル：生成脈波用変数 ***#
+    numpy_generated_pulse = None
 
     #*** グローバル：処理終了フラグ（センサデータ取得終了の制御） ***#
     exit_flag = False
@@ -334,7 +337,7 @@ if __name__ == '__main__':
     train_thread.start()
 
     # 脈波取得の開始
-    receive_pulse()
+    get_pulse()
 
     # シリアル通信の終了
     ser.close()
