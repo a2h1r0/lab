@@ -16,7 +16,7 @@ FINISH = 300
 ser = serial.Serial("COM3", 115200)
 now = datetime.datetime.today()
 
-filename = './data/' + now.strftime("%Y%m%d") + "_" + \
+filename = './data/train/' + now.strftime("%Y%m%d") + "_" + \
     now.strftime("%H%M%S") + "_raw.csv"
 
 with open(filename, 'a', newline='') as f:
