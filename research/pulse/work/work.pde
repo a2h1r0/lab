@@ -30,14 +30,8 @@ void draw() {
 		// データの受信
 		String received_data = client.readStringUntil('\0').trim();
 		if (received_data != null) {
-			// 受信データの整形
-			String[] data = split(received_data, ',');
-
 			// 背景色の変更
-			background(int(data[1]));
-
-			// 点灯時間の待機
-			// delay(int(data[0]));
+			background(int(received_data));
 
 			// delayなしの状態で処理時間で10msほどかかる
 			// println(millis());
