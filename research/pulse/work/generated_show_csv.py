@@ -7,8 +7,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-GENERATED_DATA = '20210202_005159_generated.csv'
-SHOW_EPOCH = 400
+GENERATED_DATA = '20210207_000743_generated.csv'
+SHOW_EPOCH = 800
 
 
 t = []
