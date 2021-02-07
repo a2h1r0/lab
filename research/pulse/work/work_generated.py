@@ -23,16 +23,17 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 
 SAMPLE_SIZE = 4096  # サンプルサイズ
-EPOCH_NUM = 10000  # 学習サイクル数
+EPOCH_NUM = 5000  # 学習サイクル数
 KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
 
 now = datetime.datetime.today()
-time = now.strftime("%Y%m%d") + "_" + now.strftime("%H%M%S")
-SAVEFILE_RAW = './data/' + time + "_raw.csv"
-SAVEFILE_GENERATED = './data/' + time + "_generated.csv"
+time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
+SAVEFILE_RAW = './data/' + time + '_raw.csv'
+SAVEFILE_GENERATED = './data/' + time + '_generated.csv'
 
 TRAIN_DATAS = ['20210207_121945_raw', '20210207_122512_raw',
-               '20210207_123029_raw', '20210207_123615_raw']
+               '20210207_123029_raw', '20210207_123615_raw',
+               '20210207_154330_raw']
 LOSS_DATA = './data/' + time + '_loss.csv'
 
 
@@ -79,60 +80,69 @@ def get_pulse():
     # 擬似脈波用キュー
     generated_pulse = deque(maxlen=SAMPLE_SIZE)
 
-    # with open(SAVEFILE_RAW, 'a', newline='') as raw_file:
-    # raw_writer = csv.writer(raw_file, delimiter=',')
-    # raw_writer.writerow(["time", "pulse"])
-    with open(SAVEFILE_GENERATED, 'a', newline='') as generated_file:
-        generated_writer = csv.writer(generated_file, delimiter=',')
-        generated_writer.writerow(['Epoch', 'time', 'pulse'])
+    with open(SAVEFILE_RAW, 'a', newline='') as raw_file:
+        raw_writer = csv.writer(raw_file, delimiter=',')
+        raw_writer.writerow(["Epoch", "pulse"])
+        with open(SAVEFILE_GENERATED, 'a', newline='') as generated_file:
+            generated_writer = csv.writer(generated_file, delimiter=',')
+            generated_writer.writerow(['Epoch', 'time', 'pulse'])
 
-        # 終了フラグが立つまで脈波を取得し続ける
-        while not exit_flag:
-            try:
-                # 脈波値の受信
-                read_data = ser.readline().rstrip().decode(encoding='UTF-8')
-                # data[0]: micros, data[1]: raw_pulse, data[2]: generated_pulse
-                data = read_data.split(",")
+            # 終了フラグが立つまで脈波を取得し続ける
+            while not exit_flag:
+                try:
+                    # 脈波値の受信
+                    read_data = ser.readline().rstrip().decode(encoding='UTF-8')
+                    # data[0]: micros, data[1]: raw_pulse, data[2]: generated_pulse
+                    data = read_data.split(",")
 
-                # 正常値が受信できていることを確認
-                if len(data) == 2 and data[0].isdecimal() and data[1].isdecimal():
-                    timestamp = float(data[0]) / 1000
-                    # 生脈波の取得
-                    raw_pulse = make_train_pulse()
-
-                    # 学習データの取得
-                    if raw_get_flag:
-                        if len(raw_pulse) < SAMPLE_SIZE:
+                    # 正常値が受信できていることを確認
+                    if len(data) == 2 and data[0].isdecimal() and data[1].isdecimal():
+                        # 異常値の除外（次の値と繋がって，異常な桁数の場合あり）
+                        if 'timestamp' in locals() and len(str(int(float(data[0]) / 1000000))) > len(str(int(timestamp))) + 2:
                             continue
-                        else:
-                            numpy_raw_pulse = raw_pulse
-                            # numpy_raw_pulse = np.array(raw_pulse)
-                            raw_get_flag = False
 
-                    # 生成脈波の取得開始
-                    if generated_get_flag:
-                        # 取得開始時刻
-                        if len(generated_pulse) == 0:
-                            generated_get_start = timestamp
+                        timestamp = float(data[0]) / 1000000
 
-                        if len(generated_pulse) < SAMPLE_SIZE:
-                            # 擬似脈波の追加
-                            generated_pulse.append(int(data[1]))
-                            #--- データの保存 ---#
-                            generated_writer.writerow(
-                                [epoch+1, timestamp, int(data[1])])
-                        else:
-                            # 取得終了時刻
-                            generated_get_finish = timestamp
-                            print('生成脈波取得時間: {:.2f}秒'.format(
-                                (generated_get_finish - generated_get_start) / 1000))
+                        # 生脈波の取得
+                        raw_pulse = make_train_pulse()
 
-                            numpy_generated_pulse = np.array(generated_pulse)
-                            generated_pulse.clear()
-                            generated_get_flag = False
+                        # 学習データの取得
+                        if raw_get_flag:
+                            if len(raw_pulse) < SAMPLE_SIZE:
+                                continue
+                            else:
+                                #--- データの保存 ---#
+                                for val in raw_pulse:
+                                    raw_writer.writerow([epoch+1, int(val)])
+                                numpy_raw_pulse = raw_pulse
+                                # numpy_raw_pulse = np.array(raw_pulse)
+                                raw_get_flag = False
 
-            except KeyboardInterrupt:
-                break
+                        # 生成脈波の取得開始
+                        if generated_get_flag:
+                            # 取得開始時刻
+                            if len(generated_pulse) == 0:
+                                generated_get_start = timestamp
+
+                            if len(generated_pulse) < SAMPLE_SIZE:
+                                # 擬似脈波の追加
+                                generated_pulse.append(int(data[1]))
+                                #--- データの保存 ---#
+                                generated_writer.writerow(
+                                    [epoch+1, timestamp, int(data[1])])
+                            else:
+                                # 取得終了時刻
+                                generated_get_finish = timestamp
+                                print('生成脈波取得時間: {:.2f}秒'.format(
+                                    generated_get_finish - generated_get_start))
+
+                                numpy_generated_pulse = np.array(
+                                    generated_pulse)
+                                generated_pulse.clear()
+                                generated_get_flag = False
+
+                except KeyboardInterrupt:
+                    break
 
 
 def get_generated_pulse(colors):
@@ -296,8 +306,8 @@ if __name__ == '__main__':
             read_data = []
             for row in reader:
                 # データの追加
-                read_data.append([float(row[1])])
-        train_data.append(np.array(read_data))
+                read_data.append(float(row[1]))
+        train_data.append(read_data)
 
     #*** グローバル：エポック数 ***#
     epoch = 0

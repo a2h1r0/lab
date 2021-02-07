@@ -6,13 +6,13 @@ from scipy.signal import find_peaks
 import os
 os.chdir(os.path.dirname(__file__))
 
-LOSS_DATA = '20210201_175657_loss.csv'
+LOSS_DATA = '20210207_155003_loss.csv'
 
 
 epoch = []
 D_loss = []
 G_loss = []
-with open(LOSS_DATA) as f:
+with open('./data/' + LOSS_DATA) as f:
     reader = csv.reader(f)
 
     # ヘッダーのスキップ
@@ -32,7 +32,7 @@ plt.xlabel("Epoch", fontsize=18)
 plt.ylabel("Loss", fontsize=18)
 plt.tick_params(labelsize=18)
 plt.legend(fontsize=18, loc='upper right')
-plt.savefig("../figure/256_generated_1400epoch_loss.png",
-            bbox_inches='tight', pad_inches=0)
+# plt.savefig("../figure/256_generated_1400epoch_loss.png",
+#             bbox_inches='tight', pad_inches=0)
 
 plt.show()

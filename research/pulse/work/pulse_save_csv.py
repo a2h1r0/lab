@@ -29,8 +29,12 @@ with open(filename, 'a', newline='') as f:
         data = read_data.split(",")
         print(data)
 
-        if str.isdecimal(data[0]) and str.isdecimal(data[1]) and len(data) == 2:
-            time = float(data[0])/1000000
+        if len(data) == 2 and data[0].isdecimal() and data[1].isdecimal():
+            # 異常値の除外（次の値と繋がって，異常な桁数の場合あり）
+            if 'timestamp' in locals() and len(str(int(float(data[0]) / 1000000))) > len(str(int(timestamp))) + 2:
+                continue
+
+            time = float(data[0]) / 1000000
             pulse = int(data[1])
             writer.writerow([time, pulse])
         else:
