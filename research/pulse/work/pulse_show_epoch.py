@@ -1,47 +1,63 @@
-import csv
-import numpy as np
 import matplotlib.pyplot as plt
-from scipy import signal
-from scipy.signal import find_peaks
+import csv
+import glob
 import os
 os.chdir(os.path.dirname(__file__))
 
-EPOCH = 500  # 描画するエポック数（100刻み）
 
-GENERATED_DATA = '20210125_003104_autoencoder.csv'
+TIME = '20210208_004429'
+SHOW_EPOCH = 3000
 
 
-t_raw = []
-y_raw = []
-t_generated = []
+t = []
 y_generated = []
-with open(GENERATED_DATA) as f:
-    reader = csv.reader(f)
-
-    for index in range((EPOCH // 100) - 1):
+files = glob.glob('./data/' + TIME + '_generated_*.csv')
+for data in files:
+    with open(data) as f:
+        reader = csv.reader(f)
         next(reader)
+
+        for row in reader:
+            if int(row[0]) < SHOW_EPOCH:
+                continue
+            elif int(row[0]) == SHOW_EPOCH:
+                t.append(float(row[1]) / 1000)
+                y_generated.append(int(row[2]))
+            elif int(row[0]) > SHOW_EPOCH:
+                break
+
+        if len(y_generated) > 0:
+            break
+
+y_raw = []
+files = glob.glob('./data/' + TIME + '_raw_*.csv')
+for data in files:
+    with open(data) as f:
+        reader = csv.reader(f)
         next(reader)
 
-    for index, row in enumerate(reader):
-        if index == 0:
-            t_raw = list(range(len(row)))
-            y_raw = list(map(float, row))
-        if index == 1:
-            t_generated = list(range(len(row)))
-            y_generated = list(map(float, row))
+        for row in reader:
+            if int(row[0]) < SHOW_EPOCH:
+                continue
+            elif int(row[0]) == SHOW_EPOCH:
+                y_raw.append(int(row[1]))
+            elif int(row[0]) > SHOW_EPOCH:
+                break
+
+        if len(y_raw) > 0:
+            break
 
 
 plt.figure(figsize=(16, 9))
-plt.plot(t_raw, y_raw, 'red', label="Subject")
-plt.plot(t_generated, y_generated, 'blue',
-         linestyle="dashed", label="generated")
-# plt.xlabel("Time [ms]", fontsize=18)
-# plt.ylabel("Pulse sensor value", fontsize=18)
-# plt.tick_params(labelbottom=False,
-#                 labelleft=False,
-#                 labelright=False,
-#                 labeltop=False)
-# plt.legend(fontsize=18, loc='upper right')
-plt.savefig("2048_autoencoder_500epoch.png", bbox_inches='tight', pad_inches=0)
+plt.plot(t, y_generated, 'red', label='Generated')
+plt.plot(t, y_raw, 'blue', label='Raw')
+# plt.ylim(400, 600)
+plt.xlabel('Time [s]', fontsize=18)
+plt.ylabel('Pulse sensor value', fontsize=18)
+plt.title('Epoch: ' + str(SHOW_EPOCH))
+plt.tick_params(labelsize=18)
+plt.legend(fontsize=18, loc='upper right')
+# plt.savefig('../figure/4098_generated_3000epoch.png',
+#             bbox_inches='tight', pad_inches=0)
 
 plt.show()

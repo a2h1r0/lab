@@ -13,20 +13,20 @@ write_data = []
 
 FINISH = 300
 
-ser = serial.Serial("COM3", 115200)
+ser = serial.Serial('COM3', 115200)
 now = datetime.datetime.today()
 
-filename = './data/train/' + now.strftime("%Y%m%d") + "_" + \
-    now.strftime("%H%M%S") + "_raw.csv"
+filename = './data/train/' + now.strftime('%Y%m%d') + '_' + \
+    now.strftime('%H%M%S') + '_raw.csv'
 
 with open(filename, 'a', newline='') as f:
     writer = csv.writer(f, delimiter=',')
-    writer.writerow(["time", "pulse"])
+    writer.writerow(['time', 'pulse'])
 
     ser.reset_input_buffer()
     while True:
-        read_data = ser.readline().rstrip().decode(encoding="utf-8")
-        data = read_data.split(",")
+        read_data = ser.readline().rstrip().decode(encoding='utf-8')
+        data = read_data.split(',')
         print(data)
 
         if len(data) == 2 and data[0].isdecimal() and data[1].isdecimal():

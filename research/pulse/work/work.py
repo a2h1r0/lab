@@ -1,19 +1,14 @@
-import glob
-import pandas as pd
 import numpy as np
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 import torch.optim as optimizers
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
-import matplotlib.pyplot as plt
 import serial
 from time import sleep
 import threading
 from collections import deque
 import socket
-from scipy.spatial.distance import euclidean
-from soft_dtw import SoftDTW
+from model import Pix2Pix
+import pulse_module
 import datetime
 import csv
 import random
@@ -27,295 +22,19 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 256  # サンプルサイズ（学習して再現する脈波の長さ）
-
+SAMPLE_SIZE = 4096  # サンプルサイズ
 EPOCH_NUM = 5000  # 学習サイクル数
-
-WINDOW_SIZE = 32  # ウィンドウサイズ
-STEP_SIZE = 1  # ステップ幅
-BATCH_SIZE = WINDOW_SIZE  # バッチサイズ
-MAP_SIZE = 8  # CNNのマップサイズ
-KERNEL_SIZE = 1  # カーネルサイズ
-
-VECTOR_SIZE = 1  # 扱うベクトルのサイズ（脈波は1次元）
-
-INPUT_DIMENSION = 1  # LSTMの入力次元数（脈波の時系列データは各時刻で1次元）
-HIDDEN_SIZE = 24  # LSTMの隠れ層
-OUTPUT_DIMENSION = SAMPLE_SIZE  # LSTMの出力次元数（SAMPLE_SIZE個の色データ）
+KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
 
 now = datetime.datetime.today()
-time = now.strftime("%Y%m%d") + "_" + now.strftime("%H%M%S")
-SAVEFILE_RAW = time + "_raw.csv"
-SAVEFILE_GENERATED = time + "_generated.csv"
+time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
+SAVEFILE_RAW = './data/' + time + '_raw.csv'
+SAVEFILE_GENERATED = './data/' + time + '_generated.csv'
 
-TRAIN_DATA = '20201201_153431_raw.csv'
-LOSS_DATA = time + '_loss.csv'
-
-
-class GAN(nn.Module):
-    """
-    LSTMモデル
-    """
-
-    def __init__(self, device='cpu'):
-        """
-        Args:
-            input_size (int): 入力次元数
-            hidden_size (int): 隠れ層サイズ
-            output_size (int): 出力サイズ
-        """
-
-        super().__init__()
-        self.device = device
-        self.G = Generator(device=device)
-        self.D = Discriminator(device=device)
-
-    # def forward(self, x):
-    #     """
-    #     Args:
-    #         input (:obj:`Tensor`): 学習データ
-
-    #     Returns:
-    #         :obj:`Numpy`: 予測結果の色データ
-    #     """
-
-    #     x = self.G(x)
-    #     y = self.D(x)
-
-    #     return y
-
-
-class Discriminator(nn.Module):
-    """
-    LSTMモデル
-    """
-
-    def __init__(self, device='cpu'):
-        """
-        Args:
-            input (:obj:`Tensor`): 学習データ
-
-        Returns:
-            :obj:`Numpy`: 予測結果の色データ
-        """
-
-        super().__init__()
-        self.device = device
-
-        self.conv1 = nn.Conv1d(
-            in_channels=1, out_channels=MAP_SIZE, kernel_size=KERNEL_SIZE)
-        self.bn1 = nn.BatchNorm1d(8)
-        self.relu = nn.ReLU()
-        self.maxpool = nn.MaxPool1d(kernel_size=3)
-
-        self.conv2 = nn.Conv1d(
-            in_channels=8, out_channels=16, kernel_size=KERNEL_SIZE)
-        self.bn2 = nn.BatchNorm1d(16)
-
-        self.conv3 = nn.Conv1d(
-            in_channels=16, out_channels=64, kernel_size=KERNEL_SIZE)
-        self.gap = nn.AdaptiveAvgPool1d(1)
-        self.fc = nn.Linear(in_features=64, out_features=1)
-
-    def forward(self, input):
-        """
-        Args:
-            input (:obj:`Tensor`): 学習データ
-
-        Returns:
-            :obj:`Tensor`: 識別結果
-        """
-
-        conv1_out = self.conv1(input)
-        bn1_out = self.bn1(conv1_out)
-        relu_out = self.relu(bn1_out)
-
-        conv2_out = self.conv2(relu_out)
-        bn2_out = self.bn2(conv2_out)
-        relu_out = self.relu(bn2_out)
-
-        conv3_out = self.conv3(relu_out)
-        gap_out = self.gap(conv3_out)
-        out = self.fc(gap_out.view(gap_out.size(0), -1))
-
-        return out
-
-
-class Generator(nn.Module):
-    """
-    LSTMモデル
-    """
-
-    def __init__(self, device='cpu'):
-        """
-        Args:
-            input_size (int): 入力次元数
-            hidden_size (int): 隠れ層サイズ
-            output_size (int): 出力サイズ
-        """
-
-        super().__init__()
-        self.device = device
-
-        self.conv1 = nn.Conv1d(
-            in_channels=1, out_channels=MAP_SIZE, kernel_size=KERNEL_SIZE)
-        self.bn1 = nn.BatchNorm1d(8)
-        self.relu = nn.ReLU()
-        self.maxpool = nn.MaxPool1d(kernel_size=3)
-
-        self.conv2 = nn.Conv1d(
-            in_channels=8, out_channels=16, kernel_size=KERNEL_SIZE)
-        self.bn2 = nn.BatchNorm1d(16)
-
-        self.conv3 = nn.Conv1d(
-            in_channels=16, out_channels=64, kernel_size=KERNEL_SIZE)
-        self.gap = nn.AdaptiveAvgPool1d(1)
-        self.fc = nn.Linear(in_features=64, out_features=1)
-
-    def forward(self, input):
-        """
-        Args:
-            input_size (int): 入力次元数
-            hidden_size (int): 隠れ層サイズ
-            output_size (int): 出力サイズ
-        """
-
-        conv1_out = self.conv1(input)
-        bn1_out = self.bn1(conv1_out)
-        relu_out = self.relu(bn1_out)
-
-        conv2_out = self.conv2(relu_out)
-        bn2_out = self.bn2(conv2_out)
-        relu_out = self.relu(bn2_out)
-
-        conv3_out = self.conv3(relu_out)
-        gap_out = self.gap(conv3_out)
-        linear_out = self.fc(gap_out.view(gap_out.size(0), -1))
-
-        out = torch.sigmoid(linear_out)
-
-        # 色データの生成
-        color_data = self.convert_to_color_data(out)
-
-        # 予測結果の色データを出力
-        return color_data
-
-    def convert_to_color_data(self, out):
-        """色データへの変換
-
-        予測結果から色データを生成する．
-
-        Args:
-            out (:obj:`Tensor`): 予測結果
-
-        Returns:
-            :obj:`Numpy`: 予測結果の色データ
-        """
-
-        # 色の最大値は16進数FFFFFF（色コード）
-        COLOR_MAX = 16777215
-
-        # 出力の最大値を色の最大値に合わせる
-        converted_data = out * COLOR_MAX
-        # 四捨五入するがfloatなので，データ送信時にはさらにintに変換する
-        converted_data = torch.round(converted_data)
-
-        return converted_data
-
-
-def get_pulse():
-    """脈波の取得
-
-    脈波センサからデータを取得し，データ保存用キューを更新．
-    """
-
-    #*** 学習生脈波用変数 ***#
-    global train_raw_pulse
-    #*** データ送信用変数 ***#
-    global send_to_display_data
-    #*** ディスプレイ点灯時間用変数 ***#
-    global display_lighting_time
-    #*** 学習擬似脈波用変数 ***#
-    global generated_pulse
-
-    #*** 処理終了通知用変数 ***#
-    global finish
-
-    # 脈波の取得開始時刻の初期化
-    generated_pulse_get_start_time = None
-
-    # with open(SAVEFILE_RAW, 'a', newline='') as raw_file:
-    # raw_writer = csv.writer(raw_file, delimiter=',')
-    # raw_writer.writerow(["time", "pulse"])
-    with open(SAVEFILE_GENERATED, 'a', newline='') as generated_file:
-        generated_writer = csv.writer(generated_file, delimiter=',')
-        generated_writer.writerow(["time", "pulse"])
-
-        # 終了フラグが立つまで脈波を取得し続ける
-        while not finish:
-            try:
-                # 脈波値の受信
-                read_data = ser.readline().rstrip().decode(encoding='UTF-8')
-                # data[0]: micros, data[1]: raw_pulse, data[2]: generated_pulse
-                data = read_data.split(",")
-                # print(data)
-
-                # 正常値が受信できていることを確認
-                if len(data) == 2 and data[0].isdecimal() and data[1].isdecimal():
-                    timestamp = float(data[0])/1000
-
-                    #--- データの保存 ---#
-                    # raw_writer.writerow([timestamp, int(data[1])])
-                    generated_writer.writerow([timestamp, int(data[1])])
-
-                    # センサ値取得時間用キューの更新（単位はミリ秒で保存）
-                    # pulse_get_timestamps.append(timestamp)
-                    # 生脈波用キューの更新
-                    # raw_pulse_values.append(int(data[1]))
-
-                    #--- データセットの作成 ---#
-                    # サンプルがSAMPLE_SIZE個貯まるまで待機
-                    if train_raw_pulse is None:
-                        pulse_get_timestamps, raw_pulse_values = make_train_pulse()
-
-                        # 全サンプルでの点灯時間の取得（最終サンプルのタイムスタンプ - 開始サンプルのタイムスタンプ）
-                        display_lighting_time = pulse_get_timestamps[-1] - \
-                            pulse_get_timestamps[0]
-                        # 学習に使用するデータの取得
-                        train_raw_pulse = raw_pulse_values
-                        # print('生脈波取得完了')
-
-                    # ディスプレイ点灯開始時に時刻を保存
-                    if (send_to_display_data is not None) and (generated_pulse_get_start_time is None):
-                        # 脈波の取得開始時刻（データ取得中状態）
-                        generated_pulse_get_start_time = timestamp
-                        # 取得開始時刻の書き込み
-                        generated_writer.writerow([timestamp, 'start'])
-
-                    # データ取得中かつ，擬似脈波受付可能状態の場合
-                    if (generated_pulse_get_start_time is not None) and (generated_pulse is None):
-
-                        # 点灯時間（学習データと同じ時間）だけ取得
-                        # 現在時刻が(取得開始時刻 + 点灯時間)より大きいかつ，サンプル数が学習データと同じだけ集まったら取得終了
-                        if (timestamp > (generated_pulse_get_start_time + display_lighting_time)) and (len(generated_pulse_values) == SAMPLE_SIZE):
-                            # ディスプレイ点灯時間の初期化
-                            display_lighting_time = None
-                            # 脈波の取得開始時刻の初期化
-                            generated_pulse_get_start_time = None
-                            # 学習用に擬似脈波をコピー
-                            generated_pulse = generated_pulse_values
-
-                            # 取得完了時刻の書き込み
-                            generated_writer.writerow([timestamp, 'finish'])
-                            # print('擬似脈波取得完了')
-
-                        # 取得時間内
-                        else:
-                            # 擬似脈波用キューの更新
-                            generated_pulse_values.append(int(data[1]))
-
-            except KeyboardInterrupt:
-                break
+TRAIN_DATAS = ['20210207_121945_raw', '20210207_122512_raw',
+               '20210207_123029_raw', '20210207_123615_raw',
+               '20210207_154330_raw']
+LOSS_DATA = './data/' + time + '_loss.csv'
 
 
 def make_train_pulse():
@@ -328,199 +47,238 @@ def make_train_pulse():
     #*** 学習ファイルデータ用変数 ***#
     global train_data
 
-    index = random.randint(1, len(train_data)-SAMPLE_SIZE)
+    data = random.randrange(0, len(train_data)-1)
+    index = random.randrange(0, len(train_data[data])-SAMPLE_SIZE)
 
-    timestamps = train_data[index:index+SAMPLE_SIZE, 0]
-    pulse_data = train_data[index:index+SAMPLE_SIZE, 1]
+    pulse_data = train_data[data][index:index+SAMPLE_SIZE]
 
-    return timestamps, pulse_data
+    return pulse_data
 
 
-def draw_display():
-    """ディスプレイの描画
-
-    色データを送信し，ディスプレイに描画．
-
-    Args:
-        color (int): 色データ
-
-    Returns:
-        pulse_value (int): 脈波値
+def get_pulse():
+    """脈波の取得
+    脈波センサからデータを取得し，データ保存用キューを更新．
     """
 
-    #*** 学習生脈波用変数 ***#
-    global train_raw_pulse
-    #*** データ送信用変数 ***#
-    global send_to_display_data
-    #*** ディスプレイ点灯時間用変数 ***#
-    global display_lighting_time
+    #*** エポック数 ***#
+    global epoch
 
-    train_raw_pulse = None
+    #*** 生脈波取得フラグ ***#
+    global raw_get_flag
+    #*** 生脈波用変数 ***#
+    global numpy_raw_pulse
 
-    while display_lighting_time is None:
-        # 1μsの遅延**これを入れないと回りすぎてセンサデータ取得の動作が遅くなる**
-        sleep(0.000001)
-        continue
+    #*** 生成脈波取得開始フラグ ***#
+    global generated_get_flag
+    #*** 生成脈波用変数 ***#
+    global numpy_generated_pulse
 
-    # 1サンプルあたりの点灯時間の取得（全サンプルでの点灯時間 ÷ サンプル長）
-    color_lighting_time = str(
-        display_lighting_time / len(send_to_display_data))
+    #*** 処理終了フラグ ***#
+    global exit_flag
 
-    # 1サンプルずつ送信
-    for color_data in send_to_display_data:
+    # 生脈波用キュー
+    raw_pulse = deque(maxlen=SAMPLE_SIZE)
+    # 擬似脈波用キュー
+    generated_pulse = deque(maxlen=SAMPLE_SIZE)
+
+    with open(SAVEFILE_RAW, 'a', newline='') as raw_file:
+        raw_writer = csv.writer(raw_file, delimiter=',')
+        raw_writer.writerow(['Epoch', 'pulse'])
+        with open(SAVEFILE_GENERATED, 'a', newline='') as generated_file:
+            generated_writer = csv.writer(generated_file, delimiter=',')
+            generated_writer.writerow(['Epoch', 'time', 'pulse'])
+
+            # 終了フラグが立つまで脈波を取得し続ける
+            while not exit_flag:
+                try:
+                    # 脈波値の受信
+                    read_data = ser.readline().rstrip().decode(encoding='UTF-8')
+                    # data[0]: micros, data[1]: raw_pulse, data[2]: generated_pulse
+                    data = read_data.split(',')
+
+                    # 正常値が受信できていることを確認
+                    if len(data) == 2 and data[0].isdecimal() and data[1].isdecimal():
+                        # 異常値の除外（次の値と繋がって，異常な桁数の場合あり）
+                        if 'timestamp' in locals() and len(str(int(float(data[0]) / 1000000))) > len(str(int(timestamp))) + 2:
+                            continue
+
+                        timestamp = float(data[0]) / 1000000
+
+                        # 生脈波の取得
+                        raw_pulse = make_train_pulse()
+
+                        # 学習データの取得
+                        if raw_get_flag:
+                            if len(raw_pulse) < SAMPLE_SIZE:
+                                continue
+                            else:
+                                #--- データの保存 ---#
+                                for val in raw_pulse:
+                                    raw_writer.writerow([epoch+1, int(val)])
+                                numpy_raw_pulse = raw_pulse
+                                # numpy_raw_pulse = np.array(raw_pulse)
+                                raw_get_flag = False
+
+                        # 生成脈波の取得開始
+                        if generated_get_flag:
+                            # 取得開始時刻
+                            if len(generated_pulse) == 0:
+                                generated_get_start = timestamp
+
+                            if len(generated_pulse) < SAMPLE_SIZE:
+                                # 擬似脈波の追加
+                                generated_pulse.append(int(data[1]))
+                                #--- データの保存 ---#
+                                generated_writer.writerow(
+                                    [epoch+1, timestamp, int(data[1])])
+                            else:
+                                # 取得終了時刻
+                                generated_get_finish = timestamp
+                                print('生成脈波取得時間: {:.2f}秒'.format(
+                                    generated_get_finish - generated_get_start))
+
+                                numpy_generated_pulse = np.array(
+                                    generated_pulse)
+                                generated_pulse.clear()
+                                generated_get_flag = False
+
+                except KeyboardInterrupt:
+                    break
+
+
+def get_generated_pulse(colors):
+    """擬似脈波の取得
+
+    Args:
+        colors (:obj:`Tensor`): 色データ
+    Returns:
+        :obj:`Numpy`: 生成脈波
+    """
+
+    #*** 生成脈波取得開始フラグ ***#
+    global generated_get_flag
+    #*** 生成脈波用変数 ***#
+    global numpy_generated_pulse
+
+    # ディスプレイ送信用データの作成（Tensorから1次元の整数，文字列のリストへ）
+    display_data = np.array(
+        colors.detach().cpu().numpy().reshape(-1), dtype=int).tolist()
+    display_data = [str(data) for data in display_data]
+
+    # ---------------------
+    #  生成脈波の取得
+    # ---------------------
+    generated_get_flag = True
+
+    # 描画開始時刻
+    draw_start = datetime.datetime.now()
+
+    # 描画（1サンプルずつ送信）
+    for data in display_data:
         # 終端文字の追加
-        color_data += '\0'
-
-        # 送信のためにデータを整形（点灯時間,色データ\0）
-        data = color_lighting_time + ',' + color_data
+        data += '\0'
 
         # 色データの送信
         socket_client.send(data.encode('UTF-8'))
 
-        # 描画通知の待機
+        # 描画完了通知の待機
         socket_client.recv(1)
-        # print(socket_client.recv(1))
 
-    # 送信データの初期化（完了通知）
-    send_to_display_data = None
+    # 描画終了時刻
+    draw_finish = datetime.datetime.now()
+
+    # 生成脈波の取得が完了するまで待機
+    while generated_get_flag is not False:
+        sleep(0.000001)
+
+    print('描画時間: {:.2f}秒'.format((draw_finish - draw_start).total_seconds()))
+
+    return numpy_generated_pulse
 
 
 def main():
-    """
-    メイン処理
-    """
+    #*** エポック数 ***#
+    global epoch
 
-    #*** ディスプレイ点灯時間用変数 ***#
-    global display_lighting_time
-    #*** 学習擬似脈波用変数 ***#
-    global generated_pulse
+    #*** 生脈波取得フラグ ***#
+    global raw_get_flag
+    #*** 生脈波用変数 ***#
+    global numpy_raw_pulse
 
-    #*** 処理終了通知用変数 ***#
-    global finish
-
-    def get_pesudo_pulse(colors):
-        """擬似脈波の取得
-
-        Args:
-            colors (int): 色データ
-        """
-
-        #*** データ送信用変数 ***#
-        global send_to_display_data
-        #*** 学習擬似脈波用変数 ***#
-        global generated_pulse
-
-        # 学習擬似脈波の初期化
-        generated_pulse = None
-
-        # ディスプレイ送信用データの作成（Tensorから1次元の整数，文字列のNumpyへ）
-        send_to_display_data = np.array(
-            colors.detach().cpu().numpy().reshape(-1), dtype=int).astype('str')
-
-        # 描画開始
-        # print('描画開始')
-        draw_display()
-        # print('描画終了')
-
-        # 擬似脈波の取得が完了するまで待機
-        while generated_pulse is None:
-            # 1μsの遅延**これを入れないと回りすぎてセンサデータ取得の動作が遅くなる**
-            sleep(0.000001)
-            continue
+    #*** 処理終了フラグ ***#
+    global exit_flag
 
     '''モデルの構築'''
-    model = GAN(device=device).to(device)
-
-    '''モデルの訓練'''
-    criterion = SoftDTW(gamma=1.0, normalize=True)
-    # criterion = nn.BCELoss()
+    model = Pix2Pix(kernel_size=KERNEL_SIZE, device=device)
+    # criterion = SoftDTW(gamma=1.0, normalize=True)
+    criterion = nn.BCEWithLogitsLoss()
     optimizer_D = optimizers.Adam(model.D.parameters(), lr=0.0002)
     optimizer_G = optimizers.Adam(model.G.parameters(), lr=0.0002)
+    model.D.train()
+    model.G.train()
 
-    def compute_loss(preds, label):
-        """損失の計算
+    '''学習サイクル'''
+    for epoch in range(EPOCH_NUM):
+        print('\n----- Epoch: ' + str(epoch+1) + ' -----')
 
-        Args:
-            preds (:obj:`Tensor`): 予測結果
-            label (:obj:`Tensor`): 正解ラベル
-
-        Returns:
-            :obj:`Tensor`: 損失
-        """
-
-        return criterion(preds, label)
-
-    def train_step(raw_pulse):
-        #*** 学習擬似脈波用変数 ***#
-        global generated_pulse
-
-        model.D.train()
-        model.G.train()
-
-        # ---------------------
-        #  識別器の学習
-        # ---------------------
-        #-- 本物データ --#
-        # 生波形に対する識別
-        preds = model.D(raw_pulse).squeeze()
-        label = torch.ones(len(raw_pulse)).float().to(device)
-        loss_D_real = compute_loss(preds.view(-1, 1), label.view(-1, 1))
-
-        #-- 偽物（擬似）データ --#
-        # 生波形から色データを生成
-        # 同じ生波形を使って良いのか？
-        colors = model.G(raw_pulse)
-        get_pesudo_pulse(colors)
-        # 擬似脈波に対する識別
-        preds = model.D(torch.tensor(
-            generated_pulse, dtype=torch.float, device=device).view(-1, 1, 1)).squeeze()
-        label = torch.zeros(1).float().to(device)
-        loss_D_fake = compute_loss(preds.view(-1, 1), label.view(-1, 1))
-
-        #-- 学習 --#
-        loss_D = loss_D_real + loss_D_fake
-        optimizer_D.zero_grad()
-        loss_D.backward()
-        optimizer_D.step()
+        # 学習データの取得
+        numpy_raw_pulse = None
+        raw_get_flag = True
+        while numpy_raw_pulse is None:
+            sleep(0.000001)
 
         # ---------------------
         #  生成器の学習
         # ---------------------
-        # 生波形から色データを生成
-        # 同じ生波形を使って良いのか？
-        colors = model.G(raw_pulse)
-        get_pesudo_pulse(colors)
-        # 擬似脈波に対する識別
-        preds = model.D(torch.tensor(
-            generated_pulse, dtype=torch.float, device=device).view(-1, 1, 1)).squeeze()
-        label = torch.ones(1).float().to(device)  # 偽物画像のラベルを「本物画像(1)」とする
-        loss_G = compute_loss(preds.view(-1, 1), label.view(-1, 1))
+        tensor_raw = torch.tensor(
+            numpy_raw_pulse, dtype=torch.float, device=device).view(1, 1, -1)
 
-        #-- 学習 --#
+        # 生波形から同一の脈波データを生成
+        colors = model.G(tensor_raw)
+        numpy_generated_pulse = get_generated_pulse(colors)
+
+        tensor_generated = torch.tensor(
+            numpy_generated_pulse, dtype=torch.float, device=device).view(1, 1, -1)
+
+        # 識別器の学習で使用するためコピー
+        tensor_generated_copy = tensor_generated.detach()
+
+        # 擬似脈波に対する識別
+        preds = model.D(tensor_generated)
+        # 偽物画像のラベルを「本物画像(1)」とする
+        label = torch.ones(1, 1, SAMPLE_SIZE).float().to(device)
+        loss_G = criterion(preds, label)
+
+        optimizer_D.zero_grad()
         optimizer_G.zero_grad()
         loss_G.backward()
         optimizer_G.step()
 
-        return loss_D, loss_G
+        # ---------------------
+        #  識別器の学習
+        # ---------------------
+        # 生波形に対する識別
+        preds = model.D(tensor_raw)
+        label = torch.ones(1, 1, SAMPLE_SIZE).float().to(device)
+        loss_D_real = criterion(preds, label)
 
-    '''学習サイクル'''
-    for epoch in range(EPOCH_NUM):
-        # 生脈波の取得が完了するまで待機
-        while train_raw_pulse is None:
-            # 1μsの遅延**これを入れないと回りすぎてセンサデータ取得の動作が遅くなる**
-            sleep(0.000001)
-            continue
+        # 生成脈波に対する識別
+        preds = model.D(tensor_generated_copy)
+        label = torch.zeros(1, 1, SAMPLE_SIZE).float().to(device)
+        loss_D_fake = criterion(preds, label)
 
-        # LSTM入力形式に変換
-        tensor_raw = torch.tensor(
-            train_raw_pulse, dtype=torch.float, device=device).view(-1, 1, 1)
-        # 学習
-        loss_D, loss_G = train_step(tensor_raw)
+        loss_D = loss_D_real + loss_D_fake
+        optimizer_D.zero_grad()
+        optimizer_G.zero_grad()
+        loss_D.backward()
+        optimizer_D.step()
 
-        # データの保存
+        # ---------------------
+        #  データの保存
+        # ---------------------
         write_data = [epoch+1, loss_D.item(), loss_G.item()]
-        print('Epoch: {}, D Loss: {:.3f}, G Loss: {:.3f}'.format(
-            write_data[0], write_data[1], write_data[2]))
+        print('D Loss: {:.3f}, G Loss: {:.3f}'.format(
+            write_data[1], write_data[2]))
 
         # 毎度クローズしないと，処理中断時に保存されない
         with open(LOSS_DATA, 'a', newline='') as loss_file:
@@ -532,42 +290,45 @@ def main():
             loss_writer.writerow(write_data)
 
     # 処理終了
-    finish = True
+    exit_flag = True
 
 
 if __name__ == '__main__':
-    print("\n初期化中...")
+    print('\n初期化中...')
 
     #*** グローバル：学習ファイルデータ用変数 ***#
     train_data = []
-    with open(TRAIN_DATA) as f:
-        reader = csv.reader(f)
+    for data in TRAIN_DATAS:
+        with open('./data/train/' + data + '.csv') as f:
+            reader = csv.reader(f)
 
-        # ヘッダーのスキップ
-        next(reader)
+            # ヘッダーのスキップ
+            next(reader)
 
-        for row in reader:
-            # データの追加
-            train_data.append([float(row[0]), float(row[1])])
-    train_data = np.array(train_data)
+            read_data = []
+            for row in reader:
+                # データの追加
+                read_data.append(float(row[1]))
+        train_data.append(read_data)
 
-    # 擬似脈波用キュー
-    generated_pulse_values = deque(maxlen=SAMPLE_SIZE)
+    #*** グローバル：エポック数 ***#
+    epoch = 0
 
-    #*** グローバル：処理終了通知用変数（センサデータ取得終了の制御） ***#
-    finish = False
+    #*** グローバル：生脈波取得フラグ ***#
+    raw_get_flag = False
+    #*** グローバル：生脈波用変数 ***#
+    numpy_raw_pulse = None
 
-    #*** グローバル：学習生脈波用変数 ***#
-    train_raw_pulse = None
-    #*** グローバル：学習擬似脈波用変数 ***#
-    generated_pulse = None
-    #*** グローバル：データ送信用変数（画面点灯の制御） ***#
-    send_to_display_data = None
-    #*** グローバル：ディスプレイ点灯時間用変数（画面点灯時間，擬似脈波取得時間の制御） ***#
-    display_lighting_time = None
+    #*** グローバル：生成脈波取得開始フラグ ***#
+    generated_get_flag = False
+    #*** グローバル：生成脈波用変数 ***#
+    numpy_generated_pulse = None
+
+    #*** グローバル：処理終了フラグ（センサデータ取得終了の制御） ***#
+    exit_flag = False
 
     # PyTorchの初期化
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     torch.manual_seed(1)
 
     # シリアル通信（Arduino）の初期化
@@ -589,3 +350,12 @@ if __name__ == '__main__':
 
     # シリアル通信の終了
     ser.close()
+
+    # ファイルの圧縮
+    pulse_module.archive_csv(
+        time + '_generated', step=1000, delete_source=True)
+    pulse_module.archive_csv(time + '_raw', step=1000, delete_source=True)
+    # 取得結果の描画
+    pulse_module.plot_csv(time, max_epoch=EPOCH_NUM, step=1000)
+
+    print('\n\n********** 終了しました **********\n\n')
