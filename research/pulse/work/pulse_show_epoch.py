@@ -1,17 +1,18 @@
 import matplotlib.pyplot as plt
 import csv
+from natsort import natsorted
 import glob
 import os
 os.chdir(os.path.dirname(__file__))
 
 
-TIME = '20210208_004429'
-SHOW_EPOCH = 3000
+TIME = '20210209_010240'
+SHOW_EPOCH = 2500
 
 
 t = []
 y_generated = []
-files = glob.glob('./data/' + TIME + '_generated_*.csv')
+files = natsorted(glob.glob('./data/' + TIME + '_generated_*.csv'))
 for data in files:
     with open(data) as f:
         reader = csv.reader(f)
@@ -30,7 +31,7 @@ for data in files:
             break
 
 y_raw = []
-files = glob.glob('./data/' + TIME + '_raw_*.csv')
+files = natsorted(glob.glob('./data/' + TIME + '_raw_*.csv'))
 for data in files:
     with open(data) as f:
         reader = csv.reader(f)
@@ -57,7 +58,7 @@ plt.ylabel('Pulse sensor value', fontsize=18)
 plt.title('Epoch: ' + str(SHOW_EPOCH))
 plt.tick_params(labelsize=18)
 plt.legend(fontsize=18, loc='upper right')
-# plt.savefig('../figure/4098_generated_3000epoch.png',
-#             bbox_inches='tight', pad_inches=0)
+plt.savefig('../figure/10000_generated_' + str(SHOW_EPOCH) + 'epoch.png',
+            bbox_inches='tight', pad_inches=0)
 
 plt.show()

@@ -22,9 +22,11 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 4096  # サンプルサイズ
-EPOCH_NUM = 5000  # 学習サイクル数
+SAMPLE_SIZE = 10000  # サンプルサイズ
+EPOCH_NUM = 3000  # 学習サイクル数
 KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
+
+FILE_EPOCH_NUM = 500  # 1ファイルに保存するエポック数
 
 now = datetime.datetime.today()
 time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
@@ -351,11 +353,18 @@ if __name__ == '__main__':
     # シリアル通信の終了
     ser.close()
 
+    print('\n\n----- 学習終了 -----\n\n')
+    print('ファイル圧縮中．．．\n\n')
+
     # ファイルの圧縮
     pulse_module.archive_csv(
-        time + '_generated', step=1000, delete_source=True)
-    pulse_module.archive_csv(time + '_raw', step=1000, delete_source=True)
+        time + '_generated', step=FILE_EPOCH_NUM, delete_source=True)
+    pulse_module.archive_csv(
+        time + '_raw', step=FILE_EPOCH_NUM, delete_source=True)
+
+    print('結果を描画します．．．')
+
     # 取得結果の描画
-    pulse_module.plot_csv(time, max_epoch=EPOCH_NUM, step=1000)
+    pulse_module.plot_csv(time, max_epoch=EPOCH_NUM, step=FILE_EPOCH_NUM)
 
     print('\n\n********** 終了しました **********\n\n')

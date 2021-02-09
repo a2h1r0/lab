@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import csv
+from natsort import natsorted
 import glob
 import os
 os.chdir(os.path.dirname(__file__))
@@ -49,14 +50,14 @@ def plot_csv(time, max_epoch, step, savefig=True):
     Args:
         time (string): 描画するファイルの日時
         max_epoch (int): 描画する最大エポック数
-        step (int): 何エポックごとに描画するか
+        step (int): 何エポックごとに描画するか（< 1ファイルのエポック数）
         savefig (boolean): 図表の保存
     """
 
     # データの読み出し
     t = [[] for i in range(0, max_epoch, step)]
     y_generated = [[] for i in range(0, max_epoch, step)]
-    files = glob.glob('./data/' + time + '_generated_*.csv')
+    files = natsorted(glob.glob('./data/' + time + '_generated_*.csv'))
     for index, data in enumerate(files):
         with open(data) as f:
             reader = csv.reader(f)
@@ -73,7 +74,7 @@ def plot_csv(time, max_epoch, step, savefig=True):
                     y_generated[index].append(int(row[2]))
 
     y_raw = [[] for i in range(0, max_epoch, step)]
-    files = glob.glob('./data/' + time + '_raw_*.csv')
+    files = natsorted(glob.glob('./data/' + time + '_raw_*.csv'))
     for index, data in enumerate(files):
         with open(data) as f:
             reader = csv.reader(f)
@@ -108,7 +109,7 @@ def plot_csv(time, max_epoch, step, savefig=True):
 
 
 if __name__ == '__main__':
-    archive_csv('20210208_004429_generated', step=1000, delete_source=True)
-    archive_csv('20210208_004429_raw', step=1000, delete_source=True)
+    archive_csv('20210209_010240_generated', step=300, delete_source=True)
+    archive_csv('20210209_010240_raw', step=300, delete_source=True)
 
-    plot_csv('20210208_004429', max_epoch=5000, step=1000, savefig=False)
+    # plot_csv('20210209_010240', max_epoch=3000, step=500, savefig=False)
