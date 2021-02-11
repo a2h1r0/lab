@@ -12,7 +12,7 @@ SHOW_EPOCH = 2500
 
 t = []
 y_generated = []
-files = natsorted(glob.glob('./data/' + TIME + '_generated_*.csv'))
+files = natsorted(glob.glob('./data/' + TIME + '/generated_*.csv'))
 for data in files:
     with open(data) as f:
         reader = csv.reader(f)
@@ -31,7 +31,7 @@ for data in files:
             break
 
 y_raw = []
-files = natsorted(glob.glob('./data/' + TIME + '_raw_*.csv'))
+files = natsorted(glob.glob('./data/' + TIME + '/raw_*.csv'))
 for data in files:
     with open(data) as f:
         reader = csv.reader(f)

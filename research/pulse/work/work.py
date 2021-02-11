@@ -22,21 +22,22 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 10000  # サンプルサイズ
-EPOCH_NUM = 3000  # 学習サイクル数
+SAMPLE_SIZE = 256  # サンプルサイズ
+EPOCH_NUM = 50  # 学習サイクル数
 KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
 
-FILE_EPOCH_NUM = 500  # 1ファイルに保存するエポック数
+FILE_EPOCH_NUM = 10  # 1ファイルに保存するエポック数
 
 now = datetime.datetime.today()
 time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
-SAVEFILE_RAW = './data/' + time + '_raw.csv'
-SAVEFILE_GENERATED = './data/' + time + '_generated.csv'
+SAVE_DIR = './data/' + time
+SAVEFILE_RAW = SAVE_DIR + '/raw.csv'
+SAVEFILE_GENERATED = SAVE_DIR + '/generated.csv'
 
 TRAIN_DATAS = ['20210207_121945_raw', '20210207_122512_raw',
                '20210207_123029_raw', '20210207_123615_raw',
                '20210207_154330_raw']
-LOSS_DATA = './data/' + time + '_loss.csv'
+LOSS_DATA = SAVE_DIR + '/loss.csv'
 
 
 def make_train_pulse():
@@ -298,6 +299,9 @@ def main():
 if __name__ == '__main__':
     print('\n初期化中...')
 
+    # ファイル保存ディレクトリの作成
+    os.mkdir(SAVE_DIR)
+
     #*** グローバル：学習ファイルデータ用変数 ***#
     train_data = []
     for data in TRAIN_DATAS:
@@ -358,13 +362,15 @@ if __name__ == '__main__':
 
     # ファイルの圧縮
     pulse_module.archive_csv(
-        time + '_generated', step=FILE_EPOCH_NUM, delete_source=True)
+        SAVE_DIR + '/generated.csv', step=FILE_EPOCH_NUM, delete_source=True)
     pulse_module.archive_csv(
-        time + '_raw', step=FILE_EPOCH_NUM, delete_source=True)
+        SAVE_DIR + '/raw.csv', step=FILE_EPOCH_NUM, delete_source=True)
 
     print('結果を描画します．．．')
 
     # 取得結果の描画
-    pulse_module.plot_csv(time, max_epoch=EPOCH_NUM, step=FILE_EPOCH_NUM)
+    pulse_module.plot_pulse_csv(
+        SAVE_DIR, max_epoch=EPOCH_NUM, step=FILE_EPOCH_NUM)
+    pulse_module.plot_loss_csv(SAVE_DIR)
 
     print('\n\n********** 終了しました **********\n\n')
