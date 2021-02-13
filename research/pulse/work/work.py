@@ -23,12 +23,12 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 5000  # サンプルサイズ
-EPOCH_NUM = 3000  # 学習サイクル数
+SAMPLE_SIZE = 1000  # サンプルサイズ
+EPOCH_NUM = 5000  # 学習サイクル数
 KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
 LAMBDA = 100.0  # 損失の比率パラメータ
 
-FILE_EPOCH_NUM = 500  # 1ファイルに保存するエポック数
+FILE_EPOCH_NUM = 5000  # 1ファイルに保存するエポック数
 
 now = datetime.datetime.today()
 time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
@@ -46,107 +46,77 @@ def get_pulse():
     #*** エポック数 ***#
     global epoch
 
-    #*** 生成脈波取得開始フラグ ***#
-    global generated_get_flag
-    #*** 生成脈波用変数 ***#
-    global numpy_generated_pulse
+    #*** 学習色データ ***#
+    global train_colors
+    #*** 学習脈波データ ***#
+    global train_pulse
 
     #*** 処理終了フラグ ***#
     global exit_flag
 
+    # 色データ用キュー
+    colors = deque(maxlen=SAMPLE_SIZE)
     # 擬似脈波用キュー
-    generated_pulse = deque(maxlen=SAMPLE_SIZE)
+    pulse = deque(maxlen=SAMPLE_SIZE)
 
-    # 終了フラグが立つまで脈波を取得し続ける
+    def make_display_data(radian):
+        """ランダム色データの生成
+
+        Args:
+            radian (int): ラジアン周期
+        Returns:
+            int: 色データ
+        """
+
+        return int((math.sin(random.randint(0, 10) * math.radians(radian)) + 1) / 2 * 255)
+
+    # 初期化
+    timestamp = 0
+    radian = 0
+
     while not exit_flag:
         try:
+            # 色データの描画
+            color = make_display_data(radian)
+            socket_client.send((str(color) + '\0').encode('UTF-8'))
+            socket_client.recv(1)
+            colors.append(float(color))
+
             # 脈波値の受信
             read_data = ser.readline().rstrip().decode(encoding='UTF-8')
-            # data[0]: micros, data[1]: raw_pulse, data[2]: generated_pulse
+            # data[0]: micros, data[1]: raw_pulse, data[2]: pulse
             data = read_data.split(',')
 
             # 正常値が受信できていることを確認
             if len(data) == 2 and data[0].isdecimal() and data[1].isdecimal():
                 # 異常値の除外（次の値と繋がって，異常な桁数の場合あり）
-                if 'timestamp' in locals() and len(str(int(float(data[0]) / 1000000))) > len(str(int(timestamp))) + 2:
+                if timestamp != 0 and len(str(int(float(data[0]) / 1000000))) > len(str(int(timestamp))) + 2:
                     continue
+                else:
+                    pulse.append(int(data[1]))
 
-                timestamp = float(data[0]) / 1000000
+                    # 取得可能データの作成
+                    train_colors = np.array(colors)
+                    train_pulse = np.array(pulse)
 
-                # 生成脈波の取得開始
-                if generated_get_flag:
-                    # 取得開始時刻
-                    if len(generated_pulse) == 0:
-                        generated_get_start = timestamp
-
-                    if len(generated_pulse) < SAMPLE_SIZE:
-                        # 擬似脈波の追加
-                        generated_pulse.append(int(data[1]))
-                    else:
-                        # 取得終了時刻
-                        generated_get_finish = timestamp
-                        print('生成脈波取得時間: {:.2f}秒'.format(
-                            generated_get_finish - generated_get_start))
-
-                        numpy_generated_pulse = np.array(generated_pulse)
-                        generated_pulse.clear()
-                        generated_get_flag = False
+            # sinの更新
+            if radian == 359:
+                radian = 0
+            else:
+                radian += 1
 
         except KeyboardInterrupt:
             break
 
 
-def get_generated_pulse(colors):
-    """擬似脈波の取得
-
-    Args:
-        colors (:obj:`Tensor`): 色データ
-    Returns:
-        :obj:`Numpy`: 生成脈波
-    """
-
-    #*** 生成脈波取得開始フラグ ***#
-    global generated_get_flag
-    #*** 生成脈波用変数 ***#
-    global numpy_generated_pulse
-
-    # ディスプレイ送信用データの作成（Tensorから1次元の整数，文字列のリストへ）
-    display_data = colors.detach().cpu().numpy().reshape(-1).astype(int).astype(str)
-
-    # ---------------------
-    #  生成脈波の取得
-    # ---------------------
-    generated_get_flag = True
-
-    # 描画開始時刻
-    draw_start = datetime.datetime.now()
-
-    # 描画（1サンプルずつ送信）
-    for data in display_data:
-        # 終端文字の追加
-        data += '\0'
-
-        # 色データの送信
-        socket_client.send(data.encode('UTF-8'))
-
-        # 描画完了通知の待機
-        socket_client.recv(1)
-
-    # 描画終了時刻
-    draw_finish = datetime.datetime.now()
-
-    # 生成脈波の取得が完了するまで待機
-    while generated_get_flag is not False:
-        sleep(0.000001)
-
-    print('描画時間: {:.2f}秒'.format((draw_finish - draw_start).total_seconds()))
-
-    return numpy_generated_pulse
-
-
-def main():
+def train():
     #*** エポック数 ***#
     global epoch
+
+    #*** 学習色データ ***#
+    global train_colors
+    #*** 学習脈波データ ***#
+    global train_pulse
 
     #*** 処理終了フラグ ***#
     global exit_flag
@@ -165,29 +135,29 @@ def main():
     ones = torch.ones(1, 1, SAMPLE_SIZE).to(device)
     zeros = torch.zeros(1, 1, SAMPLE_SIZE).to(device)
 
+    # 学習脈波の取得が完了するまで待機
+    while len(train_pulse) != SAMPLE_SIZE:
+        sleep(0.000001)
+
     '''学習サイクル'''
     for epoch in range(1, EPOCH_NUM+1):
         print('\n----- Epoch: ' + str(epoch) + ' -----')
 
-        # 入力ディスプレイデータの作成（ランダムsin）
-        random_sin = [int((math.sin(math.radians(random.randint(
-            0, 999) * x)) + 1) / 2 * 255) for x in range(SAMPLE_SIZE)]
+        # 学習データの取得（色データ，脈波データ）
         real_colors = torch.tensor(
-            random_sin, dtype=torch.float, device=device).view(1, 1, -1)
-        # 入力脈波データ（x）の取得
-        numpy_generated_pulse = get_generated_pulse(real_colors)
-        input_generated_pulse = torch.tensor(
-            numpy_generated_pulse, dtype=torch.float, device=device).view(1, 1, -1)
+            train_colors, dtype=torch.float, device=device).view(1, 1, -1)
+        input_pulse = torch.tensor(
+            train_pulse, dtype=torch.float, device=device).view(1, 1, -1)
 
         # ---------------------
         #  生成器の学習
         # ---------------------
         # 色データの生成（G(x)）
-        fake_colors = model.G(input_generated_pulse)
+        fake_colors = model.G(input_pulse)
         # 識別器の学習で使用するためコピー
         fake_colors_copy = fake_colors.detach()
 
-        out = model.D(torch.cat([fake_colors, input_generated_pulse], dim=1))
+        out = model.D(torch.cat([fake_colors, input_pulse], dim=1))
         loss_G_GAN = criterion_GAN(out, ones)
         loss_G_Values = criterion_Values(fake_colors, real_colors)
 
@@ -202,11 +172,11 @@ def main():
         # ---------------------
         # 本物色データに対する識別
         real_out = model.D(
-            torch.cat([real_colors, input_generated_pulse], dim=1))
+            torch.cat([real_colors, input_pulse], dim=1))
         loss_D_real = criterion_GAN(real_out, ones)
         # 生成色データに対する識別
         fake_out = model.D(
-            torch.cat([fake_colors_copy, input_generated_pulse], dim=1))
+            torch.cat([fake_colors_copy, input_pulse], dim=1))
         loss_D_fake = criterion_GAN(fake_out, zeros)
 
         loss_D = loss_D_real + loss_D_fake
@@ -263,10 +233,10 @@ if __name__ == '__main__':
     #*** グローバル：エポック数 ***#
     epoch = 0
 
-    #*** グローバル：生成脈波取得開始フラグ ***#
-    generated_get_flag = False
-    #*** グローバル：生成脈波用変数 ***#
-    numpy_generated_pulse = None
+    #*** グローバル：学習色データ ***#
+    train_colors = np.zeros(0)
+    #*** グローバル：学習脈波データ ***#
+    train_pulse = np.zeros(0)
 
     #*** グローバル：処理終了フラグ（センサデータ取得終了の制御） ***#
     exit_flag = False
@@ -285,7 +255,7 @@ if __name__ == '__main__':
     socket_client.connect((SOCKET_ADDRESS, SOCKET_PORT))
 
     # 学習スレッドの開始
-    train_thread = threading.Thread(target=main)
+    train_thread = threading.Thread(target=train)
     train_thread.setDaemon(True)
     train_thread.start()
 
