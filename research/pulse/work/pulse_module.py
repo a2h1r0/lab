@@ -107,6 +107,55 @@ def plot_pulse_csv(file_dir, max_epoch, step, savefig=True):
     plt.show()
 
 
+def plot_colors_csv(file_dir, max_epoch, step, savefig=True):
+    """CSVファイルの色データの描画
+
+    Args:
+        file_dir (string): 描画するファイルのディレクトリ
+        max_epoch (int): 描画する最大エポック数
+        step (int): 何エポックごとに描画するか（< 1ファイルのエポック数）
+        savefig (boolean): 図表の保存
+    """
+
+    # データの読み出し
+    y_real = [[] for i in range(0, max_epoch, step)]
+    y_fake = [[] for i in range(0, max_epoch, step)]
+    files = natsorted(glob.glob(file_dir + '/colors_*.csv'))
+    for index, data in enumerate(files):
+        with open(data) as f:
+            reader = csv.reader(f)
+            next(reader)
+
+            for row in reader:
+                if int(row[0]) > max_epoch:
+                    break
+
+                if int(row[0]) % step != 0:
+                    continue
+                elif int(row[0]) % step == 0:
+                    y_real[index].append(int(row[1]))
+                    y_fake[index].append(int(row[2]))
+
+    # データの描画
+    for index in range(len(y_real)):
+        epoch = str((index + 1) * step)
+
+        plt.figure(figsize=(16, 9))
+        plt.plot(list(range(len(y_real[index]))),
+                 y_real[index], 'blue', label='Real')
+        plt.plot(list(range(len(y_fake[index]))),
+                 y_fake[index], 'red', label='Fake')
+        plt.xlabel('Time [s]', fontsize=18)
+        plt.ylabel('Pulse sensor value', fontsize=18)
+        plt.title('Epoch: ' + epoch)
+        plt.tick_params(labelsize=18)
+        plt.legend(fontsize=18, loc='upper right')
+        if savefig:
+            plt.savefig('../figure/' + file_dir.split('/')[-1] + '_' + str(len(t[index])) + '_' + epoch + 'epoch.png',
+                        bbox_inches='tight', pad_inches=0)
+    plt.show()
+
+
 def plot_loss_csv(file_dir, save_figname=False):
     """CSVファイルのLossの描画
 
@@ -148,7 +197,8 @@ if __name__ == '__main__':
     #             step=300, delete_source=True)
     # archive_csv('./data/20210209_010240/raw.csv', step=300, delete_source=True)
 
-    plot_pulse_csv('./data/20210209_010240',
-                   max_epoch=3000, step=500, savefig=False)
+    plot_colors_csv('./data/20210213_160503',
+                    max_epoch=50, step=10, savefig=False)
 
-    plot_loss_csv('./data/20210209_010240', '256_generated_1400epoch_loss.png')
+    # plot_loss_csv('./data/20210213_153255')
+    # plot_loss_csv('./data/20210209_010240', '256_generated_1400epoch_loss.png')

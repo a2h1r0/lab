@@ -23,19 +23,19 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 256  # サンプルサイズ
-EPOCH_NUM = 50  # 学習サイクル数
+SAMPLE_SIZE = 5000  # サンプルサイズ
+EPOCH_NUM = 3000  # 学習サイクル数
 KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
-LAMBDA = 100.0
+LAMBDA = 100.0  # 損失の比率パラメータ
 
-FILE_EPOCH_NUM = 10  # 1ファイルに保存するエポック数
+FILE_EPOCH_NUM = 500  # 1ファイルに保存するエポック数
 
 now = datetime.datetime.today()
 time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
-SAVE_DIR = './data/' + time
-COLOR_DATA = SAVE_DIR + '/colors.csv'
+SAVE_DIR = './data/' + time + '/'
 
-LOSS_DATA = SAVE_DIR + '/loss.csv'
+COLOR_DATA = SAVE_DIR + 'colors.csv'
+LOSS_DATA = SAVE_DIR + 'loss.csv'
 
 
 def get_pulse():
@@ -111,9 +111,7 @@ def get_generated_pulse(colors):
     global numpy_generated_pulse
 
     # ディスプレイ送信用データの作成（Tensorから1次元の整数，文字列のリストへ）
-    display_data = np.array(
-        colors.detach().cpu().numpy().reshape(-1), dtype=int).tolist()
-    display_data = [str(data) for data in display_data]
+    display_data = colors.detach().cpu().numpy().reshape(-1).astype(int).astype(str)
 
     # ---------------------
     #  生成脈波の取得
@@ -172,8 +170,8 @@ def main():
         print('\n----- Epoch: ' + str(epoch) + ' -----')
 
         # 入力ディスプレイデータの作成（ランダムsin）
-        random_sin = [(math.sin(math.radians(random.randint(
-            0, 999) * x)) + 1) / 2 * 255 for x in range(SAMPLE_SIZE)]
+        random_sin = [int((math.sin(math.radians(random.randint(
+            0, 999) * x)) + 1) / 2 * 255) for x in range(SAMPLE_SIZE)]
         real_colors = torch.tensor(
             random_sin, dtype=torch.float, device=device).view(1, 1, -1)
         # 入力脈波データ（x）の取得
@@ -228,20 +226,29 @@ def main():
         with open(LOSS_DATA, 'a', newline='') as loss_file:
             loss_writer = csv.writer(loss_file, delimiter=',')
             # ヘッダーの書き込み
-            if epoch == 0:
+            if epoch == 1:
                 loss_writer.writerow(['Epoch', 'D Loss', 'G Loss'])
             # データの書き込み
             loss_writer.writerow(write_data)
         with open(COLOR_DATA, 'a', newline='') as color_file:
             color_writer = csv.writer(color_file, delimiter=',')
             # ヘッダーの書き込み
-            if epoch == 0:
+            if epoch == 1:
                 color_writer.writerow(['Epoch', 'Real', 'Fake'])
             # データの書き込み
-            numpy_real_colors = real_colors.detach().cpu().numpy().reshape(-1)
-            numpy_fake_colors = fake_colors.detach().cpu().numpy().reshape(-1)
+            numpy_real_colors = real_colors.detach().cpu().numpy().reshape(-1).astype(int)
+            numpy_fake_colors = fake_colors.detach().cpu().numpy().reshape(-1).astype(int)
             for real, fake in zip(numpy_real_colors, numpy_fake_colors):
                 color_writer.writerow([epoch, real, fake])
+
+        # ---------------------
+        #  モデルの保存
+        # ---------------------
+        if epoch % FILE_EPOCH_NUM == 0:
+            torch.save(model.G.state_dict(),
+                       SAVE_DIR + 'model_G_' + str(epoch) + '.pth')
+            torch.save(model.D.state_dict(),
+                       SAVE_DIR + 'model_D_' + str(epoch) + '.pth')
 
     # 処理終了
     exit_flag = True
@@ -293,11 +300,13 @@ if __name__ == '__main__':
 
     # ファイルの圧縮
     pulse_module.archive_csv(
-        SAVE_DIR + '/colors.csv', step=FILE_EPOCH_NUM, delete_source=True)
+        SAVE_DIR + 'colors.csv', step=FILE_EPOCH_NUM, delete_source=True)
 
     print('結果を描画します．．．')
 
     # 取得結果の描画
+    pulse_module.plot_colors_csv(
+        SAVE_DIR, max_epoch=EPOCH_NUM, step=FILE_EPOCH_NUM, savefig=False)
     pulse_module.plot_loss_csv(SAVE_DIR)
 
     print('\n\n********** 終了しました **********\n\n')
