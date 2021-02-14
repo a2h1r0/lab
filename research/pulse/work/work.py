@@ -24,7 +24,7 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 
 SAMPLE_SIZE = 1000  # サンプルサイズ
-EPOCH_NUM = 5000  # 学習サイクル数
+EPOCH_NUM = 10000  # 学習サイクル数
 KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
 LAMBDA = 100.0  # 損失の比率パラメータ
 
@@ -68,7 +68,7 @@ def get_pulse():
             int: 色データ
         """
 
-        return int((math.sin(random.randint(0, 10) * math.radians(radian)) + 1) / 2 * 255)
+        return int((math.sin(math.radians(radian)) + 1) / 2 * 255)
 
     # 初期化
     timestamp = 0
