@@ -1,7 +1,7 @@
 \documentclass[a4j,10pt]{jarticle}
 \usepackage[dvipdfmx]{graphicx}
 \usepackage[dvipdfmx]{color}
-\usepackage[dvipdfmx]{hyperref}
+\usepackage[dvipdfmx,hidelinks]{hyperref}
 \usepackage{multicol}
 \usepackage{url}
 \usepackage{pxjahyper}
@@ -15,7 +15,8 @@
 \maketitle
 
 \section{進捗状況}
-それっぽい形は見えてきています．．．
+先生がおっしゃっていたモデルは理解して，実装しました．図\ref{fig2}です．図\ref{fig1}は前の結果です．
+100000エポック回してみましたが，全然です．一旦，定常sin波で試してみました．次はランダムを入れたsin波で試してみます．
 
 
 \begin{figure*}[h]
@@ -26,13 +27,13 @@
   \end{center}
 \end{figure*}
 
-% \begin{figure*}[h]
-%   \begin{center}
-%     \includegraphics[width=1\textwidth]{../research/pulse/figure/2048_autoencoder_500epoch.png}
-%     \caption{2048値500エポック}
-%     \label{fig2}
-%   \end{center}
-% \end{figure*}
+\begin{figure*}[h]
+  \begin{center}
+    \includegraphics[width=1\textwidth]{../research/pulse/figure/500_color_100000epoch.png}
+    \caption{500値100000エポック}
+    \label{fig2}
+  \end{center}
+\end{figure*}
 
 % \begin{figure*}[h]
 %   \begin{center}

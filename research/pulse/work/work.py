@@ -24,7 +24,7 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 
 SAMPLE_SIZE = 500  # サンプルサイズ
-EPOCH_NUM = 10000  # 学習サイクル数
+EPOCH_NUM = 100000  # 学習サイクル数
 KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
 LAMBDA = 100.0  # 損失の比率パラメータ
 
