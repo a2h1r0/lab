@@ -15,8 +15,8 @@
 \maketitle
 
 \section{進捗状況}
-先生がおっしゃっていたモデルは理解して，実装しました．図\ref{fig2}です．図\ref{fig1}は前の結果です．
-100000エポック回してみましたが，全然です．一旦，定常sin波で試してみました．次はランダムを入れたsin波で試してみます．
+Pix2Pixのモデルではだめです．ランダムすぎる値で点灯させた場合，キャリブレーションが終了しないため，値が変動しないみたいです．
+ある程度周期性のある入力をする必要あり？
 
 
 \begin{figure*}[h]
@@ -27,13 +27,13 @@
   \end{center}
 \end{figure*}
 
-\begin{figure*}[h]
-  \begin{center}
-    \includegraphics[width=1\textwidth]{../research/pulse/figure/500_color_100000epoch.png}
-    \caption{500値100000エポック}
-    \label{fig2}
-  \end{center}
-\end{figure*}
+% \begin{figure*}[h]
+%   \begin{center}
+%     \includegraphics[width=1\textwidth]{../research/pulse/figure/10000_generated_5000epoch.png}
+%     \caption{500値100000エポック}
+%     \label{fig2}
+%   \end{center}
+% \end{figure*}
 
 % \begin{figure*}[h]
 %   \begin{center}

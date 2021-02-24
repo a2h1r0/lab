@@ -23,12 +23,12 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 500  # サンプルサイズ
-EPOCH_NUM = 100000  # 学習サイクル数
+SAMPLE_SIZE = 1000  # サンプルサイズ
+EPOCH_NUM = 30000  # 学習サイクル数
 KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
-LAMBDA = 100.0  # 損失の比率パラメータ
+LAMBDA = 0.0  # 損失の比率パラメータ
 
-FILE_EPOCH_NUM = 500  # 1ファイルに保存するエポック数
+FILE_EPOCH_NUM = 30000  # 1ファイルに保存するエポック数
 
 now = datetime.datetime.today()
 time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
@@ -68,7 +68,7 @@ def get_pulse():
             int: 色データ
         """
 
-        return int((math.sin(5 * math.radians(radian)) + 1) / 2 * 255)
+        return int((math.sin(random.random() * math.radians(radian)) + 1) / 2 * 255)
 
     # 初期化
     timestamp = 0
