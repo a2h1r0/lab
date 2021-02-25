@@ -197,8 +197,8 @@ if __name__ == '__main__':
     #             step=300, delete_source=True)
     # archive_csv('./data/20210209_010240/raw.csv', step=300, delete_source=True)
 
-    plot_colors_csv('./data/20210223_112658',
-                    max_epoch=1200000, step=10000, savefig=False)
+    plot_colors_csv('./data/20210225_222004',
+                    max_epoch=10000, step=1000, savefig=False)
 
-    plot_loss_csv('./data/20210223_112658')
+    plot_loss_csv('./data/20210225_222004')
     # plot_loss_csv('./data/20210209_010240', '256_generated_1400epoch_loss.png')

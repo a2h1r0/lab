@@ -26,7 +26,7 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 SAMPLE_SIZE = 1000  # サンプルサイズ
 EPOCH_NUM = 30000  # 学習サイクル数
 KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
-LAMBDA = 0.0  # 損失の比率パラメータ
+LAMBDA = 3.0  # 損失の比率パラメータ
 
 FILE_EPOCH_NUM = 30000  # 1ファイルに保存するエポック数
 
@@ -36,6 +36,10 @@ SAVE_DIR = './data/' + time + '/'
 
 COLOR_DATA = SAVE_DIR + 'colors.csv'
 LOSS_DATA = SAVE_DIR + 'loss.csv'
+
+TRAIN_DATAS = ['20210207_121945_raw', '20210207_122512_raw',
+               '20210207_123029_raw', '20210207_123615_raw',
+               '20210207_154330_raw']
 
 
 def get_pulse():
@@ -59,7 +63,7 @@ def get_pulse():
     # 擬似脈波用キュー
     pulse = deque(maxlen=SAMPLE_SIZE)
 
-    def make_display_data(radian):
+    def make_display_data():
         """ランダム色データの生成
 
         Args:
@@ -68,16 +72,29 @@ def get_pulse():
             int: 色データ
         """
 
-        return int((math.sin(random.random() * math.radians(radian)) + 1) / 2 * 255)
+        #*** 学習ファイルデータ用変数 ***#
+        global train_data
+
+        pulse_data = np.array(
+            train_data[random.randrange(0, len(train_data) - 1)])
+        display_data = pulse_data / max(pulse_data) * 5 + 128
+
+        return list(display_data)
 
     # 初期化
+    display_data = []
     timestamp = 0
-    radian = 0
 
     while not exit_flag:
         try:
+            # 色データの作成
+            if len(display_data) < SAMPLE_SIZE:
+                display_data = make_display_data()
+                colors.clear()
+                pulse.clear()
+
             # 色データの描画
-            color = make_display_data(radian)
+            color = display_data.pop(0)
             socket_client.send((str(color) + '\0').encode('UTF-8'))
             socket_client.recv(1)
             colors.append(float(color))
@@ -96,14 +113,9 @@ def get_pulse():
                     pulse.append(int(data[1]))
 
                     # 取得可能データの作成
-                    train_colors = np.array(colors)
-                    train_pulse = np.array(pulse)
-
-            # sinの更新
-            if radian == 359:
-                radian = 0
-            else:
-                radian += 1
+                    if len(colors) == SAMPLE_SIZE and len(pulse) == SAMPLE_SIZE:
+                        train_colors = np.array(colors)
+                        train_pulse = np.array(pulse)
 
         except KeyboardInterrupt:
             break
@@ -130,8 +142,6 @@ def train():
     model.D.train()
     model.G.train()
 
-    # ones = torch.ones(1, 1, SAMPLE_SIZE).float().to(device)
-    # zeros = torch.zeros(1, 1, SAMPLE_SIZE).float().to(device)
     ones = torch.ones(1, 1, SAMPLE_SIZE).to(device)
     zeros = torch.zeros(1, 1, SAMPLE_SIZE).to(device)
 
@@ -229,6 +239,21 @@ if __name__ == '__main__':
 
     # ファイル保存ディレクトリの作成
     os.mkdir(SAVE_DIR)
+
+    #*** グローバル：学習ファイルデータ用変数 ***#
+    train_data = []
+    for data in TRAIN_DATAS:
+        with open('./data/train/' + data + '.csv') as f:
+            reader = csv.reader(f)
+
+            # ヘッダーのスキップ
+            next(reader)
+
+            read_data = []
+            for row in reader:
+                # データの追加
+                read_data.append(float(row[1]))
+        train_data.append(read_data)
 
     #*** グローバル：エポック数 ***#
     epoch = 0

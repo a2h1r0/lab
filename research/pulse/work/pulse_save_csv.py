@@ -11,7 +11,7 @@ os.chdir(os.path.dirname(__file__))
 
 write_data = []
 
-FINISH = 300
+FINISH = 30
 
 ser = serial.Serial('COM3', 115200)
 now = datetime.datetime.today()

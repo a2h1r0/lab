@@ -19,7 +19,7 @@ while True:
         read_data = ser.readline().rstrip().decode(encoding="utf-8")
         data = read_data.split(",")
 
-        if str.isdecimal(data[0]) and str.isdecimal(data[0]) and len(data) == 2:
+        if str.isdecimal(data[0]) and str.isdecimal(data[1]) and len(data) == 2:
             t.append(float(data[0]))
             y.append(float(data[1]))
             if len(t) > 100 and len(y) > 100:
@@ -31,6 +31,7 @@ while True:
 
         line, = ax.plot(t, y, color='blue')
         plt.xlim(min(t), max(t))
+        plt.ylim(0, 1000)
         plt.pause(0.01)
         line.remove()
 

@@ -37,10 +37,6 @@ SAVE_DIR = './data/' + time + '/'
 COLOR_DATA = SAVE_DIR + 'colors.csv'
 LOSS_DATA = SAVE_DIR + 'loss.csv'
 
-TRAIN_DATAS = ['20210207_121945_raw', '20210207_122512_raw',
-               '20210207_123029_raw', '20210207_123615_raw',
-               '20210207_154330_raw']
-
 
 def get_pulse():
     """脈波の取得
@@ -72,29 +68,19 @@ def get_pulse():
             int: 色データ
         """
 
-        #*** 学習ファイルデータ用変数 ***#
-        global train_data
-
-        pulse_data = train_data[random.randrange(0, len(train_data) - 1)]
-        display_data = pulse_data / max(pulse_data) * 255
-
         return int((math.sin(random.random() * math.radians(radian)) + 1) / 2 * 255)
 
     # 初期化
     timestamp = 0
+    radian = 0
 
     while not exit_flag:
         try:
-            # 色データの作成
-            if len(display_data) < SAMPLE_SIZE:
-                display_data = make_display_data()
-                colors.clear()
-                pulse.clear()
-
             # 色データの描画
+            color = make_display_data(radian)
             socket_client.send((str(color) + '\0').encode('UTF-8'))
             socket_client.recv(1)
-            colors.append(float(display_data.pop(0)))
+            colors.append(float(color))
 
             # 脈波値の受信
             read_data = ser.readline().rstrip().decode(encoding='UTF-8')
@@ -112,6 +98,12 @@ def get_pulse():
                     # 取得可能データの作成
                     train_colors = np.array(colors)
                     train_pulse = np.array(pulse)
+
+            # sinの更新
+            if radian == 359:
+                radian = 0
+            else:
+                radian += 1
 
         except KeyboardInterrupt:
             break
@@ -237,19 +229,6 @@ if __name__ == '__main__':
 
     # ファイル保存ディレクトリの作成
     os.mkdir(SAVE_DIR)
-
-    #*** グローバル：学習ファイルデータ用変数 ***#
-    train_data = []
-    for data in TRAIN_DATAS:
-        with open('./data/train/' + data + '.csv') as f:
-            reader = csv.reader(f)
-
-            # ヘッダーのスキップ
-            next(reader)
-
-            for row in reader:
-                # データの追加
-                train_data.append(float(row[1]))
 
     #*** グローバル：エポック数 ***#
     epoch = 0
