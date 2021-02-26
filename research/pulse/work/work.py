@@ -24,11 +24,12 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 
 SAMPLE_SIZE = 1000  # サンプルサイズ
-EPOCH_NUM = 30000  # 学習サイクル数
-KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
+EPOCH_NUM = 1000  # 学習サイクル数
+KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
 LAMBDA = 3.0  # 損失の比率パラメータ
 
-FILE_EPOCH_NUM = 30000  # 1ファイルに保存するエポック数
+SAVE_DATA_STEP = 100  # ファイルにデータを保存するエポック数
+SAVE_MODEL_STEP = 1000  # モデルを保存するエポック数
 
 now = datetime.datetime.today()
 time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
@@ -77,7 +78,7 @@ def get_pulse():
 
         pulse_data = np.array(
             train_data[random.randrange(0, len(train_data) - 1)])
-        display_data = pulse_data / max(pulse_data) * 5 + 128
+        display_data = pulse_data / max(pulse_data) * 5 + 125
 
         return list(display_data)
 
@@ -209,22 +210,24 @@ def train():
             if epoch == 1:
                 loss_writer.writerow(['Epoch', 'D Loss', 'G Loss'])
             # データの書き込み
-            loss_writer.writerow(write_data)
+            if epoch % SAVE_DATA_STEP == 0:
+                loss_writer.writerow(write_data)
         with open(COLOR_DATA, 'a', newline='') as color_file:
             color_writer = csv.writer(color_file, delimiter=',')
             # ヘッダーの書き込み
             if epoch == 1:
                 color_writer.writerow(['Epoch', 'Real', 'Fake'])
             # データの書き込み
-            numpy_real_colors = real_colors.detach().cpu().numpy().reshape(-1).astype(int)
-            numpy_fake_colors = fake_colors.detach().cpu().numpy().reshape(-1).astype(int)
-            for real, fake in zip(numpy_real_colors, numpy_fake_colors):
-                color_writer.writerow([epoch, real, fake])
+            if epoch % SAVE_DATA_STEP == 0:
+                numpy_real_colors = real_colors.detach().cpu().numpy().reshape(-1).astype(int)
+                numpy_fake_colors = fake_colors.detach().cpu().numpy().reshape(-1).astype(int)
+                for real, fake in zip(numpy_real_colors, numpy_fake_colors):
+                    color_writer.writerow([epoch, real, fake])
 
         # ---------------------
         #  モデルの保存
         # ---------------------
-        if epoch % FILE_EPOCH_NUM == 0:
+        if epoch % SAVE_MODEL_STEP == 0:
             torch.save(model.G.state_dict(),
                        SAVE_DIR + 'model_G_' + str(epoch) + '.pth')
             torch.save(model.D.state_dict(),
@@ -291,17 +294,11 @@ if __name__ == '__main__':
     ser.close()
 
     print('\n\n----- 学習終了 -----\n\n')
-    print('ファイル圧縮中．．．\n\n')
-
-    # ファイルの圧縮
-    pulse_module.archive_csv(
-        SAVE_DIR + 'colors.csv', step=FILE_EPOCH_NUM, delete_source=True)
-
     print('結果を描画します．．．')
 
     # 取得結果の描画
     pulse_module.plot_colors_csv(
-        SAVE_DIR, max_epoch=EPOCH_NUM, step=FILE_EPOCH_NUM, savefig=False)
+        SAVE_DIR, max_epoch=EPOCH_NUM, step=SAVE_DATA_STEP, savefig=False)
     pulse_module.plot_loss_csv(SAVE_DIR)
 
     print('\n\n********** 終了しました **********\n\n')

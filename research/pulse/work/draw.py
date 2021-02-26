@@ -56,7 +56,7 @@ def make_display_data():
 
     pulse_data = np.array(
         train_data[random.randrange(0, len(train_data) - 1)])
-    display_data = pulse_data / max(pulse_data) * 5 + 128
+    display_data = pulse_data / max(pulse_data) * 5 + 125
 
     return list(display_data)
 
