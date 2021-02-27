@@ -11,9 +11,9 @@ os.chdir(os.path.dirname(__file__))
 
 write_data = []
 
-FINISH = 30
+FINISH = 60
 
-ser = serial.Serial('COM3', 115200)
+ser = serial.Serial('COM3', 14400)
 now = datetime.datetime.today()
 
 filename = './data/train/' + now.strftime('%Y%m%d') + '_' + \

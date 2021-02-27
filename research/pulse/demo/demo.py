@@ -14,7 +14,7 @@ USB_PORT = 'COM3'
 SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
-SAMPLE_SIZE = 1000  # 描画するサンプル長
+SAMPLE_SIZE = 300  # 描画するサンプル長
 
 
 class PlotGraph:
@@ -94,7 +94,7 @@ if __name__ == '__main__':
     print('\n初期化中...')
 
     # シリアル通信（Arduino）の初期化
-    ser = serial.Serial(USB_PORT, 115200)
+    ser = serial.Serial(USB_PORT, 14400)
     ser.reset_input_buffer()
     sleep(3)  # ポート準備に3秒待機**これがないとシリアル通信がうまく動かない**
 

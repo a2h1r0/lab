@@ -23,13 +23,13 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 1000  # サンプルサイズ
-EPOCH_NUM = 1000  # 学習サイクル数
-KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
+SAMPLE_SIZE = 10000  # サンプルサイズ
+EPOCH_NUM = 100000  # 学習サイクル数
+KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
 LAMBDA = 3.0  # 損失の比率パラメータ
 
-SAVE_DATA_STEP = 100  # ファイルにデータを保存するエポック数
-SAVE_MODEL_STEP = 1000  # モデルを保存するエポック数
+SAVE_DATA_STEP = 1000  # ファイルにデータを保存するエポック数
+SAVE_MODEL_STEP = 10000  # モデルを保存するエポック数
 
 now = datetime.datetime.today()
 time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
@@ -78,7 +78,7 @@ def get_pulse():
 
         pulse_data = np.array(
             train_data[random.randrange(0, len(train_data) - 1)])
-        display_data = pulse_data / max(pulse_data) * 5 + 125
+        display_data = pulse_data / max(pulse_data) * 10 + 122
 
         return list(display_data)
 
@@ -117,6 +117,8 @@ def get_pulse():
                     if len(colors) == SAMPLE_SIZE and len(pulse) == SAMPLE_SIZE:
                         train_colors = np.array(colors)
                         train_pulse = np.array(pulse)
+            else:
+                continue
 
         except KeyboardInterrupt:
             break
@@ -274,7 +276,7 @@ if __name__ == '__main__':
     torch.manual_seed(1)
 
     # シリアル通信（Arduino）の初期化
-    ser = serial.Serial(USB_PORT, 115200)
+    ser = serial.Serial(USB_PORT, 14400)
     ser.reset_input_buffer()
     sleep(3)  # ポート準備に3秒待機**これがないとシリアル通信がうまく動かない**
 
