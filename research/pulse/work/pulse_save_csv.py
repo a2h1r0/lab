@@ -11,10 +11,11 @@ os.chdir(os.path.dirname(__file__))
 
 write_data = []
 
-FINISH = 60
+FINISH = 300
 
 ser = serial.Serial('COM3', 14400)
 now = datetime.datetime.today()
+timestamp = 0
 
 filename = './data/train/' + now.strftime('%Y%m%d') + '_' + \
     now.strftime('%H%M%S') + '_raw.csv'
@@ -31,7 +32,7 @@ with open(filename, 'a', newline='') as f:
 
         if len(data) == 2 and data[0].isdecimal() and data[1].isdecimal():
             # 異常値の除外（次の値と繋がって，異常な桁数の場合あり）
-            if 'timestamp' in locals() and len(str(int(float(data[0]) / 1000000))) > len(str(int(timestamp))) + 2:
+            if timestamp != 0 and len(str(int(float(data[0]) / 1000000))) > len(str(int(timestamp))) + 2:
                 continue
 
             time = float(data[0]) / 1000000
