@@ -29,7 +29,7 @@ class PlotGraph:
         #*** グラフの設定 ***#
         self.plt = self.win.addPlot()
         # タイトルの設定
-        title_css = '<style> p { font-size: 60px; color: "#FFFFFF";} </style>'
+        title_css = '<style> p { font-size: 60px; color: "#FFFFFF"; } </style>'
         self.plt.setTitle(title_css + '<p>Pulse Value</p>')
         # 軸メモリの設定
         font = QtGui.QFont()
@@ -41,7 +41,7 @@ class PlotGraph:
         self.plt.setYRange(200, 1100)
         # 凡例の設定
         self.plt.addLegend()
-        legend_css = '<style> p { font-size: 55px; color: "#FFFFFF" } </style>'
+        legend_css = '<style> p { font-size: 55px; color: "#FFFFFF"; } </style>'
 
         #*** 描画する線の設定 ***#
         self.raw_line = self.plt.plot(
@@ -66,7 +66,7 @@ class PlotGraph:
                 int: 色データ
             """
 
-            return pulse / 1000 * 5 + 125
+            return pulse / 1000 * 10 + 122
 
         # 脈波値の受信
         read_data = ser.readline().rstrip().decode(encoding='UTF-8')
