@@ -17,7 +17,7 @@ ser = serial.Serial('COM3', 14400)
 now = datetime.datetime.today()
 timestamp = 0
 
-filename = './data/train/' + now.strftime('%Y%m%d') + '_' + \
+filename = '../data/train/' + now.strftime('%Y%m%d') + '_' + \
     now.strftime('%H%M%S') + '_raw.csv'
 
 with open(filename, 'a', newline='') as f:
