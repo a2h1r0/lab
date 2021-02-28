@@ -23,10 +23,10 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 200  # サンプルサイズ
+SAMPLE_SIZE = 300  # サンプルサイズ
 EPOCH_NUM = 10000  # 学習サイクル数
 KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
-LAMBDA = 3.0  # 損失の比率パラメータ
+LAMBDA = 0.0  # 損失の比率パラメータ
 
 SAVE_DATA_STEP = 1000  # ファイルにデータを保存するエポック数
 SAVE_MODEL_STEP = 10000  # モデルを保存するエポック数
@@ -38,9 +38,12 @@ SAVE_DIR = './data/' + time + '/'
 COLOR_DATA = SAVE_DIR + 'colors.csv'
 LOSS_DATA = SAVE_DIR + 'loss.csv'
 
-TRAIN_DATAS = ['20210207_121945_raw', '20210207_122512_raw',
-               '20210207_123029_raw', '20210207_123615_raw',
-               '20210207_154330_raw']
+TRAIN_DATAS = ['20210228_121559_raw', '20210228_122129_raw',
+               '20210228_122727_raw', '20210228_123306_raw',
+               '20210228_123855_raw', '20210228_124511_raw']
+# TRAIN_DATAS = ['/115200/20210207_121945_raw', '/115200/20210207_122512_raw',
+#                '/115200/20210207_123029_raw', '/115200/20210207_123615_raw',
+#                '/115200/20210207_154330_raw']
 
 
 def get_pulse():
@@ -76,7 +79,8 @@ def get_pulse():
 
         pulse_data = np.array(
             train_data[random.randrange(0, len(train_data) - 1)])
-        display_data = pulse_data / max(pulse_data) * 10 + 122
+        display_data = np.array(
+            pulse_data / max(pulse_data) * 10 + 122, dtype=int)
 
         return list(display_data)
 
@@ -127,7 +131,8 @@ def train():
 
     '''モデルの構築'''
     model = Pix2Pix(kernel_size=KERNEL_SIZE, device=device)
-    criterion_GAN = nn.BCEWithLogitsLoss()
+    # criterion_GAN = nn.BCEWithLogitsLoss()
+    criterion_GAN = nn.MSELoss()
     criterion_Values = nn.L1Loss()
     optimizer_D = optimizers.Adam(model.D.parameters(), lr=0.0002)
     optimizer_G = optimizers.Adam(model.G.parameters(), lr=0.0002)
@@ -207,13 +212,14 @@ def train():
             color_writer = csv.writer(color_file, delimiter=',')
             # ヘッダーの書き込み
             if epoch == 1:
-                color_writer.writerow(['Epoch', 'Real', 'Fake'])
+                color_writer.writerow(['Epoch', 'Real', 'Fake', 'Pulse'])
             # データの書き込み
             if epoch % SAVE_DATA_STEP == 0:
                 numpy_real_colors = real_colors.detach().cpu().numpy().reshape(-1).astype(int)
                 numpy_fake_colors = fake_colors.detach().cpu().numpy().reshape(-1).astype(int)
-                for real, fake in zip(numpy_real_colors, numpy_fake_colors):
-                    color_writer.writerow([epoch, real, fake])
+                numpy_input_pulse = input_pulse.detach().cpu().numpy().reshape(-1).astype(int)
+                for real, fake, pulse in zip(numpy_real_colors, numpy_fake_colors, numpy_input_pulse):
+                    color_writer.writerow([epoch, real, fake, pulse])
 
         # ---------------------
         #  モデルの保存
@@ -288,7 +294,7 @@ if __name__ == '__main__':
     print('結果を描画します．．．')
 
     # 取得結果の描画
-    pulse_module.plot_colors_csv(
+    pulse_module.plot_data_csv(
         SAVE_DIR, max_epoch=EPOCH_NUM, step=SAVE_DATA_STEP, savefig=False)
     pulse_module.plot_loss_csv(SAVE_DIR)
 

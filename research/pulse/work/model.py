@@ -75,8 +75,8 @@ class Pix2Pix(nn.Module):
             self.conv10 = nn.ConvTranspose1d(
                 in_channels=8 * 2, out_channels=1, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
 
-            # グレースケール化（0 ~ 255）
-            self.hardtanh = nn.Hardtanh(min_val=0, max_val=255)
+            # グレースケール化（122 ~ 132）
+            self.hardtanh = nn.Hardtanh(min_val=122, max_val=132)
 
         def forward(self, input):
             ###--- Encoder ---###
