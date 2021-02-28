@@ -8,7 +8,6 @@ import threading
 from collections import deque
 import socket
 from model import Pix2Pix
-import pulse_module
 import datetime
 import csv
 import random
@@ -30,7 +29,7 @@ FILE_EPOCH_NUM = 1000  # 1ファイルに保存するエポック数
 
 now = datetime.datetime.today()
 time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
-SAVE_DIR = './data/' + time
+SAVE_DIR = '../data/' + time
 SAVEFILE_RAW = SAVE_DIR + '/raw.csv'
 SAVEFILE_GENERATED = SAVE_DIR + '/generated.csv'
 
@@ -223,7 +222,7 @@ def main():
     '''学習サイクル'''
     for epoch in range(EPOCH_NUM):
         print('\n----- Epoch: ' + str(epoch + 1) + ' -----')
-        if epoch + 1 == 1000:
+        if epoch == 10:
             print('break point')
 
         # 学習データの取得
@@ -307,7 +306,7 @@ if __name__ == '__main__':
     #*** グローバル：学習ファイルデータ用変数 ***#
     train_data = []
     for data in TRAIN_DATAS:
-        with open('./data/train/115200/' + data + '.csv') as f:
+        with open('../data/train/115200/' + data + '.csv') as f:
             reader = csv.reader(f)
 
             # ヘッダーのスキップ
@@ -360,14 +359,6 @@ if __name__ == '__main__':
     ser.close()
 
     print('\n\n----- 学習終了 -----\n\n')
-    print('ファイル圧縮中．．．\n\n')
-
-    # ファイルの圧縮
-    pulse_module.archive_csv(
-        SAVE_DIR + '/generated.csv', step=FILE_EPOCH_NUM, delete_source=True)
-    pulse_module.archive_csv(
-        SAVE_DIR + '/raw.csv', step=FILE_EPOCH_NUM, delete_source=True)
-
     print('結果を描画します．．．')
 
     # 取得結果の描画
