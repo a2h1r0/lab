@@ -1,17 +1,12 @@
 import csv
 import serial
 import datetime
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy import signal
-from scipy.signal import find_peaks
 import os
 os.chdir(os.path.dirname(__file__))
 
-write_data = []
 
-FINISH = 300
+GET_TIME = 300  # 取得時間
+
 
 ser = serial.Serial('COM3', 14400)
 now = datetime.datetime.today()
@@ -41,7 +36,7 @@ with open(filename, 'a', newline='') as f:
         else:
             continue
 
-        if time >= FINISH:
+        if time >= GET_TIME:
             break
 
     ser.close()
