@@ -94,7 +94,7 @@ if __name__ == '__main__':
     print('\n初期化中...')
 
     # シリアル通信（Arduino）の初期化
-    ser = serial.Serial(USB_PORT, 14400)
+    ser = serial.Serial(USB_PORT, 9600)
     ser.reset_input_buffer()
     sleep(3)  # ポート準備に3秒待機**これがないとシリアル通信がうまく動かない**
 

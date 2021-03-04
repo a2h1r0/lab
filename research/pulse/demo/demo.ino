@@ -6,7 +6,7 @@
  */
 void setup()
 {
-    Serial.begin(14400);
+    Serial.begin(9600);
 }
 
 /**
