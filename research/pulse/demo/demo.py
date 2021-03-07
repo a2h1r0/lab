@@ -4,6 +4,7 @@ import serial
 import socket
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
+from PyQt5.QtWidgets import QGraphicsProxyWidget, QStatusBar
 import sys
 import os
 os.chdir(os.path.dirname(__file__))
@@ -40,7 +41,7 @@ class PlotGraph:
         self.plt.setXRange(0, SAMPLE_SIZE)
         self.plt.setYRange(200, 1100)
         # 凡例の設定
-        self.plt.addLegend()
+        self.plt.addLegend(offset=(10, 50))
         legend_css = '<style> p { font-size: 55px; color: "#FFFFFF"; } </style>'
 
         #*** 描画する線の設定 ***#
@@ -50,6 +51,14 @@ class PlotGraph:
         self.generated_line = self.plt.plot(
             pen=pg.mkPen(color='b', width=3, antialias=True),
             name=legend_css + '<p>Generated</p>')
+
+        #*** 心拍数表示バーの設定 ***#
+        self.heart_rate = QtGui.QStatusBar()
+        self.heart_rate.setStyleSheet('QStatusBar { font-size:50px; }')
+        status_bar = QGraphicsProxyWidget()
+        status_bar.setWidget(self.heart_rate)
+        self.layout = self.win.addLayout(row=0, col=0)
+        self.layout.addItem(status_bar)
 
         #*** 描画サイクルの設定 ***#
         self.timer = QtCore.QTimer()
@@ -88,6 +97,8 @@ class PlotGraph:
             # グラフの再描画
             self.raw_line.setData(self.raw)
             self.generated_line.setData(self.generated)
+            self.heart_rate.showMessage(
+                'Raw: ' + str(data[0]) + ' / Generated: ' + str(data[1]))
 
 
 if __name__ == '__main__':
