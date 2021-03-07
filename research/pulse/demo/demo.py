@@ -17,7 +17,7 @@ USB_PORT = 'COM3'
 SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
-SAMPLE_SIZE = 500  # 描画するサンプル長
+SAMPLE_SIZE = 300  # 描画するサンプル長
 
 
 class PlotGraph:
