@@ -294,6 +294,7 @@ class GAN(nn.Module):
 class Test(nn.Module):
     """
     Pix2Pixモデル
+
     Args:
         kernel_size (int): カーネルサイズ
         device (string): 使用デバイス
@@ -302,70 +303,17 @@ class Test(nn.Module):
     def __init__(self, kernel_size=15, device='cpu'):
         super().__init__()
 
-        self.D = Test.Discriminator(kernel_size=kernel_size).to(device)
-        self.G = Test.Generator(kernel_size=kernel_size).to(device)
-
-    class Discriminator(nn.Module):
-        """
-        識別器：脈波配列から特徴量を出力
-        """
-
-        def __init__(self, kernel_size):
-            super().__init__()
-
-            self.conv1 = nn.Conv1d(
-                in_channels=1, out_channels=8, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-            self.relu1 = nn.ReLU(inplace=True)
-
-            self.conv2 = nn.Conv1d(
-                in_channels=8, out_channels=16, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-            self.relu2 = nn.ReLU(inplace=True)
-
-            self.conv3 = nn.Conv1d(
-                in_channels=16, out_channels=32, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-            self.relu3 = nn.ReLU(inplace=True)
-
-            self.conv4 = nn.Conv1d(
-                in_channels=32, out_channels=64, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-            self.relu4 = nn.ReLU(inplace=True)
-
-            self.conv5 = nn.Conv1d(
-                in_channels=64, out_channels=128, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-            self.relu5 = nn.ReLU(inplace=True)
-
-            self.conv6 = nn.Conv1d(
-                in_channels=128, out_channels=256, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-            self.relu6 = nn.ReLU(inplace=True)
-
-            self.conv7 = nn.Conv1d(
-                in_channels=256, out_channels=1, kernel_size=1)
-
-        def forward(self, input):
-            conv1_out = self.conv1(input)
-            relu1_out = self.relu1(conv1_out)
-
-            conv2_out = self.conv2(relu1_out)
-            relu2_out = self.relu2(conv2_out)
-
-            conv3_out = self.conv3(relu2_out)
-            relu3_out = self.relu3(conv3_out)
-
-            conv4_out = self.conv4(relu3_out)
-            relu4_out = self.relu4(conv4_out)
-
-            conv5_out = self.conv5(relu4_out)
-            relu5_out = self.relu5(conv5_out)
-
-            conv6_out = self.conv6(relu5_out)
-            relu6_out = self.relu6(conv6_out)
-
-            out = self.conv7(relu6_out)
-
-            return out
+        self.G = Pix2Pix.Generator(kernel_size=kernel_size).to(device)
+        self.D = Pix2Pix.Discriminator(kernel_size=kernel_size).to(device)
 
     class Generator(nn.Module):
         """
-        生成器：生脈波配列から色値配列（グレースケール）を生成
+        生成器：脈波データからそれを再現する色データ（グレースケール）を生成
+
+        Args:
+            input (:obj:`Tensor`[1, 1, 256]): 脈波データ
+        Returns:
+            :obj:`Tensor`[1, 1, 256]: inputを再現する色データ
         """
 
         def __init__(self, kernel_size):
@@ -415,9 +363,7 @@ class Test(nn.Module):
             # Skip Connection (conv1)
             self.conv10 = nn.ConvTranspose1d(
                 in_channels=8 * 2, out_channels=1, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-
-            # グレースケール化（0 ~ 255）
-            self.hardtanh = nn.Hardtanh(min_val=0, max_val=255)
+            self.relu10 = nn.ReLU(inplace=True)
 
         def forward(self, input):
             ###--- Encoder ---###
@@ -454,7 +400,23 @@ class Test(nn.Module):
 
             # Skip Connection (conv1)
             conv10_out = self.conv10(torch.cat([relu9_out, x1], dim=1))
+            relu10_out = self.relu10(conv10_out)
 
-            out = torch.round(self.hardtanh(conv10_out))
+            # グレースケール化（0 ~ 255）
+            out = self.convert_to_gray_scale(relu10_out)
 
             return out
+
+        def convert_to_gray_scale(self, out):
+            """色データへの変換
+
+            予測結果から色データを生成する．
+
+            Args:
+                out (:obj:`Tensor`): 予測結果
+
+            Returns:
+                :obj:`Tensor`: 予測結果の色データ
+            """
+
+            return torch.round(out / out.max() * 10 + 122)

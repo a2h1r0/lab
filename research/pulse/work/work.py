@@ -7,7 +7,7 @@ from time import sleep
 import threading
 from collections import deque
 import socket
-from model import Pix2Pix
+from model import Test
 import pulse_module
 import datetime
 import csv
@@ -23,13 +23,13 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 300  # サンプルサイズ
+SAMPLE_SIZE = 100  # サンプルサイズ
 EPOCH_NUM = 10000  # 学習サイクル数
 KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
 LAMBDA = 0.0  # 損失の比率パラメータ
 
+INFO_EPOCH = 1000  # 情報を表示するエポック数
 SAVE_DATA_STEP = 1000  # ファイルにデータを保存するエポック数
-SAVE_MODEL_STEP = 10000  # モデルを保存するエポック数
 
 now = datetime.datetime.today()
 time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
@@ -130,9 +130,9 @@ def train():
     global exit_flag
 
     '''モデルの構築'''
-    model = Pix2Pix(kernel_size=KERNEL_SIZE, device=device)
-    # criterion_GAN = nn.BCEWithLogitsLoss()
-    criterion_GAN = nn.MSELoss()
+    model = Test(kernel_size=KERNEL_SIZE, device=device)
+    criterion_GAN = nn.BCEWithLogitsLoss()
+    # criterion_GAN = nn.MSELoss()
     criterion_Values = nn.L1Loss()
     optimizer_D = optimizers.Adam(model.D.parameters(), lr=0.0002)
     optimizer_G = optimizers.Adam(model.G.parameters(), lr=0.0002)
@@ -146,10 +146,10 @@ def train():
     while len(train_pulse) != SAMPLE_SIZE:
         sleep(0.000001)
 
+    print('\n*** 学習開始 ***\n')
+
     '''学習サイクル'''
     for epoch in range(1, EPOCH_NUM+1):
-        print('\n----- Epoch: ' + str(epoch) + ' -----')
-
         # 学習データの取得（色データ，脈波データ）
         real_colors = torch.tensor(
             train_colors, dtype=torch.float, device=device).view(1, 1, -1)
@@ -193,38 +193,40 @@ def train():
         optimizer_D.step()
 
         # ---------------------
-        #  データの保存
+        #  データの表示
         # ---------------------
-        write_data = [epoch, loss_D.item(), loss_G.item()]
-        print('D Loss: {:.3f}, G Loss: {:.3f}'.format(
-            write_data[1], write_data[2]))
+        if epoch % INFO_EPOCH == 0:
+            print('\n----- Epoch: ' + str(epoch) + ' -----')
+            print('D Loss: {:.3f}, G Loss: {:.3f}\n'.format(
+                loss_D.item(), loss_G.item()))
+            print('D Real: ')
+            print(real_out)
+            print('D Fake: ')
+            print(fake_out)
 
-        # 毎度クローズしないと，処理中断時に保存されない
-        with open(LOSS_DATA, 'a', newline='') as loss_file:
-            loss_writer = csv.writer(loss_file, delimiter=',')
-            # ヘッダーの書き込み
-            if epoch == 1:
-                loss_writer.writerow(['Epoch', 'D Loss', 'G Loss'])
-            # データの書き込み
-            if epoch % SAVE_DATA_STEP == 0:
+        if epoch % SAVE_DATA_STEP == 0:
+            # ---------------------
+            #  データの保存
+            # ---------------------
+            write_data = [epoch, loss_D.item(), loss_G.item()]
+
+            # 毎度クローズしないと，処理中断時に保存されない
+            with open(LOSS_DATA, 'a', newline='') as loss_file:
+                # データの書き込み
+                loss_writer = csv.writer(loss_file, delimiter=',')
                 loss_writer.writerow(write_data)
-        with open(COLOR_DATA, 'a', newline='') as color_file:
-            color_writer = csv.writer(color_file, delimiter=',')
-            # ヘッダーの書き込み
-            if epoch == 1:
-                color_writer.writerow(['Epoch', 'Real', 'Fake', 'Pulse'])
-            # データの書き込み
-            if epoch % SAVE_DATA_STEP == 0:
+            with open(COLOR_DATA, 'a', newline='') as color_file:
+                # データの書き込み
+                color_writer = csv.writer(color_file, delimiter=',')
                 numpy_real_colors = real_colors.detach().cpu().numpy().reshape(-1).astype(int)
                 numpy_fake_colors = fake_colors.detach().cpu().numpy().reshape(-1).astype(int)
                 numpy_input_pulse = input_pulse.detach().cpu().numpy().reshape(-1).astype(int)
                 for real, fake, pulse in zip(numpy_real_colors, numpy_fake_colors, numpy_input_pulse):
                     color_writer.writerow([epoch, real, fake, pulse])
 
-        # ---------------------
-        #  モデルの保存
-        # ---------------------
-        if epoch % SAVE_MODEL_STEP == 0:
+            # ---------------------
+            #  モデルの保存
+            # ---------------------
             torch.save(model.G.state_dict(),
                        SAVE_DIR + 'model_G_' + str(epoch) + '.pth')
             torch.save(model.D.state_dict(),
@@ -239,6 +241,13 @@ if __name__ == '__main__':
 
     # ファイル保存ディレクトリの作成
     os.mkdir(SAVE_DIR)
+    # ファイルの用意（ヘッダーの書き込み）
+    with open(LOSS_DATA, 'a', newline='') as loss_file:
+        loss_writer = csv.writer(loss_file, delimiter=',')
+        loss_writer.writerow(['Epoch', 'D Loss', 'G Loss'])
+    with open(COLOR_DATA, 'a', newline='') as color_file:
+        color_writer = csv.writer(color_file, delimiter=',')
+        color_writer.writerow(['Epoch', 'Real', 'Fake', 'Pulse'])
 
     #*** グローバル：学習ファイルデータ用変数 ***#
     train_data = []
