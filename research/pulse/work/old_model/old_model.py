@@ -22,8 +22,8 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 
 SAMPLE_SIZE = 10000  # サンプルサイズ
-EPOCH_NUM = 5000  # 学習サイクル数
-KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
+EPOCH_NUM = 100000  # 学習サイクル数
+KERNEL_SIZE = 11  # カーネルサイズ（奇数のみ）
 
 FILE_EPOCH_NUM = 1000  # 1ファイルに保存するエポック数
 
@@ -362,8 +362,8 @@ if __name__ == '__main__':
     print('結果を描画します．．．')
 
     # 取得結果の描画
-    pulse_module.plot_pulse_csv(
+    old_module.plot_pulse_csv(
         SAVE_DIR, max_epoch=EPOCH_NUM, step=FILE_EPOCH_NUM)
-    pulse_module.plot_loss_csv(SAVE_DIR)
+    old_module.plot_loss_csv(SAVE_DIR)
 
     print('\n\n********** 終了しました **********\n\n')
