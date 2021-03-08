@@ -24,12 +24,13 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 
 SAMPLE_SIZE = 300  # サンプルサイズ
-EPOCH_NUM = 1000  # 学習サイクル数
-KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
-LAMBDA = 0.0  # 損失の比率パラメータ
+EPOCH_NUM = 10000  # 学習サイクル数
+KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
+LAMBDA = 10.0  # 損失の比率パラメータ
 
 INFO_EPOCH = 100  # 情報を表示するエポック数
 SAVE_DATA_STEP = 1000  # ファイルにデータを保存するエポック数
+SAVE_MODEL_STEP = 10000  # モデルを保存するエポック数
 
 now = datetime.datetime.today()
 time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
@@ -199,15 +200,15 @@ def train():
             print('\n----- Epoch: ' + str(epoch) + ' -----')
             print('D Loss: {:.3f}, G Loss: {:.3f}\n'.format(
                 loss_D.item(), loss_G.item()))
-            print('D Real: ')
-            print(real_out)
-            print('D Fake: ')
-            print(fake_out)
+            # print('D Real: ')
+            # print(real_out)
+            # print('D Fake: ')
+            # print(fake_out)
 
+        # ---------------------
+        #  データの保存
+        # ---------------------
         if epoch % SAVE_DATA_STEP == 0:
-            # ---------------------
-            #  データの保存
-            # ---------------------
             write_data = [epoch, loss_D.item(), loss_G.item()]
 
             # 毎度クローズしないと，処理中断時に保存されない
@@ -224,9 +225,10 @@ def train():
                 for real, fake, pulse in zip(numpy_real_colors, numpy_fake_colors, numpy_input_pulse):
                     color_writer.writerow([epoch, real, fake, pulse])
 
-            # ---------------------
-            #  モデルの保存
-            # ---------------------
+        # ---------------------
+        #  モデルの保存
+        # ---------------------
+        if epoch % SAVE_MODEL_STEP == 0:
             torch.save(model.G.state_dict(),
                        SAVE_DIR + 'model_G_' + str(epoch) + '.pth')
             torch.save(model.D.state_dict(),
