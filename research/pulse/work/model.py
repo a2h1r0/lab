@@ -303,8 +303,8 @@ class Test(nn.Module):
     def __init__(self, kernel_size=15, device='cpu'):
         super().__init__()
 
-        self.G = Pix2Pix.Generator(kernel_size=kernel_size).to(device)
-        self.D = Pix2Pix.Discriminator(kernel_size=kernel_size).to(device)
+        self.G = Test.Generator(kernel_size=kernel_size).to(device)
+        self.D = Test.Discriminator(kernel_size=kernel_size).to(device)
 
     class Generator(nn.Module):
         """
@@ -420,3 +420,68 @@ class Test(nn.Module):
             """
 
             return torch.round(out / out.max() * 10 + 122)
+
+    class Discriminator(nn.Module):
+        """
+        識別器：色データと脈波データのペアから識別結果を出力
+
+        Args:
+            input (:obj:`Tensor`[1, 2, 256]): 正解 or 生成 色データ + 脈波データのペア
+        Returns:
+            :obj:`Tensor`[1, 1, 256]: 識別結果
+        """
+
+        def __init__(self, kernel_size):
+            super().__init__()
+
+            # Colors + Generated Pulse
+            self.conv1 = nn.Conv1d(
+                in_channels=1 * 2, out_channels=8, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
+            self.relu1 = nn.ReLU(inplace=True)
+
+            self.conv2 = nn.Conv1d(
+                in_channels=8, out_channels=16, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
+            self.relu2 = nn.ReLU(inplace=True)
+
+            self.conv3 = nn.Conv1d(
+                in_channels=16, out_channels=32, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
+            self.relu3 = nn.ReLU(inplace=True)
+
+            self.conv4 = nn.Conv1d(
+                in_channels=32, out_channels=64, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
+            self.relu4 = nn.ReLU(inplace=True)
+
+            self.conv5 = nn.Conv1d(
+                in_channels=64, out_channels=128, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
+            self.relu5 = nn.ReLU(inplace=True)
+
+            self.conv6 = nn.Conv1d(
+                in_channels=128, out_channels=256, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
+            self.relu6 = nn.ReLU(inplace=True)
+
+            self.conv7 = nn.Conv1d(
+                in_channels=256, out_channels=1, kernel_size=1)
+
+        def forward(self, input):
+            # Colors + Generated Pulse
+            conv1_out = self.conv1(input)
+            relu1_out = self.relu1(conv1_out)
+
+            conv2_out = self.conv2(relu1_out)
+            relu2_out = self.relu2(conv2_out)
+
+            conv3_out = self.conv3(relu2_out)
+            relu3_out = self.relu3(conv3_out)
+
+            conv4_out = self.conv4(relu3_out)
+            relu4_out = self.relu4(conv4_out)
+
+            conv5_out = self.conv5(relu4_out)
+            relu5_out = self.relu5(conv5_out)
+
+            conv6_out = self.conv6(relu5_out)
+            relu6_out = self.relu6(conv6_out)
+
+            out = self.conv7(relu6_out)
+
+            return out
