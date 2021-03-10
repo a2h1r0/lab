@@ -97,8 +97,8 @@ def plot_loss_csv(file_dir, save_figname=False):
 
 
 if __name__ == '__main__':
-    plot_data_csv('./data/20210228_163551',
-                  max_epoch=1000, step=500, savefig=False)
+    plot_data_csv('./data/20210310_002716',
+                  max_epoch=1000000, step=100000, savefig=False)
 
     # plot_loss_csv('./data/20210226_231141')
     # plot_loss_csv('./data/20210226_231141', '256_generated_1400epoch_loss.png')

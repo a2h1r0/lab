@@ -23,14 +23,14 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 300  # サンプルサイズ
-EPOCH_NUM = 10000  # 学習サイクル数
+SAMPLE_SIZE = 500  # サンプルサイズ
+EPOCH_NUM = 1000000  # 学習サイクル数
 KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
 LAMBDA = 10.0  # 損失の比率パラメータ
 
 INFO_EPOCH = 100  # 情報を表示するエポック数
-SAVE_DATA_STEP = 1000  # ファイルにデータを保存するエポック数
-SAVE_MODEL_STEP = 10000  # モデルを保存するエポック数
+SAVE_DATA_STEP = 5000  # ファイルにデータを保存するエポック数
+SAVE_MODEL_STEP = 50000  # モデルを保存するエポック数
 
 now = datetime.datetime.today()
 time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')

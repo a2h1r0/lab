@@ -189,12 +189,13 @@ def plot_loss_csv(file_dir, save_figname=False):
 
 
 if __name__ == '__main__':
-    # archive_csv('./data/20210209_010240/generated.csv',
-    #             step=300, delete_source=True)
-    # archive_csv('./data/20210209_010240/raw.csv', step=300, delete_source=True)
+    archive_csv('./data/20210310_165603/generated.csv',
+                step=50, delete_source=True)
+    archive_csv('./data/20210310_165603/raw.csv',
+                step=50, delete_source=True)
 
-    plot_colors_csv('./data/20210213_160503',
-                    max_epoch=50, step=10, savefig=False)
+    plot_pulse_csv('./data/20210310_165603',
+                   max_epoch=100, step=50, savefig=False)
 
     # plot_loss_csv('./data/20210213_153255')
     # plot_loss_csv('./data/20210209_010240', '256_generated_1400epoch_loss.png')

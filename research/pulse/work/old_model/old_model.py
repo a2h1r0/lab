@@ -21,15 +21,15 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 10000  # サンプルサイズ
-EPOCH_NUM = 100000  # 学習サイクル数
-KERNEL_SIZE = 11  # カーネルサイズ（奇数のみ）
+SAMPLE_SIZE = 5000  # サンプルサイズ
+EPOCH_NUM = 5000  # 学習サイクル数
+KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 
 FILE_EPOCH_NUM = 1000  # 1ファイルに保存するエポック数
 
 now = datetime.datetime.today()
 time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
-SAVE_DIR = '../data/' + time
+SAVE_DIR = './data/' + time
 SAVEFILE_RAW = SAVE_DIR + '/raw.csv'
 SAVEFILE_GENERATED = SAVE_DIR + '/generated.csv'
 
