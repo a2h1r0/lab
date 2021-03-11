@@ -19,7 +19,7 @@ void setup() {
     println("Server address : " + server.ip());
     
     // フレームレートの設定
-    frameRate(1400);
+    frameRate(1000);
 }
 
 /* メインループ */

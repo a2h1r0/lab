@@ -8,6 +8,7 @@ os.chdir(os.path.dirname(__file__))
 
 def archive_csv(filename, step, delete_source=False):
     """CSVファイルの圧縮
+
     GitHubに保存するために100MB以下に分割する．
     Args:
         filename (string): 圧縮するファイル
@@ -45,6 +46,7 @@ def archive_csv(filename, step, delete_source=False):
 
 def plot_pulse_csv(file_dir, max_epoch, step, savefig=True):
     """CSVファイルの脈波の描画
+
     Args:
         file_dir (string): 描画するファイルのディレクトリ
         max_epoch (int): 描画する最大エポック数
@@ -100,13 +102,14 @@ def plot_pulse_csv(file_dir, max_epoch, step, savefig=True):
         plt.tick_params(labelsize=18)
         plt.legend(fontsize=18, loc='upper right')
         if savefig:
-            plt.savefig('../figure/' + file_dir.split('/')[-1] + '_' + str(len(t[index])) + '_' + epoch + 'epoch.png',
+            plt.savefig('../../figure/' + file_dir.split('/')[-1] + '_' + str(len(t[index])) + '_' + epoch + 'epoch.png',
                         bbox_inches='tight', pad_inches=0)
     plt.show()
 
 
 def plot_colors_csv(file_dir, max_epoch, step, savefig=True):
     """CSVファイルの色データの描画
+
     Args:
         file_dir (string): 描画するファイルのディレクトリ
         max_epoch (int): 描画する最大エポック数
@@ -155,6 +158,7 @@ def plot_colors_csv(file_dir, max_epoch, step, savefig=True):
 
 def plot_loss_csv(file_dir, save_figname=False):
     """CSVファイルのLossの描画
+
     Args:
         file_dir (string): 描画するファイルのディレクトリ
         save_figname (string): 図表の保存ファイル名
@@ -189,13 +193,13 @@ def plot_loss_csv(file_dir, save_figname=False):
 
 
 if __name__ == '__main__':
-    archive_csv('./data/20210310_165603/generated.csv',
-                step=50, delete_source=True)
-    archive_csv('./data/20210310_165603/raw.csv',
-                step=50, delete_source=True)
+    archive_csv('./data/20210310_173919/generated.csv',
+                step=500, delete_source=True)
+    archive_csv('./data/20210310_173919/raw.csv',
+                step=500, delete_source=True)
 
-    plot_pulse_csv('./data/20210310_165603',
-                   max_epoch=100, step=50, savefig=False)
+    plot_pulse_csv('./data/20210310_173919',
+                   max_epoch=5000, step=500, savefig=False)
 
     # plot_loss_csv('./data/20210213_153255')
     # plot_loss_csv('./data/20210209_010240', '256_generated_1400epoch_loss.png')

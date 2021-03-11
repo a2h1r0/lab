@@ -8,6 +8,7 @@ import threading
 from collections import deque
 import socket
 from model import Pix2Pix
+import old_module
 import datetime
 import csv
 import random
@@ -21,9 +22,9 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 5000  # サンプルサイズ
+SAMPLE_SIZE = 10000  # サンプルサイズ
 EPOCH_NUM = 5000  # 学習サイクル数
-KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
+KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
 
 FILE_EPOCH_NUM = 1000  # 1ファイルに保存するエポック数
 
@@ -360,6 +361,12 @@ if __name__ == '__main__':
 
     print('\n\n----- 学習終了 -----\n\n')
     print('結果を描画します．．．')
+
+    # ファイルの圧縮
+    old_module.archive_csv(
+        SAVE_DIR + '/generated.csv', step=FILE_EPOCH_NUM, delete_source=True)
+    old_module.archive_csv(
+        SAVE_DIR + '/raw.csv', step=FILE_EPOCH_NUM, delete_source=True)
 
     # 取得結果の描画
     old_module.plot_pulse_csv(
