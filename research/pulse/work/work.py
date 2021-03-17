@@ -7,7 +7,7 @@ from time import sleep
 import threading
 from collections import deque
 import socket
-from model import Test
+from model import Pix2Pix
 import pulse_module
 import datetime
 import csv
@@ -24,13 +24,13 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 
 SAMPLE_SIZE = 500  # サンプルサイズ
-EPOCH_NUM = 1000000  # 学習サイクル数
+EPOCH_NUM = 100000  # 学習サイクル数
 KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
-LAMBDA = 10.0  # 損失の比率パラメータ
+LAMBDA = 0.0  # 損失の比率パラメータ
 
 INFO_EPOCH = 100  # 情報を表示するエポック数
-SAVE_DATA_STEP = 5000  # ファイルにデータを保存するエポック数
-SAVE_MODEL_STEP = 50000  # モデルを保存するエポック数
+SAVE_DATA_STEP = 1000  # ファイルにデータを保存するエポック数
+SAVE_MODEL_STEP = 10000  # モデルを保存するエポック数
 
 now = datetime.datetime.today()
 time = now.strftime('%Y%m%d') + '_' + now.strftime('%H%M%S')
@@ -131,7 +131,7 @@ def train():
     global exit_flag
 
     '''モデルの構築'''
-    model = Test(kernel_size=KERNEL_SIZE, device=device)
+    model = Pix2Pix(kernel_size=KERNEL_SIZE, device=device)
     criterion_GAN = nn.BCEWithLogitsLoss()
     # criterion_GAN = nn.MSELoss()
     criterion_Values = nn.L1Loss()
