@@ -23,8 +23,8 @@ SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
 
 
-SAMPLE_SIZE = 500  # サンプルサイズ
-EPOCH_NUM = 100000  # 学習サイクル数
+SAMPLE_SIZE = 3000  # サンプルサイズ
+EPOCH_NUM = 10000  # 学習サイクル数
 KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
 LAMBDA = 0.0  # 損失の比率パラメータ
 
@@ -81,7 +81,7 @@ def get_pulse():
         pulse_data = np.array(
             train_data[random.randrange(0, len(train_data) - 1)])
         display_data = np.array(
-            pulse_data / max(pulse_data) * 10 + 122, dtype=int)
+            pulse_data / max(pulse_data) * 10 + 30, dtype=int)
 
         return list(display_data)
 

@@ -8,8 +8,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-TIME = '20210317_165322'
-SHOW_EPOCH = 5000
+TIME = '20210319_224037'
+SHOW_EPOCH = 10000
 
 USB_PORT = 'COM3'
 
@@ -91,7 +91,7 @@ ax1.plot(range(len(fake)), fake, 'red', label='Fake')
 ax2 = ax1.twinx()
 ax2.plot(range(len(real_pulse)), real_pulse, 'green', label='Real Pulse')
 ax2.plot(range(len(fake_pulse)), fake_pulse, 'yellow', label='Fake Pulse')
-ax1.set_xlabel('Time [s]', fontsize=18)
+ax1.set_xlabel('Sample Num', fontsize=18)
 ax1.set_ylabel('Gray Scale', fontsize=18)
 ax2.set_ylabel('Pulse Value', fontsize=18)
 plt.title('Epoch: ' + str(SHOW_EPOCH))
@@ -100,7 +100,7 @@ handler1, label1 = ax1.get_legend_handles_labels()
 handler2, label2 = ax2.get_legend_handles_labels()
 ax1.legend(handler1 + handler2, label1 + label2,
            fontsize=18, loc='upper right')
-# plt.savefig('../figure/10000_generated_' + str(SHOW_EPOCH) + 'epoch.png',
-#             bbox_inches='tight', pad_inches=0)
+plt.savefig('../figure/' + TIME + '_' + str(SHOW_EPOCH) + 'epoch.png',
+            bbox_inches='tight', pad_inches=0)
 
 plt.show()

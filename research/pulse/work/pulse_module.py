@@ -45,7 +45,7 @@ def plot_data_csv(file_dir, max_epoch, step, savefig=True):
         ax2 = ax1.twinx()
         ax2.plot(range(len(y_pulse[index])),
                  y_pulse[index], 'green', label='Pulse')
-        ax1.set_xlabel('Time [s]', fontsize=18)
+        ax1.set_xlabel('Sample Num', fontsize=18)
         ax1.set_ylabel('Gray Scale', fontsize=18)
         ax2.set_ylabel('Pulse Value', fontsize=18)
         plt.title('Epoch: ' + epoch)
