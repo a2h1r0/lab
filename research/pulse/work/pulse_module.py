@@ -38,12 +38,12 @@ def plot_data_csv(file_dir, max_epoch, step, savefig=True):
         epoch = str((index + 1) * step)
 
         fig, ax1 = plt.subplots(figsize=(16, 9))
-        ax1.plot(list(range(len(y_real[index]))),
+        ax1.plot(range(len(y_real[index])),
                  y_real[index], 'blue', label='Real')
-        ax1.plot(list(range(len(y_fake[index]))),
+        ax1.plot(range(len(y_fake[index])),
                  y_fake[index], 'red', label='Fake')
         ax2 = ax1.twinx()
-        ax2.plot(list(range(len(y_pulse[index]))),
+        ax2.plot(range(len(y_pulse[index])),
                  y_pulse[index], 'green', label='Pulse')
         ax1.set_xlabel('Time [s]', fontsize=18)
         ax1.set_ylabel('Gray Scale', fontsize=18)

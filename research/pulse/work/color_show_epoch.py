@@ -27,8 +27,8 @@ with open(DATA) as f:
 
 
 plt.figure(figsize=(16, 9))
-plt.plot(list(range(len(y_real))), y_real, 'blue', label='Real')
-plt.plot(list(range(len(y_fake))), y_fake, 'red', label='Fake')
+plt.plot(range(len(y_real)), y_real, 'blue', label='Real')
+plt.plot(range(len(y_fake)), y_fake, 'red', label='Fake')
 plt.xlabel('Time [s]', fontsize=18)
 plt.ylabel('Gray Scale', fontsize=18)
 plt.tick_params(labelsize=18)

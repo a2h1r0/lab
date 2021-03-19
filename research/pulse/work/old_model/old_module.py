@@ -141,9 +141,9 @@ def plot_colors_csv(file_dir, max_epoch, step, savefig=True):
         epoch = str((index + 1) * step)
 
         plt.figure(figsize=(16, 9))
-        plt.plot(list(range(len(y_real[index]))),
+        plt.plot(range(len(y_real[index])),
                  y_real[index], 'blue', label='Real')
-        plt.plot(list(range(len(y_fake[index]))),
+        plt.plot(range(len(y_fake[index])),
                  y_fake[index], 'red', label='Fake')
         plt.xlabel('Time [s]', fontsize=18)
         plt.ylabel('Pulse sensor value', fontsize=18)
