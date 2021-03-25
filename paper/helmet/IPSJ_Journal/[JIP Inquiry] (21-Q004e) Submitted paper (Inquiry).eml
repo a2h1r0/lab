@@ -1,0 +1,439 @@
+Delivered-To: murao.kazuya10@gmail.com
+Received: by 2002:a05:6a10:eb01:0:0:0:0 with SMTP id hx1csp82636pxb;
+        Wed, 24 Mar 2021 22:29:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzK0Zr2Tt2633v8jmh7i2PpxDctFHWDBjCI1fe+rjMUfWHbPb87vkSzrALBmhRtuGVSzvO5
+X-Received: by 2002:a62:7d14:0:b029:1f6:18a1:6b98 with SMTP id y20-20020a627d140000b02901f618a16b98mr6510170pfc.15.1616650149759;
+        Wed, 24 Mar 2021 22:29:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1616650149; cv=none;
+        d=google.com; s=arc-20160816;
+        b=diwE7607mcCSvrI1CB9sHMQTWwBs9WzmItaSI/7Hc8WOWLRTN23k/U1/W21CrbGTs7
+         JM/n/+AXxhh2T0C7IUXPKKaXQwyTHUmbbik0BOavrCjwY/JWJmtQg1BouLWK9R5glxe5
+         K/0A0euy0MRAOwxIvX9mG4g9x88+3+wjG80JiCnVtoPSa3PEcVw84hoMumpMKPCGlq9S
+         36qPA7U47graVQVStaIkhsH/iFXseKYWqo4ivDeKv1qdPBRjZxlEhwUpUr9jW24X2+US
+         9YiPnQFeIpiRCt7EHlgpbtVucONQXSVRcVT7VR6BNt8+tKIDAGBGqmyfbxw4zn4LsuZO
+         xAHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:content-transfer-encoding:mime-version:subject
+         :message-id:to:reply-to:from:date:dkim-signature:dkim-signature
+         :delivered-to;
+        bh=JKFFLvzIXA4f8Sfo2lvHWnRKhHGL+S+ZaCA2U3PgBEQ=;
+        b=fUC0E0JZRX/id274yT5/DdoWI1QIMcwtrY29jwYjQ3T+apIgyGeU9IWrkqlNtA7f2M
+         +CtKBeVkUCd8MApK/ggvB392JeMiz6ut14B+JXpKyuHyizD8q3XYWvKm3HuCWsXWlRKa
+         A9z7lCrYLCiVOGKVPxA9RwvqJVO8hqWI+lfZcpFV51aBqu/IgjguYm5BMOdz4EYtRptW
+         KNDy8YfAVw07cOg463h2XeEUojUlqx9gfBDSJDUUxLnKpbFqVoZRGJxFpCCSzTl1F04f
+         YOAizf6NRRLG4RAUSo4DXKDU+UmjpSfoCYefFxYqxOeCadEI2Z7R1h4eM1+QMvBLNfB3
+         mggA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@manuscriptcentral.com header.s=zpznxeidjqub2tus7cajdamhvcf6ct3w header.b=EL1Le+Q6;
+       dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=MaEMmp69;
+       spf=softfail (google.com: domain of transitioning 0101017867db9346-c5b682d1-fc21-4544-b97f-464eba608d91-000000@outbound.manuscriptcentral.com does not designate 133.19.0.32 as permitted sender) smtp.mailfrom=0101017867db9346-c5b682d1-fc21-4544-b97f-464eba608d91-000000@outbound.manuscriptcentral.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=manuscriptcentral.com
+Return-Path: <0101017867db9346-c5b682d1-fc21-4544-b97f-464eba608d91-000000@outbound.manuscriptcentral.com>
+Received: from rucs.cs.ritsumei.ac.jp (rucs.cs.ritsumei.ac.jp. [133.19.0.32])
+        by mx.google.com with ESMTP id e3si5596096pjg.84.2021.03.24.22.29.09
+        for <murao.kazuya10@gmail.com>;
+        Wed, 24 Mar 2021 22:29:09 -0700 (PDT)
+Received-SPF: softfail (google.com: domain of transitioning 0101017867db9346-c5b682d1-fc21-4544-b97f-464eba608d91-000000@outbound.manuscriptcentral.com does not designate 133.19.0.32 as permitted sender) client-ip=133.19.0.32;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@manuscriptcentral.com header.s=zpznxeidjqub2tus7cajdamhvcf6ct3w header.b=EL1Le+Q6;
+       dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=MaEMmp69;
+       spf=softfail (google.com: domain of transitioning 0101017867db9346-c5b682d1-fc21-4544-b97f-464eba608d91-000000@outbound.manuscriptcentral.com does not designate 133.19.0.32 as permitted sender) smtp.mailfrom=0101017867db9346-c5b682d1-fc21-4544-b97f-464eba608d91-000000@outbound.manuscriptcentral.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=manuscriptcentral.com
+Received: by rucs.cs.ritsumei.ac.jp (Postfix)
+	id C1AA03E7482; Thu, 25 Mar 2021 14:29:08 +0900 (JST)
+Delivered-To: murao@cs.ritsumei.ac.jp
+Received: from rundz1055.ritsumei.ac.jp (rundz1055.ritsumei.ac.jp [133.19.170.55])
+	by rucs.cs.ritsumei.ac.jp (Postfix) with ESMTP id BE9E03E7480
+	for <murao@cs.ritsumei.ac.jp>; Thu, 25 Mar 2021 14:29:08 +0900 (JST)
+Received: from a27-205.smtp-out.us-west-2.amazonses.com (a27-205.smtp-out.us-west-2.amazonses.com [54.240.27.205])
+	by rundz1055.ritsumei.ac.jp  with ESMTP id 12P5T7Xw020392-12P5T7Xx020392
+	for <murao@cs.ritsumei.ac.jp>; Thu, 25 Mar 2021 14:29:08 +0900
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=zpznxeidjqub2tus7cajdamhvcf6ct3w; d=manuscriptcentral.com;
+	t=1616650146;
+	h=Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=OWSDV0DDolfgmtar5At+tB+0zh811uCUTih3ThOSKK0=;
+	b=EL1Le+Q6+cPxX0zW0Ml5ELe1ZYwtN7pxG7A5RYjoT9mtka1vZja1J/UrtdRGk4Tt
+	VsikzHcRO+/45DrQ+opI4Tnv4cN0EbvO4YV9yYoYcvjrPVw6BX6wFA7V0nS81ikHeBT
+	we8ZJSitHZnhLn5aPgfMEGcLBfGl2bnyv6agtVNg=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1616650146;
+	h=Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID;
+	bh=OWSDV0DDolfgmtar5At+tB+0zh811uCUTih3ThOSKK0=;
+	b=MaEMmp69jramnVLVhd9IrGflsX6DTo/GggWx1kPMIMIGywbwoHCKRlF4VCus2F5u
+	HSpFD/0YW71vHpPvEH8a7kXHlRr66y2Y5nnKB4TYV4tE5MbsnkMRiBXZ0FGWLgmJqAj
+	0C0G9QD1BmjRSzPSrlEFZqeuCm8Tk0g7uaK1yslM=
+Date: Thu, 25 Mar 2021 05:29:06 +0000
+From: IPSJ Journal <onbehalfof@manuscriptcentral.com>
+Reply-To: s1m@ipsj.or.jp
+To: murao@cs.ritsumei.ac.jp
+Message-ID: <0101017867db9346-c5b682d1-fc21-4544-b97f-464eba608d91-000000@us-west-2.amazonses.com>
+Subject: [JIP: Inquiry] (21-Q004e) Submitted paper (Inquiry)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SID: 1
+X-PRODUCT: s1m
+X-ENV-TYPE: prod
+X-ENV-NAME: 426
+X-S1Info: xik_8NSgFW58W8Axhsrmjs28GV9rHcGk663nQumeTVxwhdcpsemcybHzxJNw8uLH8NeNsT
+X-SES-Outgoing: 2021.03.25-54.240.27.205
+Feedback-ID: 1.us-west-2.y8789kd/oyDlGffYrP88IUZ2JiqaxJLDOSJ1+/ZSPI4=:AmazonSES
+X-FEAS-SPF: spf-result=pass, ip=54.240.27.205, helo=a27-205.smtp-out.us-west-2.amazonses.com, mailFrom=0101017867db9346-c5b682d1-fc21-4544-b97f-464eba608d91-000000@outbound.manuscriptcentral.com
+X-FEAS-DKIM: Valid
+Authentication-Results: rundz1055.ritsumei.ac.jp;
+	spf=pass (ritsumei.ac.jp: domain of 0101017867db9346-c5b682d1-fc21-4544-b97f-464eba608d91-000000@outbound.manuscriptcentral.com designates 54.240.27.205 as permitted sender) smtp.mailfrom=0101017867db9346-c5b682d1-fc21-4544-b97f-464eba608d91-000000@outbound.manuscriptcentral.com;
+	dkim=pass header.i=@amazonses.com
+	dkim=pass header.i=@manuscriptcentral.com
+
+25-Mar-2021
+
+Dear Murao/=E6=9D=91=E5=B0=BE Kazuya/=E5=92=8C=E5=93=89
+
+Thank you very much for your submission to Journal of Information Processin=
+g
+
+Submission ID=EF=BC=9A=EF=BC=9A21-Q004e
+Title=EF=BC=9AUser Identification Method based on Head Shape using Pressure=
+ Sensors embedded in a Helmet
+
+We would like to inform you that your submission has been "conditionally ac=
+cepted" by our editorial committee.
+
+In regards to revisions, please specify to the reviewers, step-by-step, on =
+all revisions you have made. Furthermore, in the event you do not agree on =
+a comment from a reviewer and would not like to make any changes, please co=
+mment with your thoughts on the reviewer comment.
+When uploading your revisions, please upload a file with highlights so the =
+reviewers may find comments and corrections easily.
+
+=E2=80=BBPlease submit revised papers by 12:00 (noon) 2021-4-23
+If we do not receive revisions by the deadline, your paper may have the pos=
+sibility to be rejected.
+
+As soon as you receive this email, please inform us of the expected date
+for submitting the revised version by sending an email to s1m@ipsj.or.jp.
+The subject of the email should be Reply scheduled followed by Receipt no.
+(E.g.: Reply scheduled 21-Q004e).
+
+
+To revise a submitted paper, please follow the instructions below.
+1=EF=BC=89Access https://mc.manuscriptcentral.com/ipsj and log in.
+2=EF=BC=89Click "Author" at the top left of the screen on "Home" page.
+3=EF=BC=89Within the Author dashboard, click "Manuscripts with Decisions".
+4=EF=BC=89From the displayed list, please click "create a revision" on the =
+left side for the appropriate paper.
+5=EF=BC=89A form for the revised paper submission will be generated. Please=
+ enter your comments to respond to the Reviewers' comments or upload your r=
+esponse file at the "Your Response" field on "Step 1: View and Respond to D=
+ecision Letter" page.
+=E2=80=BBIf you have changed the manuscript title from the original version=
+, please indicate it in your response and change the manuscript title enter=
+ed on "Step 2: Type, Title, & Abstract" page as well.
+Please do not change the manuscript type when you do so.
+6=EF=BC=89Please upload the revised manuscript on "Step 3: File Upload" pag=
+e.
+On the file upload page, the file(s) of the original version has been uploa=
+ded. Please do not forget to delete the original version file(s) after you =
+upload the revised version file(s).
+7=EF=BC=89Please click on "View PDF Proof" button to view the PDF file for =
+the peer-review on "Step 5: Review & Submit" page.
+Please check if only the revised version has appeared on the proof and if t=
+here are not any garbled texts or missing tables/figures in the manuscript.=
+ Then, click on "Submit" button at the bottom right to submit the revision.
+
+We look forward to receiving your revisions.
+
+Journal of Information Processing Editorial Committee
+s1m@ipsj.or.jp
+
+[Review Result]
+
+(A) Overall Recommendation from Meta-Reviewer
+Accept if requirements are met
+
+(B) Comments from Meta-Reviewer
+The idea of using head shape for user identification and authentication is =
+interesting and seems to be practical in actual scenes. However, there are =
+several things to be modified to clarify the usefulness of the method.
+
+1.
+It is difficult to understand the contribution of the paper from the abstra=
+ct because of the lack of the description of the proposed method. Please ad=
+d the description about how to identify and authenticate the user briefly. =
+[R2-1]
+
+2.
+Please describe the evaluation environment clearly and discuss the robustne=
+ss to the individual and the environmental differences. It is expected that=
+ size/shape/hairstyle of the subject affects the accuracy of identification=
+ and authentication. The size/shape/weight of the helmet may also affect th=
+e performance. [R1-1][R2-4]
+
+3.
+Please add the discussion about the effect of the sensor position to the pe=
+rformance. Also, the performance difference between full helmet and half he=
+lmet should be described. (Generally, half helmet is more suitable for many=
+ scenes.) [R1-2][R2-3]
+
+4.
+Please discuss the limitation of the proposed method. Is the method applica=
+ble to all gender and ages? Also, please make the target and the restrictio=
+n of the proposed method clear. [R1-3][R2-2][R2-5]
+
+5.
+Please discuss how to determine the threshold of user authentication. The F=
+RR/FAR crossing points are slightly different between subjects in Fig.9. In=
+ actual scene, it seems to be difficult to set the threshold automatically =
+to the optimal value.
+
+(C) Overall Recommendation from Reviewers
+=E6=9F=BB=E8=AA=AD=E8=80=85: 1
+=E6=9F=BB=E8=AA=AD=E7=B5=90=E6=9E=9C 1stMSER: Accept if requirements are me=
+t
+
+=E6=9F=BB=E8=AA=AD=E8=80=85: 2
+=E6=9F=BB=E8=AA=AD=E7=B5=90=E6=9E=9C 1stMSER: Accept if requirements are me=
+t
+
+(D) Comments from Reviewers
+
+=E6=9F=BB=E8=AA=AD=E8=80=85: 1
+=E8=91=97=E8=80=85=E3=81=B8=E3=81=AE=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E5=
+=85=A5=E5=8A=9B=E3=83=95=E3=82=A9=E3=83=BC=E3=83=A0=EF=BC=88=E8=AB=96=E6=96=
+=871=E5=9B=9E=E7=9B=AE=E6=9F=BB=E8=AA=AD=E7=94=A8=EF=BC=89-=E6=9F=BB=E8=AA=
+=AD=E8=80=85-=E8=8B=B1=E8=AA=9E: This paper proposed a method for identifyi=
+ng registered users by using multiple (=3D0~32) pressure sensors embedded i=
+n a helmet. In the paper, the authors develop two prototype helmets and eva=
+luated the performance with 9 subjects. The accuracy of their method is 100=
+%. In addition to the basic performance evaluation, they evaluated the perf=
+ormance difference with a different number of pressure sensors.
+
+
+The following points are not clear in this paper:
+* Are there any effects by participants =E2=80=9Csize of their head,=E2=80=
+=9D =E2=80=9Cwight of the helmet itself,=E2=80=9D or =E2=80=9Cchange of hai=
+rstyles=E2=80=9D? This information seems directly affect the accuracy of us=
+er identification if the method includes a pressure sensor. The author shou=
+ld describe the evaluation environment more clearly.
+
+* The identification model is sharable with other helmets? This proposed me=
+thod needs to make a model for identifying users from multiple pressure sen=
+sors. However, I think the position of the pressure sensor might need to se=
+t position strictly. If the sensor position of helmet A and helmet B is dif=
+ferent, or the shape of a helmet (balance, weight, and form) is different t=
+he accuracy might be changed.
+
+* What is the limitation of this approach? As I pointed before, this evalua=
+tion is conducted with only male users. The author cannot assert this appro=
+ach is applicable to all gender and ages. The author has to discuss the lim=
+itations of this method and add appropriate sentences based on the evaluati=
+on as a conclusion.
+
+=E6=9F=BB=E8=AA=AD=E8=80=85: 2
+=E8=91=97=E8=80=85=E3=81=B8=E3=81=AE=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E5=
+=85=A5=E5=8A=9B=E3=83=95=E3=82=A9=E3=83=BC=E3=83=A0=EF=BC=88=E8=AB=96=E6=96=
+=871=E5=9B=9E=E7=9B=AE=E6=9F=BB=E8=AA=AD=E7=94=A8=EF=BC=89-=E6=9F=BB=E8=AA=
+=AD=E8=80=85-=E8=8B=B1=E8=AA=9E: 1)
+It seems inappropriate that only the accuracy result was described in abstr=
+action description. It should be include that which statistical analysis me=
+thod was used and how large the participants. Therefore when a reader searc=
+hes for a paper, it is difficult to determine if this is appropriate.
+
+
+2)
+Since the target and restrictions of the proposed method are unclear,  the =
+requirements which the method should be, the environment and scale of the u=
+se case where it is expected to be applied, and its position with respect t=
+o the previous method are also unclear. It is necessary to show the expecte=
+d usage target and the requirements, then discuss the advantages of the pro=
+posed method against the previous research. The reviewer consider that the =
+expressions that detract the previous method to show that the previous rese=
+arch does not fit to the authors aim is inappropriate for papers that shoul=
+d be objective statements. This also prevents readers from understanding th=
+e contributions and claims of this paper.
+The reviewer think the following description should be re-consider.
+
+In sec 1.Introduction 2nd paragraph:
+The authors slightly mentioned their supposed target as like =E2=80=9Cfacto=
+ries and disaster site=E2=80=9D and =E2=80=9Cfor short-term workers=E2=80=
+=9D.
+  However, in the =E2=80=9CRelated Work=E2=80=9D section, the authors criti=
+cized the previous studies for the subjective reasons (not practical, not s=
+uitable). Since the previous research did not aim at the same purpose as th=
+is paper, it is inappropriate to deny and discuss it.
+Denying the previous research does not clarify the required specifications =
+of this proposal.
+From the above, it is considered that the position of this treatise is uncl=
+ear.
+
+
+In sec 1.Introduction, 4th paragraph :=20
+By attaching a Global Positioning System (GPS) module or antenna to localiz=
+e the user[2], the name and location of a worker can be determined in real =
+time, allowing the foreperson to have a better understanding of the overall=
+ situation in the field.=20
+  From this description, it is considered that it is supposed to be used ou=
+tdoors because the combined use with GPS is set as one of the usage scenes.
+
+In sec 2.1 2nd paragraph, the authors mentioned below;
+=E2=80=9CHowever, taking a picture of one=E2=80=99s own face with the camer=
+a is complication. Using the palm print and palm vein method, users would h=
+ave to hold the camera each time before putting on the helmet. It is also c=
+omplication. A camera can be attached to the mouth of the helmet so that th=
+e shape and movement of the wearer=E2=80=99s lips and teeth can be acquired=
+. However, the space around the mouth inside a full-face helmet is limited,=
+ and it is difficult to distinguish the shape and movement around the mouth=
+ with a single camera. In addition, this approach is not practical because =
+helmets are sometimes used in dark places.=E2=80=9D
+  In this paper, the results shows there is little difference between full-=
+face helmet and half-helmet sensor combination (shown in Table1/2).  In add=
+ition, there is a description that the accuracy is sufficiently obtained by=
+ the sensor combination like a half helmet. For this reason, it is inconsis=
+tent to describe that it is difficult to use with a full-face helmet. Also,=
+ it is considered common to use lights at the same time when shooting with =
+a camera in a dark place. It is unfair and lacking respect to discourage pr=
+evious research for reasons not to use it in such a general way.=20
+It is believed that these statements obscure the position of this treatise.
+
+In sec 2.1, 4th paragraph, the authors mentioned below:
+=E2=80=9CHowever, the Limitation of fingerprint authentication is that fing=
+erprints can be easily duplicated from photographs. In contrast, head shape=
+, which is used in this paper, is a physical characteristic that is difficu=
+lt to replicate due to its three-dimensional shape.=E2=80=9D
+  Fingerprint authentication technology has already seems to be wide-spread=
+ed for unlocking laptop PCs and smart phones. Duplicating the fingerprints =
+of other users seems easy in theory, but practical hurdles seems not to be =
+low in practical.=20
+For this reason, denying previous studies with these reasons cause the clai=
+m of this study unclear.
+
+In sec 2.1, 5th paragraph, the authors mentioned below;
+=E2=80=9CHowever, there are various ways of putting on a helmet, such as pu=
+tting it on in a hurry and taking care not to let the interior of the helme=
+t become wet in the rain. Therefore, it is not practical to collect data fr=
+om all individuals for various situations.=E2=80=9D
+The assumed "various situation" is unclear. It is not an objective descript=
+ion because the interpretation differs depending on the reader.
+
+In sec 2.2 the authors cited several references about [16]~[19].
+These seems to be benchmark method against the proposed method.
+These treatises are previous studies on User Authentication using pressure =
+sensors. The reviewer think that the authors should consider in comparison =
+with these studies at discussion section.
+  Comparing the recognition by Grasping and the recognition of the shape of=
+ the head, the latter is considered to be a problem setting that is easier =
+to solve because the influence of the time term is small, and it is easily =
+assumed that higher accuracy will be obtained.=20
+  Details will be placed in the comments about Sec 4.1.
+
+
+About sec 2.3 =E2=80=9CHead State Recognition=E2=80=9D, the 1st paragraph
+References 20 to 22 seem to propose facial expression recognition methods.=
+=20
+It's abrupt and mysterious because the authors' paper seems not describe th=
+at the scope is to use a full-face helmet or to perform personal authentica=
+tion from facial expressions. For example, if there are any research that a=
+uthenticates a person by identifying patterns of facial expression fluctuat=
+ions, the reason for mentioning it may be objectively understandable. At pr=
+esent, it seems difficult to understand the significance of this paragraph.
+
+Please unify the treatment of terms and previous research;
+  As for sec.2 as a whole, it seems that identification, authentication, an=
+d recognition are not very distinct.=20
+  There is a mention of the method using EEG, but the 5th paragraph of 2.1 =
+states that the method of getting wet should be avoided, and it is thought =
+that EEG is also a method that is not resistant to getting wet, but here is=
+ no-mentioned. =20
+
+
+3)
+Sec. 3.2 Hardware:
+Please specify the reason why a full-face helmet was used. Full-face helmet=
+s are used in motorcycles and F1 races, but it seems that half-helmets are =
+not common in factories and disaster sites. After reading sec. 4.2.1, reade=
+rs could understand that it is for comparison with a half helmet, but it is=
+ difficult to judge whether it is a requirement because it is not explained=
+ at the time of this section.
+Where are the pressure sensors # 20 to # 23 mounted in the image of the hea=
+d on the middle/right side on Fig. 6? In this experiment, it seems that the=
+ contribution to improving the accuracy of the sensors both # 20 to 23 and =
+#26 to #31 were small.=20
+Please clarify how well these sensors respond, then why the contribution of=
+ these features were small for distinguish the wearer,  and add some consid=
+eration to the discussion.
+What is the size and circumference of the helmet? Please describe in the te=
+xt.
+Regarding Fig. 3, the shaded part is hard to see and the caption is abstrac=
+t, but is it a prototype using a full-face helmet?
+About Fig. 5, what is the thickness of polyurethane sponge? Please specify =
+in the figure.
+
+
+4)
+Sec 4.1 Data Collection;
+What are the variations of gender, hairstyle, and head size for the subject=
+s?
+(For example, there are 21 subjects in Reference [16], and the physical spe=
+cifications of the subjects are specified.) Are the all sensors responsive =
+no matter which subject uses it?=20
+Are the all sensors responsive no matter which subject uses it? From Tables=
+ 1 and 2, it seems that the combinations of sensors with high identificatio=
+n accuracy have something in common.=20
+Have the authors considered that some sensors may not be responding due to =
+poor fitting (some subjects' head size might not match the head size)?
+As a proof that one size helmet is enough, please show the reaction status =
+of 32 sensors when wearing it. The reviewer thinks there seems to be a poss=
+ibility that pressure is mainly applied only to specific 4 to 5 sensors (# =
+0, # 3, # 5, # 10, etc.); the other sensors have little fluctuation, and th=
+e data might not be actually 32 dimensions.
+
+5)
+The reviewer thinks the limitation discussion should be described on this a=
+rticle.
+Because the authors describe the proposed is a prototype. In the last parag=
+raph of Sec4, there is a description "It is necessary to validate with data=
+ from a larger number of subjects, as there was a difference in the EER bet=
+ween subjects." Which seems the limitation description of the proposed anal=
+ysis. However, current description of limitation seems to be poor because t=
+here are some papers.
+
+[1] Ziqing Zhuang, Chang Shu, Pengcheng Xi, Michael Bergman, and Michael Jo=
+seph:
+=E2=80=9CHead-and-face shape variations of U.S. civilian workers=E2=80=99=
+=E2=80=99
+https://www.sciencedirect.com/science/article/pii/S0003687013000215?casa_to=
+ken=3DQ6s0ThZtSfsAAAAA:7oGIb0RGKrhyCfzxTkBUJpPZMxLFb1RLJ0X1DUxM5ABCZmhLfK0u=
+2UNoDCsiLBRTWNedkFlvMyDx
+summary:
+In this article, an analysis of head and face morphology of 1169 U.S. worke=
+rs appears to support 90% variation with 50 components by PCA.
+
+In the proposed method, authentication seems to be accurate with at most 5 =
+sensors.=20
+Is it possible to consider this proposal to be useful when increasing the n=
+umber of subjects to the order of 1000 as shown in the above paper? By usin=
+g the 32 sensors helmet described in this proposal, how large the individua=
+l could be identified with theoretical estimation, please include it in the=
+ discussion.
+  For example, vein authentication and fingerprint authentication are suppo=
+sed to be used by 1 to 10 million people as mentioned in the following pape=
+r [2] in order to cover the number of users of the national and local gover=
+nments. How many people are expected to be applied to factories and disaste=
+r sites, and please discuss the applicability of the future of this researc=
+h to those target.
+  How accurate is the proposed method compared to the accuracy of the other=
+ Authentication methods cited in the previous studies section (EER0.076 is =
+how high it is compared to the accuracy of these related methods? ). Please=
+ put the description.
+
+[2] Shigefumi YAMADA, Toshio ENDOH, and Takashi SHINZAKI :=20
+=E2=80=9CEvaluation of Independence between Palm Vein and Fingerprint for M=
+ultimodal Biometrics=E2=80=99=E2=80=99
+https://www.ieice.org/~biox/limited/2012/001-kenkyukai/pdf/BioX2012-11.pdf
+
+
+minor point of review:
+Sec.4.3.1 2nd paragraph:
+=E2=80=9CThe smaller the threshold value in 4 is set,=E2=80=9D
+Is this a kind of typo?
