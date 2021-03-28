@@ -84,10 +84,10 @@ def plot_loss_csv(file_dir, save_figname=False):
             G_loss.append(float(row[2]))
 
     plt.figure(figsize=(16, 9))
-    plt.plot(epoch, D_loss, 'red', label="Discriminator")
-    plt.plot(epoch, G_loss, 'blue', label="Generator")
-    plt.xlabel("Epoch", fontsize=18)
-    plt.ylabel("Loss", fontsize=18)
+    plt.plot(epoch, D_loss, 'red', label='Discriminator')
+    plt.plot(epoch, G_loss, 'blue', label='Generator')
+    plt.xlabel('Epoch', fontsize=18)
+    plt.ylabel('Loss', fontsize=18)
     plt.tick_params(labelsize=18)
     plt.legend(fontsize=18, loc='upper right')
     if save_figname is not False:
