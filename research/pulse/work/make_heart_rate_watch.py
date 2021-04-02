@@ -11,7 +11,7 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 
 TRAIN_DATA = '20210228_124511_raw'
-LIGHTING_TIME = 10
+LIGHTING_TIME = 120
 
 
 def light():
@@ -21,10 +21,11 @@ def light():
         """ランダム色データの生成
 
         Returns:
-            list: 脈波配列
+            list: タイムスタンプ配列
             list: 脈波から生成した色データ配列
         """
 
+        timestamps = []
         pulse_data = []
         with open('./data/train/' + TRAIN_DATA + '.csv') as f:
             reader = csv.reader(f)
@@ -34,6 +35,7 @@ def light():
 
             for row in reader:
                 # データの追加
+                timestamps.append(float(row[0]))
                 pulse_data.append(float(row[1]))
 
         pulse_data = np.array(pulse_data)
@@ -41,17 +43,22 @@ def light():
         display_data = np.array(
             pulse_data / max(pulse_data) * 5 + 122, dtype=int)
 
-        return pulse_data, list(display_data)
+        return timestamps, list(display_data)
 
-    raw, colors = make_display_data()
+    timestamps, colors = make_display_data()
     generated = []
 
     # 開始時間の取得
     start = time.time()
 
+    num = 0
     # 色データの描画
-    for color in colors:
-        if (time.time() - start) > LIGHTING_TIME:
+    for timestamp, color in zip(timestamps, colors):
+        num += 1
+        process = time.time() - start
+        print(str(num) + '：' + str(process))
+
+        if process > LIGHTING_TIME:
             break
 
         socket_client.send((str(color) + '\0').encode('UTF-8'))
