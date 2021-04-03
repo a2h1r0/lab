@@ -6,8 +6,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-TIME = '20210224_160755'
-SHOW_EPOCH = 5000
+TIME = '20210208_004429'
+SHOW_EPOCH = 3000
 
 
 t = []

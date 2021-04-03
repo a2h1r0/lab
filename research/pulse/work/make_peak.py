@@ -27,10 +27,10 @@ SAVE_DIR = './data/' + time + '/'
 
 COLOR_DATA = SAVE_DIR + 'colors.csv'
 
-TRAIN_DATA = '20210228_124511_raw'
+TRAIN_DATA = '20210228_123306_raw'
 START = 0
-END = 5000
-SAMPLE_SIZE = 1500
+END = 3956
+SAMPLE_SIZE = 74
 
 
 def get_pulse():
@@ -60,12 +60,17 @@ def get_pulse():
         pulse_data = np.array(pulse_data[START:END])
 
         display_data = np.array(
-            pulse_data / max(pulse_data) * 5 + 122, dtype=int)
+            pulse_data / 1000 * 10 + 122, dtype=int)
 
         return pulse_data, list(display_data)
 
     raw, colors = make_display_data()
     generated = []
+
+    with open('./data/sample.csv', 'w', newline='') as loss_file:
+        # データの書き込み
+        loss_writer = csv.writer(loss_file, delimiter=',')
+        loss_writer.writerow(colors)
 
     # 色データの描画
     for color in colors:
