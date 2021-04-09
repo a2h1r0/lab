@@ -1,0 +1,94 @@
+Delivered-To: atsu3.n9@gmail.com
+Received: by 2002:ac9:711a:0:0:0:0:0 with SMTP id c26csp409087ocs;
+        Sun, 12 Apr 2020 23:08:31 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJai+2wA0gOaYeEFaX2kdOz1f8hYl5qlggItWFkSO/TBiCfXIoIi3UNytscMcYo7lDX0xT+
+X-Received: by 2002:a62:ce84:: with SMTP id y126mr9092005pfg.244.1586758111221;
+        Sun, 12 Apr 2020 23:08:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1586758111; cv=none;
+        d=google.com; s=arc-20160816;
+        b=QAQEC0C2V22gHfg2Zq9sYhQ2yTF4GDE/A2G9iNOHgqdyR2ZXH0NVUcoAoPAyINuMm3
+         DkaHmLlgPhtto9JvOAy3KqQ/4rwLLVI9EN7OTeCVcQDnUavipxn8YW3guPkW9tOhtAXe
+         3SR19BH07PtG6YWIBCeXuCB3oY56s8LGOQQwx9rzwPg1iv8i35B1N4Ydj642MyD+uj9p
+         IMW+itlGjKJog/0r0CRIp9XNI5WgdeOmCdHMHDTXY0XW2h70GQB697w0K/GeAaLlU5XR
+         heO7vI9UZTYMRLWRS0Lza5Mp0Oh9a3T2mSvVRX2BVOyrPXg8W5Z4y4JM6obmLWGoLQ4A
+         wPVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:subject:to:from:errors-to
+         :message-id:date:domainkey-status:delivered-to;
+        bh=/5xYT3wpajTeurbqwlPCpxIgXZHJSdqD40HFc5w6fDA=;
+        b=lap/eQmFFiNnx7etqQHaK/9jBfgaYG+xduNNNtVwqIGk022iuG66zvel9WRNDpogio
+         DGoTWxDZj1EhVYDUSabIOYJeypGAPq3noScrLYyI7iLt5YXMXKDzYlvBC8qLSNXop8Wa
+         1Vg2YD08PWc3xDw/W5p9uSf98LAhsxhn5QIWq0lbCfVQfXzRD9qioqmYAos9SlYj3Tzf
+         BEwLpydWrOurJc12O0g6M5aVBUi4SmLNtsKs71esee244iGaM3U2vxNlg4q9l8ivlGnO
+         l/UYbQGaaqJ6Qdq91yUL3J7Fz3INIzKuarcst6JKBmC3sFSShFh3njYkNKD0GRTGSOsf
+         gKQQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=neutral (google.com: 180.235.250.198 is neither permitted nor denied by best guess record for domain of www@web.tsys.jp) smtp.mailfrom=www@web.tsys.jp
+Return-Path: <www@web.tsys.jp>
+Received: from ci.ritsumei.ac.jp (chd2039.route-server.jp. [180.235.250.198])
+        by mx.google.com with SMTP id s15si7041224plq.315.2020.04.12.23.08.30
+        for <atsu3.n9@gmail.com>;
+        Sun, 12 Apr 2020 23:08:31 -0700 (PDT)
+Received-SPF: neutral (google.com: 180.235.250.198 is neither permitted nor denied by best guess record for domain of www@web.tsys.jp) client-ip=180.235.250.198;
+Authentication-Results: mx.google.com;
+       spf=neutral (google.com: 180.235.250.198 is neither permitted nor denied by best guess record for domain of www@web.tsys.jp) smtp.mailfrom=www@web.tsys.jp
+Received: (qmail 13145 invoked by uid 90); 13 Apr 2020 15:08:29 +0900
+Delivered-To: atsuhiro.fujii@iis.ise.ritsumei.ac.jp
+Received: (qmail 13134 invoked by uid 504); 13 Apr 2020 15:08:29 +0900
+Received: by cisv01.ci.ritsumei.ac.jp (hde-lc-postfix, from userid 90)
+	id BA4755F3CE; Mon, 13 Apr 2020 15:08:29 +0900 (JST)
+DomainKey-Status: no signature
+Received: from sm.tsys.jp (tsys.jp [153.120.11.139])
+	by cisv01.ci.ritsumei.ac.jp (hde-lc-postfix) with ESMTP id A97D45F396
+	for <atsuhiro.fujii@iis.ise.ritsumei.ac.jp>; Mon, 13 Apr 2020 15:08:29 +0900 (JST)
+	(envelope-from www@web.tsys.jp)
+Received: from web.tsys.jp (web [192.168.0.4])
+	by sm.tsys.jp (8.14.9/8.14.9) with ESMTP id 03D68TXW088462
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 13 Apr 2020 15:08:29 +0900 (JST)
+	(envelope-from www@web.tsys.jp)
+Received: from web.tsys.jp (localhost [127.0.0.1])
+	by web.tsys.jp (8.14.5/8.14.5) with ESMTP id 03D68Tma044481;
+	Mon, 13 Apr 2020 15:08:29 +0900 (JST)
+	(envelope-from www@web.tsys.jp)
+Received: (from www@localhost)
+	by web.tsys.jp (8.14.5/8.14.5/Submit) id 03D68TEZ044480;
+	Mon, 13 Apr 2020 15:08:29 +0900 (JST)
+	(envelope-from www)
+Date: Mon, 13 Apr 2020 15:08:29 +0900 (JST)
+Message-Id: <202004130608.03D68TEZ044480@web.tsys.jp>
+Errors-To: confsys-admin@tsys.jp
+From: dicomo2020-inquiry@dicomo.org
+To: atsuhiro.fujii@iis.ise.ritsumei.ac.jp, murao@cs.ritsumei.ac.jp
+Subject: DICOMO2020: =?ISO-2022-JP?B?GyRCPzM1RDdrMkwbKEIgKBskQk9ASjgbKEI=?=
+ =?ISO-2022-JP?B?GyRCRVBPP0hWOWYbKEI=?= 1063)
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Type: Text/Plain; charset=iso-2022-jp
+
+村尾和哉 様
+
+論文登録番号:	1063
+論文題目:	圧力センサ搭載ヘルメットを用いた個人識別手法
+著者:		藤井 敦寛 (立命館大学大学院情報理工学研究科), 村尾 和哉 (立命館大学大学院情報理工学研究科/JSTさきがけ)
+
+上記論文につきまして、
+マルチメディア，分散，協調とモバイル(DICOMO2020)シンポジウムにて
+発表申込を受理致しましたので、御通知申し上げます。
+
+プログラム、参加登録、カメラレディ原稿提出（2020年5月11日(月)締切）の
+方法につきましてはDICOMO2020のWebページ( http://www.dicomo.org/ )を
+ご覧ください。
+締め切りを厳守していただきますよう、よろしくお願いします。
+
+一般講演の発表時間は、20分（プレゼンテーション12分、質疑応答8分）です。
+
+なお、シンポジウム開催までの間に他のジャーナルやトランザクションへの投稿
+を計画されている方は推薦候補から除外致しますので、最終原稿提出の際にその
+旨をご指定下さい。
+
+それでは、有意義な研究討論ができますことを楽しみにしております。
+ 
+マルチメディア，分散，協調とモバイル(DICOMO2020)シンポジウム
+プログラム委員長
+ (問い合わせ先：dicomo2020-inquiry@dicomo.org)

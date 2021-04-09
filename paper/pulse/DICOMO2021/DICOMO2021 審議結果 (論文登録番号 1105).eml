@@ -1,0 +1,97 @@
+Delivered-To: murao.kazuya10@gmail.com
+Received: by 2002:a05:6a10:c04e:0:0:0:0 with SMTP id v14csp1056670pxc;
+        Thu, 8 Apr 2021 19:17:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzgZcv/SAEsQbX+GI+Kw04uNQOh087Hpe8khhOUC/TXtui/QAYUdJSBdloRKK6cb23ito+o
+X-Received: by 2002:a63:aa48:: with SMTP id x8mr10781856pgo.246.1617934635994;
+        Thu, 08 Apr 2021 19:17:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1617934635; cv=none;
+        d=google.com; s=arc-20160816;
+        b=JPMFDyGh8FQ/XbQcUYEqcVNULtZqESPOnKcykYnSFDR+kMTkFOCvreFfP1wucOyXS+
+         UKEPcy4t6BptDuyxRsWTMa1bhb5KOKQN8jZqh6OWetsyvaSdrdxM/c/H2Gxb8KoDwpvp
+         UXRm/fq8dGILNASO0c/cRLQ7Gn1UsZOYoL+3YTT673T+Sj4FPC1eu5VKF2mZct8Cgqha
+         JSL0lDWFy/Tsd6g5z0oDid6WiKwxqOa2SL47TF/icYd1hHWBweks33x2x7odz7ewJEC/
+         BrcFNJ92BkAxkl3WGmwvPv/j5qnTMiQEVy7zHspzGfbCBrt6qqXzDSPzaPh6A1hyp7e8
+         ljWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:subject:to:from:errors-to
+         :message-id:date:delivered-to;
+        bh=auJBFTxtPCDh+LVsNVrwqcd0fAOjaos6UncWX0UWydY=;
+        b=mZ9D7KWZ9cA7OHdW/iOcRYV5LCDgnLJdTGPk8j9mIt1fgTkgTXMoSwqOdAIJt0jBrr
+         +ijE3vmLAKjvjQ2E1V1JT+5F7ZMbpY3QHhr5Ru/UUv0Ft5V9MSvneAwJ3b5p+zV2ML6d
+         9zOACTfp6Cm364Bl5pFNfZKhyvhLuo6PZoKNnb593c661xwrJWCEmfmwwfbJsoQbbGO0
+         MNnPz0m0+6nay3Qh8zhALaEMEgolEioyjzLAVTbYaYpkdBwbD+fvFwBV2JOzyAkRV+gA
+         z+xHAzi4JhjaC1JxRdNKFLgrTI0L6SbTZ1SPeOQYP8R/AomfPMipVIFaeWExF6QkjXL9
+         jU9Q==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=neutral (google.com: 133.19.0.32 is neither permitted nor denied by best guess record for domain of www@web.tsys.jp) smtp.mailfrom=www@web.tsys.jp
+Return-Path: <www@web.tsys.jp>
+Received: from rucs.cs.ritsumei.ac.jp (rucs.cs.ritsumei.ac.jp. [133.19.0.32])
+        by mx.google.com with ESMTP id h123si1589015pfb.86.2021.04.08.19.17.15
+        for <murao.kazuya10@gmail.com>;
+        Thu, 08 Apr 2021 19:17:15 -0700 (PDT)
+Received-SPF: neutral (google.com: 133.19.0.32 is neither permitted nor denied by best guess record for domain of www@web.tsys.jp) client-ip=133.19.0.32;
+Authentication-Results: mx.google.com;
+       spf=neutral (google.com: 133.19.0.32 is neither permitted nor denied by best guess record for domain of www@web.tsys.jp) smtp.mailfrom=www@web.tsys.jp
+Received: by rucs.cs.ritsumei.ac.jp (Postfix)
+	id 5E4923E7480; Fri,  9 Apr 2021 11:17:15 +0900 (JST)
+Delivered-To: murao@cs.ritsumei.ac.jp
+Received: from rundz1055.ritsumei.ac.jp (rundz1055.ritsumei.ac.jp [133.19.170.55])
+	by rucs.cs.ritsumei.ac.jp (Postfix) with ESMTP id 5CE213E7484
+	for <murao@cs.ritsumei.ac.jp>; Fri,  9 Apr 2021 11:17:15 +0900 (JST)
+Received: from sm.tsys.jp (tsys.jp [153.120.11.139])
+	by rundz1055.ritsumei.ac.jp  with ESMTP id 1392HFCD002026-1392HFCE002026
+	for <murao@cs.ritsumei.ac.jp>; Fri, 9 Apr 2021 11:17:15 +0900
+Received: from web.tsys.jp (web [192.168.0.4])
+	by sm.tsys.jp (8.14.9/8.14.9) with ESMTP id 1392HFfv028660
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 9 Apr 2021 11:17:15 +0900 (JST)
+	(envelope-from www@web.tsys.jp)
+Received: from web.tsys.jp (localhost [127.0.0.1])
+	by web.tsys.jp (8.14.5/8.14.5) with ESMTP id 1392HE3Y025025;
+	Fri, 9 Apr 2021 11:17:14 +0900 (JST)
+	(envelope-from www@web.tsys.jp)
+Received: (from www@localhost)
+	by web.tsys.jp (8.14.5/8.14.5/Submit) id 1392HE8b025024;
+	Fri, 9 Apr 2021 11:17:14 +0900 (JST)
+	(envelope-from www)
+Date: Fri, 9 Apr 2021 11:17:14 +0900 (JST)
+Message-Id: <202104090217.1392HE8b025024@web.tsys.jp>
+Errors-To: confsys-admin@tsys.jp
+From: dicomo21-inquiry@dicomo.org
+To: atsuhiro.fujii@iis.ise.ritsumei.ac.jp, murao@cs.ritsumei.ac.jp
+Subject: DICOMO2021: =?ISO-2022-JP?B?GyRCPzM1RDdrMkwbKEIgKBskQk9ASjgbKEI=?=
+ =?ISO-2022-JP?B?GyRCRVBPP0hWOWYbKEI=?= 1105)
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Type: Text/Plain; charset=iso-2022-jp
+
+村尾和哉 様
+
+論文登録番号:	1105
+論文題目:	ディスプレイを用いて光電脈波センサに任意の脈波を計測させる手法の提案
+著者:		藤井 敦寛 (立命館大学大学院情報理工学研究科), 村尾 和哉 (立命館大学大学院情報理工学研究科/JSTさきがけ)
+
+上記論文につきまして、
+マルチメディア，分散，協調とモバイル(DICOMO2021)シンポジウムにて
+発表申込を受理致しましたので、御通知申し上げます。
+
+また、新型コロナウイルスの感染拡大状況等を考慮し、DICOMO2021は
+オンライン開催へ変更させていただくこととなりました。
+
+プログラム、参加登録、カメラレディ原稿提出（2021年5月10日(月)締切）の
+方法につきましてはDICOMO2021のWebページ( https://www.dicomo.org/ )を
+ご覧ください。
+締め切りを厳守していただきますよう、よろしくお願いします。
+
+一般講演の発表時間は、20分（プレゼンテーション12分から15分、残り時間質疑応答）です。
+発表内容、質疑時間に応じて、プレゼンテーション時間は15分以内で発表者が決めてください。
+
+なお、シンポジウム開催までの間に他のジャーナルやトランザクションへの投稿
+を計画されている方は推薦候補から除外致しますので、最終原稿提出の際にその
+旨をご指定下さい。
+
+それでは、有意義な研究討論ができますことを楽しみにしております。
+ 
+マルチメディア，分散，協調とモバイル(DICOMO2021)シンポジウム
+プログラム委員長
+ (問い合わせ先：dicomo21-inquiry@dicomo.org)
