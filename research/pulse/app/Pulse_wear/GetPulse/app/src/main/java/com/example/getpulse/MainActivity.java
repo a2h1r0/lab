@@ -52,6 +52,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // 画面の常時点灯
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mTextView = (TextView) findViewById(R.id.pulse);
         mTextView.setTextSize(20.0f);
@@ -170,12 +171,12 @@ public class MainActivity extends Activity implements SensorEventListener {
     @Override
     protected void onResume() {
         super.onResume();
-        //Sensor accSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        //mSensorManager.registerListener(this, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        //Sensor hrSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-        //mSensorManager.registerListener(this, hrSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        Sensor ppgSensor = mSensorManager.getDefaultSensor(65572);
-        mSensorManager.registerListener(this, ppgSensor, SensorManager.SENSOR_DELAY_FASTEST);
+//        Sensor accSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+//        mSensorManager.registerListener(this, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        Sensor hrSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
+        mSensorManager.registerListener(this, hrSensor, SensorManager.SENSOR_DELAY_NORMAL);
+//        Sensor ppgSensor = mSensorManager.getDefaultSensor(65572);
+//        mSensorManager.registerListener(this, ppgSensor, SensorManager.SENSOR_DELAY_FASTEST);
         mGoogleApiClient.connect();
     }
     @Override
