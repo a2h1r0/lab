@@ -39,15 +39,19 @@ for name, color, linestyle in zip(tester, colors, linestyles):   # 被験者1人
     del values[0]
     del values[-1]
     for i in range(len(values)):
-        ax[i].plot(range(len(values[i])), values[i],
+        step = 2000 / len(values[i])
+        timestamps = np.arange(step/2, 2000, step)
+        ax[i].plot(timestamps, values[i],
                    color, linestyle=linestyle)
-        ax[i].set_xlim(0, len(values[i]))
+        ax[i].set_xlim(0, 2000)
         ax[i].set_ylim(0, 5)
         ax[i].set_ylabel('#' + str(i), fontsize=12)
         ax[i].tick_params(labelsize=12)
+        ax[i].spines['right'].set_visible(False)
+        ax[i].spines['top'].set_visible(False)
 
 
-ax[31].set_xlabel('Sumple Number', fontsize=18)
+ax[31].set_xlabel('Time [ms]', fontsize=18)
 ax[31].plot([], [], color=colors[0],
             linestyle=linestyles[0], label='Subject A')
 ax[31].plot([], [], color=colors[1],
