@@ -1,0 +1,154 @@
+Delivered-To: murao.kazuya10@gmail.com
+Received: by 2002:a05:6a10:6e9b:0:0:0:0 with SMTP id ie27csp1064240pxb;
+        Thu, 22 Apr 2021 19:57:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz4CFF7/Mz3LJTQrlvKcHl55YIVPp9f1E7Jc1RUJFPVt5mKNRVleWOHidX8/ajKb8LkUj3e
+X-Received: by 2002:aca:d687:: with SMTP id n129mr1124129oig.49.1619146629971;
+        Thu, 22 Apr 2021 19:57:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1619146629; cv=none;
+        d=google.com; s=arc-20160816;
+        b=XQbFP/aZwu8JZkYNOanH0gFfSLjZgrj+xs4VIih8TEkkbRh/aF9z3EKnSbbi49GkcP
+         HebcW/JXPZzXjwRNUcpRjh/AD8roP1vQ36m5y5ZexQg/tsILQCpLt3p0GTH8D0Z5PHdL
+         82MpsOmEJX5z18tE5TFawddhJDScTuWZgZYqNkHbyi486pLetVWnDBJeUiI6WhGNKGlV
+         G77WBm2oplj3Pn5EJnRMsS3mhThSy70gZzKZbxZ/3LOpCnB2jnCnN93qhE/ND3hpxK90
+         qFmEgAo3CpM0Wi9xKaOKQWsNG+E1DlVeSMgoiXuPEtZy29FsFoddG7bYyoZb2UP/c69d
+         15Dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:content-transfer-encoding:mime-version:subject
+         :message-id:to:reply-to:from:date:dkim-signature:dkim-signature
+         :delivered-to;
+        bh=mBlkXbthodVAzqdBy8oKZR9LY6sEcSH2ntSpC27BMjA=;
+        b=eOjPUpLltz88u3OTeILTnvgPPR1fhgseo3lPZezk3qbh59yFBwRwg/k06p2a9iCUMr
+         m/4c3TSyOgsq+zRuJomeUIXdc6W3G8RfKMOkC/M0MoAoNc80TBRrTeLkWInEUhX+cKSH
+         20zdKqqyFkWSkIWh6DAsGekcHWW0jrEZbNRkO3J5cNCtVT4A5+FrVJ1aQZpZq/uUmQK5
+         qqVskPU7Yg7rb+hus2oX6hcmH4Rv3o4VBGkeqBeVlxV9Znw1SQdYvbTEwMUoEcipubiJ
+         vuzqxZbVIvnoECAV74WGhaDuMWlfEIO2qZGONmQ06g2FWK7N6wLH5gHpsq8Lh74Eswdz
+         oJYw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@manuscriptcentral.com header.s=eeyba4hl2lzbfpoyr4uiu2upyacpzpsq header.b=lVoRHhzf;
+       dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=RtGYnLpG;
+       spf=softfail (google.com: domain of transitioning 01010178fca8d46c-8e0f2b03-6eed-43f3-af49-cc97a687af2c-000000@outbound.manuscriptcentral.com does not designate 133.19.0.32 as permitted sender) smtp.mailfrom=01010178fca8d46c-8e0f2b03-6eed-43f3-af49-cc97a687af2c-000000@outbound.manuscriptcentral.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=manuscriptcentral.com
+Return-Path: <01010178fca8d46c-8e0f2b03-6eed-43f3-af49-cc97a687af2c-000000@outbound.manuscriptcentral.com>
+Received: from rucs.cs.ritsumei.ac.jp (rucs.cs.ritsumei.ac.jp. [133.19.0.32])
+        by mx.google.com with ESMTP id d12si5330417otu.127.2021.04.22.19.57.09
+        for <murao.kazuya10@gmail.com>;
+        Thu, 22 Apr 2021 19:57:09 -0700 (PDT)
+Received-SPF: softfail (google.com: domain of transitioning 01010178fca8d46c-8e0f2b03-6eed-43f3-af49-cc97a687af2c-000000@outbound.manuscriptcentral.com does not designate 133.19.0.32 as permitted sender) client-ip=133.19.0.32;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@manuscriptcentral.com header.s=eeyba4hl2lzbfpoyr4uiu2upyacpzpsq header.b=lVoRHhzf;
+       dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=RtGYnLpG;
+       spf=softfail (google.com: domain of transitioning 01010178fca8d46c-8e0f2b03-6eed-43f3-af49-cc97a687af2c-000000@outbound.manuscriptcentral.com does not designate 133.19.0.32 as permitted sender) smtp.mailfrom=01010178fca8d46c-8e0f2b03-6eed-43f3-af49-cc97a687af2c-000000@outbound.manuscriptcentral.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=manuscriptcentral.com
+Received: by rucs.cs.ritsumei.ac.jp (Postfix)
+	id A69E63E7481; Fri, 23 Apr 2021 11:57:08 +0900 (JST)
+Delivered-To: murao@cs.ritsumei.ac.jp
+Received: from rundz1055.ritsumei.ac.jp (rundz1055.ritsumei.ac.jp [133.19.170.55])
+	by rucs.cs.ritsumei.ac.jp (Postfix) with ESMTP id A100B3E7480
+	for <murao@cs.ritsumei.ac.jp>; Fri, 23 Apr 2021 11:57:08 +0900 (JST)
+Received: from a27-208.smtp-out.us-west-2.amazonses.com (a27-208.smtp-out.us-west-2.amazonses.com [54.240.27.208])
+	by rundz1055.ritsumei.ac.jp  with ESMTP id 13N2v7VS023152-13N2v7VT023152
+	for <murao@cs.ritsumei.ac.jp>; Fri, 23 Apr 2021 11:57:07 +0900
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=eeyba4hl2lzbfpoyr4uiu2upyacpzpsq; d=manuscriptcentral.com;
+	t=1619146626;
+	h=Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=mBlkXbthodVAzqdBy8oKZR9LY6sEcSH2ntSpC27BMjA=;
+	b=lVoRHhzfdemCojYNhrlC5qlgpqnOHhPMcICzjCc0ru0XCW9dYwCrRkDNtXXYwSwL
+	hCp6eug8mtxEHKLNZ6/DXyq3DHfVTMSfxGPcwcO3qm2/w60ePmjiAWYP4JXriJASNAU
+	XSF8nV50WRuHr0akNe5f5YUNkb5S1ME9y0/OcmOQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1619146626;
+	h=Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID;
+	bh=mBlkXbthodVAzqdBy8oKZR9LY6sEcSH2ntSpC27BMjA=;
+	b=RtGYnLpGGejWxAsg58BASjSZz/tzCyq3SIPRCfYYBTLfVh53ZJIMj30tDgTHFE51
+	lpl0ge1tsYZVb6hXYh4ljdTqytmxJN2aP7PH8sKJx9Le2dZIr6UGOMl2BvVfUf4xMz0
+	/2Y2As/mSfR5o8UMfQpk1wldvZRIt+rjN6TPJdY8=
+Date: Fri, 23 Apr 2021 02:57:06 +0000
+From: IPSJ Journal <onbehalfof@manuscriptcentral.com>
+Reply-To: s1m@ipsj.or.jp
+To: murao@cs.ritsumei.ac.jp
+Message-ID: <01010178fca8d46c-8e0f2b03-6eed-43f3-af49-cc97a687af2c-000000@us-west-2.amazonses.com>
+Subject: =?UTF-8?Q?[IPSJ_Journal/JIP:_Receipt]_(Automatic_reply,_Recei?=
+ =?UTF-8?Q?pt_no._=EF=BC=9A21-Q004e.R1)_Temporary_receipt_of_submission?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SID: 1
+X-PRODUCT: s1m
+X-ENV-TYPE: prod
+X-ENV-NAME: 4270
+X-S1Info: xik_8YvCX8r1pxPdheddbdoq9HPy31oGg21bKoNrX9879JAjwqND71xmSFEBBA2Pf8pGnu
+Feedback-ID: 1.us-west-2.y8789kd/oyDlGffYrP88IUZ2JiqaxJLDOSJ1+/ZSPI4=:AmazonSES
+X-SES-Outgoing: 2021.04.23-54.240.27.208
+X-FEAS-SPF: spf-result=pass, ip=54.240.27.208, helo=a27-208.smtp-out.us-west-2.amazonses.com, mailFrom=01010178fca8d46c-8e0f2b03-6eed-43f3-af49-cc97a687af2c-000000@outbound.manuscriptcentral.com
+X-FEAS-DKIM: Valid
+Authentication-Results: rundz1055.ritsumei.ac.jp;
+	spf=pass (ritsumei.ac.jp: domain of 01010178fca8d46c-8e0f2b03-6eed-43f3-af49-cc97a687af2c-000000@outbound.manuscriptcentral.com designates 54.240.27.208 as permitted sender) smtp.mailfrom=01010178fca8d46c-8e0f2b03-6eed-43f3-af49-cc97a687af2c-000000@outbound.manuscriptcentral.com;
+	dkim=pass header.i=@amazonses.com
+	dkim=pass header.i=@manuscriptcentral.com
+
+23-Apr-2021
+=E6=97=A5=E6=9C=AC=E8=AA=9E=E6=96=87=E3=81=AF=E8=8B=B1=E8=AA=9E=E6=96=87=E3=
+=81=AE=E4=B8=8B=E3=81=AB=E8=A8=98=E8=BC=89=E3=81=95=E3=82=8C=E3=81=A6=E3=81=
+=84=E3=81=BE=E3=81=99=E3=80=82
+
+This is a temporary receipt sent automatically. An official receipt will be=
+ sent later.
+
+Dear Dr. Murao/=E6=9D=91=E5=B0=BE:
+
+Thank you for submitting your paper to Journal of Information Processing.
+We have received your submission as described below.
+
+Manuscript ID: 21-Q004e.R1.
+Date of receipt: 23-Apr-2021
+Type=EF=BC=9ASpecial Issue - Manuscript (written in English)
+Title=EF=BC=9AUser Identification Method based on Head Shape using Pressure=
+ Sensors embedded in a Helmet
+Author name=EF=BC=9ADr. Murao/=E6=9D=91=E5=B0=BE
+Category=EF=BC=9AUbiquitous Computing Systems (X)
+
+You can view the status of your manuscript at any time by checking your Aut=
+hor Center after logging in to https://mc.manuscriptcentral.com/ipsj.
+
+Sincerely,
+Editorial Committee of Journal of Information Processing
+s1m@ipsj.or.jp
+----------------------------------------------------------
+
+=E6=9C=AC=E5=8F=97=E9=A0=98=E6=9B=B8=E3=81=AF=E8=87=AA=E5=8B=95=E8=BF=94=E7=
+=AD=94=E3=81=AB=E3=82=88=E3=82=8A=E9=80=81=E3=82=89=E3=82=8C=E3=82=8B=E4=BB=
+=AE=E3=81=AE=E3=82=82=E3=81=AE=E3=81=A7=E3=81=82=E3=82=8A=E3=80=81
+=E6=AD=A3=E5=BC=8F=E3=81=AA=E5=8F=97=E9=A0=98=E6=9B=B8=E3=81=AB=E3=81=A4=E3=
+=81=84=E3=81=A6=E3=81=AF=E8=BF=BD=E3=81=A3=E3=81=A6=E3=81=8A=E7=9F=A5=E3=82=
+=89=E3=81=9B=E3=81=84=E3=81=9F=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
+
+Murao/=E6=9D=91=E5=B0=BE Kazuya/=E5=92=8C=E5=93=89 =E6=A7=98
+
+=E3=81=93=E3=81=AE=E3=81=9F=E3=81=B3=E3=81=AF=E6=83=85=E5=A0=B1=E5=87=A6=E7=
+=90=86=E5=AD=A6=E4=BC=9A=E8=AB=96=E6=96=87=E8=AA=8C=E3=81=B8=E3=81=94=E6=8A=
+=95=E7=A8=BF=E3=81=84=E3=81=9F=E3=81=A0=E3=81=8D=E3=81=BE=E3=81=97=E3=81=A6=
+=E3=81=82=E3=82=8A=E3=81=8C=E3=81=A8=E3=81=86=E3=81=94=E3=81=96=E3=81=84=E3=
+=81=BE=E3=81=99=E3=80=82
+=E4=B8=8B=E8=A8=98=E3=81=AE=E3=81=A8=E3=81=8A=E3=82=8A=E3=81=8A=E9=A0=90=E3=
+=81=8B=E3=82=8A=E3=81=84=E3=81=9F=E3=81=97=E3=81=BE=E3=81=97=E3=81=9F=E3=80=
+=82
+
+=E8=AB=96=E6=96=87ID=EF=BC=9A21-Q004e.R1
+=E5=8F=97=E4=BB=98=E6=97=A5=EF=BC=9A23-Apr-2021
+=E7=A8=AE=E5=88=A5=EF=BC=9ASpecial Issue - Manuscript (written in English)
+=E3=82=BF=E3=82=A4=E3=83=88=E3=83=AB=EF=BC=9AUser Identification Method bas=
+ed on Head Shape using Pressure Sensors embedded in a Helmet
+=E8=91=97=E8=80=85=E5=90=8D=EF=BC=9AMurao/=E6=9D=91=E5=B0=BE Kazuya/=E5=92=
+=8C=E5=93=89
+=E3=82=AB=E3=83=86=E3=82=B4=E3=83=AA=E3=83=BC=EF=BC=9AUbiquitous Computing =
+Systems (X)
+
+=E6=8A=95=E7=A8=BF=E8=AB=96=E6=96=87=E3=81=AF=E4=BB=A5=E4=B8=8B=E3=81=AEURL=
+=E3=81=A7=E3=81=94=E7=A2=BA=E8=AA=8D=E3=81=84=E3=81=9F=E3=81=A0=E3=81=91=E3=
+=81=BE=E3=81=99=E3=80=82
+https://mc.manuscriptcentral.com/ipsj
+
+=E6=83=85=E5=A0=B1=E5=87=A6=E7=90=86=E5=AD=A6=E4=BC=9A=E8=AB=96=E6=96=87=E8=
+=AA=8C =E7=B7=A8=E9=9B=86=E5=A7=94=E5=93=A1=E4=BC=9A
+s1m@ipsj.or.jp
