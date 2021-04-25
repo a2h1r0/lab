@@ -11,7 +11,7 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 
 TRAIN_DATA = '20210228_124511_raw'
-PROCESS_TIME = 120
+PROCESS_TIME = 240
 
 
 def light():
@@ -34,6 +34,11 @@ def light():
 
             for row in reader:
                 single_wave = row
+
+            single_wave = np.array(single_wave, dtype=int)
+            single_wave = (single_wave / min(single_wave)
+                           * 10) + min(single_wave)
+            single_wave.astype(int)
 
         wave = []
         for i in range(heart_rate):
