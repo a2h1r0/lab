@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,19 +7,43 @@
     android:background="@color/dark_grey"
     android:padding="@dimen/box_inset_layout_padding"
     tools:context=".MainActivity"
-    tools:deviceIds="wear">
+    tools:deviceIds="wear"
+    android:orientation="vertical">
 
-    <FrameLayout
+    <TextView
+        android:id="@+id/pulse"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding"
-        app:boxedEdges="all">
+        android:layout_height="25dp"
+        android:layout_marginTop="60dp"
+        android:paddingStart="15dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="@string/pulse"
+        app:layout_box="all" />
 
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_world" />
+    <TextView
+        android:id="@+id/heart_rate"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:paddingStart="15dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="@string/heart_rate"
+        app:layout_box="all" />
 
-    </FrameLayout>
-</androidx.wear.widget.BoxInsetLayout>
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginTop="15dp"
+        android:paddingStart="30dp"
+        android:text="@string/time"
+        app:layout_box="all" />
+
+    <Button
+        android:id="@+id/auto_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/start" />
+
+</LinearLayout>

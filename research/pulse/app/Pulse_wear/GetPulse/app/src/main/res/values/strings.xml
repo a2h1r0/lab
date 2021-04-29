@@ -4,5 +4,8 @@
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="hello_world">Hello Square World!</string>
+    <string name="pulse">Pulse: </string>
+    <string name="heart_rate">Heart: </string>
+    <string name="time">Time: </string>
+    <string name="start">Start</string>
 </resources>

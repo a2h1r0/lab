@@ -3,6 +3,10 @@
     package="com.example.getpulse">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!--  センサアクセス権限  -->
+    <uses-permission android:name="android.permission.BODY_SENSORS"/>
+    <!--  ファイル保存権限  -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <uses-feature android:name="android.hardware.type.watch" />
 
