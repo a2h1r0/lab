@@ -24,21 +24,16 @@ def light():
             heart_rate (int): 再現する心拍数
         Returns:
             list: 色データ配列
+            list: 点灯時間
         """
 
-        wave = []
-        timestamps = []
-        pulse_data = []
-        with open('./data/sample.csv') as f:
-            reader = csv.reader(f)
+        # sin波（0 ~ 2）の生成
+        sin = np.sin(np.linspace(0, 2 * np.pi, 10)) + 1
+        # 1以上の部分を1にする（0 ~ 1）
+        sin[sin > 1] = 1
 
-            for row in reader:
-                single_wave = row
-
-            single_wave = np.array(single_wave, dtype=int)
-            single_wave = (single_wave / min(single_wave)
-                           * 10) + min(single_wave)
-            single_wave.astype(int)
+        # グレースケールへ変換
+        single_wave = sin * 30 + 120
 
         wave = []
         for i in range(heart_rate):
@@ -46,14 +41,15 @@ def light():
 
         colors = np.array(wave, dtype=int)
 
-        return colors
+        # 点灯時間の計算
+        lighting_time = 60 / len(colors)
+
+        return colors, lighting_time
 
     heart_rate = input('心拍数は？ > ')
 
     # 色データの作成
-    colors = make_display_data(int(heart_rate))
-    # 点灯時間の計算
-    lighting_time = 60 / len(colors)
+    colors, lighting_time = make_display_data(int(heart_rate))
 
     # 開始時間の取得
     start = time.time()
