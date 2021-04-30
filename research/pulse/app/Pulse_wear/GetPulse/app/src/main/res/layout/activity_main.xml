@@ -11,39 +11,31 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/heart"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginTop="70dp"
+        android:paddingStart="15dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="@string/heart"
+        app:layout_box="all" />
+
+    <TextView
         android:id="@+id/pulse"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:layout_marginTop="60dp"
         android:paddingStart="15dp"
         android:textSize="20sp"
         android:textStyle="bold"
         android:text="@string/pulse"
         app:layout_box="all" />
 
-    <TextView
-        android:id="@+id/heart_rate"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:paddingStart="15dp"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="@string/heart_rate"
-        app:layout_box="all" />
-
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_marginTop="15dp"
-        android:paddingStart="30dp"
-        android:text="@string/time"
-        app:layout_box="all" />
-
     <Button
-        android:id="@+id/auto_button"
+        android:id="@+id/record"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="@string/start" />
+        android:layout_marginTop="20dp"
+        android:text="@string/record" />
 
 </LinearLayout>
