@@ -134,6 +134,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     /**
      * センサの精度が更新された場合に実行
+     * @param sensor 更新されたセンサ
+     * @param accuracy 更新後の精度
      */
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -143,6 +145,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     /**
      * センサの値が更新された場合に実行
+     * @param event センサの更新イベント
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
