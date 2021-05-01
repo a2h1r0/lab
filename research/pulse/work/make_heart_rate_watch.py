@@ -32,12 +32,13 @@ def light(heart_rate):
             list: 点灯時間
         """
 
-        # sin波（0 ~ 1）の生成
-        sin = np.sin(np.linspace(np.pi, 2 * np.pi, 10)) + 1
-        ones = np.ones(10)
+        # sin波（0 ~ 2）の生成
+        sin = np.sin(np.linspace(0, 2 * np.pi, 20)) + 1
+        # 1以上の値を1にする（0 ~ 1）
+        sin[sin > 1] = 1
 
         # グレースケールへ変換
-        single_wave = np.array(np.append(ones, sin) * 30 + 225, dtype=int)
+        single_wave = np.array(sin * 30 + 225, dtype=int)
 
         colors = []
         for i in range(heart_rate):
