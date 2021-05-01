@@ -90,8 +90,9 @@ if __name__ == '__main__':
     with open(LOG_FILE, 'a', newline='') as log_file:
         log_writer = csv.writer(log_file, delimiter=',')
         now = datetime.datetime.today()
-        date_time = now.strftime('%Y/%m/%d') + ' ' + now.strftime('%H:%M:%S')
-        log_writer.writerow([date_time, PROCESS_TIME, heart_rate])
+        run_date_time = now.strftime(
+            '%Y/%m/%d') + ' ' + now.strftime('%H:%M:%S')
+        log_writer.writerow([run_date_time, PROCESS_TIME, heart_rate])
 
     print('\n描画中．．．')
 
