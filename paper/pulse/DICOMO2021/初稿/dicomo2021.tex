@@ -1,0 +1,94 @@
+\documentclass[Japanese]{dicomopapers}
+%\documentclass[Japanese,noauthor]{dicomopapers}
+
+\usepackage[dvips]{graphicx}
+\usepackage{latexsym}
+
+\def\Underline{\setbox0\hbox\bgroup\let\\\endUnderline}
+\def\endUnderline{\vphantom{y}\egroup\smash{\underline{\box0}}\\}
+\def\|{\verb|}
+
+\begin{document}
+
+% 和文表題
+\title{DICOMO2021論文フォーマット}
+% 英文表題
+\etitle{DICOMO2021 Paper Format (optional)}
+
+% 所属ラベルの定義
+\affiliate{IPSJ}{（社）情報処理学会\\
+  IPSJ}
+\paffiliate{DICOMO}{マルチメディア,分散,協調とモバイルシンポジウム\\DICOMO2021}
+
+\author{情報 太郎}{TARO JOHO}{IPSJ}
+\author{処理 花子}{HANAKO SHORI}{DICOMO}
+
+\begin{abstract}
+  このパンフレットは，DICOMO2021に投稿する論文の最終版を，日本語
+  {\LaTeX} を用いて作成し提出するためのガイドである．このパンフレットで
+  は，論文作成のためのスタイルファイルについて解説している．また，このパ
+  ンフレット自体も論文と同じ方法で作成されているので，必要に応じてスタイ
+  ルファイルとともに配布するソース・ファイルを参照されたい．また，本スタ
+  イルファイルの元になっているのは，情報処理学会論文誌用のスタイルファイ
+  ル（ https://www.ipsj.or.jp/journal/submit/style.html からアクセス可能）
+  なので，{\LaTeX}コマンドの詳細などについては，それらを参照されたい．
+  \underline{\bf なお，論文フォーマットについては，上記の原稿執筆案内に
+    記載されたフォーマットではなく，本フォー}\\
+  \underline{\bf マットをご利用いただきたい．}
+
+\end{abstract}
+
+% 表題などの出力
+\maketitle
+
+% 本文はここから始まる
+\section{論文フォーマットについて}
+ページ数の制限は設けない．フルペーパーに相当する論文を基幹論文誌推薦の対象とする．
+
+DICOMO2013より，和文原稿において英語のアブストラクトは記載しないことと
+した．また，DICOMO2014より，本文の言語と同じ言語の題名と著者名は必須，
+そうでない言語の題名と著者名はどちらでもよいこととした．
+さらにDICOMO2016では，申込み時の概要入力を論文フォーマットに準拠させ，
+概要からの論文作成がスムースに行えるようにした．
+
+その他の本論文の体裁については「情報処理学会論文誌(ジャーナル)原稿執筆
+案内」（https://www.ipsj.or.jp/\\journal/submit/ronbun\_j\_prms.html）に
+準拠する\cite{webpage}．このフォーマットは，上記案内に準拠しつつ，情報
+処理学会の許諾を得てカスタマイズしたものである．
+なお，DICOMO2021向け原稿に関する特記事項として，以下に留意いただきたい．
+
+\begin{itemize}%{
+  \item 使用するファイルは，
+        \begin{itemize}%{
+          \item[]\tt dicomopapers.cls
+        \end{itemize}%}
+        である．
+  \item documentclassの設定は，\\
+        \|\documentclass[Japanese,noauthor]{dicomopapers}|\\
+        とすること．
+        \begin{itemize}
+          \item {\tt Japanese}オプション: 和文原稿の場合に指定する
+                %  \item {\tt English}オプション: 英文原稿の場合に指定すること
+          \item {\tt noauthor}オプション: 和文原稿の場合に限り，英文のタイトル
+                と著者名を記載したくない場合に指定する
+        \end{itemize}
+  \item biographyセクションは，記述しないこと．
+\end{itemize}%}
+
+著者も含めて論文誌作成に関わる全ての人々の労力を軽減するためにも，
+原稿を作成する前に執筆案内を\underline{\bf{良く読んで規定を守っていただきたい}}．
+
+なお，\underline{\bf これらスタイルファイルについて，情報処理学会}\\
+\underline{\bf に問い合わせることはしないこと．} また
+\underline{\bf DICOMO2021}
+\underline{\bf 運営委員会としても，基本的にサポートはおこなわない}ので，悪しからずご了承いただきたい．
+
+\begin{thebibliography}{10}
+  \bibitem{webpage}
+  情報処理学会: 情報処理学会論文誌(IPSJ Journal)原稿執筆案内，情報処理学
+  会(オンライン)，
+  \urlj{https://\\www.ipsj.or.jp/journal/submit/ronbun\_j\_prms.html}
+  \refdatej{2021-03-01}.
+\end{thebibliography}
+
+\end{document}
