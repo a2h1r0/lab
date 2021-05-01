@@ -152,7 +152,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         if (sensor.getType() == mTypeHeartRate) {
 //            心拍数センサ値の更新
             heartValue = (int) event.values[0];
-            mHeartView.setText(String.format("Heart: %f" , heartValue));
+            mHeartView.setText(String.format("Heart: %d" , heartValue));
         } else if (sensor.getType() == mTypeRawPPG) {
 //            脈波センサ値の更新
             pulseValue = (int) event.values[0];
