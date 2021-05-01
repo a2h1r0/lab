@@ -34,9 +34,9 @@ import java.util.Locale;
 public class MainActivity extends Activity implements SensorEventListener {
 
 //    センサ値取得前の待機時間（キャリブレーション）
-    private long mInitializationTime = 10;
+    private long mInitializationTime = 60;
 //    センサ値取得時間
-    private long mSensingTime = 10;
+    private long mSensingTime = 60;
 
     private TextView mHeartView, mPulseView;
     private Button mRecordButton;
@@ -167,11 +167,11 @@ public class MainActivity extends Activity implements SensorEventListener {
 
             if (processingTime < mInitializationTime) {
 //                キャリブレーション中
-                mRecordButton.setText(String.format("INITIALIZING...  %.2f", (float) processingTime / 1000));
+                mRecordButton.setText(String.format("INITIALIZING...  %.2f", (float) (mInitializationTime - processingTime) / 1000));
                 mRecordButton.setTextColor(Color.WHITE);
             } else if (mInitializationTime < processingTime && processingTime < mFinishRecordingTime) {
 //                データ取得中
-                mRecordButton.setText(String.format("RECORDING...  %.2f", (float) (processingTime - mInitializationTime) / 1000));
+                mRecordButton.setText(String.format("RECORDING...  %.2f", (float) (mFinishRecordingTime - processingTime) / 1000));
                 mRecordButton.setTextColor(Color.RED);
 
 //                値が存在する場合は追加
