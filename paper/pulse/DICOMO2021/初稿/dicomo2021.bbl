@@ -1,0 +1,68 @@
+\begin{thebibliography}{10}
+
+\bibitem{fatigue_detection}
+今井龍一, 神谷大介, 井上晴可, 田中成典, 櫻井淳.
+\newblock スマートウォッチを用いた疲労度検出の試行に関する研究.
+\newblock 日本知能情報ファジィ学会 ファジィ システム シンポジウム 講演論文集,
+  Vol.~34, pp. 407--408, 2018.
+
+\bibitem{smart_wristband}
+Jooyeun Ham, Jonggi Hong, Youngkyoon Jang, Seung~Hwan Ko, and Woontack Woo.
+\newblock Smart wristband: Touch-and-motion--tracking wearable 3d input device
+  for smart glasses.
+\newblock In {\em Distributed, Ambient, and Pervasive Interactions}, pp.
+  109--118, 2014.
+
+\bibitem{bioglass}
+J.~{Hernandez}, Y.~{Li}, J.~M. {Rehg}, and R.~W. {Picard}.
+\newblock Bioglass: Physiological parameter estimation using a head-mounted
+  wearable device.
+\newblock In {\em 2014 4th International Conference on Wireless Mobile
+  Communication and Healthcare - Transforming Healthcare Through Innovations in
+  Mobile and Wireless Technologies (MOBIHEALTH)}, pp. 55--58, 2014.
+
+\bibitem{smart_cap}
+A.~{Nishajith}, J.~{Nivedha}, S.~S. {Nair}, and J.~{Mohammed Shaffi}.
+\newblock Smart cap - wearable visual guidance system for blind.
+\newblock In {\em 2018 International Conference on Inventive Research in
+  Computing Applications (ICIRCA)}, pp. 275--278, 2018.
+
+\bibitem{localization_vahdatpour}
+A.~{Vahdatpour}, N.~{Amini}, and M.~{Sarrafzadeh}.
+\newblock On-body device localization for health and medical monitoring
+  applications.
+\newblock In {\em 2011 IEEE International Conference on Pervasive Computing and
+  Communications (PerCom)}, pp. 37--44, 2011.
+
+\bibitem{localization_timo}
+Timo Sztyler, Heiner Stuckenschmidt, and Wolfgang Petrich.
+\newblock Position-aware activity recognition with wearable devices.
+\newblock {\em Pervasive and Mobile Computing}, Vol.~38, pp. 281 -- 295, 2017.
+
+\bibitem{localization_kunze}
+Kai Kunze, Paul Lukowicz, Holger Junker, and Gerhard Tr{\"o}ster.
+\newblock Where am i: Recognizing on-body positions of wearable sensors.
+\newblock In {\em Location- and Context-Awareness}, pp. 264--275, 2005.
+
+\bibitem{localization_yoshida}
+Kazuki Yoshida and Kazuya Murao.
+\newblock Estimating load positions of wearable devices based on difference in
+  pulse wave arrival time.
+\newblock In {\em Proceedings of the 23rd International Symposium on Wearable
+  Computers (ISWC)}, ISWC '19, p. 234^^e2^^80^^93243, 2019.
+
+\bibitem{accuracy_in_low_intensity}
+S.~{Spinsante}, S.~{Porfiri}, and L.~{Scalise}.
+\newblock Accuracy of heart rate measurements by a smartwatch in low intensity
+  activities.
+\newblock In {\em 2019 IEEE International Symposium on Medical Measurements and
+  Applications (MeMeA)}, pp. 1--6, 2019.
+
+\bibitem{arrhythmia_detection}
+Dong Han, Syed~Khairul Bashar, Fahimeh Mohagheghian, Eric Ding, Cody Whitcomb,
+  David~D. McManus, and Ki~H. Chon.
+\newblock Premature atrial and ventricular contraction detection using
+  photoplethysmographic data from a smartwatch.
+\newblock {\em Sensors (Basel, Switzerland)}, Vol.~20, No.~19, p. 5683, 2020.
+
+\end{thebibliography}

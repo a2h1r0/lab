@@ -1,10 +1,17 @@
 # Fdb version 3
-["dvipdf"] 1619901749 "dicomo2021.dvi" "dicomo2021.pdf" "dicomo2021" 1619901757
-  "dicomo2021.dvi" 1619901749 7196 3caf60d26e15a772a473425a5869c8f9 "latex"
+["bibtex dicomo2021"] 1619902899 "dicomo2021.aux" "dicomo2021.bbl" "dicomo2021" 1619902910
+  "dicomo2021.aux" 1619902902 2166 8b32fbb780bda14b815705f256d8ca40 "latex"
+  "junsrt.bst" 0 -1 0 ""
+  "references.bib" 1619902758 4026 1649f0e28e5bad6c2a65f8f40d908284 ""
+  (generated)
+  "dicomo2021.bbl"
+  "dicomo2021.blg"
+["dvipdf"] 1619902903 "dicomo2021.dvi" "dicomo2021.pdf" "dicomo2021" 1619902910
+  "dicomo2021.dvi" 1619902902 28876 82a85a13aed3b3379a0d01853f7cd719 "latex"
   (generated)
   "dicomo2021.pdf"
-["latex"] 1619901747 "c:/Users/atsu3/GitHub/lab/paper/pulse/DICOMO2021/初稿/dicomo2021.tex" "dicomo2021.dvi" "dicomo2021" 1619901757
-  "c:/Users/atsu3/GitHub/lab/paper/pulse/DICOMO2021/初稿/dicomo2021.tex" 1619901737 4563 6a1b8a2b186c8bb4a42f6232b55e32e0 ""
+["latex"] 1619902899 "c:/Users/atsu3/GitHub/lab/paper/pulse/DICOMO2021/初稿/dicomo2021.tex" "dicomo2021.dvi" "dicomo2021" 1619902910
+  "c:/Users/atsu3/GitHub/lab/paper/pulse/DICOMO2021/初稿/dicomo2021.tex" 1619902898 20400 25bf1e47c39b9eb09835c4a16ecd75e7 ""
   "c:/w32tex/share/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/jis/jis.tfm" 1519818042 468 53f854284f6afa6c36aaa2d1090ecc12 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/jis/jisg.tfm" 1519818042 468 53f854284f6afa6c36aaa2d1090ecc12 ""
@@ -12,6 +19,7 @@
   "c:/w32tex/share/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm" 1519818042 856 39c171483fe1bb7d0e1368980c0c205b ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
+  "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm" 1136768653 1332 1fde11373e221473104d6cc5993f046e ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmbx9.tfm" 1136768653 1328 5442e22a7072966dbaf88ca900acf3f0 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmex10.tfm" 1136768653 992 662f679a0b3d2d53c1b94050fdaa3f50 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm" 1136768653 1528 abec98dbc43e172678c11b3b9031252a ""
@@ -37,7 +45,7 @@
   "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmsy7.tfm" 1136768653 1120 2b3f9b25605010c69bc328bea6ac000f ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm" 1136768653 1116 25a7bf822c58caf309a702ef79f4afbb ""
-  "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm" 1136768653 768 1321e9409b4137d6fb428ac9dc956269 ""
+  "c:/w32tex/share/texmf-dist/fonts/tfm/public/cm/cmti9.tfm" 1136768653 1476 cccc6cc4935c18ec3d5623b77ecb8b74 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/public/latex/lasy10.tfm" 859143778 520 82a3d37183f34b6eb363a161dfc002c2 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/public/latex/lasy5.tfm" 808425110 520 d082ac03a1087bc1ec2a06e24a9f68c0 ""
   "c:/w32tex/share/texmf-dist/fonts/tfm/public/latex/lasy6.tfm" 808425112 520 4889cce2180234b97cad636b6039c722 ""
@@ -57,10 +65,14 @@
   "c:/w32tex/share/texmf-dist/tex/latex/l3backend/l3backend-dvips.def" 1600930916 32860 63891baa3c1e8b2b5e9009dbcf141ebc ""
   "c:/w32tex/share/texmf-dist/web2c/eptex/platex.fmt" 1600989504 2477659 73a1612bf2e36548c4e65b9d647f2d4b ""
   "c:/w32tex/share/texmf-dist/web2c/texmf.cnf" 1598510145 36534 988ffa67973aa3cd8a89945361bf806e ""
-  "dicomo2021.aux" 1619901749 247 c36ae5f30be60ede3307b0303409db45 "latex"
-  "dicomo2021.tex" 1619901737 4563 6a1b8a2b186c8bb4a42f6232b55e32e0 ""
+  "dicomo2021.aux" 1619902902 2166 8b32fbb780bda14b815705f256d8ca40 "latex"
+  "dicomo2021.bbl" 1619902899 3078 f83aa5e235b1a787fb3f56ba147f4a9c "bibtex dicomo2021"
+  "dicomo2021.tex" 1619902898 20400 25bf1e47c39b9eb09835c4a16ecd75e7 ""
   "dicomopapers.cls" 1617331362 130252 95328b3c1b44e64c41620a96caadb32f ""
+  "figures/future_work.eps" 1608525676 53506 02e4b8dbe394bbdd72c2088388302408 ""
+  "figures/pulse.eps" 1608525676 45173 23eac6eab370b94c827662c846a11cf9 ""
+  "figures/sensors.eps" 1608525676 189462 a989d155f8052fee791826b67b854fa8 ""
   (generated)
   "dicomo2021.aux"
-  "dicomo2021.log"
   "dicomo2021.dvi"
+  "dicomo2021.log"
