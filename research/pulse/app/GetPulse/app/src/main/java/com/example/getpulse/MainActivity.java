@@ -169,18 +169,18 @@ public class MainActivity extends Activity implements SensorEventListener {
 //                キャリブレーション中
                 mRecordButton.setText(String.format("INITIALIZING... %d", (mInitializationTime - processingTime) / 1000));
                 mRecordButton.setTextColor(Color.WHITE);
-            } else if (mInitializationTime < processingTime && processingTime < mFinishRecordingTime) {
+            } else if (mInitializationTime <= processingTime && processingTime <= mFinishRecordingTime) {
 //                データ取得中
                 mRecordButton.setText(String.format("RECORDING... %d", (mFinishRecordingTime - processingTime) / 1000));
                 mRecordButton.setTextColor(Color.RED);
 
 //                値が存在する場合は追加
                 if (heartValue != -1) {
-                    mHeartTimestamps.add(processingTime);
+                    mHeartTimestamps.add(processingTime - mInitializationTime);
                     mHeartValues.add(heartValue);
                 }
                 if (pulseValue != -1) {
-                    mPulseTimestamps.add(processingTime);
+                    mPulseTimestamps.add(processingTime - mInitializationTime);
                     mPulseValues.add(pulseValue);
                 }
             } else if (mFinishRecordingTime < processingTime) {
