@@ -7,13 +7,13 @@ os.chdir(os.path.dirname(__file__))
 
 
 MODEL = 'TicWatch'  # 表示するスマートウォッチ
-DISPLAYS = ['laptop', 'laptop']  # 表示するディスプレイ
-FILES = ['20210503_163148_Pulse_TicWatchPro',
-         '20210503_163148_Pulse_TicWatchPro']  # 表示するファイル
+DISPLAYS = ['body', 'body']  # 表示するディスプレイ
+FILES = ['20210503_175732_Pulse_TicWatchPro',
+         '20210503_175732_Pulse_TicWatchPro']  # 表示するファイル
 COLORS = ['red', 'blue']  # 描画色
 
-START = 60  # 表示開始時刻
-FINISH = 70  # 表示終了時刻
+START = 0  # 表示開始時刻
+FINISH = 10  # 表示終了時刻
 
 # グラフの用意
 plt.figure(figsize=(16, 9))
