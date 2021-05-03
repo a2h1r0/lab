@@ -44,8 +44,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     private int mTypeHeartRate, mTypeRawPPG;
     private boolean mIsRecording;
     private Date mRecordingDateTime;
-    private long mStartRecordingTime;
-    private float mFinishRecordingTime;
+    private long mStartRecordingTime, mFinishRecordingTime;
     private ArrayList<Long> mHeartTimestamps = new ArrayList<>(), mPulseTimestamps = new ArrayList<>();
     private ArrayList<Integer> mHeartValues = new ArrayList<>(), mPulseValues = new ArrayList<>();
 
