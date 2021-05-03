@@ -167,11 +167,11 @@ public class MainActivity extends Activity implements SensorEventListener {
 
             if (processingTime < mInitializationTime) {
 //                キャリブレーション中
-                mRecordButton.setText(String.format("INITIALIZING...  %.2f", (float) (mInitializationTime - processingTime) / 1000));
+                mRecordButton.setText(String.format("INITIALIZING... %d", (mInitializationTime - processingTime) / 1000));
                 mRecordButton.setTextColor(Color.WHITE);
             } else if (mInitializationTime < processingTime && processingTime < mFinishRecordingTime) {
 //                データ取得中
-                mRecordButton.setText(String.format("RECORDING...  %.2f", (float) (mFinishRecordingTime - processingTime) / 1000));
+                mRecordButton.setText(String.format("RECORDING... %d", (mFinishRecordingTime - processingTime) / 1000));
                 mRecordButton.setTextColor(Color.RED);
 
 //                値が存在する場合は追加
