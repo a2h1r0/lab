@@ -6,10 +6,10 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-MODEL = 'TicWatch'
-TARGET_RATES = [70, 75, 80, 85, 90, 95, 100]
-DISPLAYS = ['laptop', 'laptop']
-COLORS = ['red', 'blue']
+MODEL = 'TicWatch'  # 表示するスマートウォッチ
+TARGET_RATES = [70, 75, 80, 85, 90, 95, 100]  # 取得した目標心拍数
+DISPLAYS = ['laptop', 'laptop']  # 表示するディスプレイ
+COLORS = ['red', 'blue']  # 描画色
 
 
 def main():
