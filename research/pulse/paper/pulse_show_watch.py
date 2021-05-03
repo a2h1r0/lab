@@ -7,9 +7,9 @@ os.chdir(os.path.dirname(__file__))
 
 
 MODEL = 'TicWatch'  # 表示するスマートウォッチ
-DISPLAYS = ['body', 'body']  # 表示するディスプレイ
+DISPLAYS = ['body', 'laptop']  # 表示するディスプレイ
 FILES = ['20210503_175732_Pulse_TicWatchPro',
-         '20210503_175732_Pulse_TicWatchPro']  # 表示するファイル
+         '20210503_210144_Pulse_TicWatchPro']  # 表示するファイル
 COLORS = ['red', 'blue']  # 描画色
 
 START = 0  # 表示開始時刻
