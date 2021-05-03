@@ -51,7 +51,7 @@ for index, (display, filename, color) in enumerate(zip(DISPLAYS, FILES, COLORS))
     plt.plot(time, pulse, color, label=display)
 
 plt.legend(fontsize=18, loc='upper right')
-# plt.savefig('../figure/pulse_' + MODEL + '.png',
+# plt.savefig('../figure/pulse_' + MODEL + '.eps',
 #             bbox_inches='tight', pad_inches=0)
 
 plt.show()
