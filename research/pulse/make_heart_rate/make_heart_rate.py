@@ -38,14 +38,10 @@ def light(heart_rate):
         sin[sin > 1] = 1
 
         # グレースケールへ変換
-        single_wave = np.array(sin * 30 + 225, dtype=int)
-
-        colors = []
-        for i in range(heart_rate):
-            colors.extend(single_wave)
+        colors = np.array(sin * 30 + 225, dtype=int)
 
         # 点灯時間の計算
-        lighting_time = 60 / len(colors)
+        lighting_time = 60 / (len(colors) * heart_rate)
 
         return colors, lighting_time
 
