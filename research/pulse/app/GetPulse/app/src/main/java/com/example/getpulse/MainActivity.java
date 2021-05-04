@@ -80,7 +80,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 //            PPGセンサのセンサ番号を取得
             if (type.contains("ppg")) {
                 mTypeRawPPG = number;
-                Log.d("PPG Sensor", "PPG Sensor: " + mTypeRawPPG);
+                Log.d("PPG Raw Sensor", "PPG Raw Sensor: " + mTypeRawPPG);
             }
         }
 
