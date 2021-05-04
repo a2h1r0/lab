@@ -16,7 +16,7 @@ COLORS = ['red', 'blue']  # 描画色
 
 
 def main():
-    # グラフの用意
+    # グラフの準備
     plt.figure(figsize=(16, 9))
     plt.xlabel('Target Heart Rate', fontsize=18)
     plt.ylabel('Diff', fontsize=18)
