@@ -194,7 +194,7 @@ public class MainActivity extends Activity implements SensorEventListener {
                     Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
                 }
 
-                Toast.makeText(getApplicationContext(), "データを保存しました！", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Finish Recording!", Toast.LENGTH_LONG).show();
 //                ボタンの有効化
                 mRecordButton.setText("RECORD");
                 mRecordButton.setTextColor(Color.WHITE);
