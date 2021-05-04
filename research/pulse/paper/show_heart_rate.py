@@ -1,3 +1,5 @@
+import sys
+import numpy as np
 import matplotlib.pyplot as plt
 import csv
 from natsort import natsorted
@@ -7,8 +9,9 @@ os.chdir(os.path.dirname(__file__))
 
 
 MODEL = 'TicWatch'  # 表示するスマートウォッチ
-TARGET_RATES = [70, 75, 80, 85, 90, 95, 100]  # 取得した目標心拍数
-DISPLAYS = ['laptop', 'laptop']  # 表示するディスプレイ
+TARGET_RATES = [60, 65, 70, 75, 80, 85, 90, 95, 100]  # 取得した目標心拍数
+DISPLAYS = [['Legion7', 'Display A'], ['OSOYOO', 'Display B']]  # 表示するディスプレイ
+DIRS = ['1st', '2nd', '3rd']  # フォルダ分け
 COLORS = ['red', 'blue']  # 描画色
 
 
@@ -17,39 +20,41 @@ def main():
     plt.figure(figsize=(16, 9))
     plt.xlabel('Target Heart Rate', fontsize=18)
     plt.ylabel('Diff', fontsize=18)
-    plt.title(MODEL, fontsize=18)
+    plt.title('Heart Rate', fontsize=18)
     plt.tick_params(labelsize=18)
 
     # ディスプレイごとにデータを描画
-    for index, (display, color) in enumerate(zip(DISPLAYS, COLORS)):
-        files = natsorted(glob.glob('./data/' + MODEL +
-                                    '/' + display + '/*_HeartRate_*.csv'))
+    for display, color in zip(DISPLAYS, COLORS):
+        # 取得回数ごとの配列を作成
+        diffs = [[] for i in range(len(DIRS))]
+        for index, directory in enumerate(DIRS):
+            files = natsorted(glob.glob('../generate_heart_rate/data/' +
+                                        MODEL + '/' + display[0] + '/' + directory + '/*_HeartRate_*.csv'))
 
-        if len(TARGET_RATES) != len(files):
-            print('\nパラメータに誤りがあります。\n')
-            break
+            if len(TARGET_RATES) != len(files):
+                print('\nパラメータに誤りがあります。\n')
+                sys.exit()
 
-        # 心拍数ごとにデータを取得
-        diffs = []
-        for target_rate, data in zip(TARGET_RATES, files):
-            with open(data) as f:
-                reader = csv.reader(f)
-                next(reader)
+            # 心拍数ごとにデータを取得
+            for target_rate, data in zip(TARGET_RATES, files):
+                with open(data) as f:
+                    reader = csv.reader(f)
+                    next(reader)
 
-                values = []
-                for row in reader:
-                    values.append(int(row[1]))
+                    values = []
+                    for row in reader:
+                        values.append(int(row[1]))
 
-                # 取得時間での平均値
-                average = round(sum(values) / len(values))
-                # 目標値からの差の計算
-                diffs.append(average - target_rate)
+                    # 取得時間での平均値
+                    average = round(sum(values) / len(values))
+                    # 目標値からの差の計算
+                    diffs[index].append(average - target_rate)
 
         # グラフの描画
-        plt.plot(TARGET_RATES, diffs, color, label=display)
+        plt.plot(TARGET_RATES, np.mean(diffs, axis=0), color, label=display[1])
 
     plt.legend(fontsize=18, loc='upper right')
-    # plt.savefig('../figure/' + MODEL + '.png',
+    # plt.savefig('../figure/heart_rate_' + MODEL + '.eps',
     #             bbox_inches='tight', pad_inches=0)
 
     plt.show()
