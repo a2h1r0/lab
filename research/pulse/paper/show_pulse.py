@@ -9,9 +9,9 @@ os.chdir(os.path.dirname(__file__))
 
 
 MODEL = 'TicWatch'  # 表示するスマートウォッチ
-FILES = [['body', '/20210504_231626_Pulse_TicWatchPro'],
-         ['Legion7', '/1st/20210504_141724_Pulse_TicWatchPro'],
-         ['OSOYOO', '/1st/20210504_185545_Pulse_TicWatchPro']]
+FILES = [['/Legion7/1st/20210504_141724_Pulse_TicWatchPro', 'Display A'],
+         ['/OSOYOO/1st/20210504_185545_Pulse_TicWatchPro', 'Display B'],
+         ['/body/20210504_231626_Pulse_TicWatchPro', 'body']]
 START = 0  # 表示開始時刻
 FINISH = 30  # 表示終了時刻
 
@@ -28,7 +28,7 @@ def main():
 
     # ディスプレイごとにデータを描画
     for data, color in zip(FILES, COLORS):
-        with open('../generate_heart_rate/data/' + MODEL + '/' + data[0] + data[1] + '.csv') as f:
+        with open('../generate_heart_rate/data/' + MODEL + data[0] + '.csv') as f:
             reader = csv.reader(f)
             next(reader)
 
@@ -47,11 +47,11 @@ def main():
                 timestamps.append(timestamp)
                 pulse.append(int(row[1]))
 
-        plt.plot(timestamps, pulse, color, label=data[0])
+        plt.plot(timestamps, pulse, color, label=data[1])
 
     plt.legend(fontsize=18, loc='upper right')
-    plt.savefig('../figure/pulse_' + MODEL + '.eps',
-                bbox_inches='tight', pad_inches=0)
+    # plt.savefig('../figure/pulse_' + MODEL + '.eps',
+    #             bbox_inches='tight', pad_inches=0)
 
     plt.show()
 
