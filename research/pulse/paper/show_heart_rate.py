@@ -54,7 +54,7 @@ def main():
         plt.plot(TARGET_RATES, np.mean(diffs, axis=0), color, label=display[1])
 
     plt.legend(fontsize=18, loc='upper right')
-    # plt.savefig('../figure/heart_rate_' + MODEL + '.eps',
+    # plt.savefig('../figure/heartrate_' + MODEL + '.eps',
     #             bbox_inches='tight', pad_inches=0)
 
     plt.show()
