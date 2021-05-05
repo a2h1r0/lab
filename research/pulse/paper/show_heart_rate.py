@@ -51,7 +51,10 @@ def main():
                     diffs[index].append(average - target_rate)
 
         # グラフの描画
-        plt.plot(TARGET_RATES, np.mean(diffs, axis=0), color, label=display[1])
+        y = np.mean(diffs, axis=0)
+        print(TARGET_RATES)
+        print(y)
+        plt.plot(TARGET_RATES, y, color, label=display[1])
 
     plt.legend(fontsize=18, loc='upper right')
     # plt.savefig('../figure/heartrate_' + MODEL + '.eps',
