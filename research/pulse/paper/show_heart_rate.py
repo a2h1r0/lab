@@ -54,6 +54,7 @@ def main():
         y = np.mean(diffs, axis=0)
         print(TARGET_RATES)
         print(y)
+        print('\nAverage Diff: ' + str(np.mean(y)) + '\n')
         plt.plot(TARGET_RATES, y, color, label=display[1])
 
     plt.legend(fontsize=18, loc='upper right')
