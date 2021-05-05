@@ -9,11 +9,11 @@ os.chdir(os.path.dirname(__file__))
 
 
 MODEL = 'TicWatch'  # 表示するスマートウォッチ
-FILES = [['/Legion7/1st/20210504_141724_Pulse_TicWatchPro', 'Display A'],
-         ['/OSOYOO/1st/20210504_185545_Pulse_TicWatchPro', 'Display B'],
-         ['/body/20210504_231626_Pulse_TicWatchPro', 'body']]
+FILES = [['/Legion7/1st/20210504_142156_Pulse_TicWatchPro', 'Display A'],
+         ['/OSOYOO/1st/20210504_190014_Pulse_TicWatchPro', 'Display B'],
+         ['/body/20210505_142150_Pulse_TicWatchPro', 'body']]
 START = 0  # 表示開始時刻
-FINISH = 30  # 表示終了時刻
+FINISH = 60  # 表示終了時刻
 
 COLORS = ['red', 'blue', 'green']  # 描画色
 
