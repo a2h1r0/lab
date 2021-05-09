@@ -47,6 +47,8 @@ def main():
                 timestamps.append(timestamp)
                 pulse.append(int(row[1]))
 
+        print(data[1] + ' average: ', end='')
+        print(np.mean(pulse))
         plt.plot(timestamps, pulse, color, label=data[1])
 
     plt.legend(fontsize=18, loc='upper right')
