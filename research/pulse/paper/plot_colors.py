@@ -25,3 +25,7 @@ plt.tick_params(labelsize=18)
 # plt.savefig('../figure/colors_wave.eps', bbox_inches='tight', pad_inches=0)
 
 plt.show()
+
+print('0 to ' + str(2 * np.pi))
+print(np.linspace(0, 2 * np.pi, 20))
+print(colors)
