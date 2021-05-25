@@ -8,7 +8,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間）
-MODEL = 'PumaSmartwatch'  # スマートウォッチのモデル
+MODEL = 'TicWatch'  # スマートウォッチのモデル
 
 
 LOG_FILE = './data/' + MODEL + '/run.log'  # ログファイル
@@ -54,12 +54,18 @@ def light(heart_rate):
     start = time.time()
 
     # 色データの描画
+    show_time = 0
     while True:
         for color in colors:
             process = time.time() - start
 
             if process > PROCESS_TIME:
                 break
+
+            # 10秒ごとに残り時間を表示
+            if int(process) % 10 == 0 and int(process) != show_time:
+                show_time = int(process)
+                print('残り．．．' + str(PROCESS_TIME - show_time) + '秒')
 
             socket_client.send((str(color) + '\0').encode('UTF-8'))
             socket_client.recv(1)
