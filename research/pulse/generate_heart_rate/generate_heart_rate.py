@@ -8,8 +8,10 @@ os.chdir(os.path.dirname(__file__))
 
 
 PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間）
-LOG_FILE = './data/run.log'  # ログファイル
+MODEL = 'PumaSmartwatch'  # スマートウォッチのモデル
 
+
+LOG_FILE = './data/' + MODEL + '/run.log'  # ログファイル
 
 SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
 SOCKET_PORT = 10000  # Processingサーバのポート
