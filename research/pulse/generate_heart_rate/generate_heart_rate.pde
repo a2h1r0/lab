@@ -1,5 +1,5 @@
 final int PORT = 10000;	// 通信に使用するポート番号
-final int WINDOW_SIZE = 500; // ウィンドウサイズ
+final int WINDOW_SIZE = 800; // ウィンドウサイズ
 
 
 import processing.net.*;
