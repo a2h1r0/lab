@@ -8,7 +8,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間）
-MODEL = 'PumaSmartwatch'  # スマートウォッチのモデル
+MODEL = 'TicWatch'  # スマートウォッチのモデル
 
 
 LOG_FILE = './data/' + MODEL + '/run.log'  # ログファイル
