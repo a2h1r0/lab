@@ -26,16 +26,28 @@
         <img src="test.png" />
     </div>
 
+    <div class="alert alert-primary" id="process">
+        通信中．．．．．
+    </div>
+
     <!-- 矢印ボタン -->
     <div id="button">
         <div>
             <div class="btn-group btn-group-lg" role="group">
-                <button type="button" class="btn btn-primary" onclick="postKeyEvent('cast');">投下<i class="fas fa-fish"></i></button>
-                <button type="button" class="btn btn-primary" onclick="postKeyEvent('stop');">停止<i class="fas fa-hand-paper"></i></button>
-                <button type="button" class="btn btn-primary" onclick="postKeyEvent('catch');">巻上<i class="fas fa-redo"></i></button>
+                <button type="button" class="btn btn-primary" id="cast-button" onclick="postKeyEvent('cast');">
+                    投下<i class="fas fa-fish"></i>
+                </button>
+                <button type="button" class="btn btn-primary" id="stop-button" onclick="postKeyEvent('stop');">
+                    停止<i class="fas fa-hand-paper"></i>
+                </button>
+                <button type="button" class="btn btn-primary" id="catch-button" onclick="postKeyEvent('catch');">
+                    巻上<i class="fas fa-redo"></i>
+                </button>
             </div>
             <i class="fas fa-arrow-circle-up dummy"></i>
-            <i class="fas fa-arrow-circle-up" id="up-button"></i>
+            <button type="button" class="btn" id="front-button" onclick="postKeyEvent('front');">
+                <i class="fas fa-arrow-circle-up arrow-key"></i>
+            </button>
             <i class="fas fa-arrow-circle-up dummy"></i>
         </div>
         <br />
@@ -45,31 +57,38 @@
                 <button type="button" class="btn btn-primary dummy">停止<i class="fas fa-hand-paper"></i></button>
                 <button type="button" class="btn btn-primary dummy">巻上<i class="fas fa-redo"></i></button>
             </div>
-            <i class="fas fa-arrow-circle-left" id="left-button"></i>
-            <i class="fas fa-arrow-circle-down" id="down-button"></i>
-            <i class="fas fa-arrow-circle-right" id="right-button"></i>
+            <button type="button" class="btn" id="left-button" onclick="postKeyEvent('left');">
+                <i class="fas fa-arrow-circle-left arrow-key"></i>
+            </button>
+            <button type="button" class="btn" id="back-button" onclick="postKeyEvent('back');">
+                <i class="fas fa-arrow-circle-down arrow-key"></i>
+            </button>
+            <button type="button" class="btn" id="right-button" onclick="postKeyEvent('right');">
+                <i class="fas fa-arrow-circle-right arrow-key"></i>
+            </button>
         </div>
         <script>
-            $('#up-button').click(function() {
-                postKeyEvent('up');
-            });
-            $('#down-button').click(function () {
-                postKeyEvent('down');
-            });
-            $('#left-button').click(function () {
-                postKeyEvent('left');
-            });
-            $('#right-button').click(function () {
-                postKeyEvent('right');
-            });
+            $('#process').hide();
 
             function postKeyEvent(key) {
-                $.ajax({
-                    type: "POST",
+                // ボタンの無効化
+                $('.btn').each((index, element) => {
+                    $(element).prop('disabled', true);
+                });
+
+                // アラート表示処理
+                $('#process').fadeIn();
+                
+                $.post({
                     url: "http://localhost:8080/cgi-bin/test.py",
                     data: key,
-                    dataType: "text"
-                });                
+                    dataType: "text",
+                }).then(function() {
+                    // ボタンの有効化
+                    $('.btn').each((index, element) => {
+                        $(element).prop('disabled', false);
+                    });
+                });
             }
         </script>
     </div>

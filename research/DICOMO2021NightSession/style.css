@@ -22,16 +22,17 @@ body {
 }
 
 #button .btn-group {
-  margin-right: 100px;
+  margin-right: 300px;
 }
 
 #button .btn-group button > i {
   margin-left: 10px;
 }
 
-#button div > i {
+.arrow-key {
+  background-color: transparent;
+  color: #ffffff;
   font-size: 5em;
-  cursor: pointer;
 }
 
 #button div .dummy {
