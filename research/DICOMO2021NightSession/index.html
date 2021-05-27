@@ -46,15 +46,15 @@
     </div>
     <script>
         let connect = new bootstrap.Modal(document.getElementById('connect'))
-        connect.show();
+        // connect.show();
     </script>
 
     <div class="card" id="video">
         <img src="test.png" />
     </div>
 
-    <div class="alert alert-primary" id="process">
-        通信中．．．．．
+    <div class="alert alert-secondary" id="status">
+        未接続
     </div>
 
     <!-- 矢印ボタン -->
@@ -98,10 +98,12 @@
             $('#process').hide();
 
             function postKeyEvent(key) {
-                // ボタンの無効化
                 $('.btn').each((index, element) => {
                     $(element).prop('disabled', true);
                 });
+                $('#status').addClass('alert-primary');
+                $('#status').removeClass('alert-secondary');
+                $('#status').text('実行中．．．');
 
                 // アラート表示処理
                 $('#process').fadeIn();
@@ -111,10 +113,12 @@
                     data: key,
                     dataType: "text",
                 }).then(function() {
-                    // ボタンの有効化
                     $('.btn').each((index, element) => {
                         $(element).prop('disabled', false);
                     });
+                    $('#status').addClass('alert-success');
+                    $('#status').removeClass('alert-primary');
+                    $('#status').text('つぎはなにする？');
                 });
             }
         </script>
