@@ -6,7 +6,7 @@ void setup()
 void loop()
 {
     // Pythonからデータを受信
-    if (Serial.available() > 0)
+    if (Serial.available())
     {
         String data = Serial.readStringUntil('\0');
 

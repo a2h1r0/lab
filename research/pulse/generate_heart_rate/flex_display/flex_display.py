@@ -1,15 +1,17 @@
 import csv
 import datetime
+from time import sleep
 import serial
 import os
 os.chdir(os.path.dirname(__file__))
 
 
 MODEL = 'TicWatch'  # スマートウォッチのモデル
-# PROCESS_TIME（実行時間）はArduino側のプログラムで設定
+PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間）
+# PROCESS_TIMEはArduino側のプログラムでも設定する必要あり
 
 
-LOG_FILE = './data/' + MODEL + '/run.log'  # ログファイル
+LOG_FILE = '../data/' + MODEL + '/run.log'  # ログファイル
 
 USB_PORT = 'COM3'  # ArduinoのUSBポート
 USB_SPEED = 9600  # Arduinoの速度
@@ -31,13 +33,13 @@ def light(heart_rate):
 
 
 if __name__ == '__main__':
+    # 心拍数の設定
+    heart_rate = input('\n\n心拍数は？ > ')
+
     # シリアル通信（Arduino）の初期化
     ser = serial.Serial(USB_PORT, USB_SPEED)
     ser.reset_input_buffer()
     sleep(2)
-
-    # 心拍数の設定
-    heart_rate = input('\n\n心拍数は？ > ')
 
     # プログラム実行日時と実行時間，心拍数を記録
     with open(LOG_FILE, 'a', newline='') as log_file:

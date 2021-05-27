@@ -11,6 +11,8 @@ const int WHITE = 0;
 const int L_COLORS = 6;
 // 色データ
 const int COLORS[L_COLORS] = {WHITE, WHITE, BLACK / 2, BLACK, BLACK / 2, WHITE};
+// 目標心拍数受け取り用配列
+char heart_rate_data[4] = {'\0'};
 
 /**
  * @fn
@@ -19,6 +21,7 @@ const int COLORS[L_COLORS] = {WHITE, WHITE, BLACK / 2, BLACK, BLACK / 2, WHITE};
 void setup()
 {
     pinMode(PWM, OUTPUT);
+    Serial.begin(9600);
 }
 
 /**
@@ -27,10 +30,11 @@ void setup()
  */
 void loop()
 {
-    if (Serial.available() > 0)
+    if (Serial.available())
     {
         // 目標心拍数の取得
-        int heart_rate = Serial.readStringUntil('\0');
+        Serial.readStringUntil('\0').toCharArray(heart_rate_data, sizeof heart_rate_data);
+        int heart_rate = atoi(heart_rate_data);
         // 点灯時間の計算
         int lighting_time = 60 / (L_COLORS * heart_rate);
 
