@@ -7,8 +7,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
+MODEL = 'PumaSmartwatch'  # スマートウォッチのモデル
 PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間）
-MODEL = 'TicWatch'  # スマートウォッチのモデル
 
 
 LOG_FILE = './data/' + MODEL + '/run.log'  # ログファイル
