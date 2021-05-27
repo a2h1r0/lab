@@ -19,10 +19,11 @@ USB_SPEED = 9600  # Arduinoの速度
 
 
 def light(heart_rate):
-    """点灯
+    """
+    点灯
 
-        Args:
-            heart_rate (int): 再現する心拍数
+    Args:
+        heart_rate (int): 再現する心拍数
     """
 
     # Arduinoに目標心拍数を送信

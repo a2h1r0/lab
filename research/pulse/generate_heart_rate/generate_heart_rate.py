@@ -18,14 +18,16 @@ SOCKET_PORT = 10000  # Processingサーバのポート
 
 
 def light(heart_rate):
-    """点灯
+    """
+    点灯
 
-        Args:
-            heart_rate (int): 再現する心拍数
+    Args:
+        heart_rate (int): 再現する心拍数
     """
 
     def make_display_data(heart_rate):
-        """色データの生成
+        """
+        色データの生成
 
         Args:
             heart_rate (int): 再現する心拍数
