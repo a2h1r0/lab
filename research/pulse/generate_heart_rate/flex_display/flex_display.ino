@@ -1,5 +1,5 @@
 // 実行時間
-const int PROCESS_TIME = 30;
+const int PROCESS_TIME = 130;
 
 // 使用ピン
 const int PWM = 3;
@@ -30,6 +30,9 @@ void setup()
  */
 void loop()
 {
+    // 黒くした状態で待機
+    analogWrite(PWM, BLACK * 51);
+
     if (Serial.available())
     {
         // 目標心拍数の取得
