@@ -57,8 +57,8 @@ def light(heart_rate):
     show_time = 0
     while True:
         for color in colors:
+            # 時間経過で終了
             process = time.time() - start
-
             if process > PROCESS_TIME:
                 break
 
