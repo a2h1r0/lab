@@ -1,13 +1,14 @@
 import csv
 import datetime
 from time import sleep
+import time
 import serial
 import os
 os.chdir(os.path.dirname(__file__))
 
 
 MODEL = 'TicWatch'  # スマートウォッチのモデル
-PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間）
+PROCESS_TIME = 30  # 実行時間（アプリ側のデータ取得は120秒間）
 # PROCESS_TIMEはArduino側のプログラムでも設定する必要あり
 
 
@@ -27,6 +28,21 @@ def light(heart_rate):
     # Arduinoに目標心拍数を送信
     heart_rate = str(heart_rate) + '\0'
     ser.write(heart_rate.encode('UTF-8'))
+
+    # 途中まで経過時間を表示
+    start = time.time()
+    show_time = 0
+    while True:
+        process = time.time() - start
+
+        # 10秒ごとに残り時間を表示
+        if int(process) % 10 == 0 and int(process) != show_time:
+            show_time = int(process)
+            print('残り．．．' + str(PROCESS_TIME - show_time) + '秒')
+
+        # 10秒前まで表示
+        if process > (PROCESS_TIME - 10):
+            break
 
     # 描画終了を待機
     ser.readline()
