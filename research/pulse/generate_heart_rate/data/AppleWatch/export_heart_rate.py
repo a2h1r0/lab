@@ -15,7 +15,6 @@ os.chdir(os.path.dirname(__file__))
 
 DATA_FILE_NAME = 'export.xml'  # データファイル名
 EXPORT_FILE_NAME = 'heart_rate.csv'  # 出力ファイル名
-SEPARATE_FILES = ['60', '65', '70']  # 分割後ファイル名
 SEPARATE_TIME = 30  # 分割間隔
 
 # 使用データ
@@ -196,7 +195,7 @@ def separate_files(path):
         # ヘッダーのスキップ
         next(reader)
 
-        index = 0
+        file_number = 0
         for row in reader:
             # データの読み出し
             split_date_time = row[1].split()
@@ -215,11 +214,11 @@ def separate_files(path):
                 # 30秒以上間隔が空いていれば
                 if date_time > old_date_time + datetime.timedelta(seconds=SEPARATE_TIME):
                     # ファイルに書き出して分割
-                    with open(SEPARATE_FILES[index] + '.csv', 'w', newline='') as export_file:
+                    with open(file_number + '.csv', 'w', newline='') as export_file:
                         export_writer = csv.writer(export_file, delimiter=',')
                         export_writer.writerows(data)
                         data = []
-                        index += 1
+                        file_number += 1
 
             # データの追加
             data.append(row)
