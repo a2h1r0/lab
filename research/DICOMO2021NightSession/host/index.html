@@ -80,18 +80,22 @@
 
         function call() {
             $('#call-button').prop('disabled', true);
+            $('#video-select').prop('disabled', true);
             $('#status').addClass('alert-primary');
             $('#status').removeClass('alert-secondary');
             $('#status').removeClass('alert-danger');
             $('#status').text('接続待機中．．．');
 
+            let localStream = null;
+
             const constraints = {
                 audio: false,
-                video: $('[name=video-select]').val()
+                video: {
+                    deviceId: $('[name=video-select]').val(),
+                    width: { min: 1024, ideal: 1280, max: 1920 },
+                    height: { min: 720, ideal: 776, max: 1080 }
+                }
             };
-            console.log(constraints);
-
-            let localStream = null;
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(function (stream) {
                     localStream = stream;
