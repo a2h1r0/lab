@@ -40,7 +40,7 @@
         </div>
     </div>
     <script>
-        const connect = new bootstrap.Modal(document.getElementById('connect'))
+        const connect = new bootstrap.Modal(document.getElementById('connect'), { backdrop: 'static' });
         connect.show();
     </script>
 
@@ -74,6 +74,9 @@
             call.on('stream', function (stream) {
                 $('#receive-video').get(0).srcObject = stream;
 
+                $('.btn').each((index, element) => {
+                    $(element).prop('disabled', false);
+                });
                 $('#status').addClass('alert-success');
                 $('#status').removeClass('alert-primary');
                 $('#status').text('通信中');
@@ -131,12 +134,9 @@
                     $(element).prop('disabled', true);
                 });
                 $('#status').addClass('alert-primary');
-                $('#status').removeClass('alert-secondary');
+                $('#status').removeClass('alert-success');
                 $('#status').text('実行中．．．');
 
-                // アラート表示処理
-                $('#process').fadeIn();
-                
                 $.post({
                     url: "http://localhost:8080/cgi-bin/test.py",
                     data: key,
