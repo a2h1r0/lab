@@ -7,7 +7,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-MODEL = 'PumaSmartwatch'  # スマートウォッチのモデル
+MODEL = 'AppleWatch'  # スマートウォッチのモデル
 PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間）
 
 
@@ -42,7 +42,7 @@ def light(heart_rate):
         sin[sin > 1] = 1
 
         # グレースケールへ変換
-        colors = np.array(sin * 30 + 225, dtype=int)
+        colors = np.array(sin * 30 + base_color, dtype=int)
 
         # 点灯時間の計算
         lighting_time = 60 / (len(colors) * heart_rate)
@@ -100,6 +100,12 @@ if __name__ == '__main__':
         log_writer.writerow([run_date_time, PROCESS_TIME, heart_rate])
 
     print('\n描画中．．．')
+
+    # 色のベースを設定
+    if MODEL == 'AppleWatch':
+        base_color = 0
+    else:
+        base_color = 225
 
     # 点灯開始
     light(heart_rate)
