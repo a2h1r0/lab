@@ -7,7 +7,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-MODEL = 'AppleWatch'  # スマートウォッチのモデル
+MODEL = 'AppleWatch3'  # スマートウォッチのモデル
 PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間）
 
 
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     print('\n描画中．．．')
 
     # 色のベースを設定
-    if MODEL == 'AppleWatch':
+    if MODEL == 'AppleWatch3' or MODEL == 'AppleWatch5':
         base_color = 0
     else:
         base_color = 225
