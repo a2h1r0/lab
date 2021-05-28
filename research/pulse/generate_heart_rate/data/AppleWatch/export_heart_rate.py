@@ -2,18 +2,23 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
-import os
-import re
-import sys
 from xml.etree import ElementTree
 from collections import Counter, OrderedDict
+import numpy as np
+import csv
+import datetime
+import re
+import sys
 import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_FILE_NAME = 'export.xml'
+DATA_FILE_NAME = 'export.xml'  # データファイル名
+EXPORT_FILE_NAME = 'heart_rate.csv'  # 出力ファイル名
+SEPARATE_FILES = ['60', '65', '70']  # 分割後ファイル名
+SEPARATE_TIME = 30  # 分割間隔
 
-
+# 使用データ
 RECORD_FIELDS = [
     'device',
     'startDate',
@@ -135,7 +140,7 @@ class HealthDataExtractor(object):
         self.handles = {}
         self.paths = []
         for kind in (list(self.record_types) + list(self.other_types)):
-            path = os.path.join(self.directory, '%s.csv' % abbreviate(kind))
+            path = os.path.join(self.directory, EXPORT_FILE_NAME)
             f = open(path, 'w', encoding='UTF-8')
             f.write(','.join(RECORD_FIELDS) + '\n')
             self.handles[kind] = f
@@ -176,7 +181,60 @@ class HealthDataExtractor(object):
         print('Record types:\n%s\n' % format_freqs(self.record_types))
 
 
+def separate_files(path):
+    """
+    ファイルの分割
+
+    Args:
+        path (string): 分割するファイル
+    """
+
+    data = []
+    with open(path, encoding='UTF-8') as f:
+        reader = csv.reader(f)
+
+        # ヘッダーのスキップ
+        next(reader)
+
+        index = 0
+        for row in reader:
+            # データの読み出し
+            split_date_time = row[1].split()
+            date = [int(s) for s in split_date_time[0].split('-')]
+            time = [int(s) for s in split_date_time[1].split(':')]
+            date_time = datetime.datetime(date[0], date[1], date[2],
+                                          time[0], time[1], time[2])
+            if len(data):
+                # 1つ前のデータを取得
+                old_split_date_time = data[-1][1].split()
+                old_date = [int(s) for s in old_split_date_time[0].split('-')]
+                old_time = [int(s) for s in old_split_date_time[1].split(':')]
+                old_date_time = datetime.datetime(old_date[0], old_date[1], old_date[2],
+                                                  old_time[0], old_time[1], old_time[2])
+
+                # 30秒以上間隔が空いていれば
+                if date_time > old_date_time + datetime.timedelta(seconds=SEPARATE_TIME):
+                    # ファイルに書き出して分割
+                    with open(SEPARATE_FILES[index] + '.csv', 'w', newline='') as export_file:
+                        export_writer = csv.writer(export_file, delimiter=',')
+                        export_writer.writerows(data)
+                        data = []
+                        index += 1
+
+            # データの追加
+            data.append(row)
+
+
+def main():
+    # ファイルの書き出し
+    if os.path.isfile(EXPORT_FILE_NAME) is False:
+        data = HealthDataExtractor(DATA_FILE_NAME)
+        data.report_stats()
+        data.extract()
+
+    # ファイルの分割
+    separate_files(EXPORT_FILE_NAME)
+
+
 if __name__ == '__main__':
-    data = HealthDataExtractor('./' + DATA_FILE_NAME)
-    data.report_stats()
-    data.extract()
+    main()
