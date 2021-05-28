@@ -37,12 +37,47 @@
     </div>
 
     <div class="container">
-        <button type="button" class="btn btn-primary" id="call-button" onclick="call();">
+        <select name="video-select" id="video-select">
+            <option value="">カメラデバイスを選択してね！</option>
+            <!-- カメラデバイス一覧 -->
+        </select>
+
+        <br />
+
+        <button type="button" class="btn btn-primary" id="call-button" onclick="call();" disabled>
             接続
         </button>
     </div>
 
     <script>
+        // デバイスへのアクセス
+        navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+            .catch(function (error) {
+                // メディア接続エラー
+                $('#call-button').prop('disabled', false);
+                $('#status').addClass('alert-danger');
+                $('#status').removeClass('alert-primary');
+                $('#status').text('デバイスへの接続失敗');
+            });
+
+        //** デバイスの一覧を取得 */
+        navigator.mediaDevices.enumerateDevices()
+            .then(function (devices) {
+                devices.forEach(function (device) {
+                    if (
+                        device.kind === 'videoinput' &&
+                        device.deviceId !== 'default' &&
+                        device.deviceId !== 'communications'
+                    ) {
+                        $('#video-select').append('<option value="' + device.deviceId + '">' + device.label + '</option>');
+                    }
+                });
+            });
+
+        $('#video-select').change(function () {
+            $('#call-button').prop('disabled', false);
+        });
+
         function call() {
             $('#call-button').prop('disabled', true);
             $('#status').addClass('alert-primary');
@@ -50,8 +85,14 @@
             $('#status').removeClass('alert-danger');
             $('#status').text('接続待機中．．．');
 
+            const constraints = {
+                audio: false,
+                video: $('[name=video-select]').val()
+            };
+            console.log(constraints);
+
             let localStream = null;
-            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            navigator.mediaDevices.getUserMedia(constraints)
                 .then(function (stream) {
                     localStream = stream;
                     $('#send-video').get(0).srcObject = localStream;
@@ -64,12 +105,6 @@
                         $('#status').removeClass('alert-primary');
                         $('#status').text('通信中');
                     });
-                }).catch(function (error) {
-                    // メディア接続エラー
-                    $('#call-button').prop('disabled', false);
-                    $('#status').addClass('alert-danger');
-                    $('#status').removeClass('alert-primary');
-                    $('#status').text('接続失敗');
                 });
         }
 

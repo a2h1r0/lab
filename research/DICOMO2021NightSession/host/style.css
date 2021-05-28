@@ -14,6 +14,7 @@ h1 {
 
 #send-video {
   width: 90%;
+  max-height: 60vh;
 }
 
 #send-video video {
@@ -24,6 +25,10 @@ h1 {
   margin: 10px 200px;
 }
 
+#video-select {
+  margin-top: 30px;
+}
+
 #call-button {
-  margin-top: 50px;
+  margin-top: 20px;
 }
