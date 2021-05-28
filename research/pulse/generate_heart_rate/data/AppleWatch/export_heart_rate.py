@@ -214,7 +214,7 @@ def separate_files(path):
                 # 30秒以上間隔が空いていれば
                 if date_time > old_date_time + datetime.timedelta(seconds=SEPARATE_TIME):
                     # ファイルに書き出して分割
-                    with open(file_number + '.csv', 'w', newline='') as export_file:
+                    with open(str(file_number) + '.csv', 'w', newline='') as export_file:
                         export_writer = csv.writer(export_file, delimiter=',')
                         export_writer.writerows(data)
                         data = []
