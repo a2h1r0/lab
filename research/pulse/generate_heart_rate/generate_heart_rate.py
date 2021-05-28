@@ -13,10 +13,12 @@ PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間�
 if MODEL == 'AppleWatch':
     SERIES = '3'  # AppleWatchのバージョン
     PROCESS_TIME = 140  # 実行時間（アプリ側のデータ取得は120秒間程度）
-    BASE_COLOR = 0  # 色のベース
+    COLOR_BASE = 0  # 色のベース
+    COLOR_SCALE = 10  # 色のスケール
     LOG_FILE = './data/' + MODEL + '/Series_' + SERIES + '/run.log'  # ログファイル
 else:
-    BASE_COLOR = 225  # 色のベース
+    COLOR_BASE = 225  # 色のベース
+    COLOR_SCALE = 30  # 色のスケール
     LOG_FILE = './data/' + MODEL + '/run.log'  # ログファイル
 
 
@@ -49,7 +51,7 @@ def light(heart_rate):
         sin[sin > 1] = 1
 
         # グレースケールへ変換
-        colors = np.array(sin * 30 + BASE_COLOR, dtype=int)
+        colors = np.array(sin * COLOR_SCALE + COLOR_BASE, dtype=int)
 
         # 点灯時間の計算
         lighting_time = 60 / (len(colors) * heart_rate)
