@@ -12,6 +12,7 @@ PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間�
 
 if MODEL == 'AppleWatch':
     SERIES = '3'  # AppleWatchのバージョン
+    PROCESS_TIME = 140  # 実行時間（アプリ側のデータ取得は120秒間程度）
     BASE_COLOR = 0  # 色のベース
     LOG_FILE = './data/' + MODEL + '/Series_' + SERIES + '/run.log'  # ログファイル
 else:
