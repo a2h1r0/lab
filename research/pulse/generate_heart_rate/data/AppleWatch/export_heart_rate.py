@@ -223,7 +223,7 @@ def separate_files(path):
             # データの追加
             data.append(row)
 
-        # ファイルに書き出して分割
+        # 残りをファイルに書き出す
         with open(str(file_number) + '.csv', 'w', newline='') as export_file:
             export_writer = csv.writer(export_file, delimiter=',')
             export_writer.writerows(data)
