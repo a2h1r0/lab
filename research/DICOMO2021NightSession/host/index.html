@@ -21,17 +21,26 @@
     <script src="https://cdn.webrtc.ecl.ntt.com/skyway-4.4.1.js"></script>
     <script>
         const API_KEY = '6fbdac52-19fb-4a75-93f0-987522d95c9a';
+        const peer = new Peer('DICOMO2021', { key: API_KEY });
     </script>
 </head>
 
 <body>
+    <h1>ホスト</h1>
+    
+    <div class="container">
+        <video muted autoplay id="send-video"></video>
+    </div>
+
     <div class="alert alert-secondary" id="status">
         未接続
     </div>
 
-    <button type="button" class="btn btn-primary" id="call-button" onclick="call();">
-        接続
-    </button>
+    <div class="container">
+        <button type="button" class="btn btn-primary" id="call-button" onclick="call();">
+            接続
+        </button>
+    </div>
 
     <script>
         function call() {
@@ -39,34 +48,35 @@
             $('#status').addClass('alert-primary');
             $('#status').removeClass('alert-secondary');
             $('#status').removeClass('alert-danger');
-            $('#status').text('接続準備中');
+            $('#status').text('接続待機中．．．');
 
             let localStream = null;
-            navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
                 .then(function (stream) {
                     localStream = stream;
+                    $('#send-video').get(0).srcObject = localStream;
 
-                    const peer = new Peer({ key: API_KEY });
-
-                    peer.on('open', function () {
-                        $('#status').text('接続待機中．．．');
-                    });
-
+                    // 着信処理
                     peer.on('call', function (call) {
-                        peer.call('DICOMO2021', localStream);
+                        call.answer(localStream);
 
                         $('#status').addClass('alert-success');
                         $('#status').removeClass('alert-primary');
                         $('#status').text('通信中');
                     });
-
                 }).catch(function (error) {
+                    // メディア接続エラー
                     $('#call-button').prop('disabled', false);
                     $('#status').addClass('alert-danger');
                     $('#status').removeClass('alert-primary');
                     $('#status').text('接続失敗');
                 });
         }
+
+        // 終了処理
+        $(window).on('beforeunload', function () {
+            peer.destroy();
+        });
     </script>
 </body>
 

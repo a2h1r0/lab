@@ -22,40 +22,69 @@
 
     <!-- SkyWay -->
     <script src="https://cdn.webrtc.ecl.ntt.com/skyway-4.4.1.js"></script>
+    <script>
+        const API_KEY = '6fbdac52-19fb-4a75-93f0-987522d95c9a';
+        const peer = new Peer({ key: API_KEY });
+    </script>
 </head>
 
 <body>
-    <div class="modal" id="connect" tabindex="-1" role="dialog">
+    <div class="modal" id="connect" tabindex="-1" role="dialog" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
                 <div class="modal-body">
-                    <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <h1>家からでも釣り！</h1>
+                    <button type="button" class="btn btn-primary" onclick="call()">接続</button>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        let connect = new bootstrap.Modal(document.getElementById('connect'))
-        // connect.show();
+        const connect = new bootstrap.Modal(document.getElementById('connect'))
+        connect.show();
     </script>
 
-    <div class="card" id="video">
-        <img src="test.png" />
+    <div class="container">
+        <video autoplay id="receive-video"></video>
     </div>
 
     <div class="alert alert-secondary" id="status">
         未接続
     </div>
+
+    <script>
+        function call() {
+            connect.hide();
+
+            $('.btn').each((index, element) => {
+                $(element).prop('disabled', true);
+            });
+            $('#status').addClass('alert-primary');
+            $('#status').removeClass('alert-secondary');
+            $('#status').removeClass('alert-danger');
+            $('#status').text('接続待機中．．．');
+
+            // 発信処理（受信のみ）
+            const call = peer.call('DICOMO2021', null, {
+                videoReceiveEnabled: true,
+                audioReceiveEnabled: true
+            });
+
+            // 接続完了
+            call.on('stream', function (stream) {
+                $('#receive-video').get(0).srcObject = stream;
+
+                $('#status').addClass('alert-success');
+                $('#status').removeClass('alert-primary');
+                $('#status').text('通信中');
+            });
+        }
+
+        // 終了処理
+        $(window).on('beforeunload', function () {
+            peer.destroy();
+        });
+    </script>
 
     <!-- 矢印ボタン -->
     <div id="button">

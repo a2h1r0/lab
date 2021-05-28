@@ -1,7 +1,27 @@
 body {
   background-color: #0d1117 !important;
   color: #ffffff !important;
-  padding: 200px;
+  padding: 10px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.container {
+  text-align: center;
+}
+
+#send-video {
+  width: 90%;
+}
+
+#send-video video {
+  max-width: 100%;
+}
+
+#status {
+  margin: 10px 200px;
 }
 
 #call-button {
