@@ -14,7 +14,7 @@ if MODEL == 'AppleWatch':
     SERIES = '3'  # AppleWatchのバージョン
     PROCESS_TIME = 140  # 実行時間（アプリ側のデータ取得は120秒間程度）
     COLOR_BASE = 0  # 色のベース
-    COLOR_SCALE = 10  # 色のスケール
+    COLOR_SCALE = 15  # 色のスケール
     LOG_FILE = './data/' + MODEL + '/Series_' + SERIES + '/run.log'  # ログファイル
 else:
     COLOR_BASE = 225  # 色のベース
