@@ -8,7 +8,7 @@ import slackweb
 
 
 USB_PORT = 'COM3'
-SLACK_URL = 'https://hooks.slack.com/services/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'
+SLACK_URL = ''
 
 
 def main():
