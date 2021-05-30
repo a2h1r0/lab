@@ -13,16 +13,15 @@ PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間�
 if MODEL == 'AppleWatch':
     SERIES = '3'  # AppleWatchのバージョン
     PROCESS_TIME = 140  # 実行時間（アプリ側のデータ取得は120秒間程度）
+    COLOR_SCALE = 20  # 色のスケール
     #*** Legion7 ***#
     # COLOR_BASE = 0  # 色のベース
-    # COLOR_SCALE = 20  # 色のスケール
     #*** Raspberry Pi ***#
-    COLOR_BASE = 100  # 色のベース
-    COLOR_SCALE = 40  # 色のスケール
+    COLOR_BASE = 50  # 色のベース
     LOG_FILE = './data/' + MODEL + '/Series_' + SERIES + '/run.log'  # ログファイル
 else:
-    COLOR_BASE = 225  # 色のベース
     COLOR_SCALE = 30  # 色のスケール
+    COLOR_BASE = 225  # 色のベース
     LOG_FILE = './data/' + MODEL + '/run.log'  # ログファイル
 
 
