@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HealthData [
+<!-- HealthKit Export Version: 11 -->
+<!ELEMENT HealthData (ExportDate,Me,(Record|Correlation|Workout|ActivitySummary|ClinicalRecord)*)>
+<!ATTLIST HealthData
+  locale CDATA #REQUIRED
+>
+<!ELEMENT ExportDate EMPTY>
+<!ATTLIST ExportDate
+  value CDATA #REQUIRED
+>
+<!ELEMENT Me EMPTY>
+<!ATTLIST Me
+  HKCharacteristicTypeIdentifierDateOfBirth         CDATA #REQUIRED
+  HKCharacteristicTypeIdentifierBiologicalSex       CDATA #REQUIRED
+  HKCharacteristicTypeIdentifierBloodType           CDATA #REQUIRED
+  HKCharacteristicTypeIdentifierFitzpatrickSkinType CDATA #REQUIRED
+>
+<!ELEMENT Record ((MetadataEntry|HeartRateVariabilityMetadataList)*)>
+<!ATTLIST Record
+  type          CDATA #REQUIRED
+  unit          CDATA #IMPLIED
+  value         CDATA #IMPLIED
+  sourceName    CDATA #REQUIRED
+  sourceVersion CDATA #IMPLIED
+  device        CDATA #IMPLIED
+  creationDate  CDATA #IMPLIED
+  startDate     CDATA #REQUIRED
+  endDate       CDATA #REQUIRED
+>
+<!-- Note: Any Records that appear as children of a correlation also appear as top-level records in this document. -->
+<!ELEMENT Correlation ((MetadataEntry|Record)*)>
+<!ATTLIST Correlation
+  type          CDATA #REQUIRED
+  sourceName    CDATA #REQUIRED
+  sourceVersion CDATA #IMPLIED
+  device        CDATA #IMPLIED
+  creationDate  CDATA #IMPLIED
+  startDate     CDATA #REQUIRED
+  endDate       CDATA #REQUIRED
+>
+<!ELEMENT Workout ((MetadataEntry|WorkoutEvent|WorkoutRoute)*)>
+<!ATTLIST Workout
+  workoutActivityType   CDATA #REQUIRED
+  duration              CDATA #IMPLIED
+  durationUnit          CDATA #IMPLIED
+  totalDistance         CDATA #IMPLIED
+  totalDistanceUnit     CDATA #IMPLIED
+  totalEnergyBurned     CDATA #IMPLIED
+  totalEnergyBurnedUnit CDATA #IMPLIED
+  sourceName            CDATA #REQUIRED
+  sourceVersion         CDATA #IMPLIED
+  device                CDATA #IMPLIED
+  creationDate          CDATA #IMPLIED
+  startDate             CDATA #REQUIRED
+  endDate               CDATA #REQUIRED
+>
+<!ELEMENT WorkoutEvent EMPTY>
+<!ATTLIST WorkoutEvent
+  type         CDATA #REQUIRED
+  date         CDATA #REQUIRED
+  duration     CDATA #IMPLIED
+  durationUnit CDATA #IMPLIED
+>
+<!ELEMENT WorkoutRoute ((MetadataEntry|FileReference)*)>
+<!ATTLIST WorkoutRoute
+  sourceName    CDATA #REQUIRED
+  sourceVersion CDATA #IMPLIED
+  device        CDATA #IMPLIED
+  creationDate  CDATA #IMPLIED
+  startDate     CDATA #REQUIRED
+  endDate       CDATA #REQUIRED
+>
+<!ELEMENT FileReference EMPTY>
+<!ATTLIST FileReference
+  path CDATA #REQUIRED
+>
+<!ELEMENT ActivitySummary EMPTY>
+<!ATTLIST ActivitySummary
+  dateComponents           CDATA #IMPLIED
+  activeEnergyBurned       CDATA #IMPLIED
+  activeEnergyBurnedGoal   CDATA #IMPLIED
+  activeEnergyBurnedUnit   CDATA #IMPLIED
+  appleMoveTime            CDATA #IMPLIED
+  appleMoveTimeGoal        CDATA #IMPLIED
+  appleExerciseTime        CDATA #IMPLIED
+  appleExerciseTimeGoal    CDATA #IMPLIED
+  appleStandHours          CDATA #IMPLIED
+  appleStandHoursGoal      CDATA #IMPLIED
+>
+<!ELEMENT MetadataEntry EMPTY>
+<!ATTLIST MetadataEntry
+  key   CDATA #REQUIRED
+  value CDATA #REQUIRED
+>
+<!-- Note: Heart Rate Variability records captured by Apple Watch may include an associated list of instantaneous beats-per-minute readings. -->
+<!ELEMENT HeartRateVariabilityMetadataList (InstantaneousBeatsPerMinute*)>
+<!ELEMENT InstantaneousBeatsPerMinute EMPTY>
+<!ATTLIST InstantaneousBeatsPerMinute
+  bpm  CDATA #REQUIRED
+  time CDATA #REQUIRED
+>
+<!ELEMENT ClinicalRecord EMPTY>
+<!ATTLIST ClinicalRecord
+  type              CDATA #REQUIRED
+  identifier        CDATA #REQUIRED
+  sourceName        CDATA #REQUIRED
+  sourceURL         CDATA #REQUIRED
+  fhirVersion       CDATA #REQUIRED
+  receivedDate      CDATA #REQUIRED
+  resourceFilePath  CDATA #REQUIRED
+>
+<!ELEMENT Audiogram EMPTY>
+<!ATTLIST Audiogram
+  type          CDATA #REQUIRED
+  sourceName    CDATA #REQUIRED
+  sourceVersion CDATA #IMPLIED
+  device        CDATA #IMPLIED
+  creationDate  CDATA #IMPLIED
+  startDate     CDATA #REQUIRED
+  endDate       CDATA #REQUIRED
+>
+<!ELEMENT SensitivityPoint EMPTY>
+<!ATTLIST SensitivityPoint
+  frequencyValue   CDATA #REQUIRED
+  frequencyUnit    CDATA #REQUIRED
+  leftEarValue     CDATA #IMPLIED
+  leftEarUnit      CDATA #IMPLIED
+  rightEarValue    CDATA #IMPLIED
+  rightEarUnit     CDATA #IMPLIED
+>
+]>
+<HealthData locale="ja_JP">
+ <ExportDate value="2021-06-01 00:30:34 +0900"/>
+ <Me HKCharacteristicTypeIdentifierDateOfBirth="" HKCharacteristicTypeIdentifierBiologicalSex="HKBiologicalSexNotSet" HKCharacteristicTypeIdentifierBloodType="HKBloodTypeNotSet" HKCharacteristicTypeIdentifierFitzpatrickSkinType="HKFitzpatrickSkinTypeNotSet" HKCharacteristicTypeIdentifierCardioFitnessMedicationsUse="なし"/>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:07:54 +0900" startDate="2021-05-31 23:07:52 +0900" endDate="2021-05-31 23:07:52 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:07:59 +0900" startDate="2021-05-31 23:07:54 +0900" endDate="2021-05-31 23:07:54 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:08:29 +0900" startDate="2021-05-31 23:08:28 +0900" endDate="2021-05-31 23:08:28 +0900" value="73">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:08:34 +0900" startDate="2021-05-31 23:08:29 +0900" endDate="2021-05-31 23:08:29 +0900" value="73">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:09:24 +0900" startDate="2021-05-31 23:09:19 +0900" endDate="2021-05-31 23:09:19 +0900" value="83">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:10:04 +0900" startDate="2021-05-31 23:06:24 +0900" endDate="2021-05-31 23:06:24 +0900" value="80">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:10:20 +0900" startDate="2021-05-31 23:10:17 +0900" endDate="2021-05-31 23:10:17 +0900" value="69">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:10:25 +0900" startDate="2021-05-31 23:10:24 +0900" endDate="2021-05-31 23:10:24 +0900" value="72">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:10:30 +0900" startDate="2021-05-31 23:10:26 +0900" endDate="2021-05-31 23:10:26 +0900" value="73">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:10:50 +0900" startDate="2021-05-31 23:10:48 +0900" endDate="2021-05-31 23:10:48 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:10:55 +0900" startDate="2021-05-31 23:10:52 +0900" endDate="2021-05-31 23:10:52 +0900" value="73">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:11:55 +0900" startDate="2021-05-31 23:11:50 +0900" endDate="2021-05-31 23:11:50 +0900" value="84">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:14:53 +0900" startDate="2021-05-31 23:14:51 +0900" endDate="2021-05-31 23:14:51 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:14:58 +0900" startDate="2021-05-31 23:14:56 +0900" endDate="2021-05-31 23:14:56 +0900" value="72">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:15:03 +0900" startDate="2021-05-31 23:14:59 +0900" endDate="2021-05-31 23:14:59 +0900" value="72">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:15:18 +0900" startDate="2021-05-31 23:15:15 +0900" endDate="2021-05-31 23:15:15 +0900" value="73">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:17:06 +0900" startDate="2021-05-31 23:13:46 +0900" endDate="2021-05-31 23:13:46 +0900" value="72">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:17:32 +0900" startDate="2021-05-31 23:17:31 +0900" endDate="2021-05-31 23:17:31 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:17:37 +0900" startDate="2021-05-31 23:17:33 +0900" endDate="2021-05-31 23:17:33 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:17:57 +0900" startDate="2021-05-31 23:17:53 +0900" endDate="2021-05-31 23:17:53 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:18:27 +0900" startDate="2021-05-31 23:18:26 +0900" endDate="2021-05-31 23:18:26 +0900" value="82">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:18:57 +0900" startDate="2021-05-31 23:18:53 +0900" endDate="2021-05-31 23:18:53 +0900" value="81">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:19:54 +0900" startDate="2021-05-31 23:19:50 +0900" endDate="2021-05-31 23:19:50 +0900" value="77">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:19:59 +0900" startDate="2021-05-31 23:19:55 +0900" endDate="2021-05-31 23:19:55 +0900" value="77">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:20:04 +0900" startDate="2021-05-31 23:19:59 +0900" endDate="2021-05-31 23:19:59 +0900" value="77">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:21:14 +0900" startDate="2021-05-31 23:21:12 +0900" endDate="2021-05-31 23:21:12 +0900" value="84">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:21:24 +0900" startDate="2021-05-31 23:21:23 +0900" endDate="2021-05-31 23:21:23 +0900" value="81">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:22:08 +0900" startDate="2021-05-31 23:19:29 +0900" endDate="2021-05-31 23:19:29 +0900" value="75">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:22:24 +0900" startDate="2021-05-31 23:22:21 +0900" endDate="2021-05-31 23:22:21 +0900" value="82">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:22:39 +0900" startDate="2021-05-31 23:22:35 +0900" endDate="2021-05-31 23:22:35 +0900" value="82">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:22:54 +0900" startDate="2021-05-31 23:22:49 +0900" endDate="2021-05-31 23:22:49 +0900" value="77">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:23:04 +0900" startDate="2021-05-31 23:22:59 +0900" endDate="2021-05-31 23:22:59 +0900" value="76">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:23:44 +0900" startDate="2021-05-31 23:23:41 +0900" endDate="2021-05-31 23:23:41 +0900" value="84">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:23:59 +0900" startDate="2021-05-31 23:23:57 +0900" endDate="2021-05-31 23:23:57 +0900" value="84">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:24:53 +0900" startDate="2021-05-31 23:24:52 +0900" endDate="2021-05-31 23:24:52 +0900" value="73">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:25:33 +0900" startDate="2021-05-31 23:25:31 +0900" endDate="2021-05-31 23:25:31 +0900" value="87">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:25:48 +0900" startDate="2021-05-31 23:25:47 +0900" endDate="2021-05-31 23:25:47 +0900" value="88">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:25:58 +0900" startDate="2021-05-31 23:25:56 +0900" endDate="2021-05-31 23:25:56 +0900" value="88">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:26:03 +0900" startDate="2021-05-31 23:26:00 +0900" endDate="2021-05-31 23:26:00 +0900" value="84">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:26:33 +0900" startDate="2021-05-31 23:26:28 +0900" endDate="2021-05-31 23:26:28 +0900" value="89">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:27:03 +0900" startDate="2021-05-31 23:21:55 +0900" endDate="2021-05-31 23:21:55 +0900" value="80">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:27:19 +0900" startDate="2021-05-31 23:27:17 +0900" endDate="2021-05-31 23:27:17 +0900" value="81">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:27:49 +0900" startDate="2021-05-31 23:27:46 +0900" endDate="2021-05-31 23:27:46 +0900" value="87">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:28:04 +0900" startDate="2021-05-31 23:28:00 +0900" endDate="2021-05-31 23:28:00 +0900" value="92">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:28:34 +0900" startDate="2021-05-31 23:28:28 +0900" endDate="2021-05-31 23:28:28 +0900" value="93">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:29:45 +0900" startDate="2021-05-31 23:29:43 +0900" endDate="2021-05-31 23:29:43 +0900" value="72">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:29:50 +0900" startDate="2021-05-31 23:29:49 +0900" endDate="2021-05-31 23:29:49 +0900" value="72">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:29:55 +0900" startDate="2021-05-31 23:29:52 +0900" endDate="2021-05-31 23:29:52 +0900" value="73">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:30:10 +0900" startDate="2021-05-31 23:30:07 +0900" endDate="2021-05-31 23:30:07 +0900" value="73">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:30:15 +0900" startDate="2021-05-31 23:30:14 +0900" endDate="2021-05-31 23:30:14 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:30:20 +0900" startDate="2021-05-31 23:30:17 +0900" endDate="2021-05-31 23:30:17 +0900" value="73">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:31:57 +0900" startDate="2021-05-31 23:26:43 +0900" endDate="2021-05-31 23:26:43 +0900" value="85">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:33:03 +0900" startDate="2021-05-31 23:33:02 +0900" endDate="2021-05-31 23:33:02 +0900" value="81">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:33:13 +0900" startDate="2021-05-31 23:33:09 +0900" endDate="2021-05-31 23:33:09 +0900" value="80">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:33:23 +0900" startDate="2021-05-31 23:33:22 +0900" endDate="2021-05-31 23:33:22 +0900" value="78">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:33:28 +0900" startDate="2021-05-31 23:33:23 +0900" endDate="2021-05-31 23:33:23 +0900" value="78">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:33:48 +0900" startDate="2021-05-31 23:33:46 +0900" endDate="2021-05-31 23:33:46 +0900" value="76">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:34:03 +0900" startDate="2021-05-31 23:34:01 +0900" endDate="2021-05-31 23:34:01 +0900" value="82">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:35:14 +0900" startDate="2021-05-31 23:31:28 +0900" endDate="2021-05-31 23:31:28 +0900" value="87">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:35:35 +0900" startDate="2021-05-31 23:35:33 +0900" endDate="2021-05-31 23:35:33 +0900" value="76">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:35:50 +0900" startDate="2021-05-31 23:35:49 +0900" endDate="2021-05-31 23:35:49 +0900" value="75">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:35:55 +0900" startDate="2021-05-31 23:35:50 +0900" endDate="2021-05-31 23:35:50 +0900" value="75">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:38:02 +0900" startDate="2021-05-31 23:38:00 +0900" endDate="2021-05-31 23:38:00 +0900" value="73">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:38:07 +0900" startDate="2021-05-31 23:38:02 +0900" endDate="2021-05-31 23:38:02 +0900" value="72">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:38:12 +0900" startDate="2021-05-31 23:38:11 +0900" endDate="2021-05-31 23:38:11 +0900" value="73">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:38:17 +0900" startDate="2021-05-31 23:38:14 +0900" endDate="2021-05-31 23:38:14 +0900" value="73">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:40:14 +0900" startDate="2021-05-31 23:37:18 +0900" endDate="2021-05-31 23:37:18 +0900" value="66">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:40:30 +0900" startDate="2021-05-31 23:40:28 +0900" endDate="2021-05-31 23:40:28 +0900" value="77">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:41:00 +0900" startDate="2021-05-31 23:40:58 +0900" endDate="2021-05-31 23:40:58 +0900" value="75">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:41:10 +0900" startDate="2021-05-31 23:41:07 +0900" endDate="2021-05-31 23:41:07 +0900" value="79">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:41:35 +0900" startDate="2021-05-31 23:41:34 +0900" endDate="2021-05-31 23:41:34 +0900" value="81">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:41:55 +0900" startDate="2021-05-31 23:41:51 +0900" endDate="2021-05-31 23:41:51 +0900" value="82">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:42:54 +0900" startDate="2021-05-31 23:42:53 +0900" endDate="2021-05-31 23:42:53 +0900" value="77">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:43:19 +0900" startDate="2021-05-31 23:43:16 +0900" endDate="2021-05-31 23:43:16 +0900" value="84">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:43:44 +0900" startDate="2021-05-31 23:43:42 +0900" endDate="2021-05-31 23:43:42 +0900" value="81">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:43:54 +0900" startDate="2021-05-31 23:43:53 +0900" endDate="2021-05-31 23:43:53 +0900" value="81">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:44:29 +0900" startDate="2021-05-31 23:44:28 +0900" endDate="2021-05-31 23:44:28 +0900" value="87">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:45:05 +0900" startDate="2021-05-31 23:42:30 +0900" endDate="2021-05-31 23:42:30 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:45:26 +0900" startDate="2021-05-31 23:45:21 +0900" endDate="2021-05-31 23:45:21 +0900" value="75">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:45:31 +0900" startDate="2021-05-31 23:45:30 +0900" endDate="2021-05-31 23:45:30 +0900" value="84">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:46:06 +0900" startDate="2021-05-31 23:46:05 +0900" endDate="2021-05-31 23:46:05 +0900" value="84">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:47:50 +0900" startDate="2021-05-31 23:47:49 +0900" endDate="2021-05-31 23:47:49 +0900" value="81">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:48:35 +0900" startDate="2021-05-31 23:48:31 +0900" endDate="2021-05-31 23:48:31 +0900" value="75">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:49:10 +0900" startDate="2021-05-31 23:49:09 +0900" endDate="2021-05-31 23:49:09 +0900" value="84">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:50:01 +0900" startDate="2021-05-31 23:44:57 +0900" endDate="2021-05-31 23:44:57 +0900" value="82">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:50:25 +0900" startDate="2021-05-31 23:50:22 +0900" endDate="2021-05-31 23:50:22 +0900" value="79">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:51:00 +0900" startDate="2021-05-31 23:50:56 +0900" endDate="2021-05-31 23:50:56 +0900" value="76">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:51:05 +0900" startDate="2021-05-31 23:51:02 +0900" endDate="2021-05-31 23:51:02 +0900" value="77">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:51:10 +0900" startDate="2021-05-31 23:51:05 +0900" endDate="2021-05-31 23:51:05 +0900" value="87">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:51:40 +0900" startDate="2021-05-31 23:51:39 +0900" endDate="2021-05-31 23:51:39 +0900" value="94">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:53:46 +0900" startDate="2021-05-31 23:53:44 +0900" endDate="2021-05-31 23:53:44 +0900" value="78">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:53:56 +0900" startDate="2021-05-31 23:53:54 +0900" endDate="2021-05-31 23:53:54 +0900" value="77">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:55:01 +0900" startDate="2021-05-31 23:55:00 +0900" endDate="2021-05-31 23:55:00 +0900" value="99">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:55:56 +0900" startDate="2021-05-31 23:49:54 +0900" endDate="2021-05-31 23:49:54 +0900" value="93">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:56:56 +0900" startDate="2021-05-31 23:56:52 +0900" endDate="2021-05-31 23:56:52 +0900" value="77">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:57:06 +0900" startDate="2021-05-31 23:57:05 +0900" endDate="2021-05-31 23:57:05 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:57:11 +0900" startDate="2021-05-31 23:57:06 +0900" endDate="2021-05-31 23:57:06 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:57:21 +0900" startDate="2021-05-31 23:57:20 +0900" endDate="2021-05-31 23:57:20 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:57:26 +0900" startDate="2021-05-31 23:57:21 +0900" endDate="2021-05-31 23:57:21 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:57:36 +0900" startDate="2021-05-31 23:57:35 +0900" endDate="2021-05-31 23:57:35 +0900" value="79">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-05-31 23:59:49 +0900" startDate="2021-05-31 23:55:45 +0900" endDate="2021-05-31 23:55:45 +0900" value="100">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:00:13 +0900" startDate="2021-06-01 00:00:11 +0900" endDate="2021-06-01 00:00:11 +0900" value="78">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:01:03 +0900" startDate="2021-06-01 00:01:00 +0900" endDate="2021-06-01 00:01:00 +0900" value="81">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:01:43 +0900" startDate="2021-06-01 00:01:40 +0900" endDate="2021-06-01 00:01:40 +0900" value="83">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:01:48 +0900" startDate="2021-06-01 00:01:43 +0900" endDate="2021-06-01 00:01:43 +0900" value="86">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:03:40 +0900" startDate="2021-06-01 00:03:39 +0900" endDate="2021-06-01 00:03:39 +0900" value="81">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:05:53 +0900" startDate="2021-06-01 00:02:59 +0900" endDate="2021-06-01 00:02:59 +0900" value="71">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:06:04 +0900" startDate="2021-06-01 00:06:01 +0900" endDate="2021-06-01 00:06:01 +0900" value="78">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:06:14 +0900" startDate="2021-06-01 00:06:11 +0900" endDate="2021-06-01 00:06:11 +0900" value="77">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:06:19 +0900" startDate="2021-06-01 00:06:16 +0900" endDate="2021-06-01 00:06:16 +0900" value="76">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:06:24 +0900" startDate="2021-06-01 00:06:23 +0900" endDate="2021-06-01 00:06:23 +0900" value="75">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:06:29 +0900" startDate="2021-06-01 00:06:24 +0900" endDate="2021-06-01 00:06:24 +0900" value="75">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:06:44 +0900" startDate="2021-06-01 00:06:39 +0900" endDate="2021-06-01 00:06:39 +0900" value="75">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:07:04 +0900" startDate="2021-06-01 00:07:00 +0900" endDate="2021-06-01 00:07:00 +0900" value="82">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:07:24 +0900" startDate="2021-06-01 00:07:21 +0900" endDate="2021-06-01 00:07:21 +0900" value="83">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:08:46 +0900" startDate="2021-06-01 00:08:44 +0900" endDate="2021-06-01 00:08:44 +0900" value="78">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:10:47 +0900" startDate="2021-06-01 00:07:57 +0900" endDate="2021-06-01 00:07:57 +0900" value="81">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:12:43 +0900" startDate="2021-06-01 00:12:42 +0900" endDate="2021-06-01 00:12:42 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:13:23 +0900" startDate="2021-06-01 00:13:22 +0900" endDate="2021-06-01 00:13:22 +0900" value="83">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:14:57 +0900" startDate="2021-06-01 00:12:14 +0900" endDate="2021-06-01 00:12:14 +0900" value="81">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:16:06 +0900" startDate="2021-06-01 00:16:05 +0900" endDate="2021-06-01 00:16:05 +0900" value="77">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:16:11 +0900" startDate="2021-06-01 00:16:06 +0900" endDate="2021-06-01 00:16:06 +0900" value="77">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:16:26 +0900" startDate="2021-06-01 00:16:21 +0900" endDate="2021-06-01 00:16:21 +0900" value="75">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:19:10 +0900" startDate="2021-06-01 00:19:08 +0900" endDate="2021-06-01 00:19:08 +0900" value="81">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:19:50 +0900" startDate="2021-06-01 00:19:47 +0900" endDate="2021-06-01 00:19:47 +0900" value="93">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:20:30 +0900" startDate="2021-06-01 00:20:28 +0900" endDate="2021-06-01 00:20:28 +0900" value="96">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:20:50 +0900" startDate="2021-06-01 00:20:48 +0900" endDate="2021-06-01 00:20:48 +0900" value="95">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:21:17 +0900" startDate="2021-06-01 00:14:44 +0900" endDate="2021-06-01 00:14:44 +0900" value="85">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:22:55 +0900" startDate="2021-06-01 00:22:54 +0900" endDate="2021-06-01 00:22:54 +0900" value="97">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:23:15 +0900" startDate="2021-06-01 00:23:12 +0900" endDate="2021-06-01 00:23:12 +0900" value="74">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierHeartRate" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a392c0&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="count/min" creationDate="2021-06-01 00:26:38 +0900" startDate="2021-06-01 00:22:23 +0900" endDate="2021-06-01 00:22:23 +0900" value="100">
+  <MetadataEntry key="HKMetadataKeyHeartRateMotionContext" value="0"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierBasalEnergyBurned" sourceName="藤井敦寛のApple Watch" sourceVersion="7.5" device="&lt;&lt;HKDevice: 0x281a3fe30&gt;, name:Apple Watch, manufacturer:Apple Inc., model:Watch, hardware:Watch5,4, software:7.5&gt;" unit="kcal" creationDate="2021-06-01 00:29:55 +0900" startDate="2021-06-01 00:13:52 +0900" endDate="2021-06-01 00:28:52 +0900" value="14.41"/>
+</HealthData>
