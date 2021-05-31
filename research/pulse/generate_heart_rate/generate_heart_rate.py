@@ -16,12 +16,15 @@ if MODEL == 'AppleWatch':
     COLOR_BASE = 0  # 色のベース
     #*** Legion7 ***#
     # COLOR_SCALE = 20  # 色のスケール
+    # L_COLORS = 20  # 色の長さ
     #*** Raspberry Pi ***#
     COLOR_SCALE = 40  # 色のスケール
+    L_COLORS = 10  # 色の長さ
     LOG_FILE = './data/' + MODEL + '/Series_' + SERIES + '/run.log'  # ログファイル
 else:
     COLOR_BASE = 225  # 色のベース
     COLOR_SCALE = 30  # 色のスケール
+    L_COLORS = 20  # 色の長さ
     LOG_FILE = './data/' + MODEL + '/run.log'  # ログファイル
 
 
@@ -49,7 +52,7 @@ def light(heart_rate):
         """
 
         # sin波（0 ~ 2）の生成
-        sin = np.sin(np.linspace(0, 2 * np.pi, 20)) + 1
+        sin = np.sin(np.linspace(0, 2 * np.pi, L_COLORS)) + 1
         # 1以上の値を1にする（0 ~ 1）
         sin[sin > 1] = 1
 
