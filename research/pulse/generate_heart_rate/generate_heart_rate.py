@@ -13,7 +13,10 @@ PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間�
 if MODEL == 'AppleWatch':
     SERIES = '5'  # AppleWatchのバージョン
     PROCESS_TIME = 140  # 実行時間（アプリ側のデータ取得は120秒間程度）
-    COLOR_BASE = 0  # 色のベース
+    if SERIES == '3':
+        COLOR_BASE = 0  # 色のベース
+    elif SERIES == '5':
+        COLOR_BASE = 20  # 色のベース
     #*** Legion7 ***#
     # COLOR_SCALE = 20  # 色のスケール
     # L_COLORS = 20  # 色の長さ
