@@ -8,6 +8,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 MODEL = 'AppleWatch'  # スマートウォッチのモデル
+DISPLAY = 'OSOYOO'  # ディスプレイの種類
 PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間）
 
 if MODEL == 'AppleWatch':
@@ -15,15 +16,31 @@ if MODEL == 'AppleWatch':
     PROCESS_TIME = 140  # 実行時間（アプリ側のデータ取得は120秒間程度）
     if SERIES == '3':
         COLOR_BASE = 0  # 色のベース
+        if DISPLAY == 'Legion7':
+            COLOR_SCALE = 20  # 色のスケール
+            L_COLORS = 20  # 色の長さ
+        elif DISPLAY in ['OSOYOO', 'KeDei']:
+            # アクリルなし
+            COLOR_SCALE = 40  # 色のスケール
+            L_COLORS = 10  # 色の長さ
+
     elif SERIES == '5':
-        COLOR_BASE = 20  # 色のベース
-    #*** Legion7 ***#
-    # COLOR_SCALE = 20  # 色のスケール
-    # L_COLORS = 20  # 色の長さ
-    #*** Raspberry Pi ***#
-    COLOR_SCALE = 40  # 色のスケール
-    L_COLORS = 10  # 色の長さ
+        if DISPLAY == 'Legion7':
+            COLOR_BASE = 20  # 色のベース
+            COLOR_SCALE = 20  # 色のスケール
+            L_COLORS = 20  # 色の長さ
+        elif DISPLAY == 'OSOYOO':
+            # 2mmアクリル
+            COLOR_BASE = 50  # 色のベース
+            COLOR_SCALE = 50  # 色のスケール
+            L_COLORS = 10  # 色の長さ
+        elif DISPLAY == 'KeDei':
+            # アクリルなし
+            COLOR_BASE = 20  # 色のベース
+            COLOR_SCALE = 40  # 色のスケール
+            L_COLORS = 10  # 色の長さ
     LOG_FILE = './data/' + MODEL + '/Series_' + SERIES + '/run.log'  # ログファイル
+
 else:
     COLOR_BASE = 225  # 色のベース
     COLOR_SCALE = 30  # 色のスケール
