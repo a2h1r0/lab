@@ -18,27 +18,23 @@ if MODEL == 'AppleWatch':
         COLOR_BASE = 0  # 色のベース
         if DISPLAY == 'Legion7':
             COLOR_SCALE = 20  # 色のスケール
-            L_COLORS = 20  # 色の長さ
         elif DISPLAY in ['OSOYOO', 'KeDei']:
             # アクリルなし
             COLOR_SCALE = 40  # 色のスケール
-            L_COLORS = 10  # 色の長さ
 
     elif SERIES == '5':
         if DISPLAY == 'Legion7':
             COLOR_BASE = 20  # 色のベース
             COLOR_SCALE = 20  # 色のスケール
-            L_COLORS = 20  # 色の長さ
         elif DISPLAY == 'OSOYOO':
             # 2mmアクリル
             COLOR_BASE = 50  # 色のベース
             COLOR_SCALE = 50  # 色のスケール
-            L_COLORS = 10  # 色の長さ
         elif DISPLAY == 'KeDei':
             # アクリルなし
             COLOR_BASE = 20  # 色のベース
             COLOR_SCALE = 40  # 色のスケール
-            L_COLORS = 10  # 色の長さ
+    L_COLORS = 10  # 色の長さ
     LOG_FILE = './data/' + MODEL + '/Series_' + SERIES + '/run.log'  # ログファイル
 
 else:
