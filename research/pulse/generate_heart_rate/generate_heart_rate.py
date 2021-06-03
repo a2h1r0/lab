@@ -12,7 +12,7 @@ DISPLAY = 'Legion7'  # ディスプレイの種類
 PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間）
 
 if MODEL == 'AppleWatch':
-    SERIES = '3'  # AppleWatchのバージョン
+    SERIES = '5'  # AppleWatchのバージョン
     PROCESS_TIME = 140  # 実行時間（アプリ側のデータ取得は120秒間程度）
     if SERIES == '3':
         COLOR_BASE = 0  # 色のベース
