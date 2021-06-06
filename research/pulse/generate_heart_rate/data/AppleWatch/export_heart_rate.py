@@ -13,6 +13,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
+WORK_DIR = 'Series_3/KeDei/'  # 作業ディレクトリ
 DATA_FILE_NAME = 'export.xml'  # データファイル名
 EXPORT_FILE_NAME = 'heart_rate.csv'  # 出力ファイル名
 SEPARATE_TIME = 30  # 分割間隔
@@ -139,7 +140,7 @@ class HealthDataExtractor(object):
         self.handles = {}
         self.paths = []
         for kind in (list(self.record_types) + list(self.other_types)):
-            path = os.path.join(self.directory, EXPORT_FILE_NAME)
+            path = os.path.join(self.directory, WORK_DIR + EXPORT_FILE_NAME)
             f = open(path, 'w', encoding='UTF-8')
             f.write(','.join(RECORD_FIELDS) + '\n')
             self.handles[kind] = f
@@ -231,13 +232,13 @@ def separate_files(path):
 
 def main():
     # ファイルの書き出し
-    if os.path.isfile(EXPORT_FILE_NAME) is False:
-        data = HealthDataExtractor(DATA_FILE_NAME)
+    if os.path.isfile(WORK_DIR + EXPORT_FILE_NAME) is False:
+        data = HealthDataExtractor(WORK_DIR + DATA_FILE_NAME)
         data.report_stats()
         data.extract()
 
     # ファイルの分割
-    separate_files(EXPORT_FILE_NAME)
+    separate_files(WORK_DIR + EXPORT_FILE_NAME)
 
 
 if __name__ == '__main__':
