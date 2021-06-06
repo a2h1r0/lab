@@ -16,7 +16,7 @@ os.chdir(os.path.dirname(__file__))
 WORK_DIR = 'Series_3/KeDei/'  # 作業ディレクトリ
 DATA_FILE_NAME = 'export.xml'  # データファイル名
 EXPORT_FILE_NAME = 'heart_rate.csv'  # 出力ファイル名
-SEPARATE_TIME = 30  # 分割間隔
+SEPARATE_TIME = 40  # 分割間隔
 
 # 使用データ
 RECORD_FIELDS = [
@@ -140,7 +140,7 @@ class HealthDataExtractor(object):
         self.handles = {}
         self.paths = []
         for kind in (list(self.record_types) + list(self.other_types)):
-            path = os.path.join(self.directory, WORK_DIR + EXPORT_FILE_NAME)
+            path = os.path.join(self.directory, EXPORT_FILE_NAME)
             f = open(path, 'w', encoding='UTF-8')
             f.write(','.join(RECORD_FIELDS) + '\n')
             self.handles[kind] = f
@@ -212,10 +212,10 @@ def separate_files(path):
                 old_date_time = datetime.datetime(old_date[0], old_date[1], old_date[2],
                                                   old_time[0], old_time[1], old_time[2])
 
-                # 30秒以上間隔が空いていれば
+                # SEPARATE_TIME秒以上間隔が空いていれば
                 if date_time > old_date_time + datetime.timedelta(seconds=SEPARATE_TIME):
                     # ファイルに書き出して分割
-                    with open(str(file_number) + '.csv', 'w', newline='') as export_file:
+                    with open(WORK_DIR + str(file_number) + '.csv', 'w', newline='') as export_file:
                         export_writer = csv.writer(export_file, delimiter=',')
                         export_writer.writerows(data)
                         data = []
@@ -225,7 +225,7 @@ def separate_files(path):
             data.append(row)
 
         # 残りをファイルに書き出す
-        with open(str(file_number) + '.csv', 'w', newline='') as export_file:
+        with open(WORK_DIR + str(file_number) + '.csv', 'w', newline='') as export_file:
             export_writer = csv.writer(export_file, delimiter=',')
             export_writer.writerows(data)
 
