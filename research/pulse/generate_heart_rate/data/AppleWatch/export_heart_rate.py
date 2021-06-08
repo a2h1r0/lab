@@ -16,7 +16,7 @@ os.chdir(os.path.dirname(__file__))
 WORK_DIR = 'Series_3/KeDei/'  # 作業ディレクトリ
 DATA_FILE_NAME = 'export.xml'  # データファイル名
 EXPORT_FILE_NAME = 'heart_rate.csv'  # 出力ファイル名
-SEPARATE_TIME = 40  # 分割間隔
+SEPARATE_TIME = 25  # 分割間隔
 
 # 使用データ
 RECORD_FIELDS = [
@@ -189,6 +189,19 @@ def separate_files(path):
         path (string): 分割するファイル
     """
 
+    def str2datetime(date_time):
+        """
+        日時の変換（文字列 -> オブジェクト）
+
+        Args:
+            date_time (string): 変換する文字列
+        Returns:
+            :obj:`datetime`: 日時オブジェクト
+        """
+
+        temp = datetime.datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
+        return datetime.datetime(temp.year, temp.month, temp.day, temp.hour, temp.minute, temp.second)
+
     data = []
     with open(path, encoding='UTF-8') as f:
         reader = csv.reader(f)
@@ -196,38 +209,32 @@ def separate_files(path):
         # ヘッダーのスキップ
         next(reader)
 
-        file_number = 0
         for row in reader:
-            # データの読み出し
-            split_date_time = row[1].split()
-            date = [int(s) for s in split_date_time[0].split('-')]
-            time = [int(s) for s in split_date_time[1].split(':')]
-            date_time = datetime.datetime(date[0], date[1], date[2],
-                                          time[0], time[1], time[2])
-            if len(data):
-                # 1つ前のデータを取得
-                old_split_date_time = data[-1][1].split()
-                old_date = [int(s) for s in old_split_date_time[0].split('-')]
-                old_time = [int(s) for s in old_split_date_time[1].split(':')]
-                old_date_time = datetime.datetime(old_date[0], old_date[1], old_date[2],
-                                                  old_time[0], old_time[1], old_time[2])
-
-                # SEPARATE_TIME秒以上間隔が空いていれば
-                if date_time > old_date_time + datetime.timedelta(seconds=SEPARATE_TIME):
-                    # ファイルに書き出して分割
-                    with open(WORK_DIR + str(file_number) + '.csv', 'w', newline='') as export_file:
-                        export_writer = csv.writer(export_file, delimiter=',')
-                        export_writer.writerows(data)
-                        data = []
-                        file_number += 1
-
             # データの追加
             data.append(row)
 
-        # 残りをファイルに書き出す
-        with open(WORK_DIR + str(file_number) + '.csv', 'w', newline='') as export_file:
-            export_writer = csv.writer(export_file, delimiter=',')
-            export_writer.writerows(data)
+    sorted_data = sorted(data, key=lambda x: str2datetime(x[1]))
+
+    data = []
+    file_number = 0
+    date_time = 0
+    for row in sorted_data:
+        # 1つ前のデータを保存
+        old_date_time = date_time
+        # データの読み出し
+        date_time = str2datetime(row[1])
+
+        # SEPARATE_TIME秒以上間隔が空いていれば
+        if old_date_time != 0 and date_time > old_date_time + datetime.timedelta(seconds=SEPARATE_TIME):
+            # ファイルに書き出して分割
+            with open(WORK_DIR + str(file_number) + '.csv', 'w', newline='') as export_file:
+                export_writer = csv.writer(export_file, delimiter=',')
+                export_writer.writerows(data)
+                data = []
+                file_number += 1
+        else:
+            # データの追加
+            data.append(row)
 
 
 def main():
