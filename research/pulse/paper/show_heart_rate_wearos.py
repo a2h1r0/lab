@@ -44,7 +44,6 @@ def main():
                     # サンプル数の追加
                     sample_num += len(values)
 
-        # グラフの描画
         averages = np.mean(diffs, axis=0)
 
         # 結果の表示
