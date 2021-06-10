@@ -10,9 +10,10 @@ os.chdir(os.path.dirname(__file__))
 
 MODEL = 'TicWatch'  # 表示するスマートウォッチ
 TARGET_RATES = [60, 65, 70, 75, 80, 85, 90, 95, 100]  # 取得した目標心拍数
-DISPLAYS = [['Legion7', 'Display A'], ['OSOYOO', 'Display B']]  # 表示するディスプレイ
+DISPLAYS = [['Legion7', 'Display A'], ['OSOYOO', 'Display B'],
+            ['KeDei', 'Display C']]  # 表示するディスプレイ
 DIRS = ['1st', '2nd', '3rd']  # フォルダ分け
-COLORS = ['red', 'blue']  # 描画色
+COLORS = ['red', 'blue', 'green']  # 描画色
 
 
 def main():
@@ -22,6 +23,8 @@ def main():
     plt.ylabel('Diff', fontsize=18)
     plt.title('Heart Rate', fontsize=18)
     plt.tick_params(labelsize=18)
+
+    sample_num = 0
 
     # ディスプレイごとにデータを描画
     for display, color in zip(DISPLAYS, COLORS):
@@ -49,19 +52,26 @@ def main():
                     average = round(sum(values) / len(values))
                     # 目標値からの差の計算
                     diffs[index].append(average - target_rate)
+                    # サンプル数の追加
+                    sample_num += len(values)
 
         # グラフの描画
         y = np.mean(diffs, axis=0)
-        print(TARGET_RATES)
-        print(y)
+
+        # 結果の表示
+        print('\n--- ' + display[1] + ' ---\n')
+        for target, diff in zip(TARGET_RATES, y):
+            print(str(target) + ': ' + str(diff))
         print('\nAverage Diff: ' + str(np.mean(y)) + '\n')
         plt.plot(TARGET_RATES, y, color, label=display[1])
+    print('\n\nSampling Rate: ' + str(sample_num /
+                                      (len(TARGET_RATES) * len(DISPLAYS) * len(DIRS))) + '\n')
 
     plt.legend(fontsize=18, loc='upper right')
     # plt.savefig('../figure/heartrate_' + MODEL + '.eps',
     #             bbox_inches='tight', pad_inches=0)
 
-    plt.show()
+    # plt.show()
 
 
 if __name__ == '__main__':
