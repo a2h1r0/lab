@@ -215,12 +215,12 @@ def separate_files(filedir, filename, separate):
 
         for row in reader:
             # データの追加
-            data.append(row)
+            data.append([row[1], row[2]])
     print('\nRead Data: ' + str(len(data)))
 
     # 日時でソート
     sorted_data = sorted(
-        data, key=lambda x: str2datetime(x[1], '%Y-%m-%d %H:%M:%S'))
+        data, key=lambda x: str2datetime(x[0], '%Y-%m-%d %H:%M:%S'))
 
     # 分割箇所データの作成
     separate_data = []
@@ -237,12 +237,13 @@ def separate_files(filedir, filename, separate):
     data = []
     separate_index = 1
     for row in sorted_data:
-        date_time = str2datetime(row[1], '%Y-%m-%d %H:%M:%S')
+        date_time = str2datetime(row[0], '%Y-%m-%d %H:%M:%S')
         # 分割時刻になったら書き出し
         if separate_index < len(separate_data) and date_time > separate_data[separate_index][0]:
             # ファイルに書き出して分割
             with open(WORK_DIR + separate_data[separate_index-1][0].strftime('%Y%m%d_%H%M%S_') + separate_data[separate_index-1][1] + '.csv', 'w', newline='') as export_file:
                 export_writer = csv.writer(export_file, delimiter=',')
+                export_writer.writerow(['Timestamp', 'HeartRate'])
                 export_writer.writerows(data)
                 write_num += len(data)
                 data = []
