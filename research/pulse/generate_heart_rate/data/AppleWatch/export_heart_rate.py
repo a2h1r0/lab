@@ -216,7 +216,7 @@ def separate_files(filedir, filename, separate):
         for row in reader:
             # データの追加
             data.append(row)
-    print('Read Data: ' + str(len(data)))
+    print('\nRead Data: ' + str(len(data)))
 
     # 日時でソート
     sorted_data = sorted(
