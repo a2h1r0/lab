@@ -1,6 +1,5 @@
 import sys
 import numpy as np
-import matplotlib.pyplot as plt
 import csv
 from natsort import natsorted
 import glob
@@ -13,21 +12,11 @@ TARGET_RATES = [60, 65, 70, 75, 80, 85, 90, 95, 100]  # 取得した目標心拍
 DISPLAYS = [['Legion7', 'Display A'], ['OSOYOO', 'Display B'],
             ['KeDei', 'Display C']]  # 表示するディスプレイ
 DIRS = ['1st', '2nd', '3rd']  # フォルダ分け
-COLORS = ['red', 'blue', 'green']  # 描画色
 
 
 def main():
-    # グラフの準備
-    plt.figure(figsize=(16, 9))
-    plt.xlabel('Target Heart Rate', fontsize=18)
-    plt.ylabel('Diff', fontsize=18)
-    plt.title('Heart Rate', fontsize=18)
-    plt.tick_params(labelsize=18)
-
     sample_num = 0
-
-    # ディスプレイごとにデータを描画
-    for display, color in zip(DISPLAYS, COLORS):
+    for display in DISPLAYS:
         # 取得回数ごとの配列を作成
         diffs = [[] for i in range(len(DIRS))]
         for index, directory in enumerate(DIRS):
@@ -56,22 +45,15 @@ def main():
                     sample_num += len(values)
 
         # グラフの描画
-        y = np.mean(diffs, axis=0)
+        averages = np.mean(diffs, axis=0)
 
         # 結果の表示
         print('\n--- ' + display[1] + ' ---\n')
-        for target, diff in zip(TARGET_RATES, y):
+        for target, diff in zip(TARGET_RATES, averages):
             print(str(target) + ': ' + str(diff))
-        print('\nAverage Diff: ' + str(np.mean(y)) + '\n')
-        plt.plot(TARGET_RATES, y, color, label=display[1])
+        print('\nAverage Diff: ' + str(np.mean(averages)) + '\n')
     print('\n\nSampling Rate: ' + str(sample_num /
                                       (len(TARGET_RATES) * len(DISPLAYS) * len(DIRS))) + '\n')
-
-    plt.legend(fontsize=18, loc='upper right')
-    # plt.savefig('../figure/heartrate_' + MODEL + '.eps',
-    #             bbox_inches='tight', pad_inches=0)
-
-    # plt.show()
 
 
 if __name__ == '__main__':
