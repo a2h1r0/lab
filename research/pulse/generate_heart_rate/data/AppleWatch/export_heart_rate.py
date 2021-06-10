@@ -216,6 +216,7 @@ def separate_files(filedir, filename, separate):
         for row in reader:
             # データの追加
             data.append(row)
+    print('Read Data: ' + str(len(data)))
 
     # 日時でソート
     sorted_data = sorted(
@@ -232,6 +233,7 @@ def separate_files(filedir, filename, separate):
                 separate_data.append(
                     [str2datetime(row[0], '%Y/%m/%d %H:%M:%S'), row[2]])
 
+    write_num = 0
     data = []
     separate_index = 1
     for row in sorted_data:
@@ -242,6 +244,7 @@ def separate_files(filedir, filename, separate):
             with open(WORK_DIR + separate_data[separate_index-1][0].strftime('%Y%m%d_%H%M%S_') + separate_data[separate_index-1][1] + '.csv', 'w', newline='') as export_file:
                 export_writer = csv.writer(export_file, delimiter=',')
                 export_writer.writerows(data)
+                write_num += len(data)
                 data = []
                 separate_index += 1
 
@@ -252,6 +255,9 @@ def separate_files(filedir, filename, separate):
     with open(WORK_DIR + separate_data[separate_index-1][0].strftime('%Y%m%d_%H%M%S_') + separate_data[separate_index-1][1] + '.csv', 'w', newline='') as export_file:
         export_writer = csv.writer(export_file, delimiter=',')
         export_writer.writerows(data)
+        write_num += len(data)
+
+    print('Write Data: ' + str(write_num))
 
 
 def main():
