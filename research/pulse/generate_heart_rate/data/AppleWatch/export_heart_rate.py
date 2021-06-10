@@ -15,8 +15,8 @@ os.chdir(os.path.dirname(__file__))
 
 WORK_DIR = 'Series_3/OSOYOO/'  # 作業ディレクトリ
 DATA_FILE_NAME = 'export.xml'  # データファイル名
+SEPARATE_FILE_NAME = 'run.log'  # 分割ファイル名
 EXPORT_FILE_NAME = 'heart_rate.csv'  # 出力ファイル名
-SEPARATE_TIME = 25  # 分割間隔
 
 # 使用データ
 RECORD_FIELDS = [
@@ -181,29 +181,33 @@ class HealthDataExtractor(object):
         print('Record types:\n%s\n' % format_freqs(self.record_types))
 
 
-def separate_files(path):
+def separate_files(filedir, filename, separate):
     """
     ファイルの分割
 
     Args:
-        path (string): 分割するファイル
+        filedir (string): 分割するファイルのディレクトリ
+        filename (string): ファイル名
+        separate (string): 分割用ファイル名
     """
 
-    def str2datetime(date_time):
+    def str2datetime(date_time, date_format):
         """
         日時の変換（文字列 -> オブジェクト）
 
         Args:
             date_time (string): 変換する文字列
+            date_format (string): 切り出し文字列
         Returns:
             :obj:`datetime`: 日時オブジェクト
         """
 
-        temp = datetime.datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
+        temp = datetime.datetime.strptime(date_time, date_format)
         return datetime.datetime(temp.year, temp.month, temp.day, temp.hour, temp.minute, temp.second)
 
+    # データの読み出し
     data = []
-    with open(path, encoding='UTF-8') as f:
+    with open(filedir + filename, encoding='UTF-8') as f:
         reader = csv.reader(f)
 
         # ヘッダーのスキップ
@@ -213,28 +217,41 @@ def separate_files(path):
             # データの追加
             data.append(row)
 
-    sorted_data = sorted(data, key=lambda x: str2datetime(x[1]))
+    # 日時でソート
+    sorted_data = sorted(
+        data, key=lambda x: str2datetime(x[1], '%Y-%m-%d %H:%M:%S'))
+
+    # 分割箇所データの作成
+    separate_data = []
+    with open(filedir + separate, encoding='UTF-8') as f:
+        reader = csv.reader(f)
+
+        for row in reader:
+            if len(row) == 3:
+                # データの追加
+                separate_data.append(
+                    [str2datetime(row[0], '%Y/%m/%d %H:%M:%S'), row[2]])
 
     data = []
-    file_number = 0
-    date_time = 0
+    separate_index = 1
     for row in sorted_data:
-        # 1つ前のデータを保存
-        old_date_time = date_time
-        # データの読み出し
-        date_time = str2datetime(row[1])
-
-        # SEPARATE_TIME秒以上間隔が空いていれば
-        if old_date_time != 0 and date_time > old_date_time + datetime.timedelta(seconds=SEPARATE_TIME):
+        date_time = str2datetime(row[1], '%Y-%m-%d %H:%M:%S')
+        # 分割時刻になったら書き出し
+        if separate_index < len(separate_data) and date_time > separate_data[separate_index][0]:
             # ファイルに書き出して分割
-            with open(WORK_DIR + str(file_number) + '.csv', 'w', newline='') as export_file:
+            with open(WORK_DIR + separate_data[separate_index-1][0].strftime('%Y%m%d_%H%M%S_') + separate_data[separate_index-1][1] + '.csv', 'w', newline='') as export_file:
                 export_writer = csv.writer(export_file, delimiter=',')
                 export_writer.writerows(data)
                 data = []
-                file_number += 1
+                separate_index += 1
 
         # データの追加
         data.append(row)
+
+    # 最後のデータの書き出し
+    with open(WORK_DIR + separate_data[separate_index-1][0].strftime('%Y%m%d_%H%M%S_') + separate_data[separate_index-1][1] + '.csv', 'w', newline='') as export_file:
+        export_writer = csv.writer(export_file, delimiter=',')
+        export_writer.writerows(data)
 
 
 def main():
@@ -245,7 +262,7 @@ def main():
         data.extract()
 
     # ファイルの分割
-    separate_files(WORK_DIR + EXPORT_FILE_NAME)
+    separate_files(WORK_DIR, EXPORT_FILE_NAME, SEPARATE_FILE_NAME)
 
 
 if __name__ == '__main__':
