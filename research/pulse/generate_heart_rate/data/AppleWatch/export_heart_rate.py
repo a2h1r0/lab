@@ -16,7 +16,7 @@ os.chdir(os.path.dirname(__file__))
 WORK_DIR = 'Series_3/KeDei/'  # 作業ディレクトリ
 DATA_FILE_NAME = 'export.xml'  # データファイル名
 EXPORT_FILE_NAME = 'heart_rate.csv'  # 出力ファイル名
-SEPARATE_TIME = 27  # 分割間隔
+SEPARATE_TIME = 25  # 分割間隔
 
 # 使用データ
 RECORD_FIELDS = [
