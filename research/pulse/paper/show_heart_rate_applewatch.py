@@ -39,6 +39,10 @@ def main():
                         if int(row[0]) > INITIALIZATION_TIME * 1000:
                             values.append(int(row[1]))
 
+                    # INITIALIZATION_TIME以降のデータが存在しないときは最後のデータを使用
+                    if len(values) == 0:
+                        values.append(int(row[1]))
+
                     # 取得時間での平均値
                     average = round(sum(values) / len(values))
                     # 目標値からの差の計算
