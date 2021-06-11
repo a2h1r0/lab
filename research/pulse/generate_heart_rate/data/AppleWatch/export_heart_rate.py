@@ -13,7 +13,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-WORK_DIR = 'Series_3/Legion7/'  # 作業ディレクトリ
+WORK_DIR = 'Series_5/KeDei/'  # 作業ディレクトリ
 DATA_FILE_NAME = 'export.xml'  # データファイル名
 SEPARATE_FILE_NAME = 'run.log'  # 分割ファイル名
 EXPORT_FILE_NAME = 'heart_rate.csv'  # 出力ファイル名
