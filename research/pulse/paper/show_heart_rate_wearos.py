@@ -50,9 +50,9 @@ def main():
         print('\n--- ' + display[1] + ' ---\n')
         for target, diff in zip(TARGET_RATES, averages):
             print(str(target) + ': ' + str(diff))
-        print('\nAverage Diff: ' + str(np.mean(averages)) + '\n')
-    print('\n\nSampling Rate: ' + str(sample_num /
-                                      (len(TARGET_RATES) * len(DISPLAYS) * len(DIRS))) + '\n')
+        print('\nAverage Diff: ' + str(np.mean(averages)))
+    print('\nSampling Rate: ' + str(sample_num /
+                                    (len(TARGET_RATES) * len(DISPLAYS) * len(DIRS))) + '\n')
 
 
 if __name__ == '__main__':
