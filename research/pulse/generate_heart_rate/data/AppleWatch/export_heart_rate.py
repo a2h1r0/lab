@@ -218,8 +218,9 @@ def separate_files(filedir, filename, separate):
             export_writer = csv.writer(export_file, delimiter=',')
             export_writer.writerow(['Timestamp', 'HeartRate'])
             for write_data in data:
-                time = write_data[0] - data[0][0]
-                export_writer.writerow([time.seconds * 1000, write_data[1]])
+                timestamp = write_data[0] - data[0][0]
+                export_writer.writerow(
+                    [timestamp.seconds * 1000, write_data[1]])
 
     # データの読み出し
     data = []
@@ -257,7 +258,6 @@ def separate_files(filedir, filename, separate):
             # ファイルに書き出して分割
             export_data(WORK_DIR + separate_data[separate_index-1][0].strftime(
                 '%Y%m%d_%H%M%S_') + separate_data[separate_index-1][1] + '.csv', data)
-
             write_num += len(data)
             data = []
             separate_index += 1
