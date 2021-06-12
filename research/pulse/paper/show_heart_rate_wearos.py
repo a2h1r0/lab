@@ -38,12 +38,13 @@ def main():
                         values.append(int(row[1]))
 
                     # 取得時間での平均値
-                    average = round(sum(values) / len(values))
+                    get_rate = sum(values) / len(values)
                     # 目標値からの差の計算
-                    diffs[index].append(average - target_rate)
+                    diffs[index].append(get_rate - target_rate)
                     # サンプル数の追加
                     sample_num += len(values)
 
+        # 3回の平均を計算
         averages = np.mean(diffs, axis=0)
 
         # 結果の表示
@@ -51,8 +52,10 @@ def main():
         for target, diff in zip(TARGET_RATES, averages):
             print(str(target) + ': ' + str(diff))
         print('\nAverage Diff: ' + str(np.mean(averages)))
-    print('\nSampling Rate: ' + str(sample_num /
-                                    (len(TARGET_RATES) * len(DISPLAYS) * len(DIRS))) + '\n')
+
+    sampling_rate = sample_num / \
+        (len(TARGET_RATES) * len(DISPLAYS) * len(DIRS))
+    print('\nSampling Rate: ' + str(sampling_rate) + '\n')
 
 
 if __name__ == '__main__':
