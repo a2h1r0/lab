@@ -44,14 +44,14 @@ def main():
                         values.append(int(row[1]))
 
                     # 取得時間での平均値
-                    average = round(sum(values) / len(values))
+                    get_rate = sum(values) / len(values)
                     # 目標値からの差の計算
-                    diffs.append(average - target_rate)
+                    diffs.append(get_rate - target_rate)
                     # サンプル数の追加
                     sample_num.append(len(values))
 
             # 結果の表示
-            print('\n--- ' + display[1] + ' ' + directory + ' ---\n')
+            print('\n--- ' + display[1] + ' / ' + directory + ' ---\n')
             for target, diff in zip(TARGET_RATES, diffs):
                 print(str(target) + ': ' + str(diff))
             print('\nAverage Diff: ' + str(np.mean(diffs)))
