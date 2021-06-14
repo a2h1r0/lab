@@ -3,11 +3,10 @@
 import sys
 import serial
 from time import sleep
-import winsound
 import slackweb
 
 
-USB_PORT = 'COM3'
+USB_PORT = 'COM6'
 SLACK_URL = ''
 
 
