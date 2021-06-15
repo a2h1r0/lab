@@ -50,12 +50,12 @@ def main():
         # 結果の表示
         print('\n--- ' + display[1] + ' ---\n')
         for target, diff in zip(TARGET_RATES, averages):
-            print(str(target) + ': ' + str(diff))
-        print('\nAverage Diff: ' + str(np.mean(averages)))
+            print(str(target) + ': ' + str(round(diff, 3)))
+        print('\nAverage Diff: ' + str(round(np.mean(averages), 3)))
 
     sampling_rate = sample_num / \
         (len(TARGET_RATES) * len(DISPLAYS) * len(DIRS))
-    print('\nSampling Rate: ' + str(sampling_rate) + '\n')
+    print('\nSampling Rate: ' + str(round(sampling_rate, 2)) + '\n')
 
 
 if __name__ == '__main__':

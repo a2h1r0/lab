@@ -53,8 +53,8 @@ def main():
             # 結果の表示
             print('\n--- ' + display[1] + ' / ' + directory + ' ---\n')
             for target, diff in zip(TARGET_RATES, diffs):
-                print(str(target) + ': ' + str(diff))
-            print('\nAverage Diff: ' + str(np.mean(diffs)))
+                print(str(target) + ': ' + str(round(diff, 3)))
+            print('\nAverage Diff: ' + str(round(np.mean(diffs), 3)))
             print('\n*** Sample Length ***')
             print('Min: ' + str(min(sample_num)))
             print('Max: ' + str(max(sample_num)) + '\n')
