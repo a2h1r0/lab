@@ -7,7 +7,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-MODEL = 'TicWatch'  # 表示するスマートウォッチ
+MODEL = 'PumaSmartwatch'  # 表示するスマートウォッチ
 TARGET_RATES = [60, 65, 70, 75, 80, 85, 90, 95, 100]  # 取得した目標心拍数
 DISPLAYS = [['Legion7', 'Display A'], ['OSOYOO', 'Display B'],
             ['KeDei', 'Display C']]  # 表示するディスプレイ
