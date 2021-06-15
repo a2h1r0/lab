@@ -53,8 +53,8 @@ def main():
             print(str(target) + ': ' + str(round(diff, 3)))
         print('\nAverage Diff: ' + str(round(np.mean(averages), 3)))
 
-    sampling_rate = sample_num / \
-        (len(TARGET_RATES) * len(DISPLAYS) * len(DIRS))
+    sampling_rate = (sample_num / (len(TARGET_RATES)
+                                   * len(DISPLAYS) * len(DIRS))) / 60
     print('\nSampling Rate: ' + str(round(sampling_rate, 2)) + '\n')
 
 
