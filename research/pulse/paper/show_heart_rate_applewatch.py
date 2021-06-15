@@ -14,6 +14,7 @@ DISPLAYS = [['Legion7', 'Display A'], ['OSOYOO', 'Display B'],
 DIRS = ['1st', '2nd', '3rd']  # フォルダ分け
 
 INITIALIZATION_TIME = 30  # キャリブレーション時間
+SENSING_TIME = 60  # データを使用する時間
 
 
 def main():
@@ -36,7 +37,7 @@ def main():
 
                     values = []
                     for row in reader:
-                        if int(row[0]) > INITIALIZATION_TIME * 1000:
+                        if INITIALIZATION_TIME * 1000 <= int(row[0]) and int(row[0]) <= SENSING_TIME * 1000:
                             values.append(int(row[1]))
 
                     # INITIALIZATION_TIME以降のデータが存在しないときは最後のデータを使用
