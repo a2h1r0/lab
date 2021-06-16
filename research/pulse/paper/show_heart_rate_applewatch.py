@@ -37,7 +37,7 @@ def main():
 
                     values = []
                     for row in reader:
-                        if INITIALIZATION_TIME * 1000 <= int(row[0]) and int(row[0]) <= SENSING_TIME * 1000:
+                        if INITIALIZATION_TIME * 1000 <= int(row[0]) and int(row[0]) <= (INITIALIZATION_TIME + SENSING_TIME) * 1000:
                             values.append(int(row[1]))
 
                     # INITIALIZATION_TIME以降のデータが存在しないときは最後のデータを使用
