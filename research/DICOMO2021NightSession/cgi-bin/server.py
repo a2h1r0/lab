@@ -14,7 +14,7 @@ def main():
     # Ajaxデータの受け取り
     key = sys.stdin.read().rstrip()
 
-    if key in ['cast', 'stop', 'catch']:
+    if key in ['down', 'up']:
         do_fishing_action(key)
     elif key in ['front', 'back', 'left', 'right']:
         move_location(key)
@@ -31,8 +31,13 @@ def do_fishing_action(key):
     ser.reset_input_buffer()
     sleep(2)
 
+    if key == 'down':
+        data = 0
+    elif key == 'up':
+        data = 1
+
     # Arduinoに接続してリールを制御
-    ser.write((key + '\0').encode('UTF-8'))
+    ser.write(data.encode('UTF-8'))
     ser.readline().rstrip().decode(encoding='UTF-8')
 
     # シリアル通信の終了
