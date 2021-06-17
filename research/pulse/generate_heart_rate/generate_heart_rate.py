@@ -7,9 +7,9 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-MODEL = 'AppleWatch'  # スマートウォッチのモデル
+MODEL = 'SMART_R'  # スマートウォッチのモデル
 DISPLAY = 'Legion7'  # ディスプレイの種類
-PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間）
+PROCESS_TIME = 40  # 実行時間（アプリ側のデータ取得は120秒間）
 
 if MODEL == 'AppleWatch':
     SERIES = '5'  # AppleWatchのバージョン
@@ -36,6 +36,12 @@ if MODEL == 'AppleWatch':
             COLOR_SCALE = 40  # 色のスケール
     L_COLORS = 10  # 色の長さ
     LOG_FILE = './data/' + MODEL + '/Series_' + SERIES + '/run.log'  # ログファイル
+
+elif MODEL == 'SMART_R':
+    COLOR_BASE = 0  # 色のベース
+    COLOR_SCALE = 100  # 色のスケール
+    L_COLORS = 20  # 色の長さ
+    LOG_FILE = './data/' + MODEL + '/run.log'  # ログファイル
 
 else:
     COLOR_BASE = 225  # 色のベース
