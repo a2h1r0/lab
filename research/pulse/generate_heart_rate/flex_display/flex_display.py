@@ -7,7 +7,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-MODEL = 'TicWatch'  # スマートウォッチのモデル
+MODEL = 'SMART_R'  # スマートウォッチのモデル
 PROCESS_TIME = 40  # 実行時間（アプリ側のデータ取得は120秒間）
 # PROCESS_TIMEはArduino側のプログラムでも設定する必要あり
 
