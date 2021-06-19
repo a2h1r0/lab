@@ -14,15 +14,14 @@ sin[sin > 1] = 1
 colors = np.array(sin * 30 + 225, dtype=int)
 
 
-plt.figure(figsize=(16, 9))
+plt.figure(figsize=(16, 3))
 plt.gca().get_xaxis().set_major_locator(ticker.MaxNLocator(integer=True))
 plt.plot(range(len(colors)), colors)
-plt.xlabel('Index', fontsize=18)
-plt.ylabel('Glay Scale', fontsize=18)
-plt.title('Colors', fontsize=18)
-plt.tick_params(labelsize=18)
+plt.xlabel('Index', fontsize=26)
+plt.ylabel('Glay Scale', fontsize=26)
+plt.tick_params(labelsize=26)
 
-# plt.savefig('../figure/colors_wave.eps', bbox_inches='tight', pad_inches=0)
+plt.savefig('../figure/colors_wave.eps', bbox_inches='tight', pad_inches=0)
 
 plt.show()
 
