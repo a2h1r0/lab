@@ -1,0 +1,88 @@
+Delivered-To: atsu3.n9@gmail.com
+Received: by 2002:ac9:12c5:0:0:0:0:0 with SMTP id x5csp840238ocb;
+        Sat, 19 Jun 2021 00:41:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNkvjAbybdyK7jjCVvJWf0qJWsV7AcLiMvJwT07MlCaJB/yNDqrpljNLAcXJ16UfPKMxBF
+X-Received: by 2002:a65:64c8:: with SMTP id t8mr13880439pgv.96.1624088482002;
+        Sat, 19 Jun 2021 00:41:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1624088481; cv=none;
+        d=google.com; s=arc-20160816;
+        b=uhbk2D27frnpEdOwYDHRdyCMTJSt2wPiIxekloFulLHLCNpptHz2kAA9rLbumQEv1p
+         I8ye0JfZFFyAi8M8ajUe249uPjyVVPdwyESqCPgSRG9m0INkv7/kal9zciwVDg5UBXIN
+         hHZ5v2XP/gSq68KlIfEaqi+01BI0GUVi9vYp9DNZ6WEagmNPylKXdSXYpzA9iBRQ5tJG
+         ma3aPPP7hpyIhh9K4DTQNG4NKjsvA77A8ZrUYRH311Mztyxs6/py5QCwJPYlRMrf8GlK
+         TLADw+i8mDy0tDZ0kfh8N9BF2lzP/KmwF/B+UNhw8C54me7dEmNBobUZPBGHtZmsnCvE
+         6wUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=reply-to:message-id:date:to:from:subject:content-transfer-encoding
+         :mime-version:dkim-signature:delivered-to;
+        bh=HVn7SB54fBWvtRrXTF5siiYB1lA7cbxgfnCQ+uxiXo4=;
+        b=ieNT6BE7v+i9XPAp6q2XRvPy+88nebN4Swd9GSbwrS7YSY2inMfaVcdize1+dv+pRB
+         HbrOSJHI0ufM/rIEIce528AoL9Y7WMnuhWQHOOQUufTT2tA7zc+HCFnaJMRQ/bz6bDpk
+         MZbpvxZ1jYCHawRviQ/hbkpdl1yMtQaAHRGtt+qxv5VcxZ5FrtIvd9VHt8zSDzFmdxfh
+         vfslHfsQVVasjaPzyuomCqN0mkcXHOrfBhW6zs9MhLTznqof+D/0MoOJJLMDE9pt++3b
+         Jq+c/Dk4dh3MhWnca8kTaGHtFDv0xw4mJtKNFYcZXERa39sLakhnyomybKp1Ifm/rfI2
+         LBEw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@precisionconference.com header.s=default header.b=BpvWa35W;
+       spf=pass (google.com: domain of srs0=xhjc=ln=precisionconference.com=iswc21a+log.60cd9f9ab7371840acc2f922@iis.ise.ritsumei.ac.jp designates 150.60.181.111 as permitted sender) smtp.mailfrom="SRS0=xhJC=LN=precisionconference.com=ISWC21a+log.60cd9f9ab7371840acc2f922@iis.ise.ritsumei.ac.jp";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=precisionconference.com
+Return-Path: <SRS0=xhJC=LN=precisionconference.com=ISWC21a+log.60cd9f9ab7371840acc2f922@iis.ise.ritsumei.ac.jp>
+Received: from chpa1004.route-server.jp (chpa1004.route-server.jp. [150.60.181.111])
+        by mx.google.com with ESMTPS id f4si12570417pgs.302.2021.06.19.00.41.21
+        for <atsu3.n9@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Jun 2021 00:41:21 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=xhjc=ln=precisionconference.com=iswc21a+log.60cd9f9ab7371840acc2f922@iis.ise.ritsumei.ac.jp designates 150.60.181.111 as permitted sender) client-ip=150.60.181.111;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@precisionconference.com header.s=default header.b=BpvWa35W;
+       spf=pass (google.com: domain of srs0=xhjc=ln=precisionconference.com=iswc21a+log.60cd9f9ab7371840acc2f922@iis.ise.ritsumei.ac.jp designates 150.60.181.111 as permitted sender) smtp.mailfrom="SRS0=xhJC=LN=precisionconference.com=ISWC21a+log.60cd9f9ab7371840acc2f922@iis.ise.ritsumei.ac.jp";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=precisionconference.com
+Received: by chpa1004.route-server.jp (Postfix, from userid 30)
+	id 914452C014253; Sat, 19 Jun 2021 16:41:20 +0900 (JST)
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	chpa1004.route-server.jp
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.2 required=7.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+	SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.4
+X-Original-To: atsuhiro.fujii@iis.ise.ritsumei.ac.jp
+Delivered-To: atsuhiro.fujii@iis.ise.ritsumei.ac.jp
+Received: from precisionconference.com (main.precisionconference.com [192.99.67.26])
+	by chpa1004.route-server.jp (Postfix) with ESMTP id 3BCF42C014E06
+	for <atsuhiro.fujii@iis.ise.ritsumei.ac.jp>; Sat, 19 Jun 2021 16:41:18 +0900 (JST)
+Authentication-Results: chpa1004.route-server.jp;
+	dmarc=pass (p=NONE sp=NONE) smtp.from=precisionconference.com header.from=precisionconference.com;
+	dkim=pass header.d=precisionconference.com;
+	spf=pass (sender IP is 192.99.67.26) smtp.mailfrom=iswc21a+log.60cd9f9ab7371840acc2f922@precisionconference.com smtp.helo=precisionconference.com
+Received-SPF: pass (chpa1004.route-server.jp: domain of precisionconference.com designates 192.99.67.26 as permitted sender) client-ip=192.99.67.26; envelope-from=iswc21a+log.60cd9f9ab7371840acc2f922@precisionconference.com; helo=precisionconference.com;
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=precisionconference.com; s=default; t=1624088476;
+	bh=riC4Y3mpl9ktz7lm6+U2q4XHntLXWc+rfJh3YAgK01M=;
+	h=Subject:From:To:Date:Reply-To:From;
+	b=BpvWa35WQCl/bRjK9gNRqUVtpDTMpLdmu3BLl0ZGpTrpI4MbWNjrOZchxFW0Mpmwu
+	 EN6D4Iiy61QZkNDJXLCnoyTEsPsg09VxDh3d4QmqojM7Rh9LhFDeR6E+202MeK+IoG
+	 IQQs8EDTcbhkZWWukHSu2v91gAAwwsWSOZMcJESw=
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Submission made to ISWC 2021 -- Notes & Briefs
+From: ISWC 2021 Notes & Briefs <ISWC21a@precisionconference.com>
+To: Atsuhiro Fujii <atsuhiro.fujii@iis.ise.ritsumei.ac.jp>
+Date: Sat, 19 Jun 2021 03:41:14 -0400
+Message-ID: <20210619074114.16556.76710.log.ISWC21a.60cd9f9ab7371840acc2f922@dev.precisionconference.com>
+X-Auto-Response-Suppress: OOF
+Reply-To: atsuhiro.fujii@iis.ise.ritsumei.ac.jp
+X-PCS-Bounce-To: atsuhiro.fujii@iis.ise.ritsumei.ac.jp
+
+Dear Atsuhiro Fujii -
+
+You have made submission 1132 entitled
+
+  disp2ppg: Pulse Wave Generation to PPG Sensor using Display
+
+to ISWC 2021 -- Notes & Briefs. 
+
+The submission is complete.
+
+
+(This is an automatically generated email.)
