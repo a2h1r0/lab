@@ -1,7 +1,9 @@
-// 巻き上げ時間
-const unsigned int UP_TIME = 130;
-// 降下時間
-const unsigned int DOWN_TIME = 130;
+int UP_HIGH = 110;        //UP時のモータ起動時間（仮）
+int UP_LOW = 1000;        //UP時のモータ停止時間（仮）
+int STAY_HIGH = 100;      //STOP時のモータ起動時間（仮）
+int STAY_LOW = 1500;      //STOP時のモータ停止時間（仮）
+int DOWN_TIME = 3 * 1000; //降下時間（仮）
+int PIN_number = 6;       //リレー１が７番ピン、２が６番、３が５番（×）、４が４番
 
 /**
  * @fn
@@ -10,6 +12,7 @@ const unsigned int DOWN_TIME = 130;
 void setup()
 {
     Serial.begin(9600);
+    pinMode(PIN_number, OUTPUT);
 }
 
 /**
@@ -18,8 +21,10 @@ void setup()
  */
 void down()
 {
-    // なんらかの処理
-    delay(DOWN_TIME * 1000);
+    delay(DOWN_TIME);
+
+    // 処理の終了通知
+    Serial.println(0);
 }
 
 /**
@@ -28,8 +33,21 @@ void down()
  */
 void up()
 {
-    // なんらかの処理
-    delay(UP_TIME * 1000);
+    for (int i = 0; i < 1000; i++)
+    {
+        if (i == 3)
+        {
+            // 処理の終了通知
+            Serial.println(0);
+        }
+
+        // 巻き上げ開始
+        digitalWrite(PIN_number, HIGH);
+        delay(UP_HIGH);
+        digitalWrite(PIN_number, LOW);
+        delay(UP_LOW);
+        // 一旦モータ停止
+    }
 }
 
 /**
@@ -38,7 +56,11 @@ void up()
  */
 void stop()
 {
-    // なんらかの処理
+    // ぷかぷか浮かすイメージ
+    digitalWrite(PIN_number, HIGH);
+    delay(STAY_HIGH);
+    digitalWrite(PIN_number, LOW);
+    delay(STAY_LOW);
 }
 
 /**
@@ -50,24 +72,21 @@ void loop()
     // Pythonからデータを受信
     if (Serial.available())
     {
-        int data = Serial.read();
+        char data = Serial.read();
 
         switch (data)
         {
-        case 0:
+        case '0':
             down();
             break;
 
-        case 1:
+        case '1':
             up();
             break;
 
         default:
             break;
         }
-
-        // 処理の終了通知
-        Serial.println(0);
     }
 
     // データを受信するまで静止

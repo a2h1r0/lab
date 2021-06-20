@@ -32,9 +32,9 @@ def do_fishing_action(key):
     sleep(2)
 
     if key == 'down':
-        data = 0
+        data = '0'
     elif key == 'up':
-        data = 1
+        data = '1'
 
     # Arduinoに接続してリールを制御
     ser.write(data.encode('UTF-8'))
