@@ -7,8 +7,12 @@
 #define PWM_HIGH 2
 #define PWM_LOW 0
 // 閾値
-#define THRESHOLD_PULSE 650
+#define THRESHOLD_PULSE 700
 #define THRESHOLD_TIME 300000
+
+// 色データ長
+#define L_COLORS 2
+#define AVERAGE_SIZE 20
 
 // 黒の電圧値 (V)
 const int BLACK_PWM_1 = PWM_HIGH;
@@ -16,8 +20,6 @@ const int BLACK_PWM_2 = PWM_LOW;
 // 白の電圧値 (V)
 const int WHITE_PWM_1 = PWM_LOW;
 const int WHITE_PWM_2 = PWM_HIGH;
-// 色データ長
-const int L_COLORS = 2;
 // 色データ
 const int COLORS_PWM_1[L_COLORS] = {WHITE_PWM_1, BLACK_PWM_1};
 const int COLORS_PWM_2[L_COLORS] = {WHITE_PWM_2, BLACK_PWM_2};
@@ -27,6 +29,10 @@ unsigned long last_peak = 0; // 1つ前のピーク検出時刻
 unsigned long drew_time;     // ディスプレイ描画時刻
 int i = 0;                   // Colorsカウンタ
 
+int heart_rates[AVERAGE_SIZE]; // 過去心拍数配列（移動平均）
+int j = 0;                     // 移動平均カウンタ
+const int default_rate = 70;   // 過去心拍数の初期値
+
 /**
  * 初期化
  */
@@ -35,6 +41,12 @@ void setup()
     pinMode(PWM_1, OUTPUT);
     pinMode(PWM_2, OUTPUT);
     Serial.begin(SPEED);
+
+    // 過去心拍数配列の初期化
+    for (int k = 0; k < AVERAGE_SIZE; k++)
+    {
+        heart_rates[k] = default_rate;
+    }
 }
 
 /**
@@ -63,9 +75,30 @@ void update_heart_rate(int pulse)
     {
         // ピーク間隔を計算
         unsigned long interval = now - last_peak;
-        // 心拍数の更新
-        heart_rate = (60 * 1000000) / interval;
+        // 心拍数の計算
+        int rate = (60 * 1000000) / interval;
+        // 心拍数配列に追加
+        heart_rates[j] = rate;
+
+        // 平均値の計算
+        int sum = 0;
+        for (int k = 0; k < AVERAGE_SIZE; k++)
+        {
+            sum += heart_rates[k];
+        }
+        int average = sum / AVERAGE_SIZE;
+
+        // 値の更新
+        heart_rate = average;
         last_peak = now;
+        if (j == AVERAGE_SIZE - 1)
+        {
+            j = 0;
+        }
+        else
+        {
+            j++;
+        }
     }
 }
 
@@ -95,9 +128,8 @@ void draw_display()
 
     // 描画した時刻を保存
     drew_time = micros();
-    Serial.println(heart_rate);
 
-    // Colorsを更新
+    // Colorsの更新
     if (i == L_COLORS - 1)
     {
         i = 0;
