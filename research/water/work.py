@@ -14,8 +14,8 @@ SOUND_DIR = './sounds/'
 TRAIN_FILES = ['shampoo_1.mp3', 'shampoo_2.mp3']  # 学習用音源
 TEST_FILE = 'shampoo_3.mp3'  # テスト用音源
 
-EPOCH_NUM = 10  # 学習サイクル数
-KERNEL_SIZE = 7  # カーネルサイズ（奇数のみ）
+EPOCH_NUM = 1000  # 学習サイクル数
+KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 WINDOW_SIZE = 100000  # 1サンプルのサイズ
 STEP = 10000  # 学習データのステップ幅
 TEST_DATA_NUM = 100  # テストデータ数
@@ -126,7 +126,7 @@ def main():
 
             # 予測と正解の差の合計を計算
             diffs = np.abs(answer - predict)
-            diff = np.sum(diffs)
+            diff = np.sum(diffs) / TEST_DATA_NUM
 
             print('Diff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
 
