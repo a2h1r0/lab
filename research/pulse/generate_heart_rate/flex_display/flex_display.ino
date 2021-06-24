@@ -1,5 +1,3 @@
-#include <cppQueue.h>
-
 // 実行時間
 const int PROCESS_TIME = 40;
 
@@ -21,7 +19,10 @@ const int COLORS_PWM_2[L_COLORS] = {WHITE_PWM_2, BLACK_PWM_2};
 char heart_rate_data[4] = {'\0'};
 int i = 0;
 unsigned long drew_time;
-cppQueue peaks(sizeof(unsigned long), 5);
+int last_heart_rate;
+unsigned long last_peak = 0;
+const int THRESHOLD_PULSE = 650;
+const unsigned long THRESHOLD_TIME = 300000;
 
 /**
  * 初期化
@@ -31,20 +32,6 @@ void setup()
     pinMode(PWM_1, OUTPUT);
     pinMode(PWM_2, OUTPUT);
     Serial.begin(9600);
-
-    int x = 10;
-    peaks.push(&x);
-    int *get;
-    peaks.pop(get);
-    Serial.println(*get, DEC);
-    x++;
-    peaks.push(&x);
-    x++;
-    peaks.push(&x);
-    x++;
-    peaks.push(&x);
-    x++;
-    peaks.push(&x);
 }
 
 /**
@@ -55,8 +42,9 @@ void setup()
 int get_pulse()
 {
     int pulse = analogRead(A0);
+    int heart_rate = get_heart_rate(pulse);
 
-    return 60;
+    return heart_rate;
 }
 
 /**
@@ -64,9 +52,18 @@ int get_pulse()
  * 
  * @return 心拍数
  */
-int get_heart_rate()
+int get_heart_rate(int pulse)
 {
-    // Serial.println(analogRead(A0));
+    // 現在時刻の取得
+    unsigned long now = micros();
+
+    if (now > last_peak + THRESHOLD_TIME && pulse > THRESHOLD_PULSE)
+    {
+        // ピーク間隔を計算
+        unsigned long interval = last_peak - now;
+        // ピーク検出，心拍数を計算
+        last_peak = now;
+    }
 
     return 60;
 }
