@@ -1,44 +1,59 @@
-from pydub import AudioSegment
-from pydub.silence import split_on_silence
 import numpy as np
-import matplotlib.pyplot as plt
+import torch
+import torch.nn as nn
+import torch.optim as optimizers
+from model import Net
 import os
 os.chdir(os.path.dirname(__file__))
 
 
-SOUND_DIR = './sounds/'
-SOUND_FILE = 'shampoo_1.mp3'  # 音源
+EPOCH_NUM = 10000  # 学習サイクル数
+KERNEL_SIZE = 13  # カーネルサイズ（奇数のみ）
 
 
-# ファイルの読み出し
-sound = AudioSegment.from_file(SOUND_DIR + 'raw/' + SOUND_FILE, 'mp3')
+def main():
+    def train():
+        """
+        モデルの学習
+        """
+
+        model.train()
+
+        '''学習サイクル'''
+        for epoch in range(EPOCH_NUM):
+            optimizer.zero_grad()
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
+
+            if epoch % 100 == 0:
+                print(
+                    '\nEpoch: {:3d} / Loss: {:.3f}'.format(epoch+1, loss.item()))
+
+    def test():
+        """
+        モデルのテスト
+        """
+
+        model.eval()
+        # テスト処理
+
+    # モデルの構築
+    model = Net(kernel_size=KERNEL_SIZE)
+    criterion = nn.BCEWithLogitsLoss()
+    optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
+
+    # モデルの学習
+    train()
+
+    # モデルのテスト
+    test()
 
 
-plt.xlabel('Time [s]', fontsize=18)
-plt.ylabel('Sound', fontsize=18)
-plt.tick_params(labelsize=18)
+if __name__ == '__main__':
+    # PyTorchの初期化
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    torch.manual_seed(1)
 
-# データの整形
-data = np.array(sound.get_array_of_samples())
-sample_num = len(data)
-
-plt.figure(figsize=(16, 9))
-plt.title('Overview')
-plt.plot(range(sample_num), data)
-
-# 分割
-chunks = split_on_silence(sound, min_silence_len=2000,
-                          silence_thresh=-55)
-for index, chunk in enumerate(chunks):
-    # データの整形
-    data = np.array(chunk.get_array_of_samples())
-    sample_num = len(data)
-    plt.figure(index, figsize=(16, 9))
-    plt.title('Split')
-    plt.plot(range(sample_num), data)
-
-plt.show()
-
-
-# 切り出し部分の保存
-chunks[0].export(SOUND_DIR + SOUND_FILE, format="mp3")
+    main()
