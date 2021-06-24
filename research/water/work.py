@@ -14,10 +14,10 @@ SOUND_DIR = './sounds/'
 TRAIN_FILES = ['shampoo_1.mp3', 'shampoo_2.mp3']  # 学習用音源
 TEST_FILE = 'shampoo_3.mp3'  # テスト用音源
 
-EPOCH_NUM = 100  # 学習サイクル数
+EPOCH_NUM = 10  # 学習サイクル数
 KERNEL_SIZE = 7  # カーネルサイズ（奇数のみ）
 WINDOW_SIZE = 100000  # 1サンプルのサイズ
-STEP = 1000  # 学習データのステップ幅
+STEP = 10000  # 学習データのステップ幅
 TEST_DATA_NUM = 100  # テストデータ数
 
 
@@ -85,7 +85,6 @@ def main():
         model.train()
         print('\n***** 学習開始 *****')
 
-        '''学習サイクル'''
         for epoch in range(EPOCH_NUM):
             optimizer.zero_grad()
             outputs = model(inputs)
@@ -94,8 +93,7 @@ def main():
             optimizer.step()
 
             if (epoch + 1) % 10 == 0:
-                print(
-                    'Epoch: {:d} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
+                print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
 
         print('\n----- 終了 -----\n')
 
@@ -104,20 +102,37 @@ def main():
         モデルのテスト
         """
 
+        # テストデータの作成
+        test_data, test_labels = make_test_data()
+        # Tensorへ変換
+        inputs = torch.tensor(
+            test_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
+        labels = torch.tensor(
+            test_labels, dtype=torch.float, device=device).view(-1, 1)
+
         model.eval()
+        print('\n***** テスト *****')
+
         with torch.no_grad():
-            # テストデータの作成
-            test_data, test_labels = make_test_data()
-            print(1)
+            optimizer.zero_grad()
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
 
-        #     inputs, labels = data
-        #     outputs = net(inputs)
-        #     _, predicted = torch.max(outputs, 1)
-        #     total += len(outputs)
-        #     correct += (predicted == labels).sum().item()
+            # 結果を整形
+            predict = outputs.to('cpu').detach().numpy().copy()
+            predict = predict.reshape(-1)
+            answer = labels.to('cpu').detach().numpy().copy()
+            answer = answer.reshape(-1)
 
-        # print(
-        #     f'correct: {correct}, accuracy: {correct} / {total} = {correct / total}')
+            # 予測と正解の差の合計を計算
+            diffs = np.abs(answer - predict)
+            diff = np.sum(diffs)
+
+            print('Diff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
+
+    # 初期化
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    torch.manual_seed(1)
 
     # モデルの構築
     model = Net(kernel_size=KERNEL_SIZE).to(device)
@@ -132,8 +147,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # PyTorchの初期化
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    torch.manual_seed(1)
-
     main()
