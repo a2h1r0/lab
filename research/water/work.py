@@ -92,6 +92,7 @@ def main():
             loss.backward()
             optimizer.step()
 
+            loss_all.append(loss.item())
             if (epoch + 1) % 10 == 0:
                 print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
 
@@ -140,10 +141,21 @@ def main():
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
 
     # モデルの学習
+    loss_all = []
     train()
 
     # モデルのテスト
     test()
+
+    # Lossの描画
+    print('\nLossを描画します．．．')
+    plt.figure(figsize=(16, 9))
+    plt.plot(range(EPOCH_NUM), loss_all)
+    plt.xlabel('Epoch', fontsize=26)
+    plt.ylabel('Loss', fontsize=26)
+    plt.tick_params(labelsize=26)
+    # plt.savefig('./figure/loss.png', bbox_inches='tight', pad_inches=0)
+    plt.show()
 
 
 if __name__ == '__main__':
