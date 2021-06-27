@@ -12,13 +12,13 @@ os.chdir(os.path.dirname(__file__))
 
 SOUND_DIR = './sounds/'
 TRAIN_FILES = ['shampoo_1.mp3', 'shampoo_2.mp3']  # 学習用音源
-TEST_FILE = 'shampoo_3.mp3'  # テスト用音源
+TEST_FILES = ['shampoo_1.mp3', 'shampoo_2.mp3']  # テスト用音源
 
 EPOCH_NUM = 1000  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 WINDOW_SIZE = 100000  # 1サンプルのサイズ
 STEP = 10000  # 学習データのステップ幅
-TEST_DATA_NUM = 100  # テストデータ数
+TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
 
 
 def make_train_data():
@@ -52,18 +52,19 @@ def make_test_data():
 
     test_data, test_labels = [], []
 
-    # 音源の読み出し
-    sound = AudioSegment.from_file(SOUND_DIR + TEST_FILE, 'mp3')
+    for filename in TEST_FILES:
+        # 音源の読み出し
+        sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
 
-    # データの整形
-    data = np.array(sound.get_array_of_samples())
-    labels = np.linspace(0, 100, len(data))
+        # データの整形
+        data = np.array(sound.get_array_of_samples())
+        labels = np.linspace(0, 100, len(data))
 
-    for index in range(TEST_DATA_NUM):
-        start = random.randint(0, len(data) - WINDOW_SIZE)
-        end = start + WINDOW_SIZE - 1
-        test_data.append(data[start:end + 1])
-        test_labels.append(labels[end])
+        for index in range(TEST_ONEFILE_DATA_NUM):
+            start = random.randint(0, len(data) - WINDOW_SIZE)
+            end = start + WINDOW_SIZE - 1
+            test_data.append(data[start:end + 1])
+            test_labels.append(labels[end])
 
     return test_data, test_labels
 
@@ -127,7 +128,7 @@ def main():
 
             # 予測と正解の差の合計を計算
             diffs = np.abs(answer - predict)
-            diff = np.sum(diffs) / TEST_DATA_NUM
+            diff = np.sum(diffs) / len(diffs)
 
             print('Diff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
 
