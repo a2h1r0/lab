@@ -10,14 +10,32 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-SOUND_DIR = './sounds/'
-TRAIN_FILES = ['shampoo_1.mp3', 'shampoo_2.mp3']  # 学習用音源
-TEST_FILES = ['shampoo_1.mp3', 'shampoo_2.mp3']  # テスト用音源
+SOUND_DIR = './sounds/trimmed/'
 
-EPOCH_NUM = 1000  # 学習サイクル数
+COFFEE = ['coffee_1.mp3', 'coffee_2.mp3', 'coffee_3.mp3',
+          'coffee_4.mp3', 'coffee_5.mp3', 'coffee_6.mp3']
+DETERGENT = ['detergent_1.mp3', 'detergent_2.mp3', 'detergent_3.mp3',
+             'detergent_4.mp3', 'detergent_5.mp3', 'detergent_6.mp3']
+SHAMPOO = ['shampoo_1.mp3', 'shampoo_2.mp3', 'shampoo_3.mp3',
+           'shampoo_4.mp3', 'shampoo_5.mp3', 'shampoo_6.mp3']
+SKINMILK = ['skinmilk_1.mp3', 'skinmilk_2.mp3', 'skinmilk_3.mp3',
+            'skinmilk_4.mp3', 'skinmilk_5.mp3', 'skinmilk_6.mp3']
+TOKKURI = ['tokkuri_1.mp3', 'tokkuri_2.mp3', 'tokkuri_3.mp3',
+           'tokkuri_4.mp3', 'tokkuri_5.mp3', 'tokkuri_6.mp3']
+
+TEST_FILE_NUM = 1  # テストに使うファイル数
+
+TRAIN_FILES = COFFEE[:-TEST_FILE_NUM] + DETERGENT[:-TEST_FILE_NUM] + \
+    SHAMPOO[:-TEST_FILE_NUM] + SKINMILK[:-TEST_FILE_NUM] + \
+    TOKKURI[:-TEST_FILE_NUM]  # 学習用音源
+TEST_FILES = COFFEE[-TEST_FILE_NUM-1:-TEST_FILE_NUM] + DETERGENT[-TEST_FILE_NUM-1:-TEST_FILE_NUM] + \
+    SHAMPOO[-TEST_FILE_NUM-1:-TEST_FILE_NUM] + SKINMILK[-TEST_FILE_NUM-1:-TEST_FILE_NUM] + \
+    TOKKURI[-TEST_FILE_NUM-1:-TEST_FILE_NUM]  # テスト用音源
+
+EPOCH_NUM = 100000  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 WINDOW_SIZE = 100000  # 1サンプルのサイズ
-STEP = 10000  # 学習データのステップ幅
+STEP = 100000  # 学習データのステップ幅
 TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
 
 
