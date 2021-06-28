@@ -12,7 +12,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 SAMPLING_RATE = 48000
-SOUND_DIR = './sounds/trimmed/48kHz/'
+SOUND_DIR = './sounds/trimmed/' + str(SAMPLING_RATE) + '/'
 
 COFFEE = ['coffee_1.mp3', 'coffee_2.mp3', 'coffee_3.mp3',
           'coffee_4.mp3', 'coffee_5.mp3', 'coffee_6.mp3']
@@ -27,19 +27,20 @@ TOKKURI = ['tokkuri_1.mp3', 'tokkuri_2.mp3', 'tokkuri_3.mp3',
 
 TEST_FILE_NUM = 1  # テストに使うファイル数
 
-# TRAIN_FILES = DETERGENT[:-TEST_FILE_NUM]  # 学習用音源
-# TEST_FILES = DETERGENT[-TEST_FILE_NUM-1:-TEST_FILE_NUM]  # テスト用音源
-TRAIN_FILES = COFFEE[:-TEST_FILE_NUM] + DETERGENT[:-TEST_FILE_NUM] + \
-    SHAMPOO[:-TEST_FILE_NUM] + SKINMILK[:-TEST_FILE_NUM] + \
-    TOKKURI[:-TEST_FILE_NUM]  # 学習用音源
-TEST_FILES = COFFEE[-TEST_FILE_NUM:] + DETERGENT[-TEST_FILE_NUM:] + \
-    SHAMPOO[-TEST_FILE_NUM:] + SKINMILK[-TEST_FILE_NUM:] + \
-    TOKKURI[-TEST_FILE_NUM:]  # テスト用音源
+TRAIN_FILES = DETERGENT[:-TEST_FILE_NUM]  # 学習用音源
+TEST_FILES = DETERGENT[-TEST_FILE_NUM:]  # テスト用音源
+# TRAIN_FILES = COFFEE[:-TEST_FILE_NUM] + DETERGENT[:-TEST_FILE_NUM] + \
+#     SHAMPOO[:-TEST_FILE_NUM] + SKINMILK[:-TEST_FILE_NUM] + \
+#     TOKKURI[:-TEST_FILE_NUM]  # 学習用音源
+# TEST_FILES = COFFEE[-TEST_FILE_NUM:] + DETERGENT[-TEST_FILE_NUM:] + \
+#     SHAMPOO[-TEST_FILE_NUM:] + SKINMILK[-TEST_FILE_NUM:] + \
+#     TOKKURI[-TEST_FILE_NUM:]  # テスト用音源
 
 EPOCH_NUM = 500  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
-WINDOW_SIZE = 96000  # 1サンプルのサイズ
-STEP = 100000  # 学習データのステップ幅
+WINDOW_SECOND = 1.0  # 1サンプルの秒数
+WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)  # 1サンプルのサイズ
+STEP = 10000  # 学習データのステップ幅
 TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
 
 
