@@ -27,8 +27,8 @@ TOKKURI = ['tokkuri_1.mp3', 'tokkuri_2.mp3', 'tokkuri_3.mp3',
 
 TEST_FILE_NUM = 1  # テストに使うファイル数
 
-TRAIN_FILES = DETERGENT[:-TEST_FILE_NUM]  # 学習用音源
-TEST_FILES = DETERGENT[-TEST_FILE_NUM:]  # テスト用音源
+TRAIN_FILES = COFFEE[:-TEST_FILE_NUM]  # 学習用音源
+TEST_FILES = COFFEE[-TEST_FILE_NUM:]  # テスト用音源
 # TRAIN_FILES = COFFEE[:-TEST_FILE_NUM] + DETERGENT[:-TEST_FILE_NUM] + \
 #     SHAMPOO[:-TEST_FILE_NUM] + SKINMILK[:-TEST_FILE_NUM] + \
 #     TOKKURI[:-TEST_FILE_NUM]  # 学習用音源
@@ -40,7 +40,7 @@ EPOCH_NUM = 500  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 WINDOW_SECOND = 1.0  # 1サンプルの秒数
 WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)  # 1サンプルのサイズ
-STEP = 10000  # 学習データのステップ幅
+MIN_STEP = 10  # 学習データの最小ステップ幅
 TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
 
 
@@ -70,7 +70,8 @@ def make_train_data():
         data = np.array(sound.get_array_of_samples())
         labels = np.linspace(0, 100, len(data))
 
-        for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
+        # step = random.randint(MIN_STEP, len(data))
+        for index in range(0, len(data) - WINDOW_SIZE + 1, MIN_STEP):
             start = index
             end = start + WINDOW_SIZE - 1
             train_data.append(data[start:end + 1])
