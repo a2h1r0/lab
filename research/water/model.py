@@ -26,6 +26,7 @@ class Net(nn.Module):
         self.pool3 = nn.AdaptiveAvgPool1d(1)
 
         self.fc1 = nn.Linear(32, 1)
+        self.hardtanh = nn.Hardtanh(min_val=0, max_val=100)
 
     def forward(self, input):
         """
@@ -44,7 +45,7 @@ class Net(nn.Module):
         conv3_out = self.conv3(pool2_out)
         pool3_out = self.pool3(conv3_out)
 
-        pool3_out = pool3_out.view(pool3_out.size(0), -1)
-        out = self.fc1(pool3_out)
+        fc1_out = self.fc1(pool3_out.view(pool3_out.size(0), -1))
+        out = self.hardtanh(fc1_out)
 
         return out
