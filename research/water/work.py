@@ -6,11 +6,13 @@ import torch.optim as optimizers
 from model import Net
 import matplotlib.pyplot as plt
 import random
+import sys
 import os
 os.chdir(os.path.dirname(__file__))
 
 
-SOUND_DIR = './sounds/trimmed/'
+SAMPLING_RATE = 48000
+SOUND_DIR = './sounds/trimmed/48kHz/'
 
 COFFEE = ['coffee_1.mp3', 'coffee_2.mp3', 'coffee_3.mp3',
           'coffee_4.mp3', 'coffee_5.mp3', 'coffee_6.mp3']
@@ -25,20 +27,33 @@ TOKKURI = ['tokkuri_1.mp3', 'tokkuri_2.mp3', 'tokkuri_3.mp3',
 
 TEST_FILE_NUM = 1  # テストに使うファイル数
 
-TRAIN_FILES = DETERGENT[:-TEST_FILE_NUM]  # 学習用音源
-TEST_FILES = DETERGENT[-TEST_FILE_NUM-1:-TEST_FILE_NUM]  # テスト用音源
-# TRAIN_FILES = COFFEE[:-TEST_FILE_NUM] + DETERGENT[:-TEST_FILE_NUM] + \
-#     SHAMPOO[:-TEST_FILE_NUM] + SKINMILK[:-TEST_FILE_NUM] + \
-#     TOKKURI[:-TEST_FILE_NUM]  # 学習用音源
-# TEST_FILES = COFFEE[-TEST_FILE_NUM-1:-TEST_FILE_NUM] + DETERGENT[-TEST_FILE_NUM-1:-TEST_FILE_NUM] + \
-#     SHAMPOO[-TEST_FILE_NUM-1:-TEST_FILE_NUM] + SKINMILK[-TEST_FILE_NUM-1:-TEST_FILE_NUM] + \
-#     TOKKURI[-TEST_FILE_NUM-1:-TEST_FILE_NUM]  # テスト用音源
+# TRAIN_FILES = DETERGENT[:-TEST_FILE_NUM]  # 学習用音源
+# TEST_FILES = DETERGENT[-TEST_FILE_NUM-1:-TEST_FILE_NUM]  # テスト用音源
+TRAIN_FILES = COFFEE[:-TEST_FILE_NUM] + DETERGENT[:-TEST_FILE_NUM] + \
+    SHAMPOO[:-TEST_FILE_NUM] + SKINMILK[:-TEST_FILE_NUM] + \
+    TOKKURI[:-TEST_FILE_NUM]  # 学習用音源
+TEST_FILES = COFFEE[-TEST_FILE_NUM:] + DETERGENT[-TEST_FILE_NUM:] + \
+    SHAMPOO[-TEST_FILE_NUM:] + SKINMILK[-TEST_FILE_NUM:] + \
+    TOKKURI[-TEST_FILE_NUM:]  # テスト用音源
 
 EPOCH_NUM = 500  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 WINDOW_SIZE = 96000  # 1サンプルのサイズ
 STEP = 100000  # 学習データのステップ幅
 TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
+
+
+def check_sampling_rate():
+    """
+    サンプリング周波数の確認
+    """
+
+    for filename in TRAIN_FILES + TEST_FILES:
+        # 音源の読み出し
+        sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
+        if len(sound[:1000].get_array_of_samples()) != SAMPLING_RATE:
+            print('\n' + filename + 'のサンプリングレートが異なります．\n')
+            sys.exit()
 
 
 def make_train_data():
@@ -51,8 +66,6 @@ def make_train_data():
     for filename in TRAIN_FILES:
         # 音源の読み出し
         sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
-
-        # データの整形
         data = np.array(sound.get_array_of_samples())
         labels = np.linspace(0, 100, len(data))
 
@@ -75,8 +88,6 @@ def make_test_data():
     for filename in TEST_FILES:
         # 音源の読み出し
         sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
-
-        # データの整形
         data = np.array(sound.get_array_of_samples())
         labels = np.linspace(0, 100, len(data))
 
@@ -151,6 +162,9 @@ def main():
             diff = np.sum(diffs) / len(diffs)
 
             print('Diff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
+
+    # ファイルの検証
+    check_sampling_rate()
 
     # 初期化
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
