@@ -36,10 +36,10 @@ TEST_FILES = COFFEE[-TEST_FILE_NUM:]  # テスト用音源
 #     SHAMPOO[-TEST_FILE_NUM:] + SKINMILK[-TEST_FILE_NUM:] + \
 #     TOKKURI[-TEST_FILE_NUM:]  # テスト用音源
 
-EPOCH_NUM = 500  # 学習サイクル数
+EPOCH_NUM = 1000  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
-BATCH_SIZE = 200  # バッチサイズ
-WINDOW_SECOND = 1.0  # 1サンプルの秒数
+BATCH_SIZE = 500  # バッチサイズ
+WINDOW_SECOND = 3.0  # 1サンプルの秒数
 WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)  # 1サンプルのサイズ
 TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
 
@@ -79,7 +79,7 @@ def get_random_data(mode, data, labels):
     random_data, random_labels = [], []
     while len(random_data) < data_size:
         index = random.randint(0, len(data) - 1)
-        if not index in history:
+        if index not in history:
             history.append(index)
             random_data.append(data[index])
             random_labels.append(labels[index])
@@ -145,13 +145,10 @@ def main():
 
         for epoch in range(EPOCH_NUM):
             # 学習データの作成
-            random_data, random_labels = get_random_data(
-                'train', train_data, train_labels)
+            random_data, random_labels = get_random_data('train', train_data, train_labels)
             # Tensorへ変換
-            inputs = torch.tensor(
-                random_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
-            labels = torch.tensor(
-                random_labels, dtype=torch.float, device=device).view(-1, 1)
+            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
+            labels = torch.tensor(random_labels, dtype=torch.float, device=device).view(-1, 1)
 
             optimizer.zero_grad()
             outputs = model(inputs)
@@ -178,13 +175,10 @@ def main():
 
         with torch.no_grad():
             # テストデータの作成
-            random_data, random_labels = get_random_data(
-                'test', test_data, test_labels)
+            random_data, random_labels = get_random_data('test', test_data, test_labels)
             # Tensorへ変換
-            inputs = torch.tensor(
-                random_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
-            labels = torch.tensor(
-                random_labels, dtype=torch.float, device=device).view(-1, 1)
+            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
+            labels = torch.tensor(random_labels, dtype=torch.float, device=device).view(-1, 1)
 
             optimizer.zero_grad()
             outputs = model(inputs)
