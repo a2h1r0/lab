@@ -38,9 +38,9 @@ TEST_FILES = COFFEE[-TEST_FILE_NUM:]  # テスト用音源
 
 EPOCH_NUM = 500  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
+BATCH_SIZE = 200  # バッチサイズ
 WINDOW_SECOND = 1.0  # 1サンプルの秒数
 WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)  # 1サンプルのサイズ
-MIN_STEP = 10  # 学習データの最小ステップ幅
 TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
 
 
@@ -57,6 +57,36 @@ def check_sampling_rate():
             sys.exit()
 
 
+def get_random_data(mode, data, labels):
+    """
+    ランダムデータの取得
+
+    Args:
+        mode (string): タイプ
+        data (array): データ
+        labels (array): ラベル
+    Returns:
+        array: ランダムデータ
+        array: ラベル
+    """
+
+    if mode == 'train':
+        data_size = BATCH_SIZE
+    elif mode == 'test':
+        data_size = TEST_ONEFILE_DATA_NUM
+
+    history = []
+    random_data, random_labels = [], []
+    while len(random_data) < data_size:
+        index = random.randint(0, len(data) - 1)
+        if not index in history:
+            history.append(index)
+            random_data.append(data[index])
+            random_labels.append(labels[index])
+
+    return random_data, random_labels
+
+
 def make_train_data():
     """
     学習データの作成
@@ -70,8 +100,7 @@ def make_train_data():
         data = np.array(sound.get_array_of_samples())
         labels = np.linspace(0, 100, len(data))
 
-        # step = random.randint(MIN_STEP, len(data))
-        for index in range(0, len(data) - WINDOW_SIZE + 1, MIN_STEP):
+        for index in range(0, len(data) - WINDOW_SIZE + 1):
             start = index
             end = start + WINDOW_SIZE - 1
             train_data.append(data[start:end + 1])
@@ -93,8 +122,8 @@ def make_test_data():
         data = np.array(sound.get_array_of_samples())
         labels = np.linspace(0, 100, len(data))
 
-        for index in range(TEST_ONEFILE_DATA_NUM):
-            start = random.randint(0, len(data) - WINDOW_SIZE)
+        for index in range(0, len(data) - WINDOW_SIZE + 1):
+            start = index
             end = start + WINDOW_SIZE - 1
             test_data.append(data[start:end + 1])
             test_labels.append(labels[end])
@@ -110,6 +139,7 @@ def main():
 
         # 学習データの作成
         train_data, train_labels = make_train_data()
+        get_random_data('train', train_data, train_labels)
         # Tensorへ変換
         inputs = torch.tensor(
             train_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
