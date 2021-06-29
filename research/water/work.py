@@ -62,7 +62,7 @@ def get_random_data(mode, data, labels):
     ランダムデータの取得
 
     Args:
-        mode (string): タイプ
+        mode (string): train or test
         data (array): データ
         labels (array): ラベル
     Returns:
@@ -137,19 +137,22 @@ def main():
         モデルの学習
         """
 
-        # 学習データの作成
+        # データの読み込み
         train_data, train_labels = make_train_data()
-        get_random_data('train', train_data, train_labels)
-        # Tensorへ変換
-        inputs = torch.tensor(
-            train_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
-        labels = torch.tensor(
-            train_labels, dtype=torch.float, device=device).view(-1, 1)
 
         model.train()
         print('\n***** 学習開始 *****')
 
         for epoch in range(EPOCH_NUM):
+            # 学習データの作成
+            random_data, random_labels = get_random_data(
+                'train', train_data, train_labels)
+            # Tensorへ変換
+            inputs = torch.tensor(
+                random_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
+            labels = torch.tensor(
+                random_labels, dtype=torch.float, device=device).view(-1, 1)
+
             optimizer.zero_grad()
             outputs = model(inputs)
             loss = criterion(outputs, labels)
@@ -167,18 +170,22 @@ def main():
         モデルのテスト
         """
 
-        # テストデータの作成
+        # データの読み込み
         test_data, test_labels = make_test_data()
-        # Tensorへ変換
-        inputs = torch.tensor(
-            test_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
-        labels = torch.tensor(
-            test_labels, dtype=torch.float, device=device).view(-1, 1)
 
         model.eval()
         print('\n***** テスト *****')
 
         with torch.no_grad():
+            # テストデータの作成
+            random_data, random_labels = get_random_data(
+                'test', test_data, test_labels)
+            # Tensorへ変換
+            inputs = torch.tensor(
+                random_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
+            labels = torch.tensor(
+                random_labels, dtype=torch.float, device=device).view(-1, 1)
+
             optimizer.zero_grad()
             outputs = model(inputs)
             loss = criterion(outputs, labels)
