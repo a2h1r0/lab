@@ -4,6 +4,8 @@ import torch.nn as nn
 import torch.optim as optimizers
 from model import Net
 import matplotlib.pyplot as plt
+import csv
+import glob
 import random
 import sys
 import os
@@ -12,7 +14,7 @@ os.chdir(os.path.dirname(__file__))
 
 DATA_DIR = './Train_data/'
 
-TRAIN_SUBJECTS = ['subject_1', 'subject_2']  # 学習に使用する被験者
+TRAIN_SUBJECTS = ['1', '2']  # 学習に使用する被験者
 TEST_SUBJECT = 'subject_3'  # テストに使用する被験者
 
 EPOCH_NUM = 1000  # 学習サイクル数
@@ -24,10 +26,30 @@ WINDOW_SIZE = 1000  # 1サンプルのサイズ
 def read_data():
     """
     データの読み込み
+
+    Returns:
+        train_data (array): 学習データ
+        test_data (array): テストデータ
     """
 
-    for filename in TRAIN_FILES:
-        # データを読み込む
+    train_data = []
+    files = glob.glob(DATA_DIR + '/subject_[' + ''.join(TRAIN_SUBJECTS) + ']*.csv')
+    for filename in files:
+        with open(filename) as f:
+            reader = csv.reader(f)
+            next(reader)
+            # ここで特徴量を選択
+            train_data = [row for row in reader]
+
+    test_data = []
+    filename = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
+    with open(filename) as f:
+        reader = csv.reader(f)
+        next(reader)
+        # ここで特徴量を選択
+        test_data = [row for row in reader]
+
+    return train_data, test_data
 
 
 def make_train_data():
