@@ -40,6 +40,10 @@ void setup()
 {
     pinMode(PWM_1, OUTPUT);
     pinMode(PWM_2, OUTPUT);
+    // 初期値は黒
+    analogWrite(PWM_1, BLACK_PWM_1 * 51);
+    analogWrite(PWM_2, BLACK_PWM_2 * 51);
+
     Serial.begin(SPEED);
 
     // 過去心拍数配列の初期化
@@ -111,6 +115,8 @@ unsigned long get_lighting_time()
 {
     // 点灯時間の計算
     float time = (float)60 / (L_COLORS * heart_rate);
+    Serial.println(heart_rate);
+
     // マイクロ秒変換
     int lighting_time = time * 1000000;
 

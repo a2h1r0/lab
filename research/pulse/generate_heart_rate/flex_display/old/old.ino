@@ -5,11 +5,11 @@ const int PROCESS_TIME = 40;
 const int PWM_1 = 5;
 const int PWM_2 = 6;
 // 黒の電圧値 (V)
-const int BLACK_PWM_1 = 5;
+const int BLACK_PWM_1 = 2;
 const int BLACK_PWM_2 = 0;
 // 白の電圧値 (V)
 const int WHITE_PWM_1 = 0;
-const int WHITE_PWM_2 = 5;
+const int WHITE_PWM_2 = 2;
 // 色データ長
 const int L_COLORS = 2;
 // 色データ
