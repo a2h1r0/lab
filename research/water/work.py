@@ -185,16 +185,19 @@ def main():
             loss = criterion(outputs, labels)
 
             # 結果を整形
-            predict = outputs.to('cpu').detach().numpy().copy()
-            predict = predict.reshape(-1)
-            answer = labels.to('cpu').detach().numpy().copy()
-            answer = answer.reshape(-1)
+            predicts = outputs.to('cpu').detach().numpy().copy()
+            predicts = predicts.reshape(-1)
+            answers = labels.to('cpu').detach().numpy().copy()
+            answers = answers.reshape(-1)
 
             # 予測と正解の差の合計を計算
-            diffs = np.abs(answer - predict)
+            diffs = np.abs(answers - predicts)
             diff = np.sum(diffs) / len(diffs)
 
-            print('Diff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
+            # 結果の表示
+            for answer, predict in zips(answers, predicts):
+                print('Answer: {:.3f} / Predict: {:.3f}\n'.format(answer, predict))
+            print('\nDiff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
 
     # ファイルの検証
     check_sampling_rate()
