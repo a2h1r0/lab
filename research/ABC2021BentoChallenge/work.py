@@ -13,7 +13,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = './dataset/speed/1_13/'
+DATA_DIR = './dataset/train/speed/1_13/'
 
 TRAIN_SUBJECTS = ['1', '2']  # 学習に使用する被験者
 TEST_SUBJECT = '3'  # テストに使用する被験者
