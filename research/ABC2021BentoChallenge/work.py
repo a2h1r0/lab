@@ -170,7 +170,7 @@ def main():
 
     # モデルの構築
     model = Net(kernel_size=KERNEL_SIZE).to(device)
-    criterion = nn.MSELoss()
+    criterion = nn.BCELoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
 
     # モデルの学習
