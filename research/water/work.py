@@ -57,6 +57,25 @@ def check_sampling_rate():
             sys.exit()
 
 
+def fft(sound_data):
+    """
+    FFT
+
+    Args:
+        sound_data (array): 音データ
+    Returns:
+        array: パワースペクトル
+    """
+
+    # 周波数の取得
+    freqs = np.fft.fftfreq(len(sound_data), d=1.0/SAMPLING_RATE)
+    index = np.argsort(freqs)
+    # 振幅スペクトル
+    fft = np.abs(np.fft.fft(sound_data))
+    # パワースペクトル
+    power = fft ** 2
+
+
 def get_random_data(mode, data, labels):
     """
     ランダムデータの取得
