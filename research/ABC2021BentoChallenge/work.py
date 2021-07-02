@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optimizers
 from model import Net
+from preprocess import make_feature
 import matplotlib.pyplot as plt
 import csv
 import glob
@@ -12,10 +13,10 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = './Train_data/'
+DATA_DIR = './dataset/speed/1_13/'
 
 TRAIN_SUBJECTS = ['1', '2']  # 学習に使用する被験者
-TEST_SUBJECT = 'subject_3'  # テストに使用する被験者
+TEST_SUBJECT = '3'  # テストに使用する被験者
 
 EPOCH_NUM = 1000  # 学習サイクル数
 HIDDEN_SIZE = 5  # 隠れ層数
@@ -38,8 +39,10 @@ def read_data():
         with open(filename) as f:
             reader = csv.reader(f)
             next(reader)
-            # ここで特徴量を選択
-            train_data = [row for row in reader]
+            raw_data = [row for row in reader]
+            feature_data = make_feature(raw_data)
+
+        train_data.append(feature_data)
 
     test_data = []
     filename = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
