@@ -75,6 +75,9 @@ def fft(sound_data):
     # パワースペクトル
     power = fft ** 2
 
+    # 並び替え
+    return power[index]
+
 
 def get_random_data(mode, data, labels):
     """
@@ -100,7 +103,7 @@ def get_random_data(mode, data, labels):
         index = random.randint(0, len(data) - 1)
         if index not in history:
             history.append(index)
-            random_data.append(data[index])
+            random_data.append(fft(data[index]))
             random_labels.append(labels[index])
 
     return random_data, random_labels
