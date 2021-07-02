@@ -217,7 +217,7 @@ def main():
             diff = np.sum(diffs) / len(diffs)
 
             # 結果の表示
-            for answer, predict in zips(answers, predicts):
+            for answer, predict in zip(answers, predicts):
                 print('Answer: {:.3f} / Predict: {:.3f}\n'.format(answer, predict))
             print('\nDiff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
 
