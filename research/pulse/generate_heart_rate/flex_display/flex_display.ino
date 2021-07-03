@@ -8,11 +8,11 @@
 #define PWM_LOW 0
 // 閾値
 #define THRESHOLD_PULSE 700
-#define THRESHOLD_TIME 300000
+#define THRESHOLD_TIME 500000
 
 // 色データ長
 #define L_COLORS 2
-#define AVERAGE_SIZE 20
+#define AVERAGE_SIZE 50
 
 // 黒の電圧値 (V)
 const int BLACK_PWM_1 = PWM_HIGH;
@@ -43,6 +43,7 @@ void setup()
     // 初期値は黒
     analogWrite(PWM_1, BLACK_PWM_1 * 51);
     analogWrite(PWM_2, BLACK_PWM_2 * 51);
+    delay(10000);
 
     Serial.begin(SPEED);
 
@@ -118,7 +119,7 @@ unsigned long get_lighting_time()
     Serial.println(heart_rate);
 
     // マイクロ秒変換
-    int lighting_time = time * 1000000;
+    unsigned long lighting_time = time * 1000000;
 
     return lighting_time;
 }
