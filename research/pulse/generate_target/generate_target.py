@@ -35,19 +35,19 @@ if MODEL == 'AppleWatch':
             COLOR_BASE = 20  # 色のベース
             COLOR_SCALE = 40  # 色のスケール
     L_COLORS = 10  # 色の長さ
-    LOG_FILE = './data/' + MODEL + '/Series_' + SERIES + '/run.log'  # ログファイル
+    LOG_FILE = '../data/' + MODEL + '/Series_' + SERIES + '/run.log'  # ログファイル
 
 elif MODEL == 'SMART_R':
     COLOR_BASE = 0  # 色のベース
     COLOR_SCALE = 100  # 色のスケール
     L_COLORS = 20  # 色の長さ
-    LOG_FILE = './data/' + MODEL + '/run.log'  # ログファイル
+    LOG_FILE = '../data/' + MODEL + '/run.log'  # ログファイル
 
 else:
     COLOR_BASE = 225  # 色のベース
     COLOR_SCALE = 30  # 色のスケール
     L_COLORS = 20  # 色の長さ
-    LOG_FILE = './data/' + MODEL + '/run.log'  # ログファイル
+    LOG_FILE = '../data/' + MODEL + '/run.log'  # ログファイル
 
 
 SOCKET_ADDRESS = '192.168.11.2'  # Processingサーバのアドレス
@@ -131,9 +131,7 @@ if __name__ == '__main__':
     # プログラム実行日時と実行時間，心拍数を記録
     with open(LOG_FILE, 'a', newline='') as log_file:
         log_writer = csv.writer(log_file, delimiter=',')
-        now = datetime.datetime.today()
-        run_date_time = now.strftime(
-            '%Y/%m/%d') + ' ' + now.strftime('%H:%M:%S')
+        run_date_time = datetime.datetime.today().strftime('%Y/%m/%d %H:%M:%S')
         log_writer.writerow([run_date_time, PROCESS_TIME, heart_rate])
 
     print('\n描画中．．．')
