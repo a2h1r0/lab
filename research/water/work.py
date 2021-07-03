@@ -268,7 +268,7 @@ def main():
 
 if __name__ == '__main__':
     # 予測値の保存ファイル作成（検証用）
-    now = datetime.datetime.today().strftime('%Y_%m_%d_%H_%M_%S')
+    now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
     log_file = 'outputs_' + now + '.csv'
     with open(log_file, 'w', newline='') as f:
         writer = csv.writer(f)
