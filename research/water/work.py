@@ -14,6 +14,8 @@ os.chdir(os.path.dirname(__file__))
 SAMPLING_RATE = 48000
 SOUND_DIR = './sounds/trimmed/' + str(SAMPLING_RATE) + '/'
 
+FFT = False  # FFTするかどうか
+
 COFFEE = ['coffee_1.mp3', 'coffee_2.mp3', 'coffee_3.mp3',
           'coffee_4.mp3', 'coffee_5.mp3', 'coffee_6.mp3']
 DETERGENT = ['detergent_1.mp3', 'detergent_2.mp3', 'detergent_3.mp3',
@@ -103,7 +105,10 @@ def get_random_data(mode, data, labels):
         index = random.randint(0, len(data) - 1)
         if index not in history:
             history.append(index)
-            random_data.append(fft(data[index]))
+            if FFT == True:
+                random_data.append(fft(data[index]))
+            else:
+                random_data.append(data[index])
             random_labels.append(labels[index])
 
     return random_data, random_labels
@@ -218,7 +223,7 @@ def main():
 
             # 結果の表示
             for answer, predict in zip(answers, predicts):
-                print('Answer: {:.3f} / Predict: {:.3f}\n'.format(answer, predict))
+                print('Answer: {:.3f} / Predict: {:.3f}'.format(answer, predict))
             print('\nDiff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
 
     # ファイルの検証
