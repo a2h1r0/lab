@@ -19,10 +19,10 @@ if __name__ == '__main__':
     import os
     os.chdir(os.path.dirname(__file__))
 
-    FILENAME = './dataset/train/acceleration/1_13/subject_1_activity_1_repeat_1.csv'
+    FILE = './dataset/train/acceleration/1_13/subject_1_activity_1_repeat_1.csv'
     USE_MARKERS = ['right_shoulder', 'left_wrist']
 
-    with open(FILENAME) as f:
+    with open(FILE) as f:
         reader = csv.reader(f)
         next(reader)
         raw_data = [row for row in reader]
