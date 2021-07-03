@@ -5,6 +5,8 @@ import torch.nn as nn
 import torch.optim as optimizers
 from model import Net
 import matplotlib.pyplot as plt
+import csv
+import datetime
 import random
 import sys
 import os
@@ -159,6 +161,18 @@ def make_test_data():
 
 
 def main():
+    # ファイルの検証
+    check_sampling_rate()
+
+    # 初期化
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    torch.manual_seed(1)
+
+    # モデルの構築
+    model = Net(kernel_size=KERNEL_SIZE).to(device)
+    criterion = nn.MSELoss()
+    optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
+
     def train():
         """
         モデルの学習
@@ -187,6 +201,14 @@ def main():
             if (epoch + 1) % 10 == 0:
                 print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
 
+                # 予測値の保存（検証用）
+                answers = labels.to('cpu').detach().numpy().copy()
+                answers = answers.reshape(-1)[:10]
+                predicts = outputs.to('cpu').detach().numpy().copy()
+                predicts = predicts.reshape(-1)[:10]
+                rows = np.array([[epoch + 1 for i in range(len(answers))], answers, predicts], dtype=int).T
+                writer.writerows(rows)
+
         print('\n----- 終了 -----\n')
 
     def test():
@@ -212,10 +234,10 @@ def main():
             loss = criterion(outputs, labels)
 
             # 結果を整形
-            predicts = outputs.to('cpu').detach().numpy().copy()
-            predicts = predicts.reshape(-1)
             answers = labels.to('cpu').detach().numpy().copy()
             answers = answers.reshape(-1)
+            predicts = outputs.to('cpu').detach().numpy().copy()
+            predicts = predicts.reshape(-1)
 
             # 予測と正解の差の合計を計算
             diffs = np.abs(answers - predicts)
@@ -226,18 +248,6 @@ def main():
                 print('Answer: {:.3f} / Predict: {:.3f}'.format(answer, predict))
             print('\nDiff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
 
-    # ファイルの検証
-    check_sampling_rate()
-
-    # 初期化
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    torch.manual_seed(1)
-
-    # モデルの構築
-    model = Net(kernel_size=KERNEL_SIZE).to(device)
-    criterion = nn.MSELoss()
-    optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
-
     # モデルの学習
     loss_all = []
     train()
@@ -246,7 +256,7 @@ def main():
     test()
 
     # Lossの描画
-    print('\nLossを描画します．．．')
+    print('\nLossを描画します．．．\n')
     plt.figure(figsize=(16, 9))
     plt.plot(range(EPOCH_NUM), loss_all)
     plt.xlabel('Epoch', fontsize=26)
@@ -257,4 +267,11 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # 予測値の保存ファイル作成（検証用）
+    now = datetime.datetime.today().strftime('%Y_%m_%d_%H_%M_%S')
+    log_file = 'outputs_' + now + '.csv'
+    with open(log_file, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(['Epoch', 'Answer', 'Predict'])
+
+        main()
