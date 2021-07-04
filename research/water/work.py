@@ -207,6 +207,7 @@ def main():
                 predicts = outputs.to('cpu').detach().numpy().copy()
                 predicts = predicts.reshape(-1)[:10]
                 rows = np.array([[epoch + 1 for i in range(len(answers))], answers, predicts], dtype=int).T
+                rows = np.insert(rows.astype('str'), 0, TRAIN_FILES[0].split('_')[0], axis=1)
                 writer.writerows(rows)
 
         print('\n----- 終了 -----\n')
@@ -262,8 +263,12 @@ def main():
     plt.xlabel('Epoch', fontsize=26)
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
-    # plt.savefig('./figure/loss.png', bbox_inches='tight', pad_inches=0)
-    plt.show()
+    if FFT == True:
+        filename = './figures/' + TRAIN_FILES[0].split('_')[0] + '_FFT.png'
+    else:
+        filename = './figures/' + TRAIN_FILES[0].split('_')[0] + '.png'
+    plt.savefig(filename, bbox_inches='tight', pad_inches=0)
+    # plt.show()
 
 
 if __name__ == '__main__':
@@ -274,4 +279,17 @@ if __name__ == '__main__':
         writer = csv.writer(f)
         writer.writerow(['Epoch', 'Answer', 'Predict'])
 
-        main()
+        BOTTLES = [COFFEE, DETERGENT, SHAMPOO, SKINMILK, TOKKURI]  # 容器一覧
+        for bottle in BOTTLES:
+            TRAIN_FILES = bottle[:-TEST_FILE_NUM]  # 学習用音源
+            TEST_FILES = bottle[-TEST_FILE_NUM:]  # テスト用音源
+
+            main()
+
+        # FFT
+        FFT = True
+        for bottle in BOTTLES:
+            TRAIN_FILES = bottle[:-TEST_FILE_NUM]  # 学習用音源
+            TEST_FILES = bottle[-TEST_FILE_NUM:]  # テスト用音源
+
+            main()
