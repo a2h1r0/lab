@@ -6,7 +6,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-SOUND_DIR = './sounds/'
+SOUND_DIR = '../sounds/'
 SOUND_FILE = 'shampoo_1.mp3'  # 音源
 
 

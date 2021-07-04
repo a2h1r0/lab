@@ -14,7 +14,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 SAMPLING_RATE = 48000
-SOUND_DIR = './sounds/trimmed/' + str(SAMPLING_RATE) + '/'
+SOUND_DIR = '../sounds/trimmed/' + str(SAMPLING_RATE) + '/'
 
 FFT = False  # FFTするかどうか
 

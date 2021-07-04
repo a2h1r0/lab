@@ -9,7 +9,7 @@ SOUND_FILE = 'shampoo_1.mp3'  # 音源
 STEP = 3
 
 
-SOUND_DIR = './sounds/trimmed/48000/'
+SOUND_DIR = '../sounds/trimmed/48000/'
 
 
 # ファイルの読み出し
