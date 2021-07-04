@@ -47,5 +47,5 @@ for i in range(int(sound_len // STEP)):
     plt.xlim(0, max(freqs))
 
 
-# plt.savefig('../figure/power.png', bbox_inches='tight', pad_inches=0)
+# plt.savefig('../figures/power.png', bbox_inches='tight', pad_inches=0)
 plt.show()

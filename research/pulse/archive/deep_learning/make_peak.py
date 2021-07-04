@@ -103,7 +103,7 @@ def get_pulse():
     plt.ylabel('Pulse Value', fontsize=18)
     plt.tick_params(labelsize=18)
     plt.legend(fontsize=18, loc='upper right')
-    # plt.savefig('../figure/' + save_figname,
+    # plt.savefig('../figures/' + save_figname,
     #             bbox_inches='tight', pad_inches=0)
     plt.show()
 

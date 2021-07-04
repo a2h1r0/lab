@@ -21,7 +21,7 @@ plt.xlabel('Index', fontsize=26)
 plt.ylabel('Glay Scale', fontsize=26)
 plt.tick_params(labelsize=26)
 
-plt.savefig('../figure/colors_wave.eps', bbox_inches='tight', pad_inches=0)
+plt.savefig('../figures/colors_wave.eps', bbox_inches='tight', pad_inches=0)
 
 plt.show()
 

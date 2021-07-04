@@ -100,7 +100,7 @@ handler1, label1 = ax1.get_legend_handles_labels()
 handler2, label2 = ax2.get_legend_handles_labels()
 ax1.legend(handler1 + handler2, label1 + label2,
            fontsize=18, loc='upper right')
-plt.savefig('../figure/' + TIME + '_' + str(SHOW_EPOCH) + 'epoch.png',
+plt.savefig('../figures/' + TIME + '_' + str(SHOW_EPOCH) + 'epoch.png',
             bbox_inches='tight', pad_inches=0)
 
 plt.show()

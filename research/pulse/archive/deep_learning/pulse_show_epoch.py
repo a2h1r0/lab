@@ -58,7 +58,7 @@ plt.ylabel('Pulse sensor value', fontsize=18)
 plt.title('Epoch: ' + str(SHOW_EPOCH))
 plt.tick_params(labelsize=18)
 plt.legend(fontsize=18, loc='upper right')
-plt.savefig('../figure/10000_generated_' + str(SHOW_EPOCH) + 'epoch.png',
+plt.savefig('../figures/10000_generated_' + str(SHOW_EPOCH) + 'epoch.png',
             bbox_inches='tight', pad_inches=0)
 
 plt.show()

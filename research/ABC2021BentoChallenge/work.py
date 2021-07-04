@@ -190,7 +190,7 @@ def main():
     plt.xlabel('Epoch', fontsize=26)
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
-    # plt.savefig('./figure/loss.png', bbox_inches='tight', pad_inches=0)
+    # plt.savefig('./figures/loss.png', bbox_inches='tight', pad_inches=0)
     plt.show()
 
 

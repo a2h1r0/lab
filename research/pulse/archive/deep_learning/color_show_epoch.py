@@ -33,7 +33,7 @@ plt.xlabel('Time [s]', fontsize=18)
 plt.ylabel('Gray Scale', fontsize=18)
 plt.tick_params(labelsize=18)
 plt.legend(fontsize=18, loc='upper right')
-plt.savefig('../figure/500_color_' + str(SHOW_EPOCH) + 'epoch.png',
+plt.savefig('../figures/500_color_' + str(SHOW_EPOCH) + 'epoch.png',
             bbox_inches='tight', pad_inches=0)
 
 plt.show()

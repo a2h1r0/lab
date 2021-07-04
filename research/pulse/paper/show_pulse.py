@@ -52,7 +52,7 @@ def main():
         plt.plot(timestamps, pulse, color, label=data[1])
 
     plt.legend(fontsize=18, loc='upper right')
-    # plt.savefig('../figure/pulse_' + MODEL + '.eps',
+    # plt.savefig('../figures/pulse_' + MODEL + '.eps',
     #             bbox_inches='tight', pad_inches=0)
 
     plt.show()

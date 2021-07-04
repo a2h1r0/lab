@@ -55,7 +55,7 @@ def plot_data_csv(file_dir, max_epoch, step, savefig=True):
         ax1.legend(handler1 + handler2, label1 + label2,
                    fontsize=18, loc='upper right')
         if savefig:
-            plt.savefig('../figure/' + file_dir.split('/')[-1] + '_' + str(len(y_pulse[index])) + '_' + epoch + 'epoch.png',
+            plt.savefig('../figures/' + file_dir.split('/')[-1] + '_' + str(len(y_pulse[index])) + '_' + epoch + 'epoch.png',
                         bbox_inches='tight', pad_inches=0)
     plt.show()
 
@@ -91,7 +91,7 @@ def plot_loss_csv(file_dir, save_figname=False):
     plt.tick_params(labelsize=18)
     plt.legend(fontsize=18, loc='upper right')
     if save_figname is not False:
-        plt.savefig('../figure/' + save_figname,
+        plt.savefig('../figures/' + save_figname,
                     bbox_inches='tight', pad_inches=0)
     plt.show()
 
