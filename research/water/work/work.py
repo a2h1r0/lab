@@ -265,9 +265,9 @@ def main():
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
     if FFT == True:
-        filename = './figures/' + TRAIN_FILES[0].split('_')[0] + '_FFT.png'
+        filename = '../figures/' + TRAIN_FILES[0].split('_')[0] + '_FFT.png'
     else:
-        filename = './figures/' + TRAIN_FILES[0].split('_')[0] + '.png'
+        filename = '../figures/' + TRAIN_FILES[0].split('_')[0] + '.png'
     plt.savefig(filename, bbox_inches='tight', pad_inches=0)
     # plt.show()
 
