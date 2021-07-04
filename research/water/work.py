@@ -208,7 +208,7 @@ def main():
                 predicts = predicts.reshape(-1)[:10]
                 rows = np.array([[epoch + 1 for i in range(len(answers))], answers, predicts], dtype=int).T
                 rows = np.insert(rows.astype('str'), 0, TRAIN_FILES[0].split('_')[0], axis=1)
-                writer.writerows(rows)
+                log_writer.writerows(rows)
 
         print('\n----- 終了 -----\n')
 
@@ -248,6 +248,7 @@ def main():
             for answer, predict in zip(answers, predicts):
                 print('Answer: {:.3f} / Predict: {:.3f}'.format(answer, predict))
             print('\nDiff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
+            result_writer.writerow([TRAIN_FILES[0].split('_')[0], diff, loss.item()])
 
     # モデルの学習
     loss_all = []
@@ -272,24 +273,30 @@ def main():
 
 
 if __name__ == '__main__':
-    # 予測値の保存ファイル作成（検証用）
+    # 結果の保存ファイル作成
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    log_file = 'outputs_' + now + '.csv'
-    with open(log_file, 'w', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(['Epoch', 'Answer', 'Predict'])
+    result_file = 'result_' + now + '.csv'
+    with open(result_file, 'w', newline='') as f:
+        result_writer = csv.writer(f)
+        result_writer.writerow(['Bottle', 'Diff', 'Loss'])
 
-        BOTTLES = [COFFEE, DETERGENT, SHAMPOO, SKINMILK, TOKKURI]  # 容器一覧
-        for bottle in BOTTLES:
-            TRAIN_FILES = bottle[:-TEST_FILE_NUM]  # 学習用音源
-            TEST_FILES = bottle[-TEST_FILE_NUM:]  # テスト用音源
+        # 予測値の保存ファイル作成（検証用）
+        log_file = 'outputs_' + now + '.csv'
+        with open(log_file, 'w', newline='') as f:
+            log_writer = csv.writer(f)
+            log_writer.writerow(['Epoch', 'Answer', 'Predict'])
 
-            main()
+            BOTTLES = [COFFEE, DETERGENT, SHAMPOO, SKINMILK, TOKKURI]  # 容器一覧
+            for bottle in BOTTLES:
+                TRAIN_FILES = bottle[:-TEST_FILE_NUM]  # 学習用音源
+                TEST_FILES = bottle[-TEST_FILE_NUM:]  # テスト用音源
 
-        # FFT
-        FFT = True
-        for bottle in BOTTLES:
-            TRAIN_FILES = bottle[:-TEST_FILE_NUM]  # 学習用音源
-            TEST_FILES = bottle[-TEST_FILE_NUM:]  # テスト用音源
+                main()
 
-            main()
+            # FFT
+            FFT = True
+            for bottle in BOTTLES:
+                TRAIN_FILES = bottle[:-TEST_FILE_NUM]  # 学習用音源
+                TEST_FILES = bottle[-TEST_FILE_NUM:]  # テスト用音源
+
+                main()
