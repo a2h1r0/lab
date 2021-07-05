@@ -248,7 +248,7 @@ def main():
             for answer, predict in zip(answers, predicts):
                 print('Answer: {:.3f} / Predict: {:.3f}'.format(answer, predict))
             print('\nDiff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
-            result_writer.writerow([bottle_name, diff, loss.item()])
+            result_writer.writerow([bottle_name, str(FFT), diff, loss.item()])
 
     # モデルの学習
     loss_all = []
@@ -278,7 +278,7 @@ if __name__ == '__main__':
     result_file = 'result_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
-        result_writer.writerow(['Bottle', 'Diff', 'Loss'])
+        result_writer.writerow(['Bottle', 'FFT', 'Diff', 'Loss'])
 
         # 予測値の保存ファイル作成（検証用）
         log_file = 'outputs_' + now + '.csv'
