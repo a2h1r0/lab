@@ -207,7 +207,7 @@ def main():
                 predicts = outputs.to('cpu').detach().numpy().copy()
                 predicts = predicts.reshape(-1)[:10]
                 rows = np.array([[epoch + 1 for i in range(len(answers))], answers, predicts], dtype=int).T
-                rows = np.insert(rows.astype('str'), 0, TRAIN_FILES[0].split('_')[0], axis=1)
+                rows = np.insert(rows.astype('str'), 0, bottle_name, axis=1)
                 log_writer.writerows(rows)
 
         print('\n----- 終了 -----\n')
@@ -248,7 +248,7 @@ def main():
             for answer, predict in zip(answers, predicts):
                 print('Answer: {:.3f} / Predict: {:.3f}'.format(answer, predict))
             print('\nDiff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
-            result_writer.writerow([TRAIN_FILES[0].split('_')[0], diff, loss.item()])
+            result_writer.writerow([bottle_name, diff, loss.item()])
 
     # モデルの学習
     loss_all = []
@@ -265,9 +265,9 @@ def main():
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
     if FFT == True:
-        filename = '../figures/' + TRAIN_FILES[0].split('_')[0] + '_FFT.png'
+        filename = '../figures/' + bottle_name + '_FFT.png'
     else:
-        filename = '../figures/' + TRAIN_FILES[0].split('_')[0] + '.png'
+        filename = '../figures/' + bottle_name + '.png'
     plt.savefig(filename, bbox_inches='tight', pad_inches=0)
     # plt.show()
 
@@ -288,15 +288,19 @@ if __name__ == '__main__':
 
             BOTTLES = [COFFEE, DETERGENT, SHAMPOO, SKINMILK, TOKKURI]  # 容器一覧
             for bottle in BOTTLES:
+                bottle_name = TRAIN_FILES[0].split('_')[0]
                 TRAIN_FILES = bottle[:-TEST_FILE_NUM]  # 学習用音源
                 TEST_FILES = bottle[-TEST_FILE_NUM:]  # テスト用音源
 
+                print('\n\n----- ' + bottle_name + ' / FFT: ' + str(FFT) + ' -----')
                 main()
 
             # FFT
             FFT = True
             for bottle in BOTTLES:
+                bottle_name = TRAIN_FILES[0].split('_')[0]
                 TRAIN_FILES = bottle[:-TEST_FILE_NUM]  # 学習用音源
                 TEST_FILES = bottle[-TEST_FILE_NUM:]  # テスト用音源
 
+                print('\n\n----- ' + bottle_name + ' / FFT: ' + str(FFT) + ' -----')
                 main()
