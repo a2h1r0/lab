@@ -31,15 +31,6 @@ TOKKURI = ['tokkuri_1.mp3', 'tokkuri_2.mp3', 'tokkuri_3.mp3',
 
 TEST_FILE_NUM = 1  # テストに使うファイル数
 
-TRAIN_FILES = COFFEE[:-TEST_FILE_NUM]  # 学習用音源
-TEST_FILES = COFFEE[-TEST_FILE_NUM:]  # テスト用音源
-# TRAIN_FILES = COFFEE[:-TEST_FILE_NUM] + DETERGENT[:-TEST_FILE_NUM] + \
-#     SHAMPOO[:-TEST_FILE_NUM] + SKINMILK[:-TEST_FILE_NUM] + \
-#     TOKKURI[:-TEST_FILE_NUM]  # 学習用音源
-# TEST_FILES = COFFEE[-TEST_FILE_NUM:] + DETERGENT[-TEST_FILE_NUM:] + \
-#     SHAMPOO[-TEST_FILE_NUM:] + SKINMILK[-TEST_FILE_NUM:] + \
-#     TOKKURI[-TEST_FILE_NUM:]  # テスト用音源
-
 EPOCH_NUM = 1000  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 500  # バッチサイズ
@@ -245,8 +236,8 @@ def main():
             diff = np.sum(diffs) / len(diffs)
 
             # 結果の表示
-            for answer, predict in zip(answers, predictions):
-                print('Answer: {:.3f} / Predict: {:.3f}'.format(answer, predict))
+            for answer, prediction in zip(answers, predictions):
+                print('Answer: {:.3f} / Prediction: {:.3f}'.format(answer, prediction))
             print('\nDiff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
             result_writer.writerow([bottle_name, str(FFT), diff, loss.item()])
 
@@ -284,7 +275,7 @@ if __name__ == '__main__':
         log_file = 'outputs_' + now + '.csv'
         with open(log_file, 'w', newline='') as f:
             log_writer = csv.writer(f)
-            log_writer.writerow(['Epoch', 'Answer', 'Predict'])
+            log_writer.writerow(['Epoch', 'Answer', 'Prediction'])
 
             BOTTLES = [COFFEE, DETERGENT, SHAMPOO, SKINMILK, TOKKURI]  # 容器一覧
             for bottle in BOTTLES:

@@ -153,13 +153,13 @@ def main():
             loss = criterion(outputs, labels)
 
             # 結果を整形
-            predict = outputs.to('cpu').detach().numpy().copy()
-            predict = predict.reshape(-1)
+            prediction = outputs.to('cpu').detach().numpy().copy()
+            prediction = prediction.reshape(-1)
             answer = labels.to('cpu').detach().numpy().copy()
             answer = answer.reshape(-1)
 
             # 予測と正解の差の合計を計算
-            diffs = np.abs(answer - predict)
+            diffs = np.abs(answer - prediction)
             diff = np.sum(diffs) / len(diffs)
 
             print('Diff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
