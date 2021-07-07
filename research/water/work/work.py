@@ -247,6 +247,9 @@ def main():
     test()
 
     # Lossの描画
+    figures_dir = '../figures/' + now
+    if os.path.exists(figures_dir) == False:
+        os.makedirs(figures_dir)
     print('\nLossを描画します．．．\n')
     plt.figure(figsize=(16, 9))
     plt.plot(range(EPOCH_NUM), loss_all)
@@ -254,23 +257,24 @@ def main():
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
     if FFT == True:
-        filename = '../figures/' + bottle_name + '_FFT.png'
+        filename = figures_dir + '/' + bottle_name + '_FFT.png'
     else:
-        filename = '../figures/' + bottle_name + '.png'
+        filename = figures_dir + '/' + bottle_name + '.png'
     plt.savefig(filename, bbox_inches='tight', pad_inches=0)
     # plt.show()
+    plt.close()
 
 
 if __name__ == '__main__':
     # 結果の保存ファイル作成
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    result_file = 'result_' + now + '.csv'
+    result_file = '../data/result_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
         result_writer.writerow(['Test Bottle', 'FFT', 'Diff'])
 
         # 予測値の保存ファイル作成（検証用）
-        log_file = 'outputs_' + now + '.csv'
+        log_file = '../data/outputs_' + now + '.csv'
         with open(log_file, 'w', newline='') as f:
             log_writer = csv.writer(f)
             log_writer.writerow(['Epoch', 'Answer', 'Prediction'])
@@ -286,7 +290,7 @@ if __name__ == '__main__':
 
                     print('\n\n----- Test: ' + bottle_name + ' / FFT: ' + str(FFT) + ' -----')
                     main()
-                result_writer.writerow(['(Ave)' + bottle_name, str(FFT), np.average(diff_all)])
+                result_writer.writerow(['(Avg.)' + bottle_name.split('_')[0], str(FFT), np.average(diff_all)])
 
             # FFT
             FFT = True
@@ -300,4 +304,4 @@ if __name__ == '__main__':
 
                     print('\n\n----- Test: ' + bottle_name + ' / FFT: ' + str(FFT) + ' -----')
                     main()
-                result_writer.writerow(['(Ave)' + bottle_name, str(FFT), np.average(diff_all)])
+                result_writer.writerow(['(Avg.)' + bottle_name.split('_')[0], str(FFT), np.average(diff_all)])
