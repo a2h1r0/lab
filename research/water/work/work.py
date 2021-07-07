@@ -204,9 +204,9 @@ def main():
                 # 予測値の保存（検証用）
                 answers = labels.to('cpu').detach().numpy().copy()
                 answers = answers.reshape(-1)[:10]
-                predicts = outputs.to('cpu').detach().numpy().copy()
-                predicts = predicts.reshape(-1)[:10]
-                rows = np.array([[epoch + 1 for i in range(len(answers))], answers, predicts], dtype=int).T
+                predictions = outputs.to('cpu').detach().numpy().copy()
+                predictions = predictions.reshape(-1)[:10]
+                rows = np.array([[epoch + 1 for i in range(len(answers))], answers, predictions], dtype=int).T
                 rows = np.insert(rows.astype('str'), 0, bottle_name, axis=1)
                 log_writer.writerows(rows)
 
@@ -237,15 +237,15 @@ def main():
             # 結果を整形
             answers = labels.to('cpu').detach().numpy().copy()
             answers = answers.reshape(-1)
-            predicts = outputs.to('cpu').detach().numpy().copy()
-            predicts = predicts.reshape(-1)
+            predictions = outputs.to('cpu').detach().numpy().copy()
+            predictions = predictions.reshape(-1)
 
             # 予測と正解の差の合計を計算
-            diffs = np.abs(answers - predicts)
+            diffs = np.abs(answers - predictions)
             diff = np.sum(diffs) / len(diffs)
 
             # 結果の表示
-            for answer, predict in zip(answers, predicts):
+            for answer, predict in zip(answers, predictions):
                 print('Answer: {:.3f} / Predict: {:.3f}'.format(answer, predict))
             print('\nDiff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
             result_writer.writerow([bottle_name, str(FFT), diff, loss.item()])
