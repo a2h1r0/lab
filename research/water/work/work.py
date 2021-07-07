@@ -29,8 +29,6 @@ SKINMILK = ['skinmilk_1.mp3', 'skinmilk_2.mp3', 'skinmilk_3.mp3',
 TOKKURI = ['tokkuri_1.mp3', 'tokkuri_2.mp3', 'tokkuri_3.mp3',
            'tokkuri_4.mp3', 'tokkuri_5.mp3', 'tokkuri_6.mp3']
 
-TEST_FILE_NUM = 1  # テストに使うファイル数
-
 EPOCH_NUM = 1000  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 500  # バッチサイズ
@@ -44,7 +42,7 @@ def check_sampling_rate():
     サンプリング周波数の確認
     """
 
-    for filename in TRAIN_FILES + TEST_FILES:
+    for filename in TRAIN_FILES + [TEST_FILE]:
         # 音源の読み出し
         sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
         if len(sound[:1000].get_array_of_samples()) != SAMPLING_RATE:
@@ -136,17 +134,16 @@ def make_test_data():
 
     test_data, test_labels = [], []
 
-    for filename in TEST_FILES:
-        # 音源の読み出し
-        sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
-        data = np.array(sound.get_array_of_samples())
-        labels = np.linspace(0, 100, len(data))
+    # 音源の読み出し
+    sound = AudioSegment.from_file(SOUND_DIR + TEST_FILE, 'mp3')
+    data = np.array(sound.get_array_of_samples())
+    labels = np.linspace(0, 100, len(data))
 
-        for index in range(0, len(data) - WINDOW_SIZE + 1):
-            start = index
-            end = start + WINDOW_SIZE - 1
-            test_data.append(data[start:end + 1])
-            test_labels.append(labels[end])
+    for index in range(0, len(data) - WINDOW_SIZE + 1):
+        start = index
+        end = start + WINDOW_SIZE - 1
+        test_data.append(data[start:end + 1])
+        test_labels.append(labels[end])
 
     return test_data, test_labels
 
@@ -238,8 +235,9 @@ def main():
             # 結果の表示
             for answer, prediction in zip(answers, predictions):
                 print('Answer: {:.3f} / Prediction: {:.3f}'.format(answer, prediction))
-            print('\nDiff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
-            result_writer.writerow([bottle_name, str(FFT), diff, loss.item()])
+            print('\nDiff: {:.3f}\n'.format(diff))
+            result_writer.writerow([bottle_name, str(FFT), diff])
+            diff_all.append(diff)
 
     # モデルの学習
     loss_all = []
@@ -269,7 +267,7 @@ if __name__ == '__main__':
     result_file = 'result_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
-        result_writer.writerow(['Bottle', 'FFT', 'Diff', 'Loss'])
+        result_writer.writerow(['Test Bottle', 'FFT', 'Diff'])
 
         # 予測値の保存ファイル作成（検証用）
         log_file = 'outputs_' + now + '.csv'
@@ -279,19 +277,27 @@ if __name__ == '__main__':
 
             BOTTLES = [COFFEE, DETERGENT, SHAMPOO, SKINMILK, TOKKURI]  # 容器一覧
             for bottle in BOTTLES:
-                TRAIN_FILES = bottle[:-TEST_FILE_NUM]  # 学習用音源
-                TEST_FILES = bottle[-TEST_FILE_NUM:]  # テスト用音源
-                bottle_name = TRAIN_FILES[0].split('_')[0]
+                diff_all = []
+                for test_index, test_file in enumerate(bottle):
+                    # テストデータ以外を学習に使用
+                    TRAIN_FILES = [filename for index, filename in enumerate(bottle) if index != test_index]
+                    TEST_FILE = test_file
+                    bottle_name = TEST_FILE.split('.')[0]
 
-                print('\n\n----- ' + bottle_name + ' / FFT: ' + str(FFT) + ' -----')
-                main()
+                    print('\n\n----- Test: ' + bottle_name + ' / FFT: ' + str(FFT) + ' -----')
+                    main()
+                result_writer.writerow(['(Ave)' + bottle_name, str(FFT), np.average(diff_all)])
 
             # FFT
             FFT = True
             for bottle in BOTTLES:
-                TRAIN_FILES = bottle[:-TEST_FILE_NUM]  # 学習用音源
-                TEST_FILES = bottle[-TEST_FILE_NUM:]  # テスト用音源
-                bottle_name = TRAIN_FILES[0].split('_')[0]
+                diff_all = []
+                for test_index, test_file in enumerate(bottle):
+                    # テストデータ以外を学習に使用
+                    TRAIN_FILES = [filename for index, filename in enumerate(bottle) if index != test_index]
+                    TEST_FILE = test_file
+                    bottle_name = TEST_FILE.split('.')[0]
 
-                print('\n\n----- ' + bottle_name + ' / FFT: ' + str(FFT) + ' -----')
-                main()
+                    print('\n\n----- Test: ' + bottle_name + ' / FFT: ' + str(FFT) + ' -----')
+                    main()
+                result_writer.writerow(['(Ave)' + bottle_name, str(FFT), np.average(diff_all)])
