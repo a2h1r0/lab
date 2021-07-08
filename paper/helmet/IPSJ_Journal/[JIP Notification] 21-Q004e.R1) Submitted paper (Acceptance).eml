@@ -1,0 +1,406 @@
+Delivered-To: murao.kazuya10@gmail.com
+Received: by 2002:a05:6520:1083:b029:fa:3022:8e2c with SMTP id cb3csp6483876lkb;
+        Wed, 7 Jul 2021 17:46:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxMVkolkU6QvIx10lx0AVuqW2RdSiRjioFXfzxZJY86Nolc/FjYOol6o2VFpjEEyNExt4jd
+X-Received: by 2002:a62:581:0:b029:301:9082:7283 with SMTP id 123-20020a6205810000b029030190827283mr27807726pff.37.1625705166807;
+        Wed, 07 Jul 2021 17:46:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1625705166; cv=none;
+        d=google.com; s=arc-20160816;
+        b=qLZh7rlhtPctzKZ6cSjxu/1mJsBSd1ZhiR1xEMNkGW1WDSrhp4WPzxJAEbiwgSo6lx
+         m86ArB5RODLqVB5L/fVfjsAO8EDSTxt3HW0f00wBR1Qp0S2IK0szLqNiXGdSbsj16+II
+         WxsI9QEXznce5ks+f+MmNlzvt0/zqTgI2ysJFQfgoDVTWl4JjsMN85zEm1/B4UR4oYfM
+         3/6k4Hqp5Puz+lmL4otv6xhY4SMYwY1dXdhL9mqhzgCge3Hjy7eBizCvFottP2vJWC+W
+         3fsGUpDSNSFfC/CQPGWUR3SYhWe0KtacH4e+6+/4iwQURAbjW6VLQBoL9qA4bYnx1sdZ
+         zpOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:content-transfer-encoding:mime-version:subject
+         :message-id:to:reply-to:from:date:dkim-signature:dkim-signature
+         :delivered-to;
+        bh=wTd/PbwkOilf52HVIUSD/mCSVPh4HsIuiRvOAjK2WdE=;
+        b=OPz6XFcx+NKnnDQ/5fthEb5Fmo7Aevh16jVnnj10lxEZwZg4/NNNsuBL/gCh/++W0e
+         CkGDYw73Z9ZT+3YJjkF+trxSzlCGgVSh2XNHyyyvYa2ufALNTzmCFIi97T26sHfabzQC
+         G8tpZGrQNLhG7BwSHb69H6lIswl8CN8TWt/J+lTjjbKmT5jb3lK4hirBRMtg/VWWzu9O
+         xi5+47lUxKwX2D85WhAUTb5wVlXNH3ezpPSH19YYe54vIXBfl68cv2jGrHUIB+M/o0Gv
+         eKZZZjXEnHz/x+7/elNQ74HwgJDbI14WlX30alB0E3uZXmBMbA0fsbxl4n1IywEFZHuf
+         fd3g==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@manuscriptcentral.com header.s=eeyba4hl2lzbfpoyr4uiu2upyacpzpsq header.b=jL+Oqv3z;
+       dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=d3IFLZni;
+       spf=softfail (google.com: domain of transitioning 0101017a83942728-e5ee6781-f049-4e5f-b3b8-6623d7de2eca-000000@outbound.manuscriptcentral.com does not designate 133.19.0.32 as permitted sender) smtp.mailfrom=0101017a83942728-e5ee6781-f049-4e5f-b3b8-6623d7de2eca-000000@outbound.manuscriptcentral.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=manuscriptcentral.com
+Return-Path: <0101017a83942728-e5ee6781-f049-4e5f-b3b8-6623d7de2eca-000000@outbound.manuscriptcentral.com>
+Received: from rucs.cs.ritsumei.ac.jp (rucs.cs.ritsumei.ac.jp. [133.19.0.32])
+        by mx.google.com with ESMTP id 198si562901pgc.138.2021.07.07.17.46.06
+        for <murao.kazuya10@gmail.com>;
+        Wed, 07 Jul 2021 17:46:06 -0700 (PDT)
+Received-SPF: softfail (google.com: domain of transitioning 0101017a83942728-e5ee6781-f049-4e5f-b3b8-6623d7de2eca-000000@outbound.manuscriptcentral.com does not designate 133.19.0.32 as permitted sender) client-ip=133.19.0.32;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@manuscriptcentral.com header.s=eeyba4hl2lzbfpoyr4uiu2upyacpzpsq header.b=jL+Oqv3z;
+       dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=d3IFLZni;
+       spf=softfail (google.com: domain of transitioning 0101017a83942728-e5ee6781-f049-4e5f-b3b8-6623d7de2eca-000000@outbound.manuscriptcentral.com does not designate 133.19.0.32 as permitted sender) smtp.mailfrom=0101017a83942728-e5ee6781-f049-4e5f-b3b8-6623d7de2eca-000000@outbound.manuscriptcentral.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=manuscriptcentral.com
+Received: by rucs.cs.ritsumei.ac.jp (Postfix)
+	id CB94B547F80; Thu,  8 Jul 2021 09:46:05 +0900 (JST)
+Delivered-To: murao@cs.ritsumei.ac.jp
+Received: from rundz1054.ritsumei.ac.jp (rundz1054.ritsumei.ac.jp [133.19.170.54])
+	by rucs.cs.ritsumei.ac.jp (Postfix) with ESMTP id C8BF5547F82
+	for <murao@cs.ritsumei.ac.jp>; Thu,  8 Jul 2021 09:46:05 +0900 (JST)
+Received: from a27-203.smtp-out.us-west-2.amazonses.com (a27-203.smtp-out.us-west-2.amazonses.com [54.240.27.203])
+	by rundz1054.ritsumei.ac.jp  with ESMTP id 1680k4bc004109-1680k4bd004109
+	for <murao@cs.ritsumei.ac.jp>; Thu, 8 Jul 2021 09:46:05 +0900
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=eeyba4hl2lzbfpoyr4uiu2upyacpzpsq; d=manuscriptcentral.com;
+	t=1625705162;
+	h=Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=Dm3FhFOOJuUu3ZurWC6oPM3Z4pYHLNslJaAz3V1TTcQ=;
+	b=jL+Oqv3zll6P27zLacrubXBQvZvx/POa1eWiMS42QnwDCwObX5id67x+cK8tLWGi
+	S2kPWc318puiL7NgR91ae40vc7KIZknOvlwA1+zNbUvzro23emSGGZVmXcpnKJzD7H6
+	Ff2CmwHNdQsVFKdrscOPMtORa9LXvm0t9kZSnKAw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1625705162;
+	h=Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID;
+	bh=Dm3FhFOOJuUu3ZurWC6oPM3Z4pYHLNslJaAz3V1TTcQ=;
+	b=d3IFLZniTAud/G6DwjgDNPGT/ZOugkp6zbBJjvOwF27y7Lu7243H5mkHhMoMdRtV
+	Pk9y4CNv/vWvBSuM0/9KvYNrIrVsSoqSJ5RX0pkYXwIuO7Qk+UpMhPE1rQcmqY4FbSO
+	sJz5ZD197vz8zOQhtYowk7/fM4DVR5TAR3LpE5yg=
+Date: Thu, 8 Jul 2021 00:46:02 +0000
+From: IPSJ Journal <onbehalfof@manuscriptcentral.com>
+Reply-To: s1m@ipsj.or.jp
+To: murao@cs.ritsumei.ac.jp
+Message-ID: <0101017a83942728-e5ee6781-f049-4e5f-b3b8-6623d7de2eca-000000@us-west-2.amazonses.com>
+Subject: [JIP: Notification] 21-Q004e.R1) Submitted paper (Acceptance)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SID: 1
+X-PRODUCT: s1m
+X-ENV-TYPE: prod
+X-ENV-NAME: 4270
+X-S1Info: xik_8XzQGQXzCuAyGpdUTbQ9nAgW53j47P8BDZzRXBfJ2cw7ZpSd871cBCCzWWgviDnRzt
+Feedback-ID: 1.us-west-2.y8789kd/oyDlGffYrP88IUZ2JiqaxJLDOSJ1+/ZSPI4=:AmazonSES
+X-SES-Outgoing: 2021.07.08-54.240.27.203
+X-FEAS-SPF: spf-result=pass, ip=54.240.27.203, helo=a27-203.smtp-out.us-west-2.amazonses.com, mailFrom=0101017a83942728-e5ee6781-f049-4e5f-b3b8-6623d7de2eca-000000@outbound.manuscriptcentral.com
+X-FEAS-DKIM: Valid
+Authentication-Results: rundz1054.ritsumei.ac.jp;
+	spf=pass (ritsumei.ac.jp: domain of 0101017a83942728-e5ee6781-f049-4e5f-b3b8-6623d7de2eca-000000@outbound.manuscriptcentral.com designates 54.240.27.203 as permitted sender) smtp.mailfrom=0101017a83942728-e5ee6781-f049-4e5f-b3b8-6623d7de2eca-000000@outbound.manuscriptcentral.com;
+	dkim=pass header.i=@amazonses.com
+	dkim=pass header.i=@manuscriptcentral.com
+
+08-Jul-2021
+
+Dear Dr. Murao/=E6=9D=91=E5=B0=BE:
+
+It is a pleasure to accept your manuscript entitled "User Identification Me=
+thod based on Head Shape using Pressure Sensors embedded in a Helmet" in it=
+s current form for publication in the Journal of Information Processing.  T=
+he comments of the reviewer(s) who reviewed your manuscript are included at=
+ the foot of this letter.
+In the event you received comments from the reviewer(s), please make any ne=
+cessary changes for your final draft as soon as possible.
+
+Submission ID: 21-Q004e.R1
+Title: User Identification Method based on Head Shape using Pressure Sensor=
+s embedded in a Helmet
+
+[Review Result]
+
+(A) Overall Recommendation from Meta-Reviewer
+Accept
+
+(B) Comments from Meta-Reviewer
+The paper is well revised based on reviewers=E2=80=99 comments.
+Though there are still several problems in terms of readability and express=
+ion, the reviewers could confirm the effort to clarify the usefulness of th=
+e method. So, we recommend the paper should be accepted for publication.
+
+For the camera-ready version of manuscript, I strongly recommend that you m=
+odify the paper to improve the readability. The following two items are par=
+ticularly important for better readability.
+
+1.
+Both of two reviewers pointed out that revised version of abstract is too l=
+ong. It is desirable that the abstract can be written within 200 words by s=
+ummarizing the current content.
+
+2.
+There are several erroneous descriptions throughout the paper. Reviewer 2 p=
+ointed out symbol mistakes (in section 3.3.1 and 4.2.2) and some grammatica=
+l errors. Also, reviewer 1 pointed out inconsistency of expression. I think=
+ that these kinds of problems degrade the readability of the paper. I would=
+ strongly recommend you check again throughout the paper.
+
+There are some additional comments for improving the paper in reviewer 2=E2=
+=80=99s comment (in (3)). I think that some of the comments may lead the pr=
+oposed method to next step. It would be better deal with them as far as you=
+ can.
+
+(C) Overall Recommendation from Reviewers
+=E6=9F=BB=E8=AA=AD=E8=80=85: 1
+=E6=9F=BB=E8=AA=AD=E7=B5=90=E6=9E=9C 2ndMSER: Accept
+
+=E6=9F=BB=E8=AA=AD=E8=80=85: 2
+=E6=9F=BB=E8=AA=AD=E7=B5=90=E6=9E=9C 2ndMSER: Accept
+
+(D) Comments from Reviewers
+
+=E6=9F=BB=E8=AA=AD=E8=80=85: 1
+=E8=91=97=E8=80=85=E3=81=B8=E3=81=AE=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E5=
+=85=A5=E5=8A=9B=E3=83=95=E3=82=A9=E3=83=BC=E3=83=A0=EF=BC=88=E8=AB=96=E6=96=
+=872=E5=9B=9E=E7=9B=AE=E6=9F=BB=E8=AA=AD=E7=94=A8=EF=BC=89-=E6=9F=BB=E8=AA=
+=AD=E8=80=85-=E8=8B=B1=E8=AA=9E: Overall, the revised paper is well modify =
+based on reviewers'  comments.=20
+
+[Comments]
+- The summaries seem a bit long. I think it would be readable if the amount=
+ of text can be reduced to about 2/3.
+- There is some inconsistency in the units of time. I think it would be mor=
+e readable to use "seconds" instead of "s".
+
+=E6=9F=BB=E8=AA=AD=E8=80=85: 2
+=E8=91=97=E8=80=85=E3=81=B8=E3=81=AE=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E5=
+=85=A5=E5=8A=9B=E3=83=95=E3=82=A9=E3=83=BC=E3=83=A0=EF=BC=88=E8=AB=96=E6=96=
+=872=E5=9B=9E=E7=9B=AE=E6=9F=BB=E8=AA=AD=E7=94=A8=EF=BC=89-=E6=9F=BB=E8=AA=
+=AD=E8=80=85-=E8=8B=B1=E8=AA=9E: 1) It seems that the points pointed out in=
+ the first peer review have been improved properly.
+
+2) The reviewer searched the following references again and found the follo=
+wing related studies.
+I) an study to judge wearing with pressure sensor in a helmet=20
+II) the authors' previous treatise.
+Since these have similar purpose and solution, it is considered that the re=
+lationship with these studies should be clarified in this paper.
+
+I)
+Anita Gehlot,Email author,Piyush Kuchhal,Adesh Singh, and Rajesh Singh :=20
+Development and Analysis of FSR and RFID Based Authentication System, Proce=
+eding of International Conference on Intelligent Communication, Control and=
+ Devices pp 1145-1151(2016)
+https://link-springer-com.ez.wul.waseda.ac.jp/chapter/10.1007%2F978-981-10-=
+1708-7_136
+
+This study proposes a system in which an FSR sensor is placed inside a full=
+-face helmet to determine that the helmet is worn before riding a motorcycl=
+e.
+
+II)
+Atsuhiro Fujii, Kazuya Murao: User identification method based on head shap=
+e using a helmet with pressure sensors, MoMM '20: Proceedings of the 18th I=
+nternational Conference on Advances in Mobile Computing & MultimediaNovembe=
+r 2020 Pages 210=E2=80=93214 https://doi.org/10.1145/3428690.3429158
+https://dl.acm.org/doi/pdf/10.1145/3428690.3429158
+
+The authors seem to have submitted a paper related to the international con=
+ference, so please specify the difference from that in this paper.
+(Although the number of subjects and the experimental results and tables lo=
+ok almost the same)
+
+
+3) Please be prepared for the camera-ready manuscript by responding to new =
+questions raised by the additions and corrections.
+
+In Sec. 3.2 Hardware :
+This is a comment from the viewpoint of experimental reproducibility.
+Thank you for the addition of the helmet size. However, it is not possible =
+to specify the inner dimensions because the type and characteristics of the=
+ protective material inside the helmet are unknown from the notation of the=
+ outer dimensions. It is thought that a description that shows the internal=
+ dimensions is necessary (S / M / L , asian fit etc. also seems to be accep=
+table). If the helmet used has a product number, it is considered that the =
+reader can reproduce the experimental conditions by mentioning it. What siz=
+e is the original fit for the each subjects this time? How large the head c=
+ircumference of each of the nine subjects and what was the adaptation size?=
+ The fact that some sensors do not react by sticking a urethane sponge with=
+ a thickness of 2 cm inside means that some subjects are suspected of using=
+ a helmet size that is significantly larger than their head size.
+
+Describe the quantization bit resolution from the pressure sensor into Ardu=
+ino Mega ADC. The reviewer checked it, it seems that the Arduino Mega is eq=
+uipped with 16 channels of 10-bit ADC. s the lower limit of 10-bit quantize=
+d at 0V and the upper limit at 5V? Please clarify the explanation.
+Is there a belt attached to the chin of the helmet? Half helmets has a belt=
+ stopper under the chin to prevent the helmet from coming off the head. Ple=
+ase add an explanation about whether the belt was attached and how much tig=
+hten it when wearing it.
+It affects the top sensor value how the belt was fastened.
+
+In sec 3.3.1 Preprocessing :
+Why does the authors decide to use 11/30 (nearly equal 367) ms for calibrat=
+ion. Why does the calibration end condition that the difference from the pr=
+evious sample frame is within 2V? Please explain why 155V or less is accept=
+able. Please clarify the reason.
+
+The sentence =E2=80=9CTime t =3DT_s Time t =3D Ts is the time at which the =
+change of =E2=80=A6 2[V] (i =3D Ts, =C2=B7 =C2=B7 =C2=B7 , Ts =E2=88=92 10)=
+.=E2=80=9D   seems to be too complicated. Please divide the long sentence i=
+n small portions.
+The equation "x(t) =3D [x1(t), . . . , p32(t)]" seems wrong. It seems that =
+"x(t) =3D [x1(t), . . . , x32(t)]" is correct.
+Same mistake was available at authors=E2=80=99 previous conference proceedi=
+ngs.
+
+In sec 4.2.2 :
+=E2=80=9C#24 and #25 are shown as effective sensors in Table 1.=E2=80=9D
+Some consideration has been given from # 20 to # 25, which seems to have co=
+ntributed to deepening the results of the treatise.
+On the other hand, from Table 1, # 3 also seems to be an effective sensor, =
+but why isn't it mentioned?
+# 3 is also listed in Table 2 and seems to be the most common.
+
+About Fig.11.
+The reason why the # 8, # 9, # 18, and # 19 sensors did not respond well to=
+ the two subjects A and B in Fig. 11 was probably because the protective ma=
+terial on the top of the helmet was removed.
+From this experiment, please add a consideration as to whether the protecti=
+ve material should be removed or whether it is better to stack urethane spo=
+nges with sensors without removing the protective material to improve the s=
+ensor sensitivity.
+
+=E2=80=9CFrom Fig. 11, we can see that the sensor values of #26-#31 of subj=
+ect A hardly changed.=E2=80=9D
+Isn't it the Subject B's result that hasn't changed much?
+The Subject A's result seems to be that there are some sensors that are res=
+ponding. Please confirm.
+
+In sec 4.3.2:
+=E2=80=9CIn order to improve the accuracy, it is necessary to consider an a=
+uthentication method using time series pressure data from the start of wear=
+ing the helmet to the complete of wearing.=E2=80=9D
+However the authors also said following in sec 2.1;
+=E2=80=9CWe think that the helmet-wearing motion is not highly reproducible=
+. =E2=80=A6 However, the helmet is worn with one hand, two hands, or in a d=
+ifferent direction, and there are a variety of actions from picking up the =
+helmet to putting it on. Therefore, it is not practical to collect data fro=
+m all individuals for various situations.=E2=80=9D=20
+
+The authors argue that "using time series pressure data from the start of w=
+earing"  will improve accuracy. On the other hand, it has been argued that =
+"the helmet-wearing motion is not highly reproducible". It seems that the c=
+laims are inconsistent.
+Which is the author's claim? Why is the claim blurred? It is difficult to a=
+ccept a treatise as it is. Please make those claims consistent.
+
+In sec 5.2:
+=E2=80=9CIf the best helmet is used for each subject, the system will be ab=
+le to obtain accurate data on the head shape of the registrant, and the sys=
+tem will not be able to obtain accurate data on the head shape of the non-r=
+egistrant whose helmet size does not fit.=E2=80=9D
+
+This sentence is too complicated to understand the meaning. Also, the latte=
+r half seems to mention the head shape of non-registrant, but is it mistake=
+n for registant?
+
+In sec 5.3:
+The proposed method is a claim that only about 5 out of 32 sensors make 100=
+% identification. Therefore even more subjects should be able to identify w=
+ith rest of sensors effectively. The reviewer thinks there are possibilitie=
+s; 1) many sensors not fully utilized, 2) the number of subjects was too sm=
+all. The claim that increasing the number of sensors to 50, the same as in =
+previous studies, should be able to identify people of the same scale is su=
+perficial and questionable. In what area of the head was the sensor that he=
+lped improve accuracy in this series of experiments?  The Reviewer think th=
+at it is effective to improve the accuracy by investigating which arrangeme=
+nt of the sensors works evenly.
+
+In sec 5.5:
+=E2=80=9Ci.e. tight=E2=80=9D
+It is difficult to guess the word meaning in the senctence.
+
+Necessary corrections throughout the treatise:
+Please check the format rules of the treatise.
+https://www.ipsj.or.jp/journal/submit/ronbun_j_prms.html
+-Abstract seems to be within 200 words, but currently 298 words seems to be=
+ too much.
+-Please arrange the notation of Section title.
+
+There are many unreadable descriptions and typographical errors in English.=
+ Please correct it, such as sending it to English proofreading.
+
+=E3=83=BBFor the sensors used for the full-face helmet, most were numbered =
+under #20, signifying that sensors in the top half were significant.
+=E3=83=BBOur method calculates the similarity between the wearer=E2=80=99s =
+data and registered users=E2=80=99 data and outputs the user with the most =
+similar data.
+->
+Our method calculates the similarity between the wearer=E2=80=99s data and =
+registered users=E2=80=99 data, and outputs the user with the most similar =
+data.
+=E3=83=BBantenna -> an antenna
+=E3=83=BBat Sec 5.1, =E2=80=9Cthe the=E2=80=9D
+=E3=83=BB4.1 Data Collection, =20
+180 samples (2 s =C3=97 20 samples =C3=97 9 subjects) were collected.
+->
+180 samples (2 s, 20 samples =C3=97 9 subjects) were collected.
+mean age 23 years -> mean age 23 years old
+
+-----------
+1. Publication Schedule and Media
+
+The final copy of the article will be published on the J-Stage website
+in October Vol.29  (generally, articles are published on an as-needed basis=
+).
+Preprints will appear in the IPSJ Journal.
+
+By registering your email address and Journal of Information Processing as =
+a Favorite Publication
+at My J-Stage (see details at http://www.jstage.jst.go.jp/en/myj-help.html)=
+, you will be automatically
+notified whenever new articles of the Journal of Information Processing are=
+ uploaded.
+
+2. Proofreading
+
+The authors' proof will be sent to you in the month before the publication
+(e.g. in the middle of December if the publication month is in January).
+Please make corrections and send it back on the same day.
+If you are planning a trip or vacation in this period, please let us know.
+
+You should only correct typographical errors and should avoid any other typ=
+es of corrections,
+particularly corrections of figures and tables without prior notice.
+
+3. Publication Fee
+
+Please refer to Table 2 of the Information for Authors
+http://www.ipsj.or.jp/english/jip/submit/ronbun_e_prms.html
+
+***************************************************************
+Journal of Information Processing (JIP) is currently encouraging
+more submissions from outside of Japan. Any papers electronically
+submitted to JIP before July 31, 2017 are eligible for 30% discount
+in publication charge when accepted.
+As an exception, the publication fee will not be charged if all
+the authors of a paper belong to institutes outside Japan.
+There will also be some special issues in which the publication
+fee is not charged. Please refer to the CFPs.
+***************************************************************
+
+If you have any questions, please contact the IPSJ secretariat
+(e-mail: s1m@ipsj.or.jp).
+
+
+Sincerely yours,
+
+Editorial Committee of Journal of Information Processing
+Information Processing Society of Japan (IPSJ)
+
+-----------
+
+Request for submitting the final manuscript for publication
+
+Your manuscript is supposed to be proofread by native English checker,
+same as other English manuscripts.
+
+First of all, please send the PDF file of your manuscript by e-mail to
+the IPSJ office <s1m@ipsj.or.jp>  by July 14.
+
+We will inform you again after your final manuscript returns from
+English checker.
+
+Incidentally, the English check is not English rewrite or proofread.
+It is simply to mark words and phrases that need to be corrected or rewritt=
+en.
+
+Sincerely yours,
+
+Editorial Committee of Journal of Information Processing
+Information Processing Society of Japan (IPSJ)
