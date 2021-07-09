@@ -17,6 +17,7 @@ DATA_DIR = './dataset/train/speed/1_13/'
 
 TRAIN_SUBJECTS = ['1', '2']  # 学習に使用する被験者
 TEST_SUBJECT = '3'  # テストに使用する被験者
+USE_MARKERS = ['right_shoulder', 'left_wrist']
 
 EPOCH_NUM = 1000  # 学習サイクル数
 HIDDEN_SIZE = 5  # 隠れ層数
@@ -40,7 +41,7 @@ def read_data():
             reader = csv.reader(f)
             next(reader)
             raw_data = [row for row in reader]
-            feature_data = make_feature(raw_data)
+            feature_data = make_feature(raw_data, USE_MARKERS)
 
         train_data.append(feature_data)
 

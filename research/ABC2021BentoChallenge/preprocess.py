@@ -1,5 +1,9 @@
 import numpy as np
 
+# ウィンドウサイズとオーバーラップサイズを個数指定(1個あたり10ms)
+WINDOW_SIZE = 5  # 個数指定 (50ms ならば 5)
+OVERLAP = -3  # 個数指定 (-30ms ならば -3)
+
 
 def make_feature(raw_data, use_markers):
     """
@@ -84,10 +88,6 @@ if __name__ == '__main__':
 
     FILE = './dataset/train/acceleration/1_13/subject_1_activity_1_repeat_1.csv'
     USE_MARKERS = ['right_shoulder', 'left_wrist']
-
-    # ウィンドウサイズとオーバーラップサイズを個数指定(1個あたり10ms)
-    WINDOW_SIZE = 5  # 個数指定 (50ms ならば 5)
-    OVERLAP = -3  # 個数指定 (-30ms ならば -3)
 
     with open(FILE) as f:
         reader = csv.reader(f)
