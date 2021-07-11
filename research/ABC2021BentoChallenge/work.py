@@ -34,42 +34,23 @@ def read_data():
         test_data (array): テストデータ
     """
 
-    # train_data = []
-    # files = glob.glob(DATA_DIR + '/subject_[' + ''.join(TRAIN_SUBJECTS) + ']*.csv')
-    # for filename in files:
-    #     with open(filename) as f:
-    #         reader = csv.reader(f)
-    #         next(reader)
-    #         raw_data = [row for row in reader]
-    #         feature_data = make_feature(raw_data, USE_MARKERS)
-
-    #     train_data.append(feature_data)
-
-    # test_data = []
-    # filename = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
-    # with open(filename) as f:
-    #     reader = csv.reader(f)
-    #     next(reader)
-    #     # ここで特徴量を選択
-    #     test_data = [row for row in reader]
-
     train_data = []
-    filename = './dataset/train/acceleration/1_13/subject_1_activity_1_repeat_1.csv'
-    with open(filename) as f:
-        reader = csv.reader(f)
-        next(reader)
-        raw_data = [row for row in reader]
-        feature_data = make_feature(raw_data, USE_MARKERS)
-
-    train_data.append(feature_data)
+    files = glob.glob(DATA_DIR + '/subject_[' + ''.join(TRAIN_SUBJECTS) + ']*.csv')
+    for filename in files:
+        with open(filename) as f:
+            reader = csv.reader(f)
+            next(reader)
+            raw_data = [row for row in reader]
+            feature_data = make_feature(raw_data, USE_MARKERS)
+        train_data.append(feature_data)
 
     test_data = []
+    filename = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
     with open(filename) as f:
         reader = csv.reader(f)
         next(reader)
         raw_data = [row for row in reader]
         feature_data = make_feature(raw_data, USE_MARKERS)
-
     test_data.append(feature_data)
 
     return train_data, test_data

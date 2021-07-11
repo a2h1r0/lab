@@ -1,8 +1,8 @@
 import numpy as np
 
 # ウィンドウサイズとオーバーラップサイズを個数指定(1個あたり10ms)
-WINDOW_SIZE = 5  # 個数指定 (50ms ならば 5)
-OVERLAP = -3  # 個数指定 (-30ms ならば -3)
+WINDOW_SIZE = 400  # 個数指定 (50ms ならば 5)
+OVERLAP = -50  # 個数指定 (-30ms ならば -3)
 
 
 def make_feature(raw_data, use_markers):
