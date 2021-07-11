@@ -14,37 +14,45 @@ class Net(nn.Module):
 
         self.conv1 = nn.Conv1d(
             in_channels=1, out_channels=8, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-        self.pool1 = nn.MaxPool1d(kernel_size=kernel_size)
+        self.bn1 = nn.BatchNorm1d(8)
+
+        self.relu = nn.ReLU()
+        self.maxpool = nn.MaxPool1d(kernel_size=3)
 
         self.conv2 = nn.Conv1d(
             in_channels=8, out_channels=16, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-        self.pool2 = nn.MaxPool1d(kernel_size=kernel_size)
+        self.bn2 = nn.BatchNorm1d(16)
 
         self.conv3 = nn.Conv1d(
-            in_channels=16, out_channels=32, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-        self.pool3 = nn.AdaptiveAvgPool1d(1)
+            in_channels=16, out_channels=64, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
+        self.avgpool = nn.AdaptiveAvgPool1d(1)
+        self.fc = nn.Linear(64, 1)
 
-        self.fc = nn.Linear(32, 1)
         self.hardtanh = nn.Hardtanh(min_val=0, max_val=100)
 
-    def forward(self, input):
+    def forward(self, x):
         """
         Args:
-            input (:obj:`Tensor`[batch_size, 1, WINDOW_SIZE]): 音源データ
+            x (:obj:`Tensor`[batch_size, 1, WINDOW_SIZE]): 音源データ
         Returns:
             :obj:`Tensor`[batch_size, 1]: 識別結果
         """
 
-        conv1_out = self.conv1(input)
-        pool1_out = self.pool1(conv1_out)
+        x = self.conv1(x)
+        # x = self.bn1(x)
+        x = self.relu(x)
+        x = self.maxpool(x)
 
-        conv2_out = self.conv2(pool1_out)
-        pool2_out = self.pool2(conv2_out)
+        x = self.conv2(x)
+        # x = self.bn2(x)
+        x = self.relu(x)
+        x = self.maxpool(x)
 
-        conv3_out = self.conv3(pool2_out)
-        pool3_out = self.pool3(conv3_out)
+        x = self.conv3(x)
+        x = self.avgpool(x)
+        x = x.view(x.size(0), -1)
+        x = self.fc(x)
 
-        fc_out = self.fc(pool3_out.view(pool3_out.size(0), -1))
-        out = self.hardtanh(fc_out)
+        x = self.hardtanh(x)
 
-        return out
+        return x
