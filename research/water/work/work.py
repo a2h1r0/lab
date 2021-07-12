@@ -3,7 +3,7 @@ from pydub import AudioSegment
 import torch
 import torch.nn as nn
 import torch.optim as optimizers
-from model import Net
+import model as models
 import matplotlib.pyplot as plt
 import csv
 import datetime
@@ -157,7 +157,8 @@ def main():
     torch.manual_seed(1)
 
     # モデルの構築
-    model = Net(kernel_size=KERNEL_SIZE).to(device)
+    # model = models.CNN(kernel_size=KERNEL_SIZE).to(device)
+    model = models.VGG19().to(device)
     criterion = nn.MSELoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
 
