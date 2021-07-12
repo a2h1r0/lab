@@ -14,14 +14,12 @@ class Net(nn.Module):
 
         self.conv1 = nn.Conv1d(
             in_channels=1, out_channels=8, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-        self.bn1 = nn.BatchNorm1d(8)
 
         self.relu = nn.ReLU()
         self.maxpool = nn.MaxPool1d(kernel_size=3)
 
         self.conv2 = nn.Conv1d(
             in_channels=8, out_channels=16, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-        self.bn2 = nn.BatchNorm1d(16)
 
         self.conv3 = nn.Conv1d(
             in_channels=16, out_channels=64, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
@@ -39,12 +37,10 @@ class Net(nn.Module):
         """
 
         x = self.conv1(x)
-        # x = self.bn1(x)
         x = self.relu(x)
         x = self.maxpool(x)
 
         x = self.conv2(x)
-        # x = self.bn2(x)
         x = self.relu(x)
         x = self.maxpool(x)
 
