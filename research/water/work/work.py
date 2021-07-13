@@ -72,39 +72,6 @@ def fft(sound_data):
     return power[index]
 
 
-def get_random_data(mode, data, labels):
-    """
-    ランダムデータの取得
-
-    Args:
-        mode (string): train or test
-        data (array): データ
-        labels (array): ラベル
-    Returns:
-        array: ランダムデータ
-        array: ラベル
-    """
-
-    if mode == 'train':
-        data_size = BATCH_SIZE
-    elif mode == 'test':
-        data_size = TEST_ONEFILE_DATA_NUM
-
-    history = []
-    random_data, random_labels = [], []
-    while len(random_data) < data_size:
-        index = random.randint(0, len(data) - 1)
-        if index not in history:
-            history.append(index)
-            if FFT == True:
-                random_data.append(fft(data[index]))
-            else:
-                random_data.append(data[index])
-            random_labels.append(labels[index])
-
-    return random_data, random_labels
-
-
 def make_train_data():
     """
     学習データの作成
@@ -146,6 +113,39 @@ def make_test_data():
         test_labels.append(labels[end])
 
     return test_data, test_labels
+
+
+def get_random_data(mode, data, labels):
+    """
+    ランダムデータの取得
+
+    Args:
+        mode (string): train or test
+        data (array): データ
+        labels (array): ラベル
+    Returns:
+        array: ランダムデータ
+        array: ラベル
+    """
+
+    if mode == 'train':
+        data_size = BATCH_SIZE
+    elif mode == 'test':
+        data_size = TEST_ONEFILE_DATA_NUM
+
+    history = []
+    random_data, random_labels = [], []
+    while len(random_data) < data_size:
+        index = random.randint(0, len(data) - 1)
+        if index not in history:
+            history.append(index)
+            if FFT == True:
+                random_data.append(fft(data[index]))
+            else:
+                random_data.append(data[index])
+            random_labels.append(labels[index])
+
+    return random_data, random_labels
 
 
 def main():

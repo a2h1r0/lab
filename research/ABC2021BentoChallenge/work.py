@@ -7,6 +7,7 @@ from preprocess import make_feature
 import matplotlib.pyplot as plt
 import csv
 import glob
+import re
 import random
 import sys
 import os
@@ -20,21 +21,21 @@ TEST_SUBJECT = '3'  # テストに使用する被験者
 USE_MARKERS = ['right_shoulder', 'left_wrist']
 
 EPOCH_NUM = 1000  # 学習サイクル数
-HIDDEN_SIZE = 5  # 隠れ層数
+HIDDEN_SIZE = 24  # 隠れ層数
 BATCH_SIZE = 500  # バッチサイズ
 WINDOW_SIZE = 1000  # 1サンプルのサイズ
 
 
-def read_data():
+def make_train_data():
     """
-    データの読み込み
+    学習データの作成
 
     Returns:
         train_data (array): 学習データ
-        test_data (array): テストデータ
+        train_labels (array): 学習データラベル
     """
 
-    train_data = []
+    train_data, train_labels = [], []
     files = glob.glob(DATA_DIR + '/subject_[' + ''.join(TRAIN_SUBJECTS) + ']*.csv')
     for filename in files:
         with open(filename) as f:
@@ -43,37 +44,9 @@ def read_data():
             raw_data = [row for row in reader]
             feature_data = make_feature(raw_data, USE_MARKERS)
         train_data.append(feature_data)
-
-    test_data = []
-    filename = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
-    with open(filename) as f:
-        reader = csv.reader(f)
-        next(reader)
-        raw_data = [row for row in reader]
-        feature_data = make_feature(raw_data, USE_MARKERS)
-    test_data.append(feature_data)
-
-    return train_data, test_data
-
-
-def make_train_data():
-    """
-    学習データの作成
-    """
-
-    train_data, train_labels = [], []
-
-    for filename in TRAIN_FILES:
-        # 音源の読み出し
-        sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
-        data = np.array(sound.get_array_of_samples())
-        labels = np.linspace(0, 100, len(data))
-
-        for index in range(0, len(data) - WINDOW_SIZE + 1):
-            start = index
-            end = start + WINDOW_SIZE - 1
-            train_data.append(data[start:end + 1])
-            train_labels.append(labels[end])
+        activity = re.findall(r'activity_\d+', filename)[0]
+        label = activity.split('_')[1]
+        train_labels.append(label)
 
     return train_data, train_labels
 
@@ -81,23 +54,59 @@ def make_train_data():
 def make_test_data():
     """
     テストデータの作成
+
+    Returns:
+        test_data (array): テストデータ
+        test_labels (array): テストデータラベル
     """
 
     test_data, test_labels = [], []
-
-    for filename in TEST_FILES:
-        # 音源の読み出し
-        sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
-        data = np.array(sound.get_array_of_samples())
-        labels = np.linspace(0, 100, len(data))
-
-        for index in range(0, len(data) - WINDOW_SIZE + 1):
-            start = index
-            end = start + WINDOW_SIZE - 1
-            test_data.append(data[start:end + 1])
-            test_labels.append(labels[end])
+    files = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
+    for filename in files:
+        with open(filename) as f:
+            reader = csv.reader(f)
+            next(reader)
+            raw_data = [row for row in reader]
+            feature_data = make_feature(raw_data, USE_MARKERS)
+        test_data.append(feature_data)
+        activity = re.findall(r'activity_\d+', filename)[0]
+        label = activity.split('_')[1]
+        test_labels.append(label)
 
     return test_data, test_labels
+
+
+def get_random_data(mode, data, labels):
+    """
+    ランダムデータの取得
+
+    Args:
+        mode (string): train or test
+        data (array): データ
+        labels (array): ラベル
+    Returns:
+        array: ランダムデータ
+        array: ラベル
+    """
+
+    if mode == 'train':
+        data_size = BATCH_SIZE
+    elif mode == 'test':
+        data_size = TEST_ONEFILE_DATA_NUM
+
+    history = []
+    random_data, random_labels = [], []
+    while len(random_data) < data_size:
+        index = random.randint(0, len(data) - 1)
+        if index not in history:
+            history.append(index)
+            if FFT == True:
+                random_data.append(fft(data[index]))
+            else:
+                random_data.append(data[index])
+            random_labels.append(labels[index])
+
+    return random_data, random_labels
 
 
 def main():
@@ -165,16 +174,13 @@ def main():
 
             print('Diff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
 
-    # ファイルの検証
-    check_sampling_rate()
-
     # 初期化
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     torch.manual_seed(1)
 
     # モデルの構築
-    model = Net(kernel_size=KERNEL_SIZE).to(device)
-    criterion = nn.BCELoss()
+    model = Net(input_size=21, hidden_size=HIDDEN_SIZE, out_features=10).to(device)
+    criterion = nn.BCEWithLogitsLoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
 
     # モデルの学習
@@ -196,5 +202,4 @@ def main():
 
 
 if __name__ == '__main__':
-    read_data()
-    # main()
+    main()
