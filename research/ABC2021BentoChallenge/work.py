@@ -66,10 +66,14 @@ def read_data():
     return train_data, train_labels, test_data, test_labels
 
 
-def make_train_data():
+def make_train_data(marker_index, data, labels):
     """
     学習データの作成
 
+    Args:
+        marker_index (int): 使用する部位のインデックス
+        data (array): データ
+        labels (array): ラベル
     Returns:
         train_data (array): 学習データ
         train_labels (array): 学習データラベル
@@ -152,8 +156,7 @@ def main():
         モデルの学習
         """
 
-        # データの読み込み
-        train_data, train_labels = make_train_data()
+        train_data, train_labels = make_train_data(marker, train_data_all, train_labels_all)
 
         model.train()
         print('\n***** 学習開始 *****')
@@ -219,6 +222,9 @@ def main():
     model = Net(input_size=21, hidden_size=HIDDEN_SIZE, out_features=10).to(device)
     criterion = nn.BCEWithLogitsLoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
+
+    # データの読み込み
+    train_data_all, train_labels_all, test_data_all, test_labels_all = read_data()
 
     # モデルの学習
     loss_all = []
