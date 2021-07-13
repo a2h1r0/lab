@@ -26,6 +26,46 @@ BATCH_SIZE = 500  # バッチサイズ
 WINDOW_SIZE = 1000  # 1サンプルのサイズ
 
 
+def read_data():
+    """
+    データの読み込み
+
+    Returns:
+        train_data (array): 学習データ
+        train_labels (array): 学習データラベル
+        test_data (array): テストデータ
+        test_labels (array): テストデータラベル
+    """
+
+    train_data, train_labels = [], []
+    files = glob.glob(DATA_DIR + '/subject_[' + ''.join(TRAIN_SUBJECTS) + ']*.csv')
+    for filename in files:
+        with open(filename) as f:
+            reader = csv.reader(f)
+            next(reader)
+            raw_data = [row for row in reader]
+            feature_data = make_feature(raw_data, USE_MARKERS)
+        train_data.append(feature_data)
+        activity = re.findall(r'activity_\d+', filename)[0]
+        label = activity.split('_')[1]
+        train_labels.append(label)
+
+    test_data, test_labels = [], []
+    files = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
+    for filename in files:
+        with open(filename) as f:
+            reader = csv.reader(f)
+            next(reader)
+            raw_data = [row for row in reader]
+            feature_data = make_feature(raw_data, USE_MARKERS)
+        test_data.append(feature_data)
+        activity = re.findall(r'activity_\d+', filename)[0]
+        label = activity.split('_')[1]
+        test_labels.append(label)
+
+    return train_data, train_labels, test_data, test_labels
+
+
 def make_train_data():
     """
     学習データの作成
@@ -92,7 +132,7 @@ def get_random_data(mode, data, labels):
     if mode == 'train':
         data_size = BATCH_SIZE
     elif mode == 'test':
-        data_size = TEST_ONEFILE_DATA_NUM
+        data_size = len(data)
 
     history = []
     random_data, random_labels = [], []
@@ -100,10 +140,7 @@ def get_random_data(mode, data, labels):
         index = random.randint(0, len(data) - 1)
         if index not in history:
             history.append(index)
-            if FFT == True:
-                random_data.append(fft(data[index]))
-            else:
-                random_data.append(data[index])
+            random_data.append(data[index])
             random_labels.append(labels[index])
 
     return random_data, random_labels
@@ -202,4 +239,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    for marker in range(len(USE_MARKERS)):
+        main()
