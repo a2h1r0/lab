@@ -26,54 +26,10 @@ BATCH_SIZE = 500  # バッチサイズ
 WINDOW_SIZE = 1000  # 1サンプルのサイズ
 
 
-def read_data():
-    """
-    データの読み込み
-
-    Returns:
-        train_data (array): 学習データ
-        train_labels (array): 学習データラベル
-        test_data (array): テストデータ
-        test_labels (array): テストデータラベル
-    """
-
-    train_data, train_labels = [], []
-    files = glob.glob(DATA_DIR + '/subject_[' + ''.join(TRAIN_SUBJECTS) + ']*.csv')
-    for filename in files:
-        with open(filename) as f:
-            reader = csv.reader(f)
-            next(reader)
-            raw_data = [row for row in reader]
-            feature_data = make_feature(raw_data, USE_MARKERS)
-        train_data.append(feature_data)
-        activity = re.findall(r'activity_\d+', filename)[0]
-        label = activity.split('_')[1]
-        train_labels.append(label)
-
-    test_data, test_labels = [], []
-    files = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
-    for filename in files:
-        with open(filename) as f:
-            reader = csv.reader(f)
-            next(reader)
-            raw_data = [row for row in reader]
-            feature_data = make_feature(raw_data, USE_MARKERS)
-        test_data.append(feature_data)
-        activity = re.findall(r'activity_\d+', filename)[0]
-        label = activity.split('_')[1]
-        test_labels.append(label)
-
-    return train_data, train_labels, test_data, test_labels
-
-
-def make_train_data(marker_index, data, labels):
+def make_train_data():
     """
     学習データの作成
 
-    Args:
-        marker_index (int): 使用する部位のインデックス
-        data (array): データ
-        labels (array): ラベル
     Returns:
         train_data (array): 学習データ
         train_labels (array): 学習データラベル
@@ -120,6 +76,22 @@ def make_test_data():
     return test_data, test_labels
 
 
+def get_marker(marker_index, data, labels):
+    """
+    部位ごとのデータの取得
+
+    Args:
+        marker_index (int): 使用する部位のインデックス
+        data (array): データ
+        labels (array): ラベル
+    Returns:
+        array: 部位ごとのデータ
+        array: 部位ごとのラベル
+    """
+
+    return [row[marker_index] for row in data], [row[marker_index] for row in labels]
+
+
 def get_random_data(mode, data, labels):
     """
     ランダムデータの取得
@@ -156,7 +128,8 @@ def main():
         モデルの学習
         """
 
-        train_data, train_labels = make_train_data(marker, train_data_all, train_labels_all)
+        # データの作成
+        train_data, train_labels = get_marker(marker, train_data_all, train_labels_all)
 
         model.train()
         print('\n***** 学習開始 *****')
@@ -185,8 +158,8 @@ def main():
         モデルのテスト
         """
 
-        # データの読み込み
-        test_data, test_labels = make_test_data()
+        # データの作成
+        test_data, test_labels = get_marker(marker, test_data_all, test_labels_all)
 
         model.eval()
         print('\n***** テスト *****')
@@ -223,9 +196,6 @@ def main():
     criterion = nn.BCEWithLogitsLoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
 
-    # データの読み込み
-    train_data_all, train_labels_all, test_data_all, test_labels_all = read_data()
-
     # モデルの学習
     loss_all = []
     train()
@@ -245,5 +215,9 @@ def main():
 
 
 if __name__ == '__main__':
+    # データの読み込み
+    train_data_all, train_labels_all = make_train_data()
+    test_data_all, test_labels_all = make_test_data()
+
     for marker in range(len(USE_MARKERS)):
         main()
