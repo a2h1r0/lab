@@ -22,7 +22,7 @@ class Net(nn.Module):
     def forward(self, input):
         """
         Args:
-            input (:obj:`Tensor`[WINDOW_SIZE, batch_size, 入力次元数（部位？）]): 行動データ
+            input (:obj:`Tensor`[batch_size, sequence_length, feature_dimension]): 行動データ
         Returns:
             :obj:`Tensor`[batch_size, 部位数（？）, label_size]: 識別結果
         """

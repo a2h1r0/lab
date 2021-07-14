@@ -43,10 +43,10 @@ def make_train_data():
             next(reader)
             raw_data = [row for row in reader]
             feature_data = make_feature(raw_data, USE_MARKERS)
-        train_data.append(feature_data)
+        train_data.append(torch.tensor(feature_data, dtype=torch.float))
         activity = re.findall(r'activity_\d+', filename)[0]
-        label = activity.split('_')[1]
-        train_labels.append(label)
+        label = int(activity.split('_')[1]) - 1
+        train_labels.append(multi_label_binarizer(label))
 
     return train_data, train_labels
 
@@ -70,56 +70,40 @@ def make_test_data():
             feature_data = make_feature(raw_data, USE_MARKERS)
         test_data.append(feature_data)
         activity = re.findall(r'activity_\d+', filename)[0]
-        label = activity.split('_')[1]
-        test_labels.append(label)
+        label = int(activity.split('_')[1]) - 1
+        test_labels.append(multi_label_binarizer(label))
 
     return test_data, test_labels
 
 
-def get_marker(marker_index, data, labels):
+def get_marker_data(marker_index, data):
     """
     部位ごとのデータの取得
 
     Args:
         marker_index (int): 使用する部位のインデックス
         data (array): データ
-        labels (array): ラベル
     Returns:
         array: 部位ごとのデータ
-        array: 部位ごとのラベル
     """
 
-    return [row[marker_index] for row in data], [row[marker_index] for row in labels]
+    return [row[marker_index] for row in data]
 
 
-def get_random_data(mode, data, labels):
+def multi_label_binarizer(label):
     """
-    ランダムデータの取得
+    ラベルのワンホット化
 
     Args:
-        mode (string): train or test
-        data (array): データ
-        labels (array): ラベル
+        label (int): ラベル
     Returns:
-        array: ランダムデータ
-        array: ラベル
+        array: ワンホットラベル
     """
 
-    if mode == 'train':
-        data_size = BATCH_SIZE
-    elif mode == 'test':
-        data_size = len(data)
+    y = [0 for i in range(10)]
+    y[label] = 1
 
-    history = []
-    random_data, random_labels = [], []
-    while len(random_data) < data_size:
-        index = random.randint(0, len(data) - 1)
-        if index not in history:
-            history.append(index)
-            random_data.append(data[index])
-            random_labels.append(labels[index])
-
-    return random_data, random_labels
+    return y
 
 
 def main():
@@ -129,17 +113,16 @@ def main():
         """
 
         # データの作成
-        train_data, train_labels = get_marker(marker, train_data_all, train_labels_all)
+        train_data = get_marker_data(marker, train_data_all)
+        train_labels = train_labels_all
 
         model.train()
         print('\n***** 学習開始 *****')
 
         for epoch in range(EPOCH_NUM):
-            # 学習データの作成
-            random_data, random_labels = get_random_data('train', train_data, train_labels)
             # Tensorへ変換
-            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
-            labels = torch.tensor(random_labels, dtype=torch.float, device=device).view(-1, 1)
+            inputs = torch.nn.utils.rnn.pad_sequence(train_data, batch_first=True).to(device)
+            labels = torch.tensor(train_labels, dtype=torch.float, device=device)
 
             optimizer.zero_grad()
             outputs = model(inputs)
@@ -159,7 +142,8 @@ def main():
         """
 
         # データの作成
-        test_data, test_labels = get_marker(marker, test_data_all, test_labels_all)
+        test_data = get_marker(marker, test_data_all)
+        test_labels = test_labels_all
 
         model.eval()
         print('\n***** テスト *****')
