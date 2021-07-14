@@ -293,6 +293,7 @@ if __name__ == '__main__':
                     main()
                 result_writer.writerow(['(Avg.)' + bottle_name.split('_')[0], str(FFT), np.average(diff_all)])
 
+            """
             # FFT
             FFT = True
             for bottle in BOTTLES:
@@ -306,3 +307,4 @@ if __name__ == '__main__':
                     print('\n\n----- Test: ' + bottle_name + ' / FFT: ' + str(FFT) + ' -----')
                     main()
                 result_writer.writerow(['(Avg.)' + bottle_name.split('_')[0], str(FFT), np.average(diff_all)])
+            """
