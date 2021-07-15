@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def majority_vote(predictions):
     """
     多数決
@@ -14,7 +17,7 @@ def majority_vote(predictions):
     return output
 
 
-def majority_vote_sig(predictions, threshold):
+def majority_vote_sigmoid(predictions, threshold):
     """
     入力データがシグモイド関数に順する場合の多数決
 
@@ -61,7 +64,6 @@ def majority_vote_sig(predictions, threshold):
 
 
 if __name__ == '__main__':
-    import numpy as np
 
     right_shoulder_predictions = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
     right_elbow_predictions = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
