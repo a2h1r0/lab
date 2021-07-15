@@ -21,7 +21,7 @@ TRAIN_SUBJECTS = ['1', '2']  # 学習に使用する被験者
 TEST_SUBJECT = '3'  # テストに使用する被験者
 USE_MARKERS = ['right_shoulder', 'left_wrist']
 
-EPOCH_NUM = 1000000  # 学習サイクル数
+EPOCH_NUM = 100  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 BATCH_SIZE = 500  # バッチサイズ
 WINDOW_SIZE = 1000  # 1サンプルのサイズ

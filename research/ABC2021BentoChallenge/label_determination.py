@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 
 def majority_vote(predictions):
@@ -27,6 +28,10 @@ def majority_vote_sigmoid(predictions, threshold):
     Returns:
         int: 出力ラベル
     """
+
+    # 全部0の場合ランダム出力（暫定）
+    if np.sum(predictions) == 0:
+        return random.randint(1, 10)
 
     gtt_predictions = predictions
 
