@@ -45,7 +45,7 @@ def make_train_data():
             next(reader)
             raw_data = [row for row in reader]
             feature_data = make_feature(raw_data, USE_MARKERS)
-        train_data.append(torch.tensor(feature_data, dtype=torch.float))
+        train_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
         activity = re.findall(r'activity_\d+', filename)[0]
         label = int(activity.split('_')[1]) - 1
         train_labels.append(multi_label_binarizer(label))
@@ -71,7 +71,7 @@ def make_test_data():
             next(reader)
             raw_data = [row for row in reader]
             feature_data = make_feature(raw_data, USE_MARKERS)
-        test_data.append(torch.tensor(feature_data, dtype=torch.float))
+        test_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
         activity = re.findall(r'activity_\d+', filename)[0]
         label = int(activity.split('_')[1]) - 1
         test_labels.append(multi_label_binarizer(label))
@@ -116,56 +116,48 @@ def main():
         モデルの学習
         """
 
-        for marker in range(len(USE_MARKERS)):
-            loss_all = []
+        loss_all = []
 
-            # データの作成
-            train_data = get_marker_data(marker, train_data_all)
+        # データの作成
+        train_data = get_marker_data(marker, train_data_all)
+        train_data_length = [len(data) for data in train_data]
 
-            model.train()
-            print('\n***** 学習開始 *****')
+        model.train()
+        print('\n***** 学習開始 *****')
 
-            for epoch in range(EPOCH_NUM):
-                # Tensorへ変換
-                inputs = torch.nn.utils.rnn.pad_sequence(train_data, batch_first=True).to(device)
-                labels = torch.tensor(train_labels, dtype=torch.float, device=device)
+        for epoch in range(EPOCH_NUM):
+            # パディング処理
+            padded_data = torch.nn.utils.rnn.pad_sequence(train_data, batch_first=True)
+            inputs = torch.nn.utils.rnn.pack_padded_sequence(padded_data, train_data_length, batch_first=True, enforce_sorted=False)
+            labels = torch.tensor(train_labels, dtype=torch.float, device=device)
 
-                optimizer.zero_grad()
-                outputs = model(inputs)
-                loss = criterion(outputs, labels)
-                loss.backward()
-                optimizer.step()
+            optimizer.zero_grad()
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
 
-                loss_all.append(loss.item())
-                if (epoch + 1) % 10 == 0:
-                    print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
+            loss_all.append(loss.item())
+            if (epoch + 1) % 10 == 0:
+                print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
 
-            print('\n----- 終了 -----\n')
+        print('\n----- 終了 -----\n')
 
     def test():
         """
         モデルのテスト
         """
 
-        for marker in range(len(USE_MARKERS)):
-            # データの作成
-            test_data = get_marker_data(marker, test_data_all)
+        # データの作成
+        test_data = get_marker_data(marker, test_data_all)
 
-            model.eval()
-            print('\n***** テスト *****')
+        model.eval()
+        print('\n***** テスト *****')
 
-            with torch.no_grad():
-                # Tensorへ変換
-                inputs = torch.nn.utils.rnn.pad_sequence(test_data, batch_first=True).to(device)
-                labels = torch.tensor(test_labels, dtype=torch.float, device=device)
-
-                optimizer.zero_grad()
-                outputs = model(inputs)
-                loss = criterion(outputs, labels)
-
-                # 結果を整形
-                prediction = outputs.to('cpu').detach().numpy().copy()
-                predictions.append(prediction)
+        with torch.no_grad():
+            for input in test_data:
+                output = model(input.view(1, len(input), -1))
+                predictions[-1].append(output.to('cpu').detach().numpy().copy())
 
         # answer = labels.to('cpu').detach().numpy().copy()
 
@@ -174,10 +166,6 @@ def main():
         # diff = np.sum(diffs) / len(diffs)
 
         # print('Diff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
-
-    # 初期化
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    torch.manual_seed(1)
 
     # モデルの構築
     model = Net(input_size=21, hidden_size=HIDDEN_SIZE, out_features=10).to(device)
@@ -188,14 +176,16 @@ def main():
     train_data_all, train_labels = make_train_data()
     test_data_all, test_labels, answer_labels = make_test_data()
 
-    # モデルの学習
-    train()
-
-    # モデルのテスト
     predictions = []
-    test()
+    for marker in range(len(USE_MARKERS)):
+        # モデルの学習
+        train()
 
-    predictions = np.array(predictions).transpose(1, 0, 2)
+        # モデルのテスト
+        predictions.append([])
+        test()
+
+    predictions = np.array(predictions).transpose(1, 0, 2, 3)
     prediction_labels = []
     for prediction in predictions:
         prediction_labels.append(majority_vote_sigmoid(prediction, LABEL_THRESHOLD))
@@ -215,4 +205,8 @@ def main():
 
 
 if __name__ == '__main__':
+    # 初期化
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    torch.manual_seed(1)
+
     main()

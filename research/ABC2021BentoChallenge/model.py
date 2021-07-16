@@ -14,10 +14,11 @@ class Net(nn.Module):
     def __init__(self, input_size, hidden_size, out_features):
         super().__init__()
 
+        self.hidden_size = hidden_size
+
         self.lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size, batch_first=True)
 
         self.fc = nn.Linear(hidden_size, out_features)
-        self.sigmoid = nn.Sigmoid()
 
     def forward(self, input):
         """
@@ -27,9 +28,8 @@ class Net(nn.Module):
             :obj:`Tensor`[batch_size, 部位数（？）, label_size]: 識別結果
         """
 
-        _, lstm_out = self.lstm(input)
+        _, x = self.lstm(input)
 
-        fc_out = self.fc(lstm_out[0].view(input.size(0), -1))
-        out = self.sigmoid(fc_out)
+        x = self.fc(x[0].view(-1, self.hidden_size))
 
-        return out
+        return x
