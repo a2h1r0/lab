@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import csv
 import glob
 import re
+import datetime
 import random
 import sys
 import os
@@ -116,8 +117,6 @@ def main():
         モデルの学習
         """
 
-        loss_all = []
-
         # データの作成
         train_data = get_marker_data(marker, train_data_all)
         train_data_length = [len(data) for data in train_data]
@@ -137,7 +136,7 @@ def main():
             loss.backward()
             optimizer.step()
 
-            loss_all.append(loss.item())
+            loss_all[-1].append(loss.item())
             if (epoch + 1) % 10 == 0:
                 print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
 
@@ -167,6 +166,23 @@ def main():
 
         # print('Diff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
 
+    def label_determination(predictions):
+        """
+        ラベルのワンホット化
+
+        Args:
+            predictions (array): 部位ごとの予測
+        Returns:
+            array: 予測結果
+        """
+
+        predictions = np.array(predictions).transpose(1, 0, 2)
+        labels = []
+        for prediction in predictions:
+            labels.append(majority_vote_sigmoid(prediction, LABEL_THRESHOLD))
+
+        return labels
+
     # モデルの構築
     model = Net(input_size=21, hidden_size=HIDDEN_SIZE, out_features=10).to(device)
     criterion = nn.BCEWithLogitsLoss()
@@ -176,32 +192,44 @@ def main():
     train_data_all, train_labels = make_train_data()
     test_data_all, test_labels, answer_labels = make_test_data()
 
+    loss_all = []
     predictions = []
     for marker in range(len(USE_MARKERS)):
         # モデルの学習
+        loss_all.append([])
         train()
 
         # モデルのテスト
         predictions.append([])
         test()
 
-    predictions = np.array(predictions).transpose(1, 0, 2)
-    prediction_labels = []
-    for prediction in predictions:
-        prediction_labels.append(majority_vote_sigmoid(prediction, LABEL_THRESHOLD))
-
-    # # Lossの描画
-    # print('\nLossを描画します．．．')
-    # plt.figure(figsize=(16, 9))
-    # plt.plot(range(EPOCH_NUM), loss_all)
-    # plt.xlabel('Epoch', fontsize=26)
-    # plt.ylabel('Loss', fontsize=26)
-    # plt.tick_params(labelsize=26)
-    # # plt.savefig('./figures/loss.png', bbox_inches='tight', pad_inches=0)
-    # plt.show()
+    # 予測ラベルの決定
+    prediction_labels = label_determination(predictions)
 
     for answer, prediction in zip(prediction_labels, answer_labels):
         print('Answer: ' + str(answer) + ' / Prediction: ' + str(prediction))
+
+    # 結果の保存
+    now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
+    loss_file = './data/loss_' + now + '.csv'
+    with open(loss_file, 'w', newline='') as f:
+        loss_writer = csv.writer(f)
+        loss_writer.writerow(['Epoch'] + USE_MARKERS)
+
+        for epoch, loss in enumerate(np.array(loss_all).T):
+            loss_writer.writerow([epoch + 1] + list(loss))
+
+    # Lossの描画
+    print('\nLossを描画します．．．')
+    plt.figure(figsize=(16, 9))
+    for marker, loss in zip(USE_MARKERS, loss_all):
+        plt.plot(range(1, EPOCH_NUM + 1), loss, label=marker)
+    plt.xlabel('Epoch', fontsize=26)
+    plt.ylabel('Loss', fontsize=26)
+    plt.legend(fontsize=26, loc='upper right')
+    plt.tick_params(labelsize=26)
+    plt.savefig('./figures/loss_' + now + '.png', bbox_inches='tight', pad_inches=0)
+    plt.show()
 
 
 if __name__ == '__main__':
