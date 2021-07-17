@@ -21,8 +21,6 @@ os.chdir(os.path.dirname(__file__))
 
 DATA_DIR = '../dataset/train/speed/1_13/'
 
-TRAIN_SUBJECTS = ['1', '2']  # 学習に使用する被験者
-TEST_SUBJECT = '3'  # テストに使用する被験者
 USE_MARKERS = ['right_shoulder', 'left_wrist']
 
 EPOCH_NUM = 100  # 学習サイクル数
@@ -217,7 +215,6 @@ def main():
     print(classification_report(answer_labels, prediction_labels))
 
     # Lossの保存
-    now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
     loss_file = '../data/loss_' + now + '.csv'
     with open(loss_file, 'w', newline='') as f:
         loss_writer = csv.writer(f)
@@ -230,7 +227,7 @@ def main():
     print('\n結果を描画します．．．')
     plt.figure()
     sns.heatmap(confusion_matrix(answer_labels, prediction_labels))
-    plt.savefig('../figures/result_' + now + '.png', bbox_inches='tight', pad_inches=0)
+    plt.savefig('../figures/result_' + now + '_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.png', bbox_inches='tight', pad_inches=0)
 
     # Lossの描画
     plt.figure(figsize=(16, 9))
@@ -240,14 +237,26 @@ def main():
     plt.ylabel('Loss', fontsize=26)
     plt.legend(fontsize=26, loc='upper right')
     plt.tick_params(labelsize=26)
-    plt.savefig('../figures/loss_' + now + '.png', bbox_inches='tight', pad_inches=0)
-
-    plt.show()
+    plt.savefig('../figures/loss_' + now + '_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.png', bbox_inches='tight', pad_inches=0)
 
 
 if __name__ == '__main__':
+    now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
+
     # 初期化
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     torch.manual_seed(1)
 
+    TRAIN_SUBJECTS = ['1', '2']
+    TEST_SUBJECT = '3'
     main()
+
+    TRAIN_SUBJECTS = ['1', '3']
+    TEST_SUBJECT = '2'
+    main()
+
+    TRAIN_SUBJECTS = ['2', '3']
+    TEST_SUBJECT = '1'
+    main()
+
+    plt.show()
