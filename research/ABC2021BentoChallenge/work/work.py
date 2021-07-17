@@ -19,15 +19,15 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = '../dataset/train/speed/1_13/'
+DATA_DIR = '../dataset/train/acceleration/1_13/'
 
-USE_MARKERS = ['right_shoulder', 'left_wrist']
+# USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
+#                'left_shoulder', 'left_elbow', 'left_wrist']
+USE_MARKERS = ['right_shoulder', 'right_elbow']
 
 EPOCH_NUM = 100  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
-BATCH_SIZE = 500  # バッチサイズ
-WINDOW_SIZE = 1000  # 1サンプルのサイズ
-LABEL_THRESHOLD = 0.1
+LABEL_THRESHOLD = 0.1  # ラベルを有効にする閾値
 
 
 def make_train_data():
@@ -159,14 +159,6 @@ def main():
                 output = model(input.view(1, len(input), -1))
                 predictions[-1].append(output.to('cpu').detach().numpy().copy().squeeze())
 
-        # answer = labels.to('cpu').detach().numpy().copy()
-
-        # # 予測と正解の差の合計を計算
-        # diffs = np.abs(answer - prediction)
-        # diff = np.sum(diffs) / len(diffs)
-
-        # print('Diff: {:.3f} / Loss: {:.3f}\n'.format(diff, loss.item()))
-
     def label_determination(predictions):
         """
         ラベルのワンホット化
@@ -224,10 +216,13 @@ def main():
             loss_writer.writerow([epoch + 1] + list(loss))
 
     # 結果の描画
+    figures_dir = '../figures/' + now
+    if os.path.exists(figures_dir) == False:
+        os.makedirs(figures_dir)
     print('\n結果を描画します．．．')
     plt.figure()
     sns.heatmap(confusion_matrix(answer_labels, prediction_labels))
-    plt.savefig('../figures/result_' + now + '_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.png', bbox_inches='tight', pad_inches=0)
+    plt.savefig(figures_dir + '/result_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.png', bbox_inches='tight', pad_inches=0)
 
     # Lossの描画
     plt.figure(figsize=(16, 9))
@@ -237,7 +232,7 @@ def main():
     plt.ylabel('Loss', fontsize=26)
     plt.legend(fontsize=26, loc='upper right')
     plt.tick_params(labelsize=26)
-    plt.savefig('../figures/loss_' + now + '_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.png', bbox_inches='tight', pad_inches=0)
+    plt.savefig(figures_dir + '/loss_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.png', bbox_inches='tight', pad_inches=0)
 
 
 if __name__ == '__main__':
