@@ -29,10 +29,6 @@ def majority_vote_sigmoid(predictions, threshold):
         int: 出力ラベル
     """
 
-    # 全部0の場合ランダム出力（暫定）
-    if np.sum(predictions) == 0:
-        return random.randint(1, 10)
-
     gtt_predictions = predictions
 
     # 閾値未満を0に置換

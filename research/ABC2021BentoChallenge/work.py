@@ -25,7 +25,7 @@ EPOCH_NUM = 100  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 BATCH_SIZE = 500  # バッチサイズ
 WINDOW_SIZE = 1000  # 1サンプルのサイズ
-LABEL_THRESHOLD = 0.5
+LABEL_THRESHOLD = 0.1
 
 
 def make_train_data():
@@ -157,7 +157,7 @@ def main():
         with torch.no_grad():
             for input in test_data:
                 output = model(input.view(1, len(input), -1))
-                predictions[-1].append(output.to('cpu').detach().numpy().copy())
+                predictions[-1].append(output.to('cpu').detach().numpy().copy().squeeze())
 
         # answer = labels.to('cpu').detach().numpy().copy()
 
@@ -185,7 +185,7 @@ def main():
         predictions.append([])
         test()
 
-    predictions = np.array(predictions).transpose(1, 0, 2, 3)
+    predictions = np.array(predictions).transpose(1, 0, 2)
     prediction_labels = []
     for prediction in predictions:
         prediction_labels.append(majority_vote_sigmoid(prediction, LABEL_THRESHOLD))
