@@ -2,6 +2,9 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optimizers
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
 from model import Net
 from preprocess import make_feature
 from label_determination import majority_vote_sigmoid
@@ -16,7 +19,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = './dataset/train/speed/1_13/'
+DATA_DIR = '../dataset/train/speed/1_13/'
 
 TRAIN_SUBJECTS = ['1', '2']  # 学習に使用する被験者
 TEST_SUBJECT = '3'  # テストに使用する被験者
@@ -48,7 +51,7 @@ def make_train_data():
             feature_data = make_feature(raw_data, USE_MARKERS)
         train_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
         activity = re.findall(r'activity_\d+', filename)[0]
-        label = int(activity.split('_')[1]) - 1
+        label = int(activity.split('_')[1])
         train_labels.append(multi_label_binarizer(label))
 
     return train_data, train_labels
@@ -74,7 +77,7 @@ def make_test_data():
             feature_data = make_feature(raw_data, USE_MARKERS)
         test_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
         activity = re.findall(r'activity_\d+', filename)[0]
-        label = int(activity.split('_')[1]) - 1
+        label = int(activity.split('_')[1])
         test_labels.append(multi_label_binarizer(label))
         answer_labels.append(label)
 
@@ -106,7 +109,7 @@ def multi_label_binarizer(label):
     """
 
     y = [0 for i in range(10)]
-    y[label] = 1
+    y[label - 1] = 1
 
     return y
 
@@ -195,7 +198,7 @@ def main():
     loss_all = []
     predictions = []
     for marker in range(len(USE_MARKERS)):
-        print('\n!!!!! ' + marker + ' !!!!!')
+        print('\n!!!!! ' + USE_MARKERS[marker] + ' !!!!!')
 
         # モデルの学習
         loss_all.append([])
@@ -208,10 +211,12 @@ def main():
     # 予測ラベルの決定
     prediction_labels = label_determination(predictions)
 
-    for answer, prediction in zip(prediction_labels, answer_labels):
-        print('Answer: ' + str(answer) + ' / Prediction: ' + str(prediction))
+    # 結果の表示
+    for answer, prediction in zip(answer_labels, prediction_labels):
+        print('Answer: ' + str(answer - 1) + ' / Prediction: ' + str(prediction - 1))
+    print(classification_report(answer_labels, prediction_labels))
 
-    # 結果の保存
+    # Lossの保存
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
     loss_file = '../data/loss_' + now + '.csv'
     with open(loss_file, 'w', newline='') as f:
@@ -221,8 +226,13 @@ def main():
         for epoch, loss in enumerate(np.array(loss_all).T):
             loss_writer.writerow([epoch + 1] + list(loss))
 
+    # 結果の描画
+    print('\n結果を描画します．．．')
+    plt.figure()
+    sns.heatmap(confusion_matrix(answer_labels, prediction_labels))
+    plt.savefig('../figures/result_' + now + '.png', bbox_inches='tight', pad_inches=0)
+
     # Lossの描画
-    print('\nLossを描画します．．．')
     plt.figure(figsize=(16, 9))
     for marker, loss in zip(USE_MARKERS, loss_all):
         plt.plot(range(1, EPOCH_NUM + 1), loss, label=marker)
@@ -231,6 +241,7 @@ def main():
     plt.legend(fontsize=26, loc='upper right')
     plt.tick_params(labelsize=26)
     plt.savefig('../figures/loss_' + now + '.png', bbox_inches='tight', pad_inches=0)
+
     plt.show()
 
 
