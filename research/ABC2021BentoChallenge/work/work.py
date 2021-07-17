@@ -21,11 +21,10 @@ os.chdir(os.path.dirname(__file__))
 
 DATA_DIR = '../dataset/train/acceleration/1_13/'
 
-# USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
-#                'left_shoulder', 'left_elbow', 'left_wrist']
-USE_MARKERS = ['right_shoulder', 'right_elbow']
+USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
+               'left_shoulder', 'left_elbow', 'left_wrist']
 
-EPOCH_NUM = 100  # 学習サイクル数
+EPOCH_NUM = 1000000  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.1  # ラベルを有効にする閾値
 
@@ -157,7 +156,9 @@ def main():
         with torch.no_grad():
             for input in test_data:
                 output = model(input.view(1, len(input), -1))
-                predictions[-1].append(output.to('cpu').detach().numpy().copy().squeeze())
+                # 予測結果をSigmoidに通す
+                prediction = torch.sigmoid(output.view(-1))
+                predictions[-1].append(prediction.to('cpu').detach().numpy().copy())
 
     def label_determination(predictions):
         """
