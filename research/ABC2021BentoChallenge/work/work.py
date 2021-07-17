@@ -195,6 +195,8 @@ def main():
     loss_all = []
     predictions = []
     for marker in range(len(USE_MARKERS)):
+        print('\n!!!!! ' + marker + ' !!!!!')
+
         # モデルの学習
         loss_all.append([])
         train()
@@ -211,7 +213,7 @@ def main():
 
     # 結果の保存
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    loss_file = './data/loss_' + now + '.csv'
+    loss_file = '../data/loss_' + now + '.csv'
     with open(loss_file, 'w', newline='') as f:
         loss_writer = csv.writer(f)
         loss_writer.writerow(['Epoch'] + USE_MARKERS)
@@ -228,7 +230,7 @@ def main():
     plt.ylabel('Loss', fontsize=26)
     plt.legend(fontsize=26, loc='upper right')
     plt.tick_params(labelsize=26)
-    plt.savefig('./figures/loss_' + now + '.png', bbox_inches='tight', pad_inches=0)
+    plt.savefig('../figures/loss_' + now + '.png', bbox_inches='tight', pad_inches=0)
     plt.show()
 
 
