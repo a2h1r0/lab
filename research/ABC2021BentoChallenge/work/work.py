@@ -21,8 +21,9 @@ os.chdir(os.path.dirname(__file__))
 
 DATA_DIR = '../dataset/train/acceleration/1_13/'
 
-USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
-               'left_shoulder', 'left_elbow', 'left_wrist']
+# USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
+#                'left_shoulder', 'left_elbow', 'left_wrist']
+USE_MARKERS = ['right_shoulder', 'right_elbow']
 
 EPOCH_NUM = 500000  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
@@ -46,6 +47,8 @@ def make_train_data():
             next(reader)
             raw_data = [row for row in reader]
             feature_data = make_feature(raw_data, USE_MARKERS)
+            if len(feature_data[0]) < 5:
+                continue
         train_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
         activity = re.findall(r'activity_\d+', filename)[0]
         label = int(activity.split('_')[1])
@@ -72,6 +75,8 @@ def make_test_data():
             next(reader)
             raw_data = [row for row in reader]
             feature_data = make_feature(raw_data, USE_MARKERS)
+            if len(feature_data[0]) < 5:
+                continue
         test_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
         activity = re.findall(r'activity_\d+', filename)[0]
         label = int(activity.split('_')[1])
@@ -126,12 +131,11 @@ def main():
 
         for epoch in range(EPOCH_NUM):
             # パディング処理
-            padded_data = torch.nn.utils.rnn.pad_sequence(train_data, batch_first=True)
-            inputs = torch.nn.utils.rnn.pack_padded_sequence(padded_data, train_data_length, batch_first=True, enforce_sorted=False)
+            inputs = torch.nn.utils.rnn.pad_sequence(train_data, batch_first=True).permute(0, 2, 1).to(device)
             labels = torch.tensor(train_labels, dtype=torch.float, device=device)
 
             optimizer.zero_grad()
-            outputs = model(inputs)
+            outputs = model(inputs, train_data_length)
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
