@@ -166,7 +166,7 @@ def main():
             outputs = model(inputs, test_data_length)
             # 予測結果をSigmoidに通す
             prediction = torch.sigmoid(outputs)
-            predictions[-1].append(prediction.to('cpu').detach().numpy().copy())
+            predictions.append(prediction.to('cpu').detach().numpy().copy())
 
     def label_determination(predictions):
         """
@@ -204,7 +204,6 @@ def main():
         train()
 
         # モデルのテスト
-        predictions.append([])
         test()
 
     # 予測ラベルの決定
