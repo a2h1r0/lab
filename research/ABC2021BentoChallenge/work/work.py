@@ -25,7 +25,7 @@ DATA_DIR = '../dataset/train/acceleration/1_13/'
 #                'left_shoulder', 'left_elbow', 'left_wrist']
 USE_MARKERS = ['right_shoulder', 'right_elbow']
 
-EPOCH_NUM = 500000  # 学習サイクル数
+EPOCH_NUM = 100  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.1  # ラベルを有効にする閾値
 
@@ -153,16 +153,20 @@ def main():
 
         # データの作成
         test_data = get_marker_data(marker, test_data_all)
+        test_data_length = [len(data) for data in test_data]
 
         model.eval()
         print('\n***** テスト *****')
 
         with torch.no_grad():
-            for input in test_data:
-                output = model(input.view(1, len(input), -1))
-                # 予測結果をSigmoidに通す
-                prediction = torch.sigmoid(output.view(-1))
-                predictions[-1].append(prediction.to('cpu').detach().numpy().copy())
+            # パディング処理
+            inputs = torch.nn.utils.rnn.pad_sequence(test_data, batch_first=True).permute(0, 2, 1).to(device)
+            labels = torch.tensor(test_labels, dtype=torch.float, device=device)
+
+            outputs = model(inputs, test_data_length)
+            # 予測結果をSigmoidに通す
+            prediction = torch.sigmoid(outputs)
+            predictions[-1].append(prediction.to('cpu').detach().numpy().copy())
 
     def label_determination(predictions):
         """
