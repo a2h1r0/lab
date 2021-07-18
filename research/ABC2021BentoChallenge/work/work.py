@@ -21,11 +21,10 @@ os.chdir(os.path.dirname(__file__))
 
 DATA_DIR = '../dataset/train/acceleration/1_13/'
 
-# USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
-#                'left_shoulder', 'left_elbow', 'left_wrist']
-USE_MARKERS = ['right_shoulder', 'right_elbow']
+USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
+               'left_shoulder', 'left_elbow', 'left_wrist']
 
-EPOCH_NUM = 100  # 学習サイクル数
+EPOCH_NUM = 500000  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.1  # ラベルを有効にする閾値
 
