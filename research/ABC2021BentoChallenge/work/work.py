@@ -24,7 +24,7 @@ DATA_DIR = '../dataset/train/acceleration/1_13/'
 USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
 
-EPOCH_NUM = 1000000  # 学習サイクル数
+EPOCH_NUM = 500000  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.1  # ラベルを有効にする閾値
 
@@ -208,7 +208,10 @@ def main():
     print(classification_report(answer_labels, prediction_labels))
 
     # Lossの保存
-    loss_file = '../data/loss_' + now + '.csv'
+    loss_dir = '../data/' + now
+    if os.path.exists(loss_dir) == False:
+        os.makedirs(loss_dir)
+    loss_file = loss_dir + '/loss_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.csv'
     with open(loss_file, 'w', newline='') as f:
         loss_writer = csv.writer(f)
         loss_writer.writerow(['Epoch'] + USE_MARKERS)
