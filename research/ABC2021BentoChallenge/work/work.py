@@ -21,10 +21,12 @@ os.chdir(os.path.dirname(__file__))
 
 DATA_DIR = '../dataset/train/acceleration/1_13/'
 
-USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
-               'left_shoulder', 'left_elbow', 'left_wrist']
+# USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
+#                'left_shoulder', 'left_elbow', 'left_wrist']
+USE_MARKERS = ['right_shoulder', 'right_elbow']
 
-EPOCH_NUM = 500000  # 学習サイクル数
+NUM_CLASSES = 10  # クラス数
+EPOCH_NUM = 100  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.1  # ラベルを有効にする閾値
 
@@ -115,6 +117,19 @@ def multi_label_binarizer(label):
     return y
 
 
+def sigmoid_to_label(prediction):
+    """
+    シグモイド予測値のラベル化
+
+    Args:
+        label (int): シグモイド予測
+    Returns:
+        array: 結果ラベル
+    """
+
+    return np.argmax(prediction) + 1
+
+
 def main():
     def train():
         """
@@ -185,9 +200,10 @@ def main():
         return labels
 
     # モデルの構築
-    model = Net(input_size=21, hidden_size=HIDDEN_SIZE, out_features=10).to(device)
-    criterion = nn.BCEWithLogitsLoss()
-    optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
+    model = Net(input_size=21, hidden_size=HIDDEN_SIZE, out_features=NUM_CLASSES).to(device)
+    pos_weight = torch.ones([NUM_CLASSES], device=device)
+    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+    optimizer = optimizers.Adam(model.parameters())
 
     # データの読み込み
     train_data_all, train_labels = make_train_data()
@@ -205,12 +221,18 @@ def main():
         # モデルのテスト
         test()
 
+    # 部位ごとの精度の計算
+    for marker, prediction_single in zip(USE_MARKERS, predictions):
+        print('---' + marker + '---')
+        for answer, prediction in zip(answer_labels, prediction_single):
+            print('Answer: ' + str(answer) + ' / Prediction: ' + str(sigmoid_to_label(prediction)))
+
     # 予測ラベルの決定
     prediction_labels = label_determination(predictions)
 
     # 結果の表示
     for answer, prediction in zip(answer_labels, prediction_labels):
-        print('Answer: ' + str(answer - 1) + ' / Prediction: ' + str(prediction - 1))
+        print('Answer: ' + str(answer) + ' / Prediction: ' + str(prediction))
     print(classification_report(answer_labels, prediction_labels))
 
     # Lossの保存
