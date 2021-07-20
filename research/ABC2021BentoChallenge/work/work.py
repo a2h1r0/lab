@@ -26,6 +26,7 @@ DATA_DIR = '../dataset/train/acceleration/1_13/'
 USE_MARKERS = ['right_shoulder', 'right_elbow']
 
 NUM_CLASSES = 10  # クラス数
+BAGGING_NUM = 10  # モデル入れ替え試行回数
 EPOCH_NUM = 100  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.1  # ラベルを有効にする閾値
@@ -68,6 +69,39 @@ def make_test_data():
         answer_labels (array): テストデータ生ラベル
     """
 
+    test_data, test_labels, answer_labels = [], [], []
+    files = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
+    for filename in files:
+        with open(filename) as f:
+            reader = csv.reader(f)
+            next(reader)
+            raw_data = [row for row in reader]
+            feature_data = make_feature(raw_data, USE_MARKERS)
+            if len(feature_data[0]) < 5:
+                continue
+        test_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
+        activity = re.findall(r'activity_\d+', filename)[0]
+        label = int(activity.split('_')[1])
+        test_labels.append(multi_label_binarizer(label))
+        answer_labels.append(label)
+
+    return test_data, test_labels, answer_labels
+
+
+def get_random_data(train_data_all, train_labels_all):
+    """
+    ランダムデータの作成
+
+    Args:
+        train_data_all (array): 学習データ全件
+        train_labels_all (array): 学習データラベル全件
+    Returns:
+        train_data (array): 学習データ
+        train_labels (array): 学習データラベル
+    """
+
+    sample_num = len(train_data_all)
+    delete_index = random.sample(range(sample_num), sample_num // 10)
     test_data, test_labels, answer_labels = [], [], []
     files = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
     for filename in files:
@@ -137,7 +171,7 @@ def main():
         """
 
         # データの作成
-        train_data = get_marker_data(marker, train_data_all)
+        train_data = get_marker_data(marker, train_data_full_markers)
         train_data_length = [len(data) for data in train_data]
 
         model.train()
@@ -166,7 +200,7 @@ def main():
         """
 
         # データの作成
-        test_data = get_marker_data(marker, test_data_all)
+        test_data = get_marker_data(marker, test_data_full_markers)
         test_data_length = [len(data) for data in test_data]
 
         model.eval()
@@ -206,65 +240,69 @@ def main():
     optimizer = optimizers.Adam(model.parameters())
 
     # データの読み込み
-    train_data_all, train_labels = make_train_data()
-    test_data_all, test_labels, answer_labels = make_test_data()
+    train_data_all, train_labels_all = make_train_data()
+    test_data_full_markers, test_labels, answer_labels = make_test_data()
 
-    loss_all = []
-    predictions = []
-    for marker in range(len(USE_MARKERS)):
-        print('\n!!!!! ' + USE_MARKERS[marker] + ' !!!!!')
+    for num in range(BAGGING_NUM):
+        # データの切り捨て
+        train_data_full_markers, train_labels = get_random_data(train_data_all, train_labels_all)
 
-        # モデルの学習
-        loss_all.append([])
-        train()
+        loss_all = []
+        predictions = []
+        for marker in range(len(USE_MARKERS)):
+            print('\n!!!!! ' + USE_MARKERS[marker] + ' !!!!!')
 
-        # モデルのテスト
-        test()
+            # モデルの学習
+            loss_all.append([])
+            train()
 
-    # 部位ごとの精度の計算
-    for marker, prediction_single in zip(USE_MARKERS, predictions):
-        print('---' + marker + '---')
-        for answer, prediction in zip(answer_labels, prediction_single):
-            print('Answer: ' + str(answer) + ' / Prediction: ' + str(sigmoid_to_label(prediction)))
+            # モデルのテスト
+            test()
 
-    # 予測ラベルの決定
-    prediction_labels = label_determination(predictions)
+        # 部位ごとの精度の計算
+        for marker, prediction_single in zip(USE_MARKERS, predictions):
+            print('---' + marker + '---')
+            for answer, prediction in zip(answer_labels, prediction_single):
+                print('Answer: ' + str(answer) + ' / Prediction: ' + str(sigmoid_to_label(prediction)))
 
-    # 結果の表示
-    for answer, prediction in zip(answer_labels, prediction_labels):
-        print('Answer: ' + str(answer) + ' / Prediction: ' + str(prediction))
-    print(classification_report(answer_labels, prediction_labels))
+        # 予測ラベルの決定
+        prediction_labels = label_determination(predictions)
 
-    # Lossの保存
-    loss_dir = '../data/' + now
-    if os.path.exists(loss_dir) == False:
-        os.makedirs(loss_dir)
-    loss_file = loss_dir + '/loss_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.csv'
-    with open(loss_file, 'w', newline='') as f:
-        loss_writer = csv.writer(f)
-        loss_writer.writerow(['Epoch'] + USE_MARKERS)
+        # 結果の表示
+        for answer, prediction in zip(answer_labels, prediction_labels):
+            print('Answer: ' + str(answer) + ' / Prediction: ' + str(prediction))
+        print(classification_report(answer_labels, prediction_labels))
 
-        for epoch, loss in enumerate(np.array(loss_all).T):
-            loss_writer.writerow([epoch + 1] + list(loss))
+        # Lossの保存
+        loss_dir = '../data/' + now
+        if os.path.exists(loss_dir) == False:
+            os.makedirs(loss_dir)
+        loss_file = loss_dir + '/loss_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.csv'
+        with open(loss_file, 'w', newline='') as f:
+            loss_writer = csv.writer(f)
+            loss_writer.writerow(['Epoch'] + USE_MARKERS)
 
-    # 結果の描画
-    figures_dir = '../figures/' + now
-    if os.path.exists(figures_dir) == False:
-        os.makedirs(figures_dir)
-    print('\n結果を描画します．．．')
-    plt.figure()
-    sns.heatmap(confusion_matrix(answer_labels, prediction_labels))
-    plt.savefig(figures_dir + '/result_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.png', bbox_inches='tight', pad_inches=0)
+            for epoch, loss in enumerate(np.array(loss_all).T):
+                loss_writer.writerow([epoch + 1] + list(loss))
 
-    # Lossの描画
-    plt.figure(figsize=(16, 9))
-    for marker, loss in zip(USE_MARKERS, loss_all):
-        plt.plot(range(1, EPOCH_NUM + 1), loss, label=marker)
-    plt.xlabel('Epoch', fontsize=26)
-    plt.ylabel('Loss', fontsize=26)
-    plt.legend(fontsize=26, loc='upper right')
-    plt.tick_params(labelsize=26)
-    plt.savefig(figures_dir + '/loss_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.png', bbox_inches='tight', pad_inches=0)
+        # 結果の描画
+        figures_dir = '../figures/' + now
+        if os.path.exists(figures_dir) == False:
+            os.makedirs(figures_dir)
+        print('\n結果を描画します．．．')
+        plt.figure()
+        sns.heatmap(confusion_matrix(answer_labels, prediction_labels))
+        plt.savefig(figures_dir + '/result_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.png', bbox_inches='tight', pad_inches=0)
+
+        # Lossの描画
+        plt.figure(figsize=(16, 9))
+        for marker, loss in zip(USE_MARKERS, loss_all):
+            plt.plot(range(1, EPOCH_NUM + 1), loss, label=marker)
+        plt.xlabel('Epoch', fontsize=26)
+        plt.ylabel('Loss', fontsize=26)
+        plt.legend(fontsize=26, loc='upper right')
+        plt.tick_params(labelsize=26)
+        plt.savefig(figures_dir + '/loss_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.png', bbox_inches='tight', pad_inches=0)
 
 
 if __name__ == '__main__':
