@@ -28,8 +28,8 @@ USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
 
 NUM_CLASSES = 10  # クラス数
-BAGGING_NUM = 100  # モデル入れ替え試行回数
-EPOCH_NUM = 500000  # 学習サイクル数
+BAGGING_NUM = 1  # モデル入れ替え試行回数
+EPOCH_NUM = 100  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.0  # ラベルを有効にする閾値
 
@@ -265,8 +265,7 @@ def main():
         train_file_save = data_dir + 'train_files_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.csv'
         with open(train_file_save, 'w', newline='') as f:
             train_files_writer = csv.writer(f)
-            train_files_writer.writerow(['filename'])
-            train_files_writer.writerows(natsorted(train_files))
+            train_files_writer.writerows([[filename] for filename in natsorted(train_files)])
 
         for marker, prediction_single in zip(USE_MARKERS, predictions):
             prediction_labels_single = [sigmoid_to_label(prediction) for prediction in prediction_single]
