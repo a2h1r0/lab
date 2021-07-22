@@ -288,7 +288,7 @@ def main():
                 loss_writer.writerow([epoch + 1] + list(loss))
 
         # 結果の描画
-        figures_dir = '../figures/' + now + str(num+1) + '/'
+        figures_dir = '../figures/' + now + '/' + str(num+1) + '/'
         if os.path.exists(figures_dir) == False:
             os.makedirs(figures_dir)
         print('\n結果を描画します．．．')
