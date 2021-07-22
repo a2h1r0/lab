@@ -325,5 +325,3 @@ if __name__ == '__main__':
     TRAIN_SUBJECTS = ['2', '3']
     TEST_SUBJECT = '1'
     main()
-
-    plt.show()
