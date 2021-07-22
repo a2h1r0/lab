@@ -28,10 +28,10 @@ USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
 
 NUM_CLASSES = 10  # クラス数
-BAGGING_NUM = 10  # モデル入れ替え試行回数
-EPOCH_NUM = 100  # 学習サイクル数
+BAGGING_NUM = 100  # モデル入れ替え試行回数
+EPOCH_NUM = 500000  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
-LABEL_THRESHOLD = 0.1  # ラベルを有効にする閾値
+LABEL_THRESHOLD = 0.0  # ラベルを有効にする閾値
 
 
 def make_train_data():
