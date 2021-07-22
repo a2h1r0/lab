@@ -6,7 +6,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = '../data/20210722_205938/'
+DATA_DIR = '../data/20210722_221148/'
 
 
 def main():
@@ -24,8 +24,8 @@ def main():
     score_all = data[1]
     for filenames, scores in zip(filename_all, score_all):
         print('\n----- ' + filenames[0].split('\\')[1] + ' -----')
-        for filename, score in zip(filenames, scores):
-            print(filename.split('\\')[0].split('/')[-1] + ': ' + score)
+        # for filename, score in zip(filenames, scores):
+        #     print(filename.split('\\')[0].split('/')[-1] + ': ' + score)
         max_index = np.argmax(scores)
         print('max score: ' + scores[max_index])
         print('max filename: ' + filenames[max_index])

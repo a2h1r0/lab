@@ -262,15 +262,16 @@ def main():
         data_dir = '../data/' + now + '/' + str(num+1) + '/'
         if os.path.exists(data_dir) == False:
             os.makedirs(data_dir)
-        train_file_list = data_dir + 'train_file_list.txt'
-        with open(train_file_list, 'w', newline='') as f:
-            for filename in natsorted(train_files):
-                f.write(filename + '\n')
+        train_file_save = data_dir + 'train_files_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.csv'
+        with open(train_file_save, 'w', newline='') as f:
+            train_files_writer = csv.writer(f)
+            train_files_writer.writerow(['filename'])
+            train_files_writer.writerows(natsorted(train_files))
 
         for marker, prediction_single in zip(USE_MARKERS, predictions):
             prediction_labels_single = [sigmoid_to_label(prediction) for prediction in prediction_single]
             report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels_single, output_dict=True))
-            report_df.to_csv(data_dir + 'report_' + marker + '.csv')
+            report_df.to_csv(data_dir + 'report_' + marker + '_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.csv')
 
         # 予測ラベルの決定
         prediction_labels = label_determination(predictions)
