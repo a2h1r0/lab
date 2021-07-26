@@ -20,7 +20,7 @@ class Net(nn.Module):
         self.kernel_size = 5
         self.hidden_size = hidden_size
 
-        self.conv = nn.Conv1d(in_channels=FEATURE_SIZE, out_channels=MAP_SIZE, kernel_size=self.kernel_size)
+        self.conv = nn.Conv1d(in_channels=FEATURE_SIZE, out_channels=MAP_SIZE, kernel_size=self.kernel_size, groups=FEATURE_SIZE)
         self.lstm = nn.LSTM(input_size=MAP_SIZE, hidden_size=hidden_size, batch_first=True)
         self.fc = nn.Linear(hidden_size, out_features)
 
