@@ -1,0 +1,475 @@
+Delivered-To: atsu3.n9@gmail.com
+Received: by 2002:ac9:12c5:0:0:0:0:0 with SMTP id x5csp6706594ocb;
+        Wed, 21 Jul 2021 10:55:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzEkaM/3yhUjYB0idcaQgtu8T+zbTsZSZaTlKR60tnNwvu5SoVWGCSvAQP6qpcwpXfoIL1E
+X-Received: by 2002:a63:4c49:: with SMTP id m9mr36842766pgl.419.1626890139096;
+        Wed, 21 Jul 2021 10:55:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1626890139; cv=none;
+        d=google.com; s=arc-20160816;
+        b=nKd1HFb8VlxYfFjxPKo5ApwfybBDhO89d2jnFKRedxwHRR/lZdaK6d4lYxwQhzIg7B
+         Z3BQJt7YdaJsjvN7ZhLnxGvtva4IOHl4BmysEKnZHSbpCcBv3lv0/D0dcjcEaydLeu26
+         Cd3Xf2HEgB8rOVLBhyjCHfeqHd784QIsdC1mYbRE+ryHBjtMb8HHEpr1gclsPVUr+7Bi
+         k7IMfhqUBna3XOGvS2HHI3tPHoSvV41xF9YjvI2JydJAYontzMVCgj1GfczmAp/9GVvq
+         nLGz36ADTYslN2Gjl6etyzg551Vol2qQN8aK0OsZyad3RR8iqzC182V8bVNHPhg2JfUU
+         lT8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=reply-to:message-id:date:to:from:subject:content-transfer-encoding
+         :mime-version:dkim-signature:delivered-to;
+        bh=HQvL/5sTRPpS2u0EMdAKwnmqJxo6iRSL8TPjOxUvWzc=;
+        b=01hEbOhBtd64KmT2WVSNOZ46So0coyBZgQC5jEQ+9M7pzs3IbDW8aEa3mbTXrakKZJ
+         vibeI2DjGN+CD/03GJ2Fi+OPSPFqBlBimFzXLLaza5VBF5sPZko5QY3PqAi+86QVmOIn
+         Y5b8zeRkpkUdH+Ly4/2zaREMrcfqyv1Y3uSIz6UUY9MnxoxoE506aRTE4stG8GvoYSKn
+         VmEjrCQdhpAZPWMpxtwgIQCji9fmPOvlxCaQhh2et1UiW7wxLOsof1MuvIX0lmCiammh
+         UfaGY/wpkidTh+zTWZFKgHc5av+Rf6LBrYWcseviMFPCBVHX3ZlRj2dCgGmnGPECPm0H
+         e1Yw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@precisionconference.com header.s=default header.b=KnGfntD7;
+       spf=pass (google.com: domain of srs0=eu08=mn=precisionconference.com=iswc21a+log.60f85f91b7371871beb96765@iis.ise.ritsumei.ac.jp designates 150.60.181.111 as permitted sender) smtp.mailfrom="SRS0=EU08=MN=precisionconference.com=ISWC21a+log.60f85f91b7371871beb96765@iis.ise.ritsumei.ac.jp";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=precisionconference.com
+Return-Path: <SRS0=EU08=MN=precisionconference.com=ISWC21a+log.60f85f91b7371871beb96765@iis.ise.ritsumei.ac.jp>
+Received: from chpa1004.route-server.jp (chpa1004.route-server.jp. [150.60.181.111])
+        by mx.google.com with ESMTPS id i19si11228787pgb.13.2021.07.21.10.55.38
+        for <atsu3.n9@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jul 2021 10:55:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=eu08=mn=precisionconference.com=iswc21a+log.60f85f91b7371871beb96765@iis.ise.ritsumei.ac.jp designates 150.60.181.111 as permitted sender) client-ip=150.60.181.111;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@precisionconference.com header.s=default header.b=KnGfntD7;
+       spf=pass (google.com: domain of srs0=eu08=mn=precisionconference.com=iswc21a+log.60f85f91b7371871beb96765@iis.ise.ritsumei.ac.jp designates 150.60.181.111 as permitted sender) smtp.mailfrom="SRS0=EU08=MN=precisionconference.com=ISWC21a+log.60f85f91b7371871beb96765@iis.ise.ritsumei.ac.jp";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=precisionconference.com
+Received: by chpa1004.route-server.jp (Postfix, from userid 30)
+	id 749242C013E1B; Thu, 22 Jul 2021 02:55:37 +0900 (JST)
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	chpa1004.route-server.jp
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.2 required=7.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.4
+X-Original-To: atsuhiro.fujii@iis.ise.ritsumei.ac.jp
+Delivered-To: atsuhiro.fujii@iis.ise.ritsumei.ac.jp
+Received: from precisionconference.com (main.precisionconference.com [192.99.67.26])
+	by chpa1004.route-server.jp (Postfix) with ESMTP id DA37B2C014E0D
+	for <atsuhiro.fujii@iis.ise.ritsumei.ac.jp>; Thu, 22 Jul 2021 02:55:33 +0900 (JST)
+Authentication-Results: chpa1004.route-server.jp;
+	dmarc=pass (p=NONE sp=NONE) smtp.from=precisionconference.com header.from=precisionconference.com;
+	dkim=pass header.d=precisionconference.com;
+	spf=pass (sender IP is 192.99.67.26) smtp.mailfrom=iswc21a+log.60f85f91b7371871beb96765@precisionconference.com smtp.helo=precisionconference.com
+Received-SPF: pass (chpa1004.route-server.jp: domain of precisionconference.com designates 192.99.67.26 as permitted sender) client-ip=192.99.67.26; envelope-from=iswc21a+log.60f85f91b7371871beb96765@precisionconference.com; helo=precisionconference.com;
+Content-Type: text/plain; charset="utf-8"
+Authentication-Results: precisionconference.com; dmarc=fail (p=none dis=none) header.from=precisionconference.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=precisionconference.com; s=default; t=1626890130;
+	bh=oqK2mo1hU3szXY5Xi7Vlb9oSr+IvUEsBgHjpMN+XL/8=;
+	h=Subject:From:To:Date:Reply-To:From;
+	b=KnGfntD7bXWMIuYatRaeIwLNUqqN9IWZ1QRRY52/PhghbxZ3YJF52ggVPuEe5VJUU
+	 HneDkJtMPTf+g+yZ062mvDOM1r5JxoxjBAlH6IkCAiEfezvWsSOtwKi9qZ5Z6qTbgO
+	 yqpKMQBr3HcrmWCHZV89HJNg12277xfHos+qDoe0=
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: [ISWC 2021] Decision for submission 1132
+From: "Katia Vega, Cindy Hsin-Liu Kao,
+ and Daniel Roggen" <ISWC21a@precisionconference.com>
+To: Atsuhiro Fujii <atsuhiro.fujii@iis.ise.ritsumei.ac.jp>
+Date: Wed, 21 Jul 2021 13:55:29 -0400
+Message-ID: <20210721175529.29118.85674.log.ISWC21a.60f85f91b7371871beb96765@dev.precisionconference.com>
+X-Auto-Response-Suppress: OOF
+Reply-To: iswc-pcchairs-2021@iswc.net
+X-PCS-Bounce-To: iswc-pcchairs-2021@iswc.net
+
+Dear Atsuhiro Fujii -
+
+Congratulations! 
+
+Your Note, 1132 - "disp2ppg: Pulse Wave Generation to PPG Sensor using Display", has been reviewed and ACCEPTED for ISWC 2021 Notes & Briefs. 
+
+The camera-ready version of your paper is due no later than August 9, 2021 23:59, Anywhere on earth, and should be uploaded through the PrecisionConference system (https://new.precisionconference.com/sigchi). Please give the reviewers' comments careful consideration in preparation of your final version. 
+
+Information on how to generate the camera ready for the new ACM TAPS (The ACM Publication System) will be communicated subsequently by the publication chairs.
+
+The camera-ready version should include all identifying information that was removed for blind review (author names, affiliations, acknowledgements, etc.), and should be 4 pages <b>not</b> including references. 
+
+It is important that the core paper including all text and figures is in the first 4 pages. References can be on page 5+. There should be no "appendix".
+
+Please upload this version to the conference website as a final submission: https://new.precisionconference.com/sigchi
+
+Paper authors must present their work at the conference (at least one author must attend). 
+
+Presentation format will be a 6mn pre-recorded video, with due date August 29. 
+Your attendance to the session where your video is played will be required in order to answer questions of the audience. After a block of 3 videos, there will be a 12mn panel discussion, which includes live Q&A
+
+We would like to thank you for submitting your work to ISWC 2021, and congratulate you on your paper acceptance. We look forward to seeing you at the conference!
+
+Katia Vega, Cindy Hsin-Liu Kao, and Daniel Roggen
+ISWC 2021 PC Co-Chairs
+
+
+========== Reviews =============
+
+----------------------------------------------------------------
+
+primary review
+score 4/6
+
+  Feedback from Program Committee Meeting
+
+    After a long discussion in the PC meeting, this paper was found to have an
+    interesting approach and an insightful analysis. Do however, read all reviews
+    carefully, in particular the comments from reviewer 4 with regard to the "related
+    publications about the background of photoplethysmography generators".
+
+  Confidence
+
+    Very confident - I am knowledgeable in the area
+
+  Contribution to ISWC
+
+    This paper contributes with a system that measures the user's heart rate and
+    "forwards" this signal to a commercial smartwatch's PPG sensor using a display
+    underneath the watch. An analysis for several commercial smartwatches and using a
+    series of displays was performed. This system has a niche application, the more
+    interesting one being: Enabling users with prosthetic arms to use fitness or
+    exercise applications that rely on PPG sensing on a smartwatch.
+
+  Overall Rating
+
+    Maybe accept: I would agree with accepting this paper.
+
+  The Review
+
+    The paper presents an interesting approach how to fool a PPG sensor. The described
+    method provides a low cost method for inducing artificial heartbeats into a wide
+    range of smartwatches.
+
+    Not only is this method feasible, as described in the paper, for the transfer of a
+    PPG signal to an artificial body or for faking an exercise routine but it may also
+    be used for rapid prototyping and to test novel apps and algorithms under real
+    world conditions. The authors should here also more clearly  argue for and stress
+    the fact that commercial watches have a wide range of measurement patterns (as
+    highlighted by Wolling, Unity in Diversity, IEEE PC 2019).  The proposed method
+    reliably induces a given static heartbeat on a wide range of devices. This seems
+    to indicate that the method is applicable under real world conditions. It would be
+    of interest if this method performs equally well when the heartbeat is changing
+    and how fast the smartwatches can follow a given heartbeat curve.
+
+    Also of interest would be a demonstration of a successful heartbeat transfer. This
+    would demonstrate that the real world application described in this paper is
+    feasible with the methodology presented.
+
+    Another test which could be performed and which would shine light on the
+    performance of this approach would be to test the limitations of this approach,
+    how low and how high can the heartbeat be before a detection is not possible
+    anymore. Especially for the Apple watch that was tested another approach would be
+    to test if this method has the capability to trip the irregular heartbeat alert.
+    This would broaden the possible applications of the proposed method.
+
+    The only thing in question is the novelty of the proposed method. Faking the
+    heartbeat using a display has been described elsewhere (see for example https
+    ://mo-life.blogspot.com/2018/10/how-to-trick-heart-rate-monitor-on-your.html). For
+    a broader impact it would be interesting to see if this approach can also be used
+    to induce different HRV metrics to test a wider range of algorithms on a simulated
+    heartbeat.
+
+----------------------------------------------------------------
+
+secondary review
+score 4/6
+
+  Confidence
+
+    Somewhat confident - I have passing knowledge
+
+  Contribution to ISWC
+
+    Current methods of pulse detection use PPG sensors which require blood flow for
+    data acquisition as they rely on reflected light. The authors identify this as an
+    equity issue as this means that pulse detection is not possible in those with
+    prosthetics.  This is a novel and worthwhile endeavour and I thank the authors for
+    seeing this gap and seeking to address it. They propose a system to allow such
+    users to have heart rate data recorded using 2 additional wearables which work in
+    conjunction with existing wearable smartwatches.
+
+  Overall Rating
+
+    Maybe accept: I would agree with accepting this paper.
+
+  The Review
+
+    Current methods of pulse detection use PPG sensors which require blood flow for
+    data acquisition as they rely on reflected light. The authors identify this as an
+    equity issue as this means that pulse detection is not possible in those with
+    prosthetics.  This is a novel and worthwhile endeavour and I thank the authors for
+    seeing this gap and seeking to address it. The paper proposes a new method,
+    disp2ppg, which they find has an error rate within 3bpm of the current PPG sensors
+    used. This system involves a sensor worn on the living arm which speaks to a small
+    display. The display changes its brightness based on the heart rate data from the
+    sensor. The traditional smart watch is worn over this sensor - this means that the
+    heart rate data is using this display to bounce back the light and calculate the
+    heart rate. As the display changes based on the sensor heart rate this is able to
+    give a similar reading to their true heart rate. This paper describes the
+    evaluation of this system with several commercial smartwatches.
+
+    This system is novel and worthwhile to help individuals, and the analysis is
+    clearly written. What could be strengthened in the paper is the ‘so what’. There
+    is room for a clearer scoping of further work. Consideration of the end users is
+    also needed - is the aim that individuals will always have to wear a sensor and a
+    display under the watch or is there a proposal for a standard so that the sensor
+    can talk directly to the smart watches? How long can the sensors be worn for? Is
+    this only something that would be used during exercise or is the aim to create
+    sensors that would be wearable for long periods of time for continuous heart rate
+    monitoring that is affording to the population with in tact arms?
+
+----------------------------------------------------------------
+
+secondary review
+score 5/6
+
+  Confidence
+
+    Highly confident - I consider myself an expert in the area
+
+  Contribution to ISWC
+
+    This paper contributes a novel method for synthesizing pulse metrics to "trick" a
+    smartwatch into recognizing a heart rate.  PPG is a method of reading the "pulse"
+    by emitting a light signal and reading back the reflection.  As more blood
+    "pulses" through the vessel, more light is reflected.  This invention simulates
+    that variable "reflection" by using a display to emit a varying amount of light
+    into the sensor.  The signal could be synthetic or reflect the users actual pulse.
+
+  Overall Rating
+
+    Probably accept: I would argue for accepting this paper.
+
+  The Review
+
+    Overall, although this invention is likely limited it is a clever idea and there
+    is nothing else like it in the literature. The application - a workaround to make
+    amputees feel more "normal" is also very inventive and not something that I would
+    have otherwise considered.
+
+    A few details need to be corrected - the caption to Figure 2 " The time series
+    brightness of the display that makes the smartwatch detect a single pulse" needs
+    to be changed. Most smart watches, to the best of my knowledge,  do not "detect a
+    single pulse - although you are generating a waveform that reflects the profile of
+    a single pulse most smartwatches actually average over multiple beats taking a
+    dominant mode over a minute.
+    You can say you are generating a single pulse profile, not that the smartwatch is
+    detecting it.
+
+    The biggest challenge will be the interface between the true pulse detector and
+    the smartwatch, since these are constantly evolving communication standard
+
+    An additional extension would be to detect and match the color of light being
+    emitted from the smart watch.  This would better match what the PPG is expecting
+    as a reflection.  another additional extension would be varying the color to
+    better reflect what the watches are potentially emitting.
+
+    It was also unclear if there was a formative study or set of interviews with
+    amputees that uncovered this as an unmet need, it is in interesting discovery and
+    I am wondering if the authors thought up the idea themselves or if the idea was
+    suggested to them from someone suffering limb loss. Overall this could be a boon
+    to those seeking normalcy after limb loss.  It is also an interesting
+    consideration to have a robot wear a smartwatch that was displaying a fake heart
+    rate - would this make a robot seem more human?  Could a smartwatch be used to
+    make an robot seem like it was experiencing an emotion or a set of exertions?
+
+----------------------------------------------------------------
+
+reviewer 3 review
+score 2/6
+
+  Confidence
+
+    Highly confident - I consider myself an expert in the area
+
+  Contribution to ISWC
+
+    The paper presents a method of measuring PPG signals on biological body parts and
+    sending the information to a display on a prosthetic arm. The display is then used
+    to input the heart rate to the smartwatch. The setup was evaluated thoroughly with
+    different smartwatches of different manufacturers running on different operating
+    systems including different detection algorithms.
+    The submission contributes to increase the merit of wearables located at
+    prosthetics and therefore helps in the measurement of vital parameters for
+    individuals with disabilities (e.g., amputees).
+
+  Overall Rating
+
+    Probably reject: I would argue for rejecting this paper.
+
+  The Review
+
+    Dear authors, 
+    thank you for your contribution. While I appreciate the ethics of your aims and
+    highly value the importance of the overall topic, I do not think the method you
+    described in this paper is the right way to overcome the problems faced in this
+    field.
+
+    The paper presents a method of measuring PPG signals on biological body parts and
+    sending the information to a display on a prosthetic arm. The display is then used
+    to input the heart rate to the smartwatch. The setup was evaluated thoroughly with
+    different smartwatches of different manufacturers running on different operating
+    systems including different detection algorithms.
+
+    Within to the concept and implementation of the presented approach, several
+    questions arise:
+
+    • Why is the heart rate that is measured at the junction between arm and
+    prosthetics not sent to the smartwatch directly (e.g., wirelessly)?
+
+    • Why do the authors prefer an approach that requires extra hardware, such as a
+    PPG sensor at the junction and a display for inputting the data into the
+    smartwatch, when smartwatches already can measure the heartrate by applying
+    acceleration sensors? These sensors are already built into every smartwatch and
+    the detection approach would require no extra hardware.
+
+    • The authors do not discuss the effect of ghost heart rates that are provided by
+    all devices that apply algorithms for extracting heart rate signals from PPG
+    sensors. These artifacts can be seen by applying smartwatches to objects, such as
+    reflective table surfaces or bananas (e.g., https://screenrant.com/apple-watch-
+    bananas-heart-rate-fail/). How do these effects (reflections etc.) influence the
+    proposed approach?
+
+    • Does the general detection error of PPG sensors (e.g., due to motion artifacts)
+    increase due to the application of two different PPG sensors (one at the junction
+    between arm and prosthetics and one inside of the smartwatch) and/or due to the
+    quality of the applied display type?
+
+    Let me specify and justify my view while moving through the different sections of
+    your paper.
+
+
+    INTRODUCTION
+
+    „With the proposed method, even when a smartwatch is attached to an artificial
+    body, the smartwatch can read the person’s pulse data by changing the light of the
+    display under the PPG  sensor of the smartwatch according to the pulse data
+    measured  at the junction of the living body and the prosthetic hand.”
+
+    The application scenario is not convincing, since there are other technologies
+    that already support the recognition of heart rate at prosthetics without the need
+    for modifications of the smartwatch itself (e.g., accelerometers, gyroscopes that
+    send their data to the smartwatch).
+
+    “When applied to a remote robot avatar, the operator’s biometric data can be
+    measured on the avatar’s body.“
+
+    Personally, I do not see the need for the robot avatar scenario since the heart
+    rate of the operator could be transmitted directly to a display without the detour
+    of being measured on a display and then read by a PPG sensor.
+
+
+    RELATED WORK
+
+    “These methods using inertia sensors such as accelerometers are applicable even
+    with [an] artificial body[;] however, methods using pulse data are unavailable. “
+
+    There are several publications that apply the inertial sensors of smartwatches
+    worn at the wrist to deduce pulse data:
+
+    Hernandez, J., McDuff, D., & Picard, R. W. (2015, May). Biowatch: estimation of
+    heart and breathing rates from wrist motions. In 2015 9th International Conference
+    on Pervasive Computing Technologies for Healthcare (PervasiveHealth) (pp.
+    169-176). IEEE.
+
+    Haescher, M., Matthies, D. J., Trimpop, J., & Urban, B. (2016, May).
+    SeismoTracker: Upgrade any smart wearable to enable a sensing of heart rate,
+    respiration rate, and microvibrations. In Proceedings of the 2016 CHI Conference
+    Extended Abstracts on Human Factors in Computing Systems (pp. 2209-2216).
+
+    Haescher, M., Matthies, D. J., Trimpop, J., & Urban, B. (2015, June). A study on
+    measuring heart-and respiration-rate via wrist-worn accelerometer-based
+    seismocardiography (SCG) in comparison to commonly applied technologies. In
+    Proceedings of the 2nd international Workshop on Sensor-based Activity Recognition
+    and Interaction (pp. 1-6).
+
+
+    EVALUATION
+
+    “The target heart rate was tested from 60 to 100 beats per minute (bpm) in
+    increments of 5, which is the ra[n]ge of the average heart rate for adults [5]”
+
+    I assume that you are referring to a resting heart rate range, since the range of
+    60-100bpm neither includes a rising heart rate during exercise nor the lower heart
+    rate during night sleep. Outside of resting states, a range of 40bpm to 180bpm
+    seems necessary (for healthy adults, as even this range would still not include
+    pathologies of the heart that can cause the heart rate to drop below or go beyond
+    these thresholds).
+
+
+    CONCLUSION
+
+    In general, I appreciate your motivation to provide the same smartwatch experience
+    to individuals with disabilities (e.g., with amputations). Nevertheless, I do not
+    think that your proposed solution is the best approach. Especially in light of
+    existing solutions which have been described in publications that are missing in
+    your related work.
+
+    Due to these aspects, I am not convinced that the paper presents a valuable
+    contribution and would therefore recommend rejecting the paper.
+
+----------------------------------------------------------------
+
+reviewer 4 review
+score 2/6
+
+  Confidence
+
+    Very confident - I am knowledgeable in the area
+
+  Contribution to ISWC
+
+    This paper proposed an idea to measure the heart rate using commercially available
+    smartwatches on a prosthetic hand. The authors plan to use a pulse sensor that is
+    placed on the live body, and then transmit the heart rate value detected by the
+    pulse sensor to a small display screen placed beneath a commercially available
+    smartwatch. The screen color will change according to the heart rate value to
+    simulate a PPG signal. The final heart rate will be calculated again by the
+    commercial smartwatch using simulator PPG emitted to its PPG sensor.
+
+  Overall Rating
+
+    Probably reject: I would argue for rejecting this paper.
+
+  The Review
+
+    Major reason:
+
+    1.      If the pulse sensor that was placed on the live body can measure an
+    accurate heart rate, there is no reason to introduce another possible error by
+    converting the heart rate to a screen color info and let the smartwatch measure
+    heart rate from that again. The entire design of the study is not plausible. The
+    smartwatch PPG sensor is not designed to detect the color change of an LCD screen
+    under a strong ambient light environment, so it will be really questionable if the
+    author could detect heart rate from a display screen on the prosthetic hand in
+    real life. The back of the Apple Watch is curved, so there are lots of space
+    between the watch back and the screen. This type of loosely wearing will lead to
+    the amplitude of the PPG signal too small to be noticed by the smartwatch
+    algorithm, thus, the heart rate calculated by the smartwatch will not be accurate.
+    The large gap will also cause a deteriorated PPG waveform if the user moves the
+    prosthetic hand, and eventually, it is impossible to get any correct heart rate in
+    real life using this method.
+
+    2.      The author did not list any related publications about the background of
+    photoplethysmography generators. At least I found this paper related to this
+    topic, “Modeling photoplethysmographic signals in camera-based perfusion
+    measurements: optoelectronic skin phantom.” Moreover, I have never seen a paper
+    that did not put any reference in the introduction part of the paper. There is
+    plenty of space on the 5th page, so the page limit is not a reason for not putting
+    enough reference paper.
+
+    Minor comments:
+
+    1.      The author did not list the refreshing frequency of the display screen
+    which generates fake PPG. The author also did not put any information about the
+    smartwatch PPG sampling frequency. The drawing frequency seems to be 30 Hz.
+
+    2.      In section 4.2.3, the author mentioned an unspecified smartwatch “SMART R
+    F-18” and an unknown watch operating system “Original OS”. No reference was added
+    for this watch and this watch operating system.
+
+    3.      The sequence of citations is wrong. In section 2.1, the first citation in
+    the entire paper starts from ten.
+
+----------------------------------------------------------------
+
