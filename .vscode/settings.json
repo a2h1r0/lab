@@ -1,5 +1,7 @@
 {
   "C_Cpp.intelliSenseEngine": "Tag Parser",
   "editor.wordWrap": "on",
-  "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true
 }
