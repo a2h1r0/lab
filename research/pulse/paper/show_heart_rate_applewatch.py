@@ -9,7 +9,7 @@ os.chdir(os.path.dirname(__file__))
 
 MODEL = 'Series_5'  # 表示するスマートウォッチ
 TARGET_RATES = [60, 65, 70, 75, 80, 85, 90, 95, 100]  # 取得した目標心拍数
-DISPLAYS = [['Legion7', 'Display A'], ['OSOYOO', 'Display B'],
+DISPLAYS = [['Legion7', 'Display A'], ['ELECROW', 'Display B'],
             ['KeDei', 'Display C']]  # 表示するディスプレイ
 DIRS = ['1st', '2nd', '3rd']  # フォルダ分け
 

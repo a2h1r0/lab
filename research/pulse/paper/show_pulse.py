@@ -10,7 +10,7 @@ os.chdir(os.path.dirname(__file__))
 
 MODEL = 'TicWatch'  # 表示するスマートウォッチ
 FILES = [['/Legion7/1st/20210504_142156_Pulse_TicWatchPro', 'Display A'],
-         ['/OSOYOO/1st/20210504_190014_Pulse_TicWatchPro', 'Display B'],
+         ['/ELECROW/1st/20210504_190014_Pulse_TicWatchPro', 'Display B'],
          ['/body/20210505_142150_Pulse_TicWatchPro', 'body']]
 START = 0  # 表示開始時刻
 FINISH = 60  # 表示終了時刻

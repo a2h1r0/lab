@@ -18,7 +18,7 @@ if MODEL == 'AppleWatch':
         COLOR_BASE = 0  # 色のベース
         if DISPLAY == 'Legion7':
             COLOR_SCALE = 20  # 色のスケール
-        elif DISPLAY in ['OSOYOO', 'KeDei']:
+        elif DISPLAY in ['ELECROW', 'KeDei']:
             # アクリルなし
             COLOR_SCALE = 40  # 色のスケール
 
@@ -26,7 +26,7 @@ if MODEL == 'AppleWatch':
         if DISPLAY == 'Legion7':
             COLOR_BASE = 0  # 色のベース
             COLOR_SCALE = 20  # 色のスケール
-        elif DISPLAY == 'OSOYOO':
+        elif DISPLAY == 'ELECROW':
             # 2mmアクリル
             COLOR_BASE = 50  # 色のベース
             COLOR_SCALE = 50  # 色のスケール
