@@ -8,7 +8,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 MODEL = 'SMART_R'  # スマートウォッチのモデル
-DISPLAY = 'KeDei'  # ディスプレイの種類
+DISPLAY = 'OSOYOO'  # ディスプレイの種類
 PROCESS_TIME = 40  # 実行時間（アプリ側のデータ取得は120秒間）
 
 if MODEL == 'AppleWatch':
@@ -18,7 +18,7 @@ if MODEL == 'AppleWatch':
         COLOR_BASE = 0  # 色のベース
         if DISPLAY == 'Legion7':
             COLOR_SCALE = 20  # 色のスケール
-        elif DISPLAY in ['ELECROW', 'KeDei']:
+        elif DISPLAY in ['ELECROW', 'OSOYOO']:
             # アクリルなし
             COLOR_SCALE = 40  # 色のスケール
 
@@ -30,7 +30,7 @@ if MODEL == 'AppleWatch':
             # 2mmアクリル
             COLOR_BASE = 50  # 色のベース
             COLOR_SCALE = 50  # 色のスケール
-        elif DISPLAY == 'KeDei':
+        elif DISPLAY == 'OSOYOO':
             # アクリルなし
             COLOR_BASE = 20  # 色のベース
             COLOR_SCALE = 40  # 色のスケール
