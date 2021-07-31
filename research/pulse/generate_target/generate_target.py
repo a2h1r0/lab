@@ -8,7 +8,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 MODEL = 'SMART_R'  # スマートウォッチのモデル
-DISPLAY = 'ELECROW'  # ディスプレイの種類
+DISPLAY = 'OSOYOO'  # ディスプレイの種類
 PROCESS_TIME = 40  # 実行時間（アプリ側のデータ取得は120秒間）
 
 if MODEL == 'AppleWatch':
