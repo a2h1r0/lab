@@ -2,5 +2,5 @@
     "port": "COM3",
     "board": "arduino:avr:uno",
     "programmer": "AVR ISP",
-    "sketch": "research\\pulse\\generate_heart_rate\\flex_display\\flex_display.ino"
+    "sketch": "research\\pulse\\generate_target\\flexible\\flexible.ino"
 }
