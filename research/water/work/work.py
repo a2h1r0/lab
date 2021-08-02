@@ -31,8 +31,8 @@ TOKKURI = ['tokkuri_1.mp3', 'tokkuri_2.mp3', 'tokkuri_3.mp3',
 
 EPOCH_NUM = 1000  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
-BATCH_SIZE = 300  # バッチサイズ
-WINDOW_SECOND = 3.0  # 1サンプルの秒数
+BATCH_SIZE = 500  # バッチサイズ
+WINDOW_SECOND = 0.5  # 1サンプルの秒数
 WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)  # 1サンプルのサイズ
 TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
 
