@@ -51,6 +51,8 @@ class VGG19(nn.Module):
         self.relu5_4 = nn.ReLU()
         self.pool5 = nn.MaxPool1d(kernel_size=2, stride=2)
 
+        self.avgpool = nn.AdaptiveAvgPool1d(1)
+
         self.fc6 = nn.Linear(512, 256)
         self.relu6 = nn.ReLU()
         self.drop6 = nn.Dropout(p=0.5)
@@ -111,6 +113,8 @@ class VGG19(nn.Module):
         x = self.conv5_4(x)
         x = self.relu5_4(x)
         x = self.pool5(x)
+
+        x = self.avgpool(x)
 
         x = x.view(x.size(0), -1)
         x = self.fc6(x)
