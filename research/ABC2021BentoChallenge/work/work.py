@@ -11,6 +11,7 @@ from preprocess import make_feature
 from label_determination import majority_vote_sigmoid
 import matplotlib.pyplot as plt
 from natsort import natsorted
+import math
 import csv
 import glob
 import re
@@ -43,7 +44,7 @@ def make_train_data():
         array: 学習データファイル
     """
 
-    train_data, train_labels, train_files = [], [], []
+    train_data, train_labels_macro, train_labels_micro, train_files = [], [], [], []
     files = glob.glob(DATA_DIR + '/subject_[' + ''.join(TRAIN_SUBJECTS) + ']*.csv')
     for filename in files:
         with open(filename) as f:
@@ -56,10 +57,11 @@ def make_train_data():
         train_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
         activity = re.findall(r'activity_\d+', filename)[0]
         label = int(activity.split('_')[1])
-        train_labels.append(multi_label_binarizer(label))
+        train_labels_macro.append(multi_label_binarizer_macro(label))
+        train_labels_micro.append(multi_label_binarizer_micro(label))
         train_files.append(filename.split('\\')[-1])
 
-    return train_data, train_labels, train_files
+    return train_data, train_labels_macro, train_labels_micro, train_files
 
 
 def make_test_data():
@@ -72,7 +74,7 @@ def make_test_data():
         array: テストデータ生ラベル
     """
 
-    test_data, test_labels, answer_labels = [], [], []
+    test_data, test_labels_macro, test_labels_micro, answer_labels = [], [], [], []
     files = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
     for filename in files:
         with open(filename) as f:
@@ -85,10 +87,11 @@ def make_test_data():
         test_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
         activity = re.findall(r'activity_\d+', filename)[0]
         label = int(activity.split('_')[1])
-        test_labels.append(multi_label_binarizer(label))
+        test_labels_macro.append(multi_label_binarizer_macro(label))
+        test_labels_micro.append(multi_label_binarizer_micro(label))
         answer_labels.append(label)
 
-    return test_data, test_labels, answer_labels
+    return test_data, test_labels_macro, test_labels_micro, answer_labels
 
 
 def get_marker_data(marker_index, data):
@@ -105,9 +108,9 @@ def get_marker_data(marker_index, data):
     return [row[marker_index] for row in data]
 
 
-def multi_label_binarizer(label):
+def multi_label_binarizer_macro(label):
     """
-    ラベルのワンホット化
+    ラベルの5クラスワンホット化
 
     Args:
         label (int): ラベル
@@ -115,8 +118,24 @@ def multi_label_binarizer(label):
         array: ワンホットラベル
     """
 
-    y = [0 for i in range(10)]
-    y[label - 1] = 1
+    y = [0 for i in range(5)]
+    y[math.ceil(label/2) - 1] = 1
+
+    return y
+
+
+def multi_label_binarizer_micro(label):
+    """
+    ラベルの2クラスワンホット化
+
+    Args:
+        label (int): ラベル
+    Returns:
+        array: ワンホットラベル
+    """
+
+    y = [0 for i in range(2)]
+    y[~(label % 2)] = 1
 
     return y
 
@@ -210,8 +229,8 @@ def main():
     optimizer = optimizers.Adam(model.parameters())
 
     # データの読み込み
-    train_data_all, train_labels, train_files = make_train_data()
-    test_data_all, test_labels, answer_labels = make_test_data()
+    train_data_all, train_labels_macro, train_labels_micro, train_files = make_train_data()
+    test_data_all, test_labels_macro, test_labels_micro, answer_labels = make_test_data()
 
     loss_all = []
     predictions = []
