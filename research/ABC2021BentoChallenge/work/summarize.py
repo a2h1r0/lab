@@ -6,7 +6,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = '../data/20210722_221148/'
+DATA_DIR = '../data/20210726_202222/'
 
 
 def main():
