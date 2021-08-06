@@ -28,7 +28,9 @@ DATA_DIR = '../dataset/train/speed/1_13/'
 USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
 
-NUM_CLASSES = 10  # クラス数
+FEATURE_SIZE = 21  # 特徴量次元数
+NUM_CLASSES_MACRO = 5  # マクロクラス数
+NUM_CLASSES_MICRO = 2  # マイクロクラス数
 EPOCH_NUM = 10  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.0  # ラベルを有効にする閾値
@@ -74,7 +76,7 @@ def make_test_data():
         array: テストデータ生ラベル
     """
 
-    test_data, test_labels_macro, test_labels_micro, answer_labels = [], [], [], []
+    test_data, answer_labels, answer_labels_macro, answer_labels_micro = [], [], [], []
     files = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
     for filename in files:
         with open(filename) as f:
@@ -87,11 +89,11 @@ def make_test_data():
         test_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
         activity = re.findall(r'activity_\d+', filename)[0]
         label = int(activity.split('_')[1])
-        test_labels_macro.append(multi_label_binarizer_macro(label))
-        test_labels_micro.append(multi_label_binarizer_micro(label))
         answer_labels.append(label)
+        answer_labels_macro.append(multi_label_binarizer_macro(label))
+        answer_labels_micro.append(multi_label_binarizer_micro(label))
 
-    return test_data, test_labels_macro, test_labels_micro, answer_labels
+    return test_data, answer_labels, answer_labels_macro, answer_labels_micro
 
 
 def get_marker_data(marker_index, data):
@@ -140,6 +142,23 @@ def multi_label_binarizer_micro(label):
     return y
 
 
+def get_10_prediction(prediction_macro, prediction_micro):
+    """
+    マクロ予測とマイクロ予測の合算
+
+    Args:
+        prediction_macro (array): マクロ予測
+        prediction_micro (array): マイクロ予測
+    Returns:
+        array: 10ラベル予測
+    """
+
+    for macro, micro in zip(prediction_macro, prediction_micro):
+        print(macro*micro)
+
+    return np.argmax(prediction) + 1
+
+
 def sigmoid_to_label(prediction):
     """
     シグモイド予測値のラベル化
@@ -163,23 +182,34 @@ def main():
         train_data = get_marker_data(marker, train_data_all)
         train_data_length = [len(data) for data in train_data]
 
-        model.train()
+        model.Macro.train()
+        model.Micro.train()
         print('\n***** 学習開始 *****')
 
         for epoch in range(EPOCH_NUM):
             # パディング処理
             inputs = torch.nn.utils.rnn.pad_sequence(train_data, batch_first=True).permute(0, 2, 1).to(device)
-            labels = torch.tensor(train_labels, dtype=torch.float, device=device)
 
-            optimizer.zero_grad()
-            outputs = model(inputs, train_data_length)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
+            # macro識別
+            labels_macro = torch.tensor(train_labels_macro, dtype=torch.float, device=device)
+            optimizer_macro.zero_grad()
+            outputs_macro = model.Macro(inputs, train_data_length)
+            loss_macro = criterion_macro(outputs_macro, labels_macro)
+            loss_macro.backward()
+            optimizer_macro.step()
 
-            loss_all[-1].append(loss.item())
+            # micro識別
+            labels_micro = torch.tensor(train_labels_micro, dtype=torch.float, device=device)
+            optimizer_micro.zero_grad()
+            outputs_micro = model.Micro(inputs, train_data_length)
+            loss_micro = criterion_micro(outputs_micro, labels_micro)
+            loss_micro.backward()
+            optimizer_micro.step()
+
+            loss_macro_all[-1].append(loss_macro.item())
+            loss_micro_all[-1].append(loss_micro.item())
             if (epoch + 1) % 10 == 0:
-                print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
+                print('Epoch: {} / Loss macro: {:.3f} / Loss micro: {:.3f}'.format(epoch + 1, loss_macro.item(), loss_micro.item()))
 
         print('\n----- 終了 -----\n')
 
@@ -192,18 +222,25 @@ def main():
         test_data = get_marker_data(marker, test_data_all)
         test_data_length = [len(data) for data in test_data]
 
-        model.eval()
+        model.Macro.eval()
+        model.Micro.eval()
         print('\n***** テスト *****')
 
         with torch.no_grad():
             # パディング処理
             inputs = torch.nn.utils.rnn.pad_sequence(test_data, batch_first=True).permute(0, 2, 1).to(device)
-            labels = torch.tensor(test_labels, dtype=torch.float, device=device)
 
-            outputs = model(inputs, test_data_length)
-            # 予測結果をSigmoidに通す
-            prediction = torch.sigmoid(outputs)
-            predictions.append(prediction.to('cpu').detach().numpy().copy())
+            # macro識別
+            outputs_macro = model.Macro(inputs, test_data_length)
+            prediction_macro = torch.sigmoid(outputs_macro)
+            prediction_macro = prediction_macro.to('cpu').detach().numpy().copy()
+
+            # micro識別
+            outputs_micro = model.Micro(inputs, test_data_length)
+            prediction_micro = torch.sigmoid(outputs_micro)
+            prediction_micro = prediction_micro.to('cpu').detach().numpy().copy()
+
+            predictions.append(get_10_prediction(prediction_macro, prediction_micro))
 
     def label_determination(predictions):
         """
@@ -223,22 +260,27 @@ def main():
         return labels
 
     # モデルの構築
-    model = Net(input_size=21, hidden_size=HIDDEN_SIZE, out_features=NUM_CLASSES).to(device)
-    pos_weight = torch.ones([NUM_CLASSES], device=device)
-    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
-    optimizer = optimizers.Adam(model.parameters())
+    model = Net(input_size=FEATURE_SIZE, hidden_size=HIDDEN_SIZE,
+                out_features_macro=NUM_CLASSES_MACRO, out_features_micro=NUM_CLASSES_MICRO, device=device)
+    pos_weight_macro = torch.ones([NUM_CLASSES_MACRO], device=device)
+    criterion_macro = nn.BCEWithLogitsLoss(pos_weight=pos_weight_macro)
+    optimizer_macro = optimizers.Adam(model.Macro.parameters())
+    pos_weight_micro = torch.ones([NUM_CLASSES_MICRO], device=device)
+    criterion_micro = nn.BCEWithLogitsLoss(pos_weight=pos_weight_micro)
+    optimizer_micro = optimizers.Adam(model.Micro.parameters())
 
     # データの読み込み
     train_data_all, train_labels_macro, train_labels_micro, train_files = make_train_data()
-    test_data_all, test_labels_macro, test_labels_micro, answer_labels = make_test_data()
+    test_data_all, answer_labels, answer_labels_macro, answer_labels_micro = make_test_data()
 
-    loss_all = []
+    loss_macro_all, loss_micro_all = [], []
     predictions = []
     for marker in range(len(USE_MARKERS)):
         print('\n!!!!! ' + USE_MARKERS[marker] + ' !!!!!')
 
         # モデルの学習
-        loss_all.append([])
+        loss_macro_all.append([])
+        loss_micro_all.append([])
         train()
 
         # モデルのテスト
