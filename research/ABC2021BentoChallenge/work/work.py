@@ -31,7 +31,7 @@ USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
 FEATURE_SIZE = 21  # 特徴量次元数
 NUM_CLASSES_MACRO = 5  # マクロクラス数
 NUM_CLASSES_MICRO = 2  # マイクロクラス数
-EPOCH_NUM = 10  # 学習サイクル数
+EPOCH_NUM = 50000  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.0  # ラベルを有効にする閾値
 
@@ -43,10 +43,9 @@ def make_train_data():
     Returns:
         array: 学習データ
         array: 学習データラベル
-        array: 学習データファイル
     """
 
-    train_data, train_labels_macro, train_labels_micro, train_files = [], [], [], []
+    train_data, train_labels_macro, train_labels_micro = [], [], []
     files = glob.glob(DATA_DIR + '/subject_[' + ''.join(TRAIN_SUBJECTS) + ']*.csv')
     for filename in files:
         with open(filename) as f:
@@ -61,9 +60,8 @@ def make_train_data():
         label = int(activity.split('_')[1])
         train_labels_macro.append(multi_label_binarizer_macro(label))
         train_labels_micro.append(multi_label_binarizer_micro(label))
-        train_files.append(filename.split('\\')[-1])
 
-    return train_data, train_labels_macro, train_labels_micro, train_files
+    return train_data, train_labels_macro, train_labels_micro
 
 
 def make_test_data():
@@ -153,10 +151,16 @@ def get_10_prediction(prediction_macro, prediction_micro):
         array: 10ラベル予測
     """
 
-    for macro, micro in zip(prediction_macro, prediction_micro):
-        print(macro*micro)
+    predictions = []
+    for macro_labels, micro_labels in zip(prediction_macro, prediction_micro):
+        prediction = []
+        for macro in macro_labels:
+            for micro in micro_labels:
+                prediction.append(macro * micro)
 
-    return np.argmax(prediction) + 1
+        predictions.append(prediction)
+
+    return predictions
 
 
 def sigmoid_to_label(prediction):
@@ -270,7 +274,7 @@ def main():
     optimizer_micro = optimizers.Adam(model.Micro.parameters())
 
     # データの読み込み
-    train_data_all, train_labels_macro, train_labels_micro, train_files = make_train_data()
+    train_data_all, train_labels_macro, train_labels_micro = make_train_data()
     test_data_all, answer_labels, answer_labels_macro, answer_labels_micro = make_test_data()
 
     loss_macro_all, loss_micro_all = [], []
@@ -290,11 +294,6 @@ def main():
     data_dir = '../data/' + now + '/'
     if os.path.exists(data_dir) == False:
         os.makedirs(data_dir)
-    train_file_save = data_dir + 'train_files_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.csv'
-    with open(train_file_save, 'w', newline='') as f:
-        train_files_writer = csv.writer(f)
-        train_files_writer.writerows([[filename] for filename in natsorted(train_files)])
-
     for marker, prediction_single in zip(USE_MARKERS, predictions):
         prediction_labels_single = [sigmoid_to_label(prediction) for prediction in prediction_single]
         report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels_single, output_dict=True))
@@ -307,13 +306,18 @@ def main():
     report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels, output_dict=True))
     report_df.to_csv(data_dir + 'report_all.csv')
     print(report_df)
-    loss_file = data_dir + 'loss_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.csv'
-    with open(loss_file, 'w', newline='') as f:
-        loss_writer = csv.writer(f)
-        loss_writer.writerow(['Epoch'] + USE_MARKERS)
-
-        for epoch, loss in enumerate(np.array(loss_all).T):
-            loss_writer.writerow([epoch + 1] + list(loss))
+    loss_macro_file = data_dir + 'loss_macro_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.csv'
+    with open(loss_macro_file, 'w', newline='') as f:
+        loss_macro_writer = csv.writer(f)
+        loss_macro_writer.writerow(['Epoch'] + USE_MARKERS)
+        for epoch, loss in enumerate(np.array(loss_macro_all).T):
+            loss_macro_writer.writerow([epoch + 1] + list(loss))
+    loss_micro_file = data_dir + 'loss_micro_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.csv'
+    with open(loss_micro_file, 'w', newline='') as f:
+        loss_micro_writer = csv.writer(f)
+        loss_micro_writer.writerow(['Epoch'] + USE_MARKERS)
+        for epoch, loss in enumerate(np.array(loss_micro_all).T):
+            loss_micro_writer.writerow([epoch + 1] + list(loss))
 
     # 結果の描画
     figures_dir = '../figures/' + now + '/'
@@ -326,11 +330,12 @@ def main():
 
     # Lossの描画
     plt.figure(figsize=(16, 9))
-    for marker, loss in zip(USE_MARKERS, loss_all):
-        plt.plot(range(1, EPOCH_NUM + 1), loss, label=marker)
+    for marker, loss_macro, loss_micro in zip(USE_MARKERS, loss_macro_all, loss_micro_all):
+        plt.plot(range(1, EPOCH_NUM + 1), loss_macro, linestyle='solid', label=marker)
+        plt.plot(range(1, EPOCH_NUM + 1), loss_micro, linestyle='dashed', label=marker)
     plt.xlabel('Epoch', fontsize=26)
     plt.ylabel('Loss', fontsize=26)
-    plt.legend(fontsize=26, loc='upper right')
+    plt.legend()
     plt.tick_params(labelsize=26)
     plt.savefig(figures_dir + 'loss_train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT + '.png', bbox_inches='tight', pad_inches=0)
 
