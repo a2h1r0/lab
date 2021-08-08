@@ -41,6 +41,4 @@ chunks = split_on_silence(sound, min_silence_len=2000, silence_thresh=-55)
 
 
 # 切り出し部分の保存
-chunks[0].export(SOUND_DIR + SOUND_FILE, format="mp3")
-os.system('ffmpeg -y -i ' + SOUND_DIR + SOUND_FILE + ' -ab 256k ' + SOUND_DIR + SOUND_FILE.split('.')[0] + '.mp3')
-os.remove(SOUND_DIR + SOUND_FILE)
+chunks[0].export(SOUND_DIR + SOUND_FILE.split('.')[0] + '.mp3', format="mp3")
