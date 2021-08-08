@@ -290,7 +290,8 @@ def main():
         # モデルのテスト
         test()
 
-    use_files = 'train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT
+    subjects = 'train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT
+
     # 部位ごとの結果の保存
     data_dir = '../data/' + now + '/'
     if os.path.exists(data_dir) == False:
@@ -298,22 +299,22 @@ def main():
     for marker, prediction_single in zip(USE_MARKERS, predictions):
         prediction_labels_single = [sigmoid_to_label(prediction) for prediction in prediction_single]
         report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels_single, output_dict=True))
-        report_df.to_csv(data_dir + 'report_' + marker + '_' + use_files + '.csv')
+        report_df.to_csv(data_dir + 'report_' + marker + '_' + subjects + '.csv')
 
     # 予測ラベルの決定
     prediction_labels = label_determination(predictions)
 
     # 全体の結果の保存
     report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels, output_dict=True))
-    report_df.to_csv(data_dir + 'report_all.csv')
+    report_df.to_csv(data_dir + 'report_all_' + subjects + '.csv')
     print(report_df)
-    loss_macro_file = data_dir + 'loss_macro_' + use_files + '.csv'
+    loss_macro_file = data_dir + 'loss_macro_' + subjects + '.csv'
     with open(loss_macro_file, 'w', newline='') as f:
         loss_macro_writer = csv.writer(f)
         loss_macro_writer.writerow(['Epoch'] + USE_MARKERS)
         for epoch, loss in enumerate(np.array(loss_macro_all).T):
             loss_macro_writer.writerow([epoch + 1] + list(loss))
-    loss_micro_file = data_dir + 'loss_micro_' + use_files + '.csv'
+    loss_micro_file = data_dir + 'loss_micro_' + subjects + '.csv'
     with open(loss_micro_file, 'w', newline='') as f:
         loss_micro_writer = csv.writer(f)
         loss_micro_writer.writerow(['Epoch'] + USE_MARKERS)
@@ -327,7 +328,7 @@ def main():
     print('\n結果を描画します．．．')
     plt.figure()
     sns.heatmap(confusion_matrix(answer_labels, prediction_labels))
-    plt.savefig(figures_dir + 'result_' + use_files + '.png', bbox_inches='tight', pad_inches=0)
+    plt.savefig(figures_dir + 'result_' + subjects + '.png', bbox_inches='tight', pad_inches=0)
 
     # Lossの描画
     plt.figure(figsize=(16, 9))
@@ -338,7 +339,7 @@ def main():
     plt.ylabel('Loss', fontsize=26)
     plt.legend()
     plt.tick_params(labelsize=26)
-    plt.savefig(figures_dir + 'loss_' + use_files + '.png', bbox_inches='tight', pad_inches=0)
+    plt.savefig(figures_dir + 'loss_' + subjects + '.png', bbox_inches='tight', pad_inches=0)
 
 
 if __name__ == '__main__':
@@ -348,14 +349,14 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     torch.manual_seed(1)
 
-    TRAIN_SUBJECTS = ['1', '2', '3']
+    TRAIN_SUBJECTS = ['1', '2']
     TEST_SUBJECT = '3'
     main()
 
-    TRAIN_SUBJECTS = ['1', '2', '3']
+    TRAIN_SUBJECTS = ['1', '3']
     TEST_SUBJECT = '2'
     main()
 
-    TRAIN_SUBJECTS = ['1', '2', '3']
+    TRAIN_SUBJECTS = ['2', '3']
     TEST_SUBJECT = '1'
     main()
