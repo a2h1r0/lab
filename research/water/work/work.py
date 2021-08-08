@@ -1,6 +1,5 @@
 import numpy as np
 from pydub import AudioSegment
-from pydub.silence import split_on_silence
 import torch
 import torch.nn as nn
 import torch.optim as optimizers
@@ -9,15 +8,13 @@ import matplotlib.pyplot as plt
 import csv
 import datetime
 import random
-import glob
 import sys
 import os
 os.chdir(os.path.dirname(__file__))
 
 
 SAMPLING_RATE = 48000
-SOUND_DIR = '../sounds/raw/'
-TEMP_DIR = '../sounds/temp/'
+SOUND_DIR = '../sounds/temp/'
 
 FFT = False  # FFTするかどうか
 
@@ -34,22 +31,11 @@ TOKKURI = ['tokkuri_1.mp3', 'tokkuri_2.mp3', 'tokkuri_3.mp3',
 
 EPOCH_NUM = 5000  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
-BATCH_SIZE = 30  # バッチサイズ
+BATCH_SIZE = 3000  # バッチサイズ
 WINDOW_SECOND = 0.5  # 1サンプルの秒数
 WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)  # 1サンプルのサイズ
+STEP = 100  # スライド幅
 TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
-
-
-def preprocess():
-    """
-    音源データ前処理（無音部分の削除）
-    """
-
-    files = glob.glob(SOUND_DIR + '*.m4a')
-    for filename in files:
-        sound = AudioSegment.from_file(filename, 'm4a')
-        sounds = split_on_silence(sound, min_silence_len=2000, silence_thresh=-55)
-        sounds[0].export(TEMP_DIR + filename.split('\\')[1].split('.')[0] + '.mp3', format='mp3')
 
 
 def check_sampling_rate():
@@ -59,7 +45,7 @@ def check_sampling_rate():
 
     for filename in TRAIN_FILES + [TEST_FILE]:
         # 音源の読み出し
-        sound = AudioSegment.from_file(TEMP_DIR + filename, 'mp3')
+        sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
         if len(sound[:1000].get_array_of_samples()) != SAMPLING_RATE:
             print('\n' + filename + 'のサンプリングレートが異なります．\n')
             sys.exit()
@@ -96,11 +82,11 @@ def make_train_data():
 
     for filename in TRAIN_FILES:
         # 音源の読み出し
-        sound = AudioSegment.from_file(TEMP_DIR + filename, 'mp3')
+        sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
         data = np.array(sound.get_array_of_samples())
         labels = np.linspace(0, 100, len(data))
 
-        for index in range(0, len(data) - WINDOW_SIZE + 1):
+        for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
             start = index
             end = start + WINDOW_SIZE - 1
             train_data.append(data[start:end + 1])
@@ -117,11 +103,11 @@ def make_test_data():
     test_data, test_labels = [], []
 
     # 音源の読み出し
-    sound = AudioSegment.from_file(TEMP_DIR + TEST_FILE, 'mp3')
+    sound = AudioSegment.from_file(SOUND_DIR + TEST_FILE, 'mp3')
     data = np.array(sound.get_array_of_samples())
     labels = np.linspace(0, 100, len(data))
 
-    for index in range(0, len(data) - WINDOW_SIZE + 1):
+    for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
         start = index
         end = start + WINDOW_SIZE - 1
         test_data.append(data[start:end + 1])
@@ -282,8 +268,6 @@ def main():
 
 
 if __name__ == '__main__':
-    preprocess()
-
     # 結果の保存ファイル作成
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
     result_file = '../data/result_' + now + '.csv'
