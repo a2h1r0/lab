@@ -31,7 +31,7 @@ USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
 FEATURE_SIZE = 21  # 特徴量次元数
 NUM_CLASSES_MACRO = 5  # マクロクラス数
 NUM_CLASSES_MICRO = 2  # マイクロクラス数
-EPOCH_NUM = 50000  # 学習サイクル数
+EPOCH_NUM = 5000  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.0  # ラベルを有効にする閾値
 
@@ -348,14 +348,14 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     torch.manual_seed(1)
 
-    TRAIN_SUBJECTS = ['1', '2']
+    TRAIN_SUBJECTS = ['1', '2', '3']
     TEST_SUBJECT = '3'
     main()
 
-    TRAIN_SUBJECTS = ['1', '3']
+    TRAIN_SUBJECTS = ['1', '2', '3']
     TEST_SUBJECT = '2'
     main()
 
-    TRAIN_SUBJECTS = ['2', '3']
+    TRAIN_SUBJECTS = ['1', '2', '3']
     TEST_SUBJECT = '1'
     main()
