@@ -20,9 +20,10 @@ def preprocess():
 
     files = glob.glob(SOUND_DIR + '*.m4a')
     for filename in files:
-        sound = AudioSegment.from_file(filename, 'm4a')
-        sounds = split_on_silence(sound, min_silence_len=2000, silence_thresh=THRESHOLD)
-        sounds[0].export(TEMP_DIR + filename.split('\\')[1].split('.')[0] + '.mp3', format='mp3')
+        data = AudioSegment.from_file(filename, 'm4a')
+        sounds = split_on_silence(data, min_silence_len=2000, silence_thresh=THRESHOLD)
+        sound = sounds[0].set_channels(1)
+        sound.export(TEMP_DIR + filename.split('\\')[1].split('.')[0] + '.mp3', format='mp3')
 
 
 if __name__ == '__main__':

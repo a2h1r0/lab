@@ -47,7 +47,8 @@ def check_sampling_rate():
         # 音源の読み出し
         sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
         if len(sound[:1000].get_array_of_samples()) != SAMPLING_RATE:
-            print('\n' + filename + 'のサンプリングレートが異なります．\n')
+            print('\n' + filename + 'のサンプリングレートが異なります．')
+            print('\n' + str(len(sound[:1000].get_array_of_samples())) + 'Hz\n')
             sys.exit()
 
 
