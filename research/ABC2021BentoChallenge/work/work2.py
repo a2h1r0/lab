@@ -237,14 +237,12 @@ def main():
             # macro識別
             outputs_macro = model.Macro(inputs, test_data_length)
             prediction_macro = torch.sigmoid(outputs_macro)
-            prediction_macro = prediction_macro.to('cpu').detach().numpy().copy()
+            predictions_macro.append(prediction_macro.to('cpu').detach().numpy().copy())
 
             # micro識別
             outputs_micro = model.Micro(inputs, test_data_length)
             prediction_micro = torch.sigmoid(outputs_micro)
-            prediction_micro = prediction_micro.to('cpu').detach().numpy().copy()
-
-            predictions.append(get_10_prediction(prediction_macro, prediction_micro))
+            predictions_micro.append(prediction_micro.to('cpu').detach().numpy().copy())
 
     def label_determination(predictions):
         """
@@ -278,7 +276,7 @@ def main():
     test_data_all, answer_labels, answer_labels_macro, answer_labels_micro = make_test_data()
 
     loss_macro_all, loss_micro_all = [], []
-    predictions = []
+    predictions_macro, predictions_micro = [], []
     for marker in range(len(USE_MARKERS)):
         print('\n!!!!! ' + USE_MARKERS[marker] + ' !!!!!')
 
@@ -296,13 +294,25 @@ def main():
     data_dir = '../data/' + now + '/'
     if os.path.exists(data_dir) == False:
         os.makedirs(data_dir)
-    for marker, prediction_single in zip(USE_MARKERS, predictions):
+    for marker, prediction_single in zip(USE_MARKERS, predictions_macro):
         prediction_labels_single = [sigmoid_to_label(prediction) for prediction in prediction_single]
         report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels_single, output_dict=True))
-        report_df.to_csv(data_dir + 'report_' + marker + '_' + subjects + '.csv')
+        report_df.to_csv(data_dir + 'report_' + marker + '_' + subjects + '_macro.csv')
+    for marker, prediction_single in zip(USE_MARKERS, predictions_micro):
+        prediction_labels_single = [sigmoid_to_label(prediction) for prediction in prediction_single]
+        report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels_single, output_dict=True))
+        report_df.to_csv(data_dir + 'report_' + marker + '_' + subjects + '_micro.csv')
 
     # 予測ラベルの決定
-    prediction_labels = label_determination(predictions)
+    prediction_labels_macro = label_determination(predictions_macro)
+    prediction_labels_micro = label_determination(predictions_micro)
+    prediction_labels = []
+    for macro, micro in zip(prediction_labels_macro, prediction_labels_micro):
+        if micro == 1:
+            label = macro * 2 - 1
+        elif micro == 2:
+            label = macro * 2
+        prediction_labels.append(label)
 
     # 全体の結果の保存
     report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels, output_dict=True))
