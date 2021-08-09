@@ -8,7 +8,7 @@ OVERLAP = -50  # 個数指定 (-30ms ならば -3)
 def make_feature(raw_data, use_markers):
     """
     特徴量の作成
-    平均値 / 分散値 / 最大値 / 最小値    
+    平均値 / 分散値 / 最大値 / 最小値
     RMS / IQR / ZCR
 
     Args:
