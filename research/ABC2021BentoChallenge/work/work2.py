@@ -359,14 +359,20 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     torch.manual_seed(1)
 
-    TRAIN_SUBJECTS = ['1', '2', '3']
+    TRAIN_SUBJECTS = ['1']
+    TEST_SUBJECT = '2'
+    main()
     TEST_SUBJECT = '3'
     main()
 
-    # TRAIN_SUBJECTS = ['1', '3']
-    TEST_SUBJECT = '2'
+    TRAIN_SUBJECTS = ['2']
+    TEST_SUBJECT = '1'
+    main()
+    TEST_SUBJECT = '3'
     main()
 
-    # TRAIN_SUBJECTS = ['2', '3']
+    TRAIN_SUBJECTS = ['3']
     TEST_SUBJECT = '1'
+    main()
+    TEST_SUBJECT = '2'
     main()
