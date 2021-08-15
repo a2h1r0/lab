@@ -23,7 +23,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = '../dataset/train/speed/1_13/'
+DATA_DIR = '../dataset/train/autocorrelation/'
 
 USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
