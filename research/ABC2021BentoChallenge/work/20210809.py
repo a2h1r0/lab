@@ -259,7 +259,7 @@ def main():
     subjects = 'train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT
 
     # 部位ごとの結果の保存
-    data_dir = '../data/' + now + '/'
+    data_dir = '../data/LSTM1/' + now + '/'
     if os.path.exists(data_dir) == False:
         os.makedirs(data_dir)
     train_file_save = data_dir + 'train_files_' + subjects + '.csv'
@@ -288,7 +288,7 @@ def main():
             loss_writer.writerow([epoch + 1] + list(loss))
 
     # 結果の描画
-    figures_dir = '../figures/' + now + '/'
+    figures_dir = '../figures/LSTM1/' + now + '/'
     if os.path.exists(figures_dir) == False:
         os.makedirs(figures_dir)
     print('\n結果を描画します．．．')
