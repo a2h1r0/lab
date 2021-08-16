@@ -230,11 +230,6 @@ def main():
     data_dir = '../data/LSTM1/' + now + '/'
     if os.path.exists(data_dir) == False:
         os.makedirs(data_dir)
-    train_file_save = data_dir + 'train_files_' + subjects + '.csv'
-    with open(train_file_save, 'w', newline='') as f:
-        train_files_writer = csv.writer(f)
-        train_files_writer.writerows([[filename] for filename in natsorted(train_files)])
-
     for marker, prediction_single in zip(USE_MARKERS, predictions):
         prediction_labels_single = [sigmoid_to_label(prediction) for prediction in prediction_single]
         report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels_single, output_dict=True))
