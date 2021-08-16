@@ -43,7 +43,7 @@ def make_train_data():
         array: 学習データファイル
     """
 
-    train_data, train_labels, train_files = [], [], []
+    train_data, train_labels = [], []
     files = glob.glob(DATA_DIR + '/subject_[' + ''.join(TRAIN_SUBJECTS) + ']*.csv')
     for filename in files:
         with open(filename) as f:
@@ -57,9 +57,8 @@ def make_train_data():
         activity = re.findall(r'activity_\d+', filename)[0]
         label = int(activity.split('_')[1])
         train_labels.append(multi_label_binarizer(label))
-        train_files.append(filename.split('\\')[-1])
 
-    return train_data, train_labels, train_files
+    return train_data, train_labels
 
 
 def make_test_data():
@@ -89,34 +88,6 @@ def make_test_data():
         answer_labels.append(label)
 
     return test_data, test_labels, answer_labels
-
-
-def get_random_data(train_data_all, train_labels_all, train_files_all):
-    """
-    ランダムデータの作成
-
-    Args:
-        train_data_all (array): 学習データ全件
-        train_labels_all (array): 学習データラベル全件
-        train_files_all (array): 学習データラベル全件
-    Returns:
-        array: 学習データ
-        array: 学習データラベル
-        array: 学習データファイル
-    """
-
-    train_data = copy.deepcopy(train_data_all)
-    train_labels = copy.deepcopy(train_labels_all)
-    sample_num = len(train_data_all)
-    delete_index = random.sample(range(sample_num), sample_num // 10)
-
-    for index in sorted(delete_index, reverse=True):
-        del train_data[index]
-        del train_labels[index]
-
-    train_files = [train_file for index, train_file in enumerate(train_files_all) if index not in delete_index]
-
-    return train_data, train_labels, train_files
 
 
 def get_marker_data(marker_index, data):
@@ -169,7 +140,7 @@ def main():
         """
 
         # データの作成
-        train_data = get_marker_data(marker, train_data_full_markers)
+        train_data = get_marker_data(marker, train_data_all)
         train_data_length = [len(data) for data in train_data]
 
         model.train()
@@ -198,7 +169,7 @@ def main():
         """
 
         # データの作成
-        test_data = get_marker_data(marker, test_data_full_markers)
+        test_data = get_marker_data(marker, test_data_all)
         test_data_length = [len(data) for data in test_data]
 
         model.eval()
@@ -238,11 +209,8 @@ def main():
     optimizer = optimizers.Adam(model.parameters())
 
     # データの読み込み
-    train_data_all, train_labels_all, train_files_all = make_train_data()
-    test_data_full_markers, test_labels, answer_labels = make_test_data()
-
-    # データの切り捨て
-    train_data_full_markers, train_labels, train_files = get_random_data(train_data_all, train_labels_all, train_files_all)
+    train_data_all, train_labels = make_train_data()
+    test_data_all, test_labels, answer_labels = make_test_data()
 
     loss_all = []
     predictions = []
