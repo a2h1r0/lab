@@ -4,8 +4,10 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
 from fastdtw import fastdtw
+from scipy.spatial.distance import euclidean
 from preprocess import make_raw
 from natsort import natsorted
+import statistics
 import csv
 import glob
 import re
@@ -49,6 +51,8 @@ def make_train_data():
         activity = re.findall(r'activity_\d+', filename)[0]
         label = int(activity.split('_')[1])
         labels.append(label)
+        if len(train_data) > 2:
+            break
 
     return train_data, labels
 
@@ -81,6 +85,8 @@ def make_test_data():
         activity = re.findall(r'activity_\d+', filename)[0]
         label = int(activity.split('_')[1])
         answer_labels.append(label)
+        if len(test_data) > 2:
+            break
 
     return test_data, answer_labels
 
@@ -104,13 +110,29 @@ def main():
     train_data_all, labels = make_train_data()
     test_data_all, answer_labels = make_test_data()
 
-    predicrions = []
+    predictions = []
     for test_data in test_data_all:
-        prediction_labels = []
+        prediction_labels, prediction_distances = [], []
         for marker in range(len(test_data)):
             test_data_single = test_data[marker]
-            train_data = get_marker_data(marker, train_data_all)
-            print(train_data_all)
+            train_data_singles = get_marker_data(marker, train_data_all)
+            distances = []
+            for train_data_single in train_data_singles:
+                distance, path = fastdtw(train_data_single, test_data_single, dist=euclidean)
+                distances.append(distance)
+
+            min_index = np.argmin(distances)
+            prediction_labels.append(labels[min_index])
+            prediction_distances.append(distances[min_index])
+
+        majority_labels = statistics.multimode(prediction_labels)
+        if len(majority_labels) == 1:
+            label = majority_labels[0]
+        else:
+            min_distance_index = np.argmin(prediction_distances)
+            label = prediction_labels[min_distance_index]
+
+        predictions.append(label)
 
     sys.exit()
     # データの作成
