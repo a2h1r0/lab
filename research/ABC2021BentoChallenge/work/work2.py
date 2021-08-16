@@ -28,7 +28,7 @@ DATA_DIR = '../dataset/train/autocorrelation/'
 USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
 
-FEATURE_SIZE = 18  # 特徴量次元数
+FEATURE_SIZE = 3  # 特徴量次元数
 NUM_CLASSES_MACRO = 5  # マクロクラス数
 NUM_CLASSES_MICRO = 2  # マイクロクラス数
 EPOCH_NUM = 5000  # 学習サイクル数

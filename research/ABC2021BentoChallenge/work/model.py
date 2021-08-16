@@ -17,8 +17,8 @@ class Net():
     def __init__(self, input_size, hidden_size, out_features_macro, out_features_micro, device='cpu'):
         super().__init__()
 
-        self.Macro = self.Macro(input_size=21, hidden_size=hidden_size, out_features=out_features_macro).to(device)
-        self.Micro = self.Micro(input_size=21, hidden_size=hidden_size, out_features=out_features_micro).to(device)
+        self.Macro = self.Macro(input_size=input_size, hidden_size=hidden_size, out_features=out_features_macro).to(device)
+        self.Micro = self.Micro(input_size=input_size, hidden_size=hidden_size, out_features=out_features_micro).to(device)
 
     class Macro(nn.Module):
         """

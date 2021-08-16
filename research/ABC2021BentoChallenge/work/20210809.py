@@ -232,7 +232,7 @@ def main():
         return labels
 
     # モデルの構築
-    model = NetAll(input_size=18, hidden_size=HIDDEN_SIZE, out_features=NUM_CLASSES).to(device)
+    model = NetAll(input_size=3, hidden_size=HIDDEN_SIZE, out_features=NUM_CLASSES).to(device)
     pos_weight = torch.ones([NUM_CLASSES], device=device)
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
     optimizer = optimizers.Adam(model.parameters())
