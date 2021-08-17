@@ -7,7 +7,7 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
 from model import NetAll
-from preprocess import make_feature
+from preprocess import make_raw
 from label_determination import majority_vote_sigmoid
 import matplotlib.pyplot as plt
 from natsort import natsorted
@@ -50,7 +50,7 @@ def make_train_data():
             reader = csv.reader(f)
             next(reader)
             raw_data = [row for row in reader]
-            feature_data = make_feature(raw_data, USE_MARKERS)
+            feature_data = make_raw(raw_data, USE_MARKERS)
             if len(feature_data[0]) < 5:
                 continue
         train_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
@@ -78,7 +78,7 @@ def make_test_data():
             reader = csv.reader(f)
             next(reader)
             raw_data = [row for row in reader]
-            feature_data = make_feature(raw_data, USE_MARKERS)
+            feature_data = make_raw(raw_data, USE_MARKERS)
             if len(feature_data[0]) < 5:
                 continue
         test_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
