@@ -14,7 +14,7 @@ from natsort import natsorted
 import csv
 import glob
 import re
-import datetime
+import time
 import random
 import copy
 import sys
@@ -22,13 +22,14 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = '../dataset/train/autocorrelation/'
+TRAIN_DATA_DIR = '../dataset/train/autocorrelation/'
+TEST_DATA_DIR = '../dataset/test/autocorrelation/'
 
 USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
 
 NUM_CLASSES = 10  # クラス数
-EPOCH_NUM = 5000  # 学習サイクル数
+EPOCH_NUM = 2000  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.0  # ラベルを有効にする閾値
 
@@ -44,7 +45,7 @@ def make_train_data():
     """
 
     train_data, train_labels = [], []
-    files = glob.glob(DATA_DIR + '/subject_[' + ''.join(TRAIN_SUBJECTS) + ']*.csv')
+    files = glob.glob(TRAIN_DATA_DIR + '/*.csv')[:3]
     for filename in files:
         with open(filename) as f:
             reader = csv.reader(f)
@@ -67,27 +68,23 @@ def make_test_data():
 
     Returns:
         array: テストデータ
-        array: テストデータラベル
-        array: テストデータ生ラベル
+        array: セグメントid
     """
 
-    test_data, test_labels, answer_labels = [], [], []
-    files = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
+    test_data, segment_ids = [], []
+    files = glob.glob(TEST_DATA_DIR + '/*.csv')
     for filename in files:
         with open(filename) as f:
             reader = csv.reader(f)
             next(reader)
             raw_data = [row for row in reader]
             feature_data = make_feature(raw_data, USE_MARKERS)
-            if len(feature_data[0]) < 5:
-                continue
+            if filename.split('\\')[-1].split('.')[0] == '37':
+                feature_data[1] = [[0.0 for i in range(21)] for j in range(len(feature_data[1]))]
         test_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
-        activity = re.findall(r'activity_\d+', filename)[0]
-        label = int(activity.split('_')[1])
-        test_labels.append(multi_label_binarizer(label))
-        answer_labels.append(label)
+        segment_ids.append(int(filename.split('\\')[-1].split('.')[0]))
 
-    return test_data, test_labels, answer_labels
+    return test_data, segment_ids
 
 
 def get_marker_data(marker_index, data):
@@ -178,11 +175,14 @@ def main():
         with torch.no_grad():
             # パディング処理
             inputs = torch.nn.utils.rnn.pad_sequence(test_data, batch_first=True).permute(0, 2, 1).to(device)
-            labels = torch.tensor(test_labels, dtype=torch.float, device=device)
 
             outputs = model(inputs, test_data_length)
             # 予測結果をSigmoidに通す
             prediction = torch.sigmoid(outputs)
+            # 0チェック
+            for index, data in enumerate(test_data):
+                if torch.sum(data) == 0:
+                    prediction[index] = torch.zeros(NUM_CLASSES)
             predictions.append(prediction.to('cpu').detach().numpy().copy())
 
     def label_determination(predictions):
@@ -210,56 +210,53 @@ def main():
 
     # データの読み込み
     train_data_all, train_labels = make_train_data()
-    test_data_all, test_labels, answer_labels = make_test_data()
+    test_data_all, segment_ids = make_test_data()
 
     loss_all = []
+    train_times, test_times = [], []
     predictions = []
     for marker in range(len(USE_MARKERS)):
         print('\n!!!!! ' + USE_MARKERS[marker] + ' !!!!!')
 
         # モデルの学習
         loss_all.append([])
+        start = time.perf_counter()
         train()
+        finish = time.perf_counter()
+        process_time = finish - start
+        train_times.append(['train', USE_MARKERS[marker], process_time])
 
         # モデルのテスト
+        start = time.perf_counter()
         test()
-
-    subjects = 'train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT
-
-    # 部位ごとの結果の保存
-    data_dir = '../data/LSTM1/' + now + '/'
-    if os.path.exists(data_dir) == False:
-        os.makedirs(data_dir)
-    for marker, prediction_single in zip(USE_MARKERS, predictions):
-        prediction_labels_single = [sigmoid_to_label(prediction) for prediction in prediction_single]
-        report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels_single, output_dict=True))
-        report_df.to_csv(data_dir + 'report_' + marker + '_' + subjects + '.csv')
+        finish = time.perf_counter()
+        process_time = finish - start
+        test_times.append(['test', USE_MARKERS[marker], process_time])
 
     # 予測ラベルの決定
     prediction_labels = label_determination(predictions)
 
-    # 全体の結果の保存
-    report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels, output_dict=True))
-    report_df.to_csv(data_dir + 'report_all_' + subjects + '.csv')
-    print(report_df)
-    loss_file = data_dir + 'loss_' + subjects + '.csv'
-    with open(loss_file, 'w', newline='') as f:
-        loss_writer = csv.writer(f)
-        loss_writer.writerow(['Epoch'] + USE_MARKERS)
+    # 結果の保存
+    sorted_index = np.argsort(segment_ids)
+    data_dir = '../data/'
+    data_file = data_dir + 'prediction_labels.csv'
+    with open(data_file, 'w', newline='') as f:
+        data_writer = csv.writer(f)
+        data_writer.writerow(['segment_id', 'Label'])
 
-        for epoch, loss in enumerate(np.array(loss_all).T):
-            loss_writer.writerow([epoch + 1] + list(loss))
+        for index in sorted_index:
+            data_writer.writerow([str(segment_ids[index]) + '.csv', prediction_labels[index]])
 
-    # 結果の描画
-    figures_dir = '../figures/LSTM1/' + now + '/'
-    if os.path.exists(figures_dir) == False:
-        os.makedirs(figures_dir)
-    print('\n結果を描画します．．．')
-    plt.figure()
-    sns.heatmap(confusion_matrix(answer_labels, prediction_labels))
-    plt.savefig(figures_dir + 'result_' + subjects + '.png', bbox_inches='tight', pad_inches=0)
+    # 計算時間の保存
+    data_file = data_dir + 'prediction_time.csv'
+    with open(data_file, 'w', newline='') as f:
+        data_writer = csv.writer(f)
+        data_writer.writerow(['mode', 'marker', 'time'])
+        data_writer.writerows(train_times)
+        data_writer.writerows(test_times)
 
     # Lossの描画
+    figures_dir = '../figures/'
     plt.figure(figsize=(16, 9))
     for marker, loss in zip(USE_MARKERS, loss_all):
         plt.plot(range(1, EPOCH_NUM + 1), loss, label=marker)
@@ -267,16 +264,13 @@ def main():
     plt.ylabel('Loss', fontsize=26)
     plt.legend(fontsize=26, loc='upper right')
     plt.tick_params(labelsize=26)
-    plt.savefig(figures_dir + 'loss_' + subjects + '.png', bbox_inches='tight', pad_inches=0)
+    plt.savefig(figures_dir + 'prediction_loss.svg', bbox_inches='tight', pad_inches=0)
+    plt.savefig(figures_dir + 'prediction_loss.eps', bbox_inches='tight', pad_inches=0)
 
 
 if __name__ == '__main__':
-    now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-
     # 初期化
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     torch.manual_seed(1)
 
-    TRAIN_SUBJECTS = ['1', '2', '3']
-    TEST_SUBJECT = '4'
     main()
