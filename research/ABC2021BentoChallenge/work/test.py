@@ -248,6 +248,15 @@ def main():
             data_writer.writerow([str(segment_ids[index]) + '.csv', prediction_labels[index]])
 
     # 計算時間の保存
+    total_time = 0
+    for train_time in train_times:
+        total_time += train_time[2]
+    train_times.append(['train', 'total', total_time])
+    total_time = 0
+    for test_time in train_times:
+        total_time += test_time[2]
+    test_times.append(['test', 'total', total_time])
+
     data_file = data_dir + 'prediction_time.csv'
     with open(data_file, 'w', newline='') as f:
         data_writer = csv.writer(f)
