@@ -29,7 +29,7 @@ USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
 
 NUM_CLASSES = 10  # クラス数
-EPOCH_NUM = 2000  # 学習サイクル数
+EPOCH_NUM = 5000  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.0  # ラベルを有効にする閾値
 
@@ -45,7 +45,7 @@ def make_train_data():
     """
 
     train_data, train_labels = [], []
-    files = glob.glob(TRAIN_DATA_DIR + '/*.csv')[:3]
+    files = glob.glob(TRAIN_DATA_DIR + '/*.csv')
     for filename in files:
         with open(filename) as f:
             reader = csv.reader(f)
@@ -253,7 +253,7 @@ def main():
         total_time += train_time[2]
     train_times.append(['train', 'total', total_time])
     total_time = 0
-    for test_time in train_times:
+    for test_time in test_times:
         total_time += test_time[2]
     test_times.append(['test', 'total', total_time])
 
