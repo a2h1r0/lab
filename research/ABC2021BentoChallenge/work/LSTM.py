@@ -28,7 +28,7 @@ USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
 
 NUM_CLASSES = 10  # クラス数
-EPOCH_NUM = 1000  # 学習サイクル数
+EPOCH_NUM = 5000  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.0  # ラベルを有効にする閾値
 
@@ -72,7 +72,7 @@ def make_test_data():
     """
 
     test_data, test_labels, answer_labels = [], [], []
-    files = glob.glob(DATA_DIR + '/subject_' + TEST_SUBJECT + '*.csv')
+    files = glob.glob(DATA_DIR + '/subject_[' + ''.join(TEST_SUBJECTS) + ']*.csv')
     for filename in files:
         with open(filename) as f:
             reader = csv.reader(f)
@@ -223,10 +223,10 @@ def main():
         # モデルのテスト
         test()
 
-    subjects = 'train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT
+    subjects = 'train' + ''.join(TRAIN_SUBJECTS) + '_test' + ''.join(TEST_SUBJECTS)
 
     # 部位ごとの結果の保存
-    data_dir = '../data/LSTM1/' + now + '/'
+    data_dir = '../data/LSTM1/paper/'
     if os.path.exists(data_dir) == False:
         os.makedirs(data_dir)
     for marker, prediction_single in zip(USE_MARKERS, predictions):
@@ -250,7 +250,7 @@ def main():
             loss_writer.writerow([epoch + 1] + list(loss))
 
     # 結果の描画
-    figures_dir = '../figures/LSTM1/' + now + '/'
+    figures_dir = '../figures/LSTM1/paper/'
     if os.path.exists(figures_dir) == False:
         os.makedirs(figures_dir)
     print('\n結果を描画します．．．')
@@ -276,20 +276,18 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     torch.manual_seed(1)
 
-    TRAIN_SUBJECTS = ['1']
-    TEST_SUBJECT = '2'
-    main()
-    TEST_SUBJECT = '3'
+    TRAIN_SUBJECTS = ['1', '2']
+    TEST_SUBJECTS = ['3']
     main()
 
-    TRAIN_SUBJECTS = ['2']
-    TEST_SUBJECT = '1'
-    main()
-    TEST_SUBJECT = '3'
+    TRAIN_SUBJECTS = ['2', '3']
+    TEST_SUBJECTS = ['1']
     main()
 
-    TRAIN_SUBJECTS = ['3']
-    TEST_SUBJECT = '1'
+    TRAIN_SUBJECTS = ['1', '3']
+    TEST_SUBJECTS = ['2']
     main()
-    TEST_SUBJECT = '2'
+
+    TRAIN_SUBJECTS = ['1', '2', '3']
+    TEST_SUBJECTS = ['1', '2', '3']
     main()
