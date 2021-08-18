@@ -28,7 +28,7 @@ USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
 
 NUM_CLASSES = 10  # クラス数
-EPOCH_NUM = 5000  # 学習サイクル数
+EPOCH_NUM = 1000  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 LABEL_THRESHOLD = 0.0  # ラベルを有効にする閾値
 
@@ -178,7 +178,6 @@ def main():
         with torch.no_grad():
             # パディング処理
             inputs = torch.nn.utils.rnn.pad_sequence(test_data, batch_first=True).permute(0, 2, 1).to(device)
-            labels = torch.tensor(test_labels, dtype=torch.float, device=device)
 
             outputs = model(inputs, test_data_length)
             # 予測結果をSigmoidに通す
