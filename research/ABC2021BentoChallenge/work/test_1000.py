@@ -239,7 +239,7 @@ def main():
     # 結果の保存
     sorted_index = np.argsort(segment_ids)
     data_dir = '../data/'
-    data_file = data_dir + 'prediction_labels.csv'
+    data_file = data_dir + 'prediction_labels_1000.csv'
     with open(data_file, 'w', newline='') as f:
         data_writer = csv.writer(f)
         data_writer.writerow(['segment_id', 'Label'])
@@ -257,7 +257,7 @@ def main():
         total_time += test_time[2]
     test_times.append(['test', 'total', total_time])
 
-    data_file = data_dir + 'prediction_time.csv'
+    data_file = data_dir + 'prediction_time_1000.csv'
     with open(data_file, 'w', newline='') as f:
         data_writer = csv.writer(f)
         data_writer.writerow(['mode', 'marker', 'time'])
@@ -273,8 +273,8 @@ def main():
     plt.ylabel('Loss', fontsize=26)
     plt.legend(fontsize=26, loc='upper right')
     plt.tick_params(labelsize=26)
-    plt.savefig(figures_dir + 'prediction_loss.svg', bbox_inches='tight', pad_inches=0)
-    plt.savefig(figures_dir + 'prediction_loss.eps', bbox_inches='tight', pad_inches=0)
+    plt.savefig(figures_dir + 'prediction_loss_1000.svg', bbox_inches='tight', pad_inches=0)
+    plt.savefig(figures_dir + 'prediction_loss_1000.eps', bbox_inches='tight', pad_inches=0)
 
 
 if __name__ == '__main__':
