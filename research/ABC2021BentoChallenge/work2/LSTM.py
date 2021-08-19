@@ -201,8 +201,8 @@ def main():
 
     # モデルの構築
     model = NetAll(input_size=21, hidden_size=HIDDEN_SIZE, out_features=NUM_CLASSES).to(device)
-    pos_weight = torch.ones([NUM_CLASSES], device=device)
-    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+    weight = torch.ones([NUM_CLASSES], device=device)
+    criterion = nn.CrossEntropyLoss(weight=weight)
     optimizer = optimizers.Adam(model.parameters())
 
     # データの読み込み

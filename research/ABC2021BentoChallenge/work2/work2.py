@@ -262,11 +262,11 @@ def main():
     # モデルの構築
     model = Net(input_size=FEATURE_SIZE, hidden_size=HIDDEN_SIZE,
                 out_features_macro=NUM_CLASSES_MACRO, out_features_micro=NUM_CLASSES_MICRO, device=device)
-    pos_weight_macro = torch.ones([NUM_CLASSES_MACRO], device=device)
-    criterion_macro = nn.BCEWithLogitsLoss(pos_weight=pos_weight_macro)
+    weight_macro = torch.ones([NUM_CLASSES_MACRO], device=device)
+    criterion_macro = nn.CrossEntropyLoss(weight=weight_macro)
     optimizer_macro = optimizers.Adam(model.Macro.parameters())
-    pos_weight_micro = torch.ones([NUM_CLASSES_MICRO], device=device)
-    criterion_micro = nn.BCEWithLogitsLoss(pos_weight=pos_weight_micro)
+    weight_micro = torch.ones([NUM_CLASSES_MICRO], device=device)
+    criterion_micro = nn.CrossEntropyLoss(weight=weight_micro)
     optimizer_micro = optimizers.Adam(model.Micro.parameters())
 
     # データの読み込み
