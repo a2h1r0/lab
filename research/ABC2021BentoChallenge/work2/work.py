@@ -236,13 +236,11 @@ def main():
 
             # macro識別
             outputs_macro = model.Macro(inputs, test_data_length)
-            prediction_macro = torch.sigmoid(outputs_macro)
-            prediction_macro = prediction_macro.to('cpu').detach().numpy().copy()
+            prediction_macro = outputs_macro.to('cpu').detach().numpy().copy()
 
             # micro識別
             outputs_micro = model.Micro(inputs, test_data_length)
-            prediction_micro = torch.sigmoid(outputs_micro)
-            prediction_micro = prediction_micro.to('cpu').detach().numpy().copy()
+            prediction_micro = outputs_micro.to('cpu').detach().numpy().copy()
 
             predictions.append(get_10_prediction(prediction_macro, prediction_micro))
 

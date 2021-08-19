@@ -40,6 +40,7 @@ class Net():
             self.conv = nn.Conv1d(in_channels=input_size, out_channels=MAP_SIZE, kernel_size=self.kernel_size, groups=input_size)
             self.lstm = nn.LSTM(input_size=MAP_SIZE, hidden_size=self.hidden_size, batch_first=True)
             self.fc = nn.Linear(self.hidden_size, out_features)
+            self.sigmoid = nn.Sigmoid()
 
         def forward(self, x, data_length):
             """
@@ -58,6 +59,8 @@ class Net():
             _, x = self.lstm(x)
 
             x = self.fc(x[0].view(-1, self.hidden_size))
+
+            x = self.sigmoid(x)
 
             return x
 
@@ -81,6 +84,7 @@ class Net():
             self.conv = nn.Conv1d(in_channels=input_size, out_channels=MAP_SIZE, kernel_size=self.kernel_size, groups=input_size)
             self.lstm = nn.LSTM(input_size=MAP_SIZE, hidden_size=self.hidden_size, batch_first=True)
             self.fc = nn.Linear(self.hidden_size, out_features)
+            self.sigmoid = nn.Sigmoid()
 
         def forward(self, x, data_length):
             """
@@ -99,6 +103,8 @@ class Net():
             _, x = self.lstm(x)
 
             x = self.fc(x[0].view(-1, self.hidden_size))
+
+            x = self.sigmoid(x)
 
             return x
 
@@ -123,6 +129,7 @@ class NetAll(nn.Module):
         self.conv = nn.Conv1d(in_channels=input_size, out_channels=MAP_SIZE, kernel_size=self.kernel_size, groups=input_size)
         self.lstm = nn.LSTM(input_size=MAP_SIZE, hidden_size=self.hidden_size, batch_first=True)
         self.fc = nn.Linear(self.hidden_size, out_features)
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self, x, data_length):
         """
@@ -141,5 +148,7 @@ class NetAll(nn.Module):
         _, x = self.lstm(x)
 
         x = self.fc(x[0].view(-1, self.hidden_size))
+
+        x = self.sigmoid(x)
 
         return x

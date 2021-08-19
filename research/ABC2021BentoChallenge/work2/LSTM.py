@@ -180,9 +180,7 @@ def main():
             inputs = torch.nn.utils.rnn.pad_sequence(test_data, batch_first=True).permute(0, 2, 1).to(device)
 
             outputs = model(inputs, test_data_length)
-            # 予測結果をSigmoidに通す
-            prediction = torch.sigmoid(outputs)
-            predictions.append(prediction.to('cpu').detach().numpy().copy())
+            predictions.append(outputs.to('cpu').detach().numpy().copy())
 
     def label_determination(predictions):
         """
