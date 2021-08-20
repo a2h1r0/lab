@@ -1,12 +1,12 @@
-from preprocess import make_raw
+from preprocess import make_feature
 import matplotlib.pyplot as plt
 import csv
 import os
 os.chdir(os.path.dirname(__file__))
 
 
-FILENAME = '../dataset/train/speed/1_13/subject_1_activity_1_repeat_1.csv'
-SAVENAME = 'wave_speed_1'
+FILENAME = '../dataset/train/autocorrelation/subject_1_activity_1_001.csv'
+SAVENAME = 'wave_feature_1'
 
 USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
@@ -17,10 +17,9 @@ def main():
         reader = csv.reader(f)
         next(reader)
         raw_data = [row for row in reader if '' not in row]
-        feature_data = make_raw(raw_data, USE_MARKERS)
-        # feature_data = make_feature(raw_data, USE_MARKERS)
+        # feature_data = make_raw(raw_data, USE_MARKERS)
+        feature_data = make_feature(raw_data, USE_MARKERS)
 
-    # Lossの描画
     figures_dir = '../figures/'
     plt.figure(figsize=(9, 6))
     # for marker, data in zip(USE_MARKERS, feature_data):
