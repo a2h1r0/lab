@@ -7,7 +7,7 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
 from model import Net
-from preprocess import make_feature
+from preprocess import make_raw
 from label_determination import majority_vote_sigmoid
 import matplotlib.pyplot as plt
 from natsort import natsorted
@@ -28,7 +28,7 @@ DATA_DIR = '../dataset/train/autocorrelation/'
 USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
 
-FEATURE_SIZE = 21  # 特徴量次元数
+FEATURE_SIZE = 3  # 特徴量次元数
 NUM_CLASSES_MACRO = 5  # マクロクラス数
 NUM_CLASSES_MICRO = 2  # マイクロクラス数
 EPOCH_NUM = 5000  # 学習サイクル数
@@ -52,7 +52,7 @@ def make_train_data():
             reader = csv.reader(f)
             next(reader)
             raw_data = [row for row in reader]
-            feature_data = make_feature(raw_data, USE_MARKERS)
+            feature_data = make_raw(raw_data, USE_MARKERS)
             if len(feature_data[0]) < 5:
                 continue
         train_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
@@ -81,7 +81,7 @@ def make_test_data():
             reader = csv.reader(f)
             next(reader)
             raw_data = [row for row in reader]
-            feature_data = make_feature(raw_data, USE_MARKERS)
+            feature_data = make_raw(raw_data, USE_MARKERS)
             if len(feature_data[0]) < 5:
                 continue
         test_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
