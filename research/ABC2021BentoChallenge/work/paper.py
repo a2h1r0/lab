@@ -5,8 +5,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-FILENAME = '../dataset/train/autocorrelation/subject_1_activity_1_001.csv'
-SAVENAME = 'wave_autocorrelation_1'
+FILENAME = '../dataset/train/speed/1_13/subject_1_activity_1_repeat_1.csv'
+SAVENAME = 'wave_speed_1'
 
 USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
