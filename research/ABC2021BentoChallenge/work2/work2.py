@@ -131,7 +131,7 @@ def multi_label_binarizer_micro(label):
         array: ワンホットラベル
     """
 
-    return ~(label % 2)
+    return (label - 1) % 2
 
 
 def get_10_prediction(prediction_macro, prediction_micro):
