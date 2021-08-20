@@ -208,12 +208,21 @@ def main():
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
     optimizer = optimizers.Adam(model.parameters())
 
+    train_times, test_times = [], []
+
     # データの読み込み
+    start = time.perf_counter()
     train_data_all, train_labels = make_train_data()
+    finish = time.perf_counter()
+    process_time = finish - start
+    train_times.append(['train', 'make_features', process_time])
+    start = time.perf_counter()
     test_data_all, segment_ids = make_test_data()
+    finish = time.perf_counter()
+    process_time = finish - start
+    test_times.append(['test', 'make_features', process_time])
 
     loss_all = []
-    train_times, test_times = [], []
     predictions = []
     for marker in range(len(USE_MARKERS)):
         print('\n!!!!! ' + USE_MARKERS[marker] + ' !!!!!')
@@ -238,8 +247,10 @@ def main():
 
     # 結果の保存
     sorted_index = np.argsort(segment_ids)
-    data_dir = '../data/'
-    data_file = data_dir + 'prediction_labels.csv'
+    save_dir = '../result/'
+    if os.path.exists(save_dir) == False:
+        os.makedirs(save_dir)
+    data_file = save_dir + 'prediction_labels.csv'
     with open(data_file, 'w', newline='') as f:
         data_writer = csv.writer(f)
         data_writer.writerow(['segment_id', 'Label'])
@@ -257,7 +268,7 @@ def main():
         total_time += test_time[2]
     test_times.append(['test', 'total', total_time])
 
-    data_file = data_dir + 'prediction_time.csv'
+    data_file = save_dir + 'prediction_time.csv'
     with open(data_file, 'w', newline='') as f:
         data_writer = csv.writer(f)
         data_writer.writerow(['mode', 'marker', 'time'])
@@ -265,7 +276,6 @@ def main():
         data_writer.writerows(test_times)
 
     # Lossの描画
-    figures_dir = '../figures/'
     plt.figure(figsize=(16, 9))
     for marker, loss in zip(USE_MARKERS, loss_all):
         plt.plot(range(1, EPOCH_NUM + 1), loss, label=marker)
@@ -273,8 +283,8 @@ def main():
     plt.ylabel('Loss', fontsize=26)
     plt.legend(fontsize=26, loc='upper right')
     plt.tick_params(labelsize=26)
-    plt.savefig(figures_dir + 'prediction_loss.svg', bbox_inches='tight', pad_inches=0)
-    plt.savefig(figures_dir + 'prediction_loss.eps', bbox_inches='tight', pad_inches=0)
+    plt.savefig(save_dir + 'prediction_loss.svg', bbox_inches='tight', pad_inches=0)
+    plt.savefig(save_dir + 'prediction_loss.eps', bbox_inches='tight', pad_inches=0)
 
 
 if __name__ == '__main__':
