@@ -280,14 +280,10 @@ if __name__ == '__main__':
     TEST_SUBJECTS = ['3']
     main()
 
-    TRAIN_SUBJECTS = ['2', '3']
-    TEST_SUBJECTS = ['1']
-    main()
-
     TRAIN_SUBJECTS = ['1', '3']
     TEST_SUBJECTS = ['2']
     main()
 
-    TRAIN_SUBJECTS = ['1', '2', '3']
-    TEST_SUBJECTS = ['1', '2', '3']
+    TRAIN_SUBJECTS = ['2', '3']
+    TEST_SUBJECTS = ['1']
     main()
