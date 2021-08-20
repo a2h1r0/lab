@@ -5,8 +5,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-FILENAME = '../dataset/train/raw/subject_1_activity_1_repeat_1.csv'
-SAVENAME = 'wave_raw'
+FILENAME = '../dataset/train/speed/1_13/subject_1_activity_1_repeat_1.csv'
+SAVENAME = 'wave_speed'
 
 USE_MARKERS = ['right_shoulder', 'right_elbow', 'right_wrist',
                'left_shoulder', 'left_elbow', 'left_wrist']
@@ -22,9 +22,10 @@ def main():
 
     # Lossの描画
     figures_dir = '../figures/'
-    plt.figure(figsize=(16, 3))
-    for marker, data in zip(USE_MARKERS, feature_data):
-        plt.plot(range(len(data)), data, label=marker)
+    plt.figure(figsize=(9, 6))
+    # for marker, data in zip(USE_MARKERS, feature_data):
+    #     plt.plot(range(len(data)), data, label=marker)
+    plt.plot(range(len(feature_data[0])), feature_data[0])
     # plt.xlabel('Epoch', fontsize=26)
     # plt.ylabel('Loss', fontsize=26)
     # plt.legend(fontsize=26, loc='upper right')
