@@ -118,10 +118,7 @@ def multi_label_binarizer_macro(label):
         array: ワンホットラベル
     """
 
-    y = [0 for i in range(5)]
-    y[math.ceil(label/2) - 1] = 1
-
-    return y
+    return math.ceil(label/2) - 1
 
 
 def multi_label_binarizer_micro(label):
@@ -134,10 +131,7 @@ def multi_label_binarizer_micro(label):
         array: ワンホットラベル
     """
 
-    y = [0 for i in range(2)]
-    y[~(label % 2)] = 1
-
-    return y
+    return ~(label % 2)
 
 
 def get_10_prediction(prediction_macro, prediction_micro):
@@ -195,7 +189,7 @@ def main():
             inputs = torch.nn.utils.rnn.pad_sequence(train_data, batch_first=True).permute(0, 2, 1).to(device)
 
             # macro識別
-            labels_macro = torch.tensor(train_labels_macro, dtype=torch.float, device=device)
+            labels_macro = torch.tensor(train_labels_macro, dtype=torch.long, device=device)
             optimizer_macro.zero_grad()
             outputs_macro = model.Macro(inputs, train_data_length)
             loss_macro = criterion_macro(outputs_macro, labels_macro)
@@ -203,7 +197,7 @@ def main():
             optimizer_macro.step()
 
             # micro識別
-            labels_micro = torch.tensor(train_labels_micro, dtype=torch.float, device=device)
+            labels_micro = torch.tensor(train_labels_micro, dtype=torch.long, device=device)
             optimizer_micro.zero_grad()
             outputs_micro = model.Micro(inputs, train_data_length)
             loss_micro = criterion_micro(outputs_micro, labels_micro)

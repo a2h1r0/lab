@@ -71,7 +71,7 @@ def make_test_data():
         array: テストデータ生ラベル
     """
 
-    test_data, test_labels, answer_labels = [], [], []
+    test_data, answer_labels = [], []
     files = glob.glob(DATA_DIR + '/subject_[' + ''.join(TEST_SUBJECTS) + ']*.csv')
     for filename in files:
         with open(filename) as f:
@@ -84,10 +84,9 @@ def make_test_data():
         test_data.append(torch.tensor(feature_data, dtype=torch.float, device=device))
         activity = re.findall(r'activity_\d+', filename)[0]
         label = int(activity.split('_')[1])
-        test_labels.append(multi_label_binarizer(label))
         answer_labels.append(label)
 
-    return test_data, test_labels, answer_labels
+    return test_data, answer_labels
 
 
 def get_marker_data(marker_index, data):
@@ -114,10 +113,7 @@ def multi_label_binarizer(label):
         array: ワンホットラベル
     """
 
-    y = [0 for i in range(10)]
-    y[label - 1] = 1
-
-    return y
+    return label - 1
 
 
 def sigmoid_to_label(prediction):
@@ -149,7 +145,7 @@ def main():
         for epoch in range(EPOCH_NUM):
             # パディング処理
             inputs = torch.nn.utils.rnn.pad_sequence(train_data, batch_first=True).permute(0, 2, 1).to(device)
-            labels = torch.tensor(train_labels, dtype=torch.float, device=device)
+            labels = torch.tensor(train_labels, dtype=torch.long, device=device)
 
             optimizer.zero_grad()
             outputs = model(inputs, train_data_length)
@@ -209,7 +205,7 @@ def main():
 
     # データの読み込み
     train_data_all, train_labels = make_train_data()
-    test_data_all, test_labels, answer_labels = make_test_data()
+    test_data_all, answer_labels = make_test_data()
 
     loss_all = []
     predictions = []
@@ -277,19 +273,19 @@ if __name__ == '__main__':
     torch.manual_seed(1)
 
     TRAIN_SUBJECTS = ['1']
-    TEST_SUBJECT = '2'
+    TEST_SUBJECTS = ['2']
     main()
-    TEST_SUBJECT = '3'
+    TEST_SUBJECTS = ['3']
     main()
 
     TRAIN_SUBJECTS = ['2']
-    TEST_SUBJECT = '1'
+    TEST_SUBJECTS = ['1']
     main()
-    TEST_SUBJECT = '3'
+    TEST_SUBJECTS = ['3']
     main()
 
     TRAIN_SUBJECTS = ['3']
-    TEST_SUBJECT = '1'
+    TEST_SUBJECTS = ['1']
     main()
-    TEST_SUBJECT = '2'
+    TEST_SUBJECTS = ['2']
     main()
