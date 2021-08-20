@@ -223,24 +223,27 @@ def main():
         # モデルのテスト
         test()
 
-    subjects = 'train' + ''.join(TRAIN_SUBJECTS) + '_test' + ''.join(TEST_SUBJECTS)
-
-    # 部位ごとの結果の保存
-    data_dir = '../data/paper/'
-    if os.path.exists(data_dir) == False:
-        os.makedirs(data_dir)
-    for marker, prediction_single in zip(USE_MARKERS, predictions):
-        prediction_labels_single = [sigmoid_to_label(prediction) for prediction in prediction_single]
-        report_df = pd.DataFrame(accuracy_score(answer_labels, prediction_labels_single))
-        report_df.to_csv(data_dir + 'report_' + marker + '_' + subjects + '.csv')
-
     # 予測ラベルの決定
     prediction_labels = label_determination(predictions)
 
-    # 全体の結果の保存
-    report_df = pd.DataFrame(accuracy_score(answer_labels, prediction_labels))
-    report_df.to_csv(data_dir + 'report_all_' + subjects + '.csv')
-    print(report_df)
+    # 結果の保存
+    subjects = 'train' + ''.join(TRAIN_SUBJECTS) + '_test' + ''.join(TEST_SUBJECTS)
+
+    data_dir = '../data/paper/'
+    if os.path.exists(data_dir) == False:
+        os.makedirs(data_dir)
+    scores = []
+    for marker, prediction_single in zip(USE_MARKERS, predictions):
+        prediction_labels_single = [sigmoid_to_label(prediction) for prediction in prediction_single]
+        scores.append(accuracy_score(answer_labels, prediction_labels_single))
+    accuracy_file = data_dir + 'report_' + subjects + '.csv'
+    with open(accuracy_file, 'w', newline='') as f:
+        accuracy_writer = csv.writer(f)
+        accuracy_writer.writerow(['Marker', 'Accuracy'])
+        for marker, score in zip(USE_MARKERS, scores):
+            accuracy_writer.writerow([marker, score])
+        accuracy_writer.writerow(['all', accuracy_score(answer_labels, prediction_labels)])
+
     loss_file = data_dir + 'loss_' + subjects + '.csv'
     with open(loss_file, 'w', newline='') as f:
         loss_writer = csv.writer(f)
