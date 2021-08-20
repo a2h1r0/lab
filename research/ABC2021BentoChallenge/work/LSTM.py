@@ -3,7 +3,7 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optimizers
-from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
 from model import NetAll
@@ -231,14 +231,14 @@ def main():
         os.makedirs(data_dir)
     for marker, prediction_single in zip(USE_MARKERS, predictions):
         prediction_labels_single = [sigmoid_to_label(prediction) for prediction in prediction_single]
-        report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels_single, output_dict=True))
+        report_df = pd.DataFrame(accuracy_score(answer_labels, prediction_labels_single))
         report_df.to_csv(data_dir + 'report_' + marker + '_' + subjects + '.csv')
 
     # 予測ラベルの決定
     prediction_labels = label_determination(predictions)
 
     # 全体の結果の保存
-    report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels, output_dict=True))
+    report_df = pd.DataFrame(accuracy_score(answer_labels, prediction_labels))
     report_df.to_csv(data_dir + 'report_all_' + subjects + '.csv')
     print(report_df)
     loss_file = data_dir + 'loss_' + subjects + '.csv'
