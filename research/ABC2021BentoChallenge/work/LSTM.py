@@ -226,7 +226,7 @@ def main():
     subjects = 'train' + ''.join(TRAIN_SUBJECTS) + '_test' + ''.join(TEST_SUBJECTS)
 
     # 部位ごとの結果の保存
-    data_dir = '../data/LSTM1/paper/'
+    data_dir = '../data/paper/'
     if os.path.exists(data_dir) == False:
         os.makedirs(data_dir)
     for marker, prediction_single in zip(USE_MARKERS, predictions):
@@ -250,7 +250,7 @@ def main():
             loss_writer.writerow([epoch + 1] + list(loss))
 
     # 結果の描画
-    figures_dir = '../figures/LSTM1/paper/'
+    figures_dir = '../figures/paper/'
     if os.path.exists(figures_dir) == False:
         os.makedirs(figures_dir)
     print('\n結果を描画します．．．')
