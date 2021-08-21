@@ -165,20 +165,20 @@ if __name__ == '__main__':
     TRAIN_SUBJECTS = ['1']
     TEST_SUBJECT = '2'
     main()
-    TEST_SUBJECT = '3'
-    main()
+    # TEST_SUBJECT = '3'
+    # main()
 
-    TRAIN_SUBJECTS = ['2']
-    TEST_SUBJECT = '1'
-    main()
-    TEST_SUBJECT = '3'
-    main()
+    # TRAIN_SUBJECTS = ['2']
+    # TEST_SUBJECT = '1'
+    # main()
+    # TEST_SUBJECT = '3'
+    # main()
 
-    TRAIN_SUBJECTS = ['3']
-    TEST_SUBJECT = '1'
-    main()
-    TEST_SUBJECT = '2'
-    main()
+    # TRAIN_SUBJECTS = ['3']
+    # TEST_SUBJECT = '1'
+    # main()
+    # TEST_SUBJECT = '2'
+    # main()
 
     time_file = data_dir + 'prediction_time.csv'
     with open(time_file, 'w', newline='') as f:
