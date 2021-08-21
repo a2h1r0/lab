@@ -39,7 +39,7 @@ def light(heart_rate):
         # 10秒ごとに残り時間を表示
         if int(process) % 10 == 0 and int(process) != show_time:
             show_time = int(process)
-            print('残り．．．' + str(PROCESS_TIME - show_time) + '秒')
+            print('Remaining... ' + str(PROCESS_TIME - show_time) + 's')
 
         # 10秒前まで表示
         if process > (PROCESS_TIME - 10):
@@ -51,7 +51,7 @@ def light(heart_rate):
 
 if __name__ == '__main__':
     # 心拍数の設定
-    heart_rate = input('\n\n心拍数は？ > ')
+    heart_rate = input('\n\nTarget Heart Rate > ')
 
     # シリアル通信（Arduino）の初期化
     ser = serial.Serial(USB_PORT, USB_SPEED)
@@ -66,12 +66,12 @@ if __name__ == '__main__':
             '%Y/%m/%d') + ' ' + now.strftime('%H:%M:%S')
         log_writer.writerow([run_date_time, PROCESS_TIME, heart_rate])
 
-    print('\n描画中．．．')
+    print('\nDrawing...')
 
     # 点灯開始
     light(heart_rate)
 
-    print('\n----- 描画終了 -----\n')
+    print('\n----- Finish -----\n')
 
     # シリアル通信の終了
     ser.close()
