@@ -1,17 +1,15 @@
 import numpy as np
 import pandas as pd
-from sklearn.metrics import classification_report
-from sklearn.metrics import confusion_matrix
-import seaborn as sns
+from sklearn.metrics import accuracy_score
 from fastdtw import fastdtw
 from scipy.spatial.distance import euclidean
 from preprocess import make_raw
-from natsort import natsorted
 import statistics
 import csv
 import glob
 import re
 import datetime
+import time
 import sys
 import os
 os.chdir(os.path.dirname(__file__))
@@ -102,6 +100,8 @@ def get_marker_data(marker_index, data):
 
 
 def main():
+    start = time.perf_counter()
+
     # データの読み込み
     train_data_all, labels = make_train_data()
     test_data_all, answer_labels = make_test_data()
@@ -116,8 +116,16 @@ def main():
             train_data_singles = get_marker_data(marker, train_data_all)
             distances = []
             for train_data_single in train_data_singles:
+                # 波形に3秒以上のデータの差があれば無視
+                if abs(len(train_data_single) - len(test_data_single)) > 300:
+                    continue
                 distance, path = fastdtw(train_data_single, test_data_single, dist=euclidean)
                 distances.append(distance)
+            if len(distances) == 0:
+                # 結果が存在しなかった場合は制限を解除
+                for train_data_single in train_data_singles:
+                    distance, path = fastdtw(train_data_single, test_data_single, dist=euclidean)
+                    distances.append(distance)
 
             min_index = np.argmin(distances)
             predictions.append(labels[min_index])
@@ -132,20 +140,28 @@ def main():
 
         prediction_labels.append(label)
 
+    finish = time.perf_counter()
+    process_time = finish - start
+    process_times.append([''.join(TRAIN_SUBJECTS), TEST_SUBJECT, process_time])
+
     subjects = 'train' + ''.join(TRAIN_SUBJECTS) + '_test' + TEST_SUBJECT
 
     # 結果の保存
-    data_dir = '../data/' + now + '/'
-    if os.path.exists(data_dir) == False:
-        os.makedirs(data_dir)
-    report_df = pd.DataFrame(classification_report(answer_labels, prediction_labels, output_dict=True))
-    report_df.to_csv(data_dir + 'report_all_' + subjects + '.csv')
-    print(report_df)
+    accuracy_file = data_dir + 'report_' + subjects + '.csv'
+    with open(accuracy_file, 'w', newline='') as f:
+        accuracy_writer = csv.writer(f)
+        accuracy_writer.writerow(['Marker', 'Accuracy'])
+        accuracy_writer.writerow(['all', accuracy_score(answer_labels, prediction_labels)])
 
 
 if __name__ == '__main__':
+    # 結果保存ディレクトリの作成
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
+    data_dir = '../data/' + now + '/'
+    if os.path.exists(data_dir) == False:
+        os.makedirs(data_dir)
 
+    process_times = []
     TRAIN_SUBJECTS = ['1']
     TEST_SUBJECT = '2'
     main()
@@ -163,3 +179,9 @@ if __name__ == '__main__':
     main()
     TEST_SUBJECT = '2'
     main()
+
+    time_file = data_dir + 'prediction_time.csv'
+    with open(time_file, 'w', newline='') as f:
+        time_writer = csv.writer(f)
+        time_writer.writerow(['train', 'test', 'time'])
+        time_writer.writerows(process_times)
