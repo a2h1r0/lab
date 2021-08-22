@@ -116,8 +116,8 @@ def main():
             train_data_singles = get_marker_data(marker, train_data_all)
             distances = []
             for train_data_single in train_data_singles:
-                # 波形に3秒以上のデータの差があれば無視
-                if abs(len(train_data_single) - len(test_data_single)) > 300:
+                # 波形に1秒以上のデータの差があれば無視
+                if abs(len(train_data_single) - len(test_data_single)) > 100:
                     continue
                 distance, path = fastdtw(train_data_single, test_data_single, dist=euclidean)
                 distances.append(distance)
