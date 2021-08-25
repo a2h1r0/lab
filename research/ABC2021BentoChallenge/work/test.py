@@ -11,6 +11,7 @@ from preprocess import make_feature
 from label_determination import majority_vote_sigmoid
 import matplotlib.pyplot as plt
 from natsort import natsorted
+from memory_profiler import profile
 import csv
 import glob
 import re
@@ -130,6 +131,7 @@ def sigmoid_to_label(prediction):
     return np.argmax(prediction) + 1
 
 
+@profile(stream=open('../submit/memory.log', 'w'))
 def main():
     def train():
         """
@@ -285,6 +287,9 @@ def main():
     plt.tick_params(labelsize=26)
     plt.savefig(save_dir + 'prediction_loss.svg', bbox_inches='tight', pad_inches=0)
     plt.savefig(save_dir + 'prediction_loss.eps', bbox_inches='tight', pad_inches=0)
+
+    with open('../submit/gpu_memory.log', 'w', newline='') as f:
+        f.write(torch.cuda.memory_summary(device=device))
 
 
 if __name__ == '__main__':
