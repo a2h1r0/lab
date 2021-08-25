@@ -1,0 +1,17 @@
+mode,marker,time
+train,make_features,295.7058175
+train,right_shoulder,139.24622799999997
+train,right_elbow,137.7685664
+train,right_wrist,134.91662789999998
+train,left_shoulder,135.0506534
+train,left_elbow,134.8290750000001
+train,left_wrist,134.71563830000002
+train,total,1112.2326065000002
+test,make_features,5.518901400000004
+test,right_shoulder,0.0128804999999943
+test,right_elbow,0.009064899999998488
+test,right_wrist,0.008992900000066584
+test,left_shoulder,0.009198900000001231
+test,left_elbow,0.00904759999991711
+test,left_wrist,0.00901079999994181
+test,total,5.577096999999924

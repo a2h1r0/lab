@@ -1,0 +1,165 @@
+Filename: c:/Users/fujii/Desktop/lab/research/ABC2021BentoChallenge/work/test.py
+
+Line #    Mem usage    Increment  Occurences   Line Contents
+============================================================
+   134    259.6 MiB    259.6 MiB           1   @profile(stream=open('../submit/memory.log', 'w'))
+   135                                         def main():
+   136   3026.9 MiB      0.0 MiB           7       def train():
+   137                                                 """
+   138                                                 モデルの学習
+   139                                                 """
+   140                                         
+   141                                                 # データの作成
+   142   3026.9 MiB      0.2 MiB           6           train_data = get_marker_data(marker, train_data_all)
+   143   3026.9 MiB      0.0 MiB       14568           train_data_length = [len(data) for data in train_data]
+   144                                         
+   145   3026.9 MiB      0.0 MiB           6           model.train()
+   146   3026.9 MiB      0.0 MiB           6           print('\n***** 学習開始 *****')
+   147                                         
+   148   3026.9 MiB    -37.0 MiB       30006           for epoch in range(EPOCH_NUM):
+   149                                                     # パディング処理
+   150   3026.9 MiB    -36.8 MiB       30000               inputs = torch.nn.utils.rnn.pad_sequence(train_data, batch_first=True).permute(0, 2, 1).to(device)
+   151   3026.9 MiB    -36.6 MiB       30000               labels = torch.tensor(train_labels, dtype=torch.float, device=device)
+   152                                         
+   153   3026.9 MiB    -36.9 MiB       30000               optimizer.zero_grad()
+   154   3026.9 MiB    586.5 MiB       30000               outputs = model(inputs, train_data_length)
+   155   3026.9 MiB    -36.5 MiB       30000               loss = criterion(outputs, labels)
+   156   3026.9 MiB     55.8 MiB       30000               loss.backward()
+   157   3026.9 MiB    -36.8 MiB       30000               optimizer.step()
+   158                                         
+   159   3026.9 MiB    -36.9 MiB       30000               loss_all[-1].append(loss.item())
+   160   3026.9 MiB    -37.0 MiB       30000               if (epoch + 1) % 10 == 0:
+   161   3026.9 MiB     -3.7 MiB        3000                   print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
+   162                                         
+   163   3026.9 MiB     -0.0 MiB           6           print('\n----- 終了 -----\n')
+   164                                         
+   165   3026.9 MiB      0.0 MiB           7       def test():
+   166                                                 """
+   167                                                 モデルのテスト
+   168                                                 """
+   169                                         
+   170                                                 # データの作成
+   171   3026.9 MiB      0.0 MiB           6           test_data = get_marker_data(marker, test_data_all)
+   172   3026.9 MiB      0.0 MiB         306           test_data_length = [len(data) for data in test_data]
+   173                                         
+   174   3026.9 MiB      0.0 MiB           6           model.eval()
+   175   3026.9 MiB      0.0 MiB           6           print('\n***** テスト *****')
+   176                                         
+   177   3026.9 MiB      0.0 MiB           6           with torch.no_grad():
+   178                                                     # パディング処理
+   179   3026.9 MiB      0.0 MiB           6               inputs = torch.nn.utils.rnn.pad_sequence(test_data, batch_first=True).permute(0, 2, 1).to(device)
+   180                                         
+   181   3026.9 MiB      0.0 MiB           6               outputs = model(inputs, test_data_length)
+   182                                                     # 予測結果をSigmoidに通す
+   183   3026.9 MiB      0.0 MiB           6               prediction = torch.sigmoid(outputs)
+   184                                                     # 0チェック
+   185   3026.9 MiB      0.0 MiB         294               for index, data in enumerate(test_data):
+   186   3026.9 MiB      0.1 MiB         288                   if torch.sum(data) == 0:
+   187   3026.7 MiB      0.0 MiB           1                       prediction[index] = torch.zeros(NUM_CLASSES)
+   188   3026.9 MiB      0.0 MiB           6               predictions.append(prediction.to('cpu').detach().numpy().copy())
+   189                                         
+   190   3026.9 MiB      0.0 MiB           2       def label_determination(predictions):
+   191                                                 """
+   192                                                 ラベルのワンホット化
+   193                                         
+   194                                                 Args:
+   195                                                     predictions (array): 部位ごとの予測
+   196                                                 Returns:
+   197                                                     array: 予測結果
+   198                                                 """
+   199                                         
+   200   3026.9 MiB      0.0 MiB           1           predictions = np.array(predictions).transpose(1, 0, 2)
+   201   3026.9 MiB      0.0 MiB           1           labels = []
+   202   3026.9 MiB      0.0 MiB          49           for prediction in predictions:
+   203   3026.9 MiB      0.0 MiB          48               labels.append(majority_vote_sigmoid(prediction, LABEL_THRESHOLD))
+   204                                         
+   205   3026.9 MiB      0.0 MiB           1           return labels
+   206                                         
+   207                                             # モデルの構築
+   208   2292.9 MiB   2033.4 MiB           1       model = NetAll(input_size=21, hidden_size=HIDDEN_SIZE, out_features=NUM_CLASSES).to(device)
+   209   2293.0 MiB      0.1 MiB           1       pos_weight = torch.ones([NUM_CLASSES], device=device)
+   210   2293.0 MiB      0.0 MiB           1       criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+   211   2293.0 MiB      0.0 MiB           1       optimizer = optimizers.Adam(model.parameters())
+   212                                         
+   213   2293.0 MiB      0.0 MiB           1       train_times, test_times = [], []
+   214                                         
+   215                                             # データの読み込み
+   216   2293.0 MiB      0.0 MiB           1       start = time.perf_counter()
+   217   2308.9 MiB     15.9 MiB           1       train_data_all, train_labels = make_train_data()
+   218   2308.9 MiB      0.0 MiB           1       finish = time.perf_counter()
+   219   2308.9 MiB      0.0 MiB           1       process_time = finish - start
+   220   2308.9 MiB      0.0 MiB           1       train_times.append(['train', 'make_features', process_time])
+   221   2308.9 MiB      0.0 MiB           1       start = time.perf_counter()
+   222   2308.9 MiB      0.0 MiB           1       test_data_all, segment_ids = make_test_data()
+   223   2308.9 MiB      0.0 MiB           1       finish = time.perf_counter()
+   224   2308.9 MiB      0.0 MiB           1       process_time = finish - start
+   225   2308.9 MiB      0.0 MiB           1       test_times.append(['test', 'make_features', process_time])
+   226                                         
+   227   2308.9 MiB      0.0 MiB           1       loss_all = []
+   228   2308.9 MiB      0.0 MiB           1       predictions = []
+   229   3026.9 MiB      0.0 MiB           7       for marker in range(len(USE_MARKERS)):
+   230   3026.9 MiB      0.0 MiB           6           print('\n!!!!! ' + USE_MARKERS[marker] + ' !!!!!')
+   231                                         
+   232                                                 # モデルの学習
+   233   3026.9 MiB      0.0 MiB           6           loss_all.append([])
+   234   3026.9 MiB      0.0 MiB           6           start = time.perf_counter()
+   235   3026.9 MiB      0.0 MiB           6           train()
+   236   3026.9 MiB      0.0 MiB           6           finish = time.perf_counter()
+   237   3026.9 MiB      0.0 MiB           6           process_time = finish - start
+   238   3026.9 MiB      0.0 MiB           6           train_times.append(['train', USE_MARKERS[marker], process_time])
+   239                                         
+   240                                                 # モデルのテスト
+   241   3026.9 MiB      0.0 MiB           6           start = time.perf_counter()
+   242   3026.9 MiB      0.0 MiB           6           test()
+   243   3026.9 MiB      0.0 MiB           6           finish = time.perf_counter()
+   244   3026.9 MiB      0.0 MiB           6           process_time = finish - start
+   245   3026.9 MiB      0.0 MiB           6           test_times.append(['test', USE_MARKERS[marker], process_time])
+   246                                         
+   247                                             # 予測ラベルの決定
+   248   3026.9 MiB      0.0 MiB           1       prediction_labels = label_determination(predictions)
+   249                                         
+   250                                             # 結果の保存
+   251   3026.9 MiB      0.0 MiB           1       sorted_index = np.argsort(segment_ids)
+   252   3026.9 MiB      0.0 MiB           1       save_dir = '../submit/'
+   253   3026.9 MiB      0.0 MiB           1       if os.path.exists(save_dir) == False:
+   254                                                 os.makedirs(save_dir)
+   255   3026.9 MiB      0.0 MiB           1       data_file = save_dir + 'prediction_labels.csv'
+   256   3026.9 MiB      0.0 MiB           1       with open(data_file, 'w', newline='') as f:
+   257   3026.9 MiB      0.0 MiB           1           data_writer = csv.writer(f)
+   258   3026.9 MiB      0.0 MiB           1           data_writer.writerow(['segment_id', 'Label'])
+   259                                         
+   260   3026.9 MiB      0.0 MiB          49           for index in sorted_index:
+   261   3026.9 MiB      0.0 MiB          48               data_writer.writerow([str(segment_ids[index]) + '.csv', prediction_labels[index]])
+   262                                         
+   263                                             # 計算時間の保存
+   264   3026.9 MiB      0.0 MiB           1       total_time = 0
+   265   3026.9 MiB      0.0 MiB           8       for train_time in train_times:
+   266   3026.9 MiB      0.0 MiB           7           total_time += train_time[2]
+   267   3026.9 MiB      0.0 MiB           1       train_times.append(['train', 'total', total_time])
+   268   3026.9 MiB      0.0 MiB           1       total_time = 0
+   269   3026.9 MiB      0.0 MiB           8       for test_time in test_times:
+   270   3026.9 MiB      0.0 MiB           7           total_time += test_time[2]
+   271   3026.9 MiB      0.0 MiB           1       test_times.append(['test', 'total', total_time])
+   272                                         
+   273   3026.9 MiB      0.0 MiB           1       data_file = save_dir + 'prediction_time.csv'
+   274   3026.9 MiB      0.0 MiB           1       with open(data_file, 'w', newline='') as f:
+   275   3026.9 MiB      0.0 MiB           1           data_writer = csv.writer(f)
+   276   3026.9 MiB      0.0 MiB           1           data_writer.writerow(['mode', 'marker', 'time'])
+   277   3026.9 MiB      0.0 MiB           1           data_writer.writerows(train_times)
+   278   3026.9 MiB      0.0 MiB           1           data_writer.writerows(test_times)
+   279                                         
+   280                                             # Lossの描画
+   281   3033.4 MiB      6.5 MiB           1       plt.figure(figsize=(16, 9))
+   282   3034.8 MiB      0.0 MiB           7       for marker, loss in zip(USE_MARKERS, loss_all):
+   283   3034.8 MiB      1.4 MiB           6           plt.plot(range(1, EPOCH_NUM + 1), loss, label=marker)
+   284   3034.8 MiB      0.0 MiB           1       plt.xlabel('Epoch', fontsize=26)
+   285   3034.8 MiB      0.0 MiB           1       plt.ylabel('Loss', fontsize=26)
+   286   3034.8 MiB      0.0 MiB           1       plt.legend(fontsize=26, loc='upper right')
+   287   3034.8 MiB      0.0 MiB           1       plt.tick_params(labelsize=26)
+   288   3041.9 MiB      7.1 MiB           1       plt.savefig(save_dir + 'prediction_loss.svg', bbox_inches='tight', pad_inches=0)
+   289   3043.3 MiB      1.4 MiB           1       plt.savefig(save_dir + 'prediction_loss.eps', bbox_inches='tight', pad_inches=0)
+   290                                         
+   291   3043.3 MiB      0.0 MiB           1       with open('../submit/gpu_memory.log', 'w', newline='') as f:
+   292   3043.3 MiB      0.0 MiB           1           f.write(torch.cuda.memory_summary(device=device))
+
+
