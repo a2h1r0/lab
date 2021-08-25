@@ -247,7 +247,7 @@ def main():
 
     # 結果の保存
     sorted_index = np.argsort(segment_ids)
-    save_dir = '../result/'
+    save_dir = '../submit/'
     if os.path.exists(save_dir) == False:
         os.makedirs(save_dir)
     data_file = save_dir + 'prediction_labels.csv'
