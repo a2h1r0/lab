@@ -1,0 +1,195 @@
+1
+00:00:01,340 --> 00:00:02,000
+Hello everyone.
+
+2
+00:00:02,000 --> 00:00:07,440
+My name is Atsuhiro Fujii from Ritsumeikan University in Japan.
+
+3
+00:00:07,440 --> 00:00:13,860
+Now, I will explain about our pulse wave generation method, disp2ppg.
+
+4
+00:00:13,860 --> 00:00:18,000
+This method inputs generated pulse data to the PPG sensor using display.
+
+5
+00:00:20,000 --> 00:00:24,340
+First, I will explain the background of my research.
+
+6
+00:00:24,340 --> 00:00:32,000
+With the growing awareness of health management, wearable devices that record biometric information have become widely used.
+
+7
+00:00:34,100 --> 00:00:39,690
+The most common technique of recording pulse data is called PPG.
+
+8
+00:00:39,690 --> 00:00:49,000
+It measures pulse data by irradiating LED light onto the skin and detecting changes in the light reflected through blood vessels.
+
+9
+00:00:51,320 --> 00:00:57,500
+Due to this mechanism, blood flow is necessary for the PPG sensor to measure the value.
+
+10
+00:00:59,800 --> 00:01:05,000
+A problem arises when wearable devices are used on artificial bodies.
+
+11
+00:01:05,500 --> 00:01:18,000
+The call, message, clock, payment functions, and the acceleration, gyroscope, and GPS sensors equipped with wearable devices are available on artificial bodies.
+
+12
+00:01:18,000 --> 00:01:24,000
+However, the PPG sensor is unavailable on artificial bodies.
+
+13
+00:01:24,500 --> 00:01:31,500
+We can think of several methods to solve this problem, but another problem may arise.
+
+14
+00:01:32,140 --> 00:01:41,000
+The best solution we can think of is to let the sensor equipped with the device read arbitrary values.
+
+15
+00:01:42,510 --> 00:01:52,300
+This method requires user to wear an additional device, but does not require any modification to the smartwatch or application.
+
+16
+00:01:52,500 --> 00:02:05,800
+Our method inputs values to the PPG sensor without using blood flow, so users of the artificial body can also use commercially wearable devices and applications.
+
+17
+00:02:06,000 --> 00:02:16,000
+In addition, enabling the input of arbitrary pulse data also leads to the demonstration of the vulnerability of PPG sensors.
+
+18
+00:02:17,000 --> 00:02:30,000
+Pulse data is one of the most important biological information, as it is used to estimate respiratory rate, detect arrhythmia, estimate emotion, and so on.
+
+19
+00:02:31,500 --> 00:02:34,500
+I will introduce proposed method.
+
+20
+00:02:35,000 --> 00:02:39,500
+The bloodstream absorbs and reflects the LED light.
+
+21
+00:02:40,000 --> 00:02:48,000
+To enable this property using displays, Colors that absorb and reflect LED light should be prepared.
+
+22
+00:02:48,800 --> 00:02:51,000
+Colors are grayscale data.
+
+23
+00:02:48,800 --> 00:03:03,000
+The more white the display is drawn, the brighter the reflected light will be, and the more black the display is drawn, the darker the reflected light will be.
+
+24
+00:03:03,800 --> 00:03:14,800
+The optimal Colors vary depending on the display-smartwatch combinations, so we conducted heuristically search and decide the optimal Colors.
+
+25
+00:03:15,000 --> 00:03:19,500
+I will explain the flow of proposed method.
+
+26
+00:03:21,000 --> 00:03:28,000
+First, the user wears an additional PPG sensor to acquire data and detect peaks.
+
+27
+00:03:29,000 --> 00:03:34,000
+The system calculates the heart rate by counting the number of peaks.
+
+28
+00:03:34,800 --> 00:03:44,000
+Next, prepare a number of Colors equal to the calculated heart rate, and draw them on the display in one minute.
+
+29
+00:03:45,000 --> 00:03:52,500
+Finally, the user can get the same heart rate on the smartwatch as the one obtained from the additional sensor.
+
+30
+00:03:54,000 --> 00:04:01,000
+The evaluation experiment was conducted using four displays and five smartwatches.
+
+31
+00:04:01,800 --> 00:04:06,000
+We used several smartwatches with different operating systems.
+
+32
+00:04:06,800 --> 00:04:11,800
+Therefore, the data acquisition flow differed depending on the smartwatch.
+
+33
+00:04:13,500 --> 00:04:17,800
+This is how the data was acquired using display D.
+
+34
+00:04:18,000 --> 00:04:24,000
+Enter the target heart rate to the console, and the smartwatch will acquire the heart rate.
+
+35
+00:04:24,800 --> 00:04:31,500
+SMART R was the only smartwatch that was able to correctly input the heart rate using display D.
+
+36
+00:04:32,000 --> 00:04:37,500
+Therefore, the evaluation of display D was conducted using only SMART R.
+
+37
+00:04:39,500 --> 00:04:44,500
+These are errors between the target heart rate and the measured heart rate.
+
+38
+00:04:45,000 --> 00:04:55,500
+Positive values indicate that the heart rate was higher than the target heart rate, and negative values indicate that the heart rate was lower.
+
+39
+00:04:56,000 --> 00:05:02,000
+The gray points indicate results where the values could not be obtained correctly.
+
+40
+00:05:02,500 --> 00:05:08,800
+The orange points indicate results with an error of 2.5 bpm or more.
+
+41
+00:05:09,000 --> 00:05:15,800
+In many results, the accuracy was very good, with errors of less than 3 bpm.
+
+42
+00:05:17,000 --> 00:05:18,800
+Here is conclusion.
+
+43
+00:05:19,000 --> 00:05:25,800
+We proposed disp2ppg, which inputs pulse wave to PPG sensor using display.
+
+44
+00:05:26,000 --> 00:05:31,500
+The evaluation experiment was conducted using four displays and five smartwatches.
+
+45
+00:05:32,000 --> 00:05:37,500
+As a result, the input error was within 3 bpm in most cases.
+
+46
+00:05:37,800 --> 00:05:44,500
+In the future, we will investigate a mechanism to automatically determine the optimal Colors.
+
+47
+00:05:45,500 --> 00:05:50,000
+The device will be miniaturized for attachment to a body part.
+
+48
+00:05:50,800 --> 00:05:52,300
+Now all finished.
+
+49
+00:05:52,500 --> 00:05:54,000
+Thank you for your attention.
