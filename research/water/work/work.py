@@ -21,7 +21,7 @@ SAMPLING_RATE = 48000
 SOUND_DIR = '../sounds/temp/' + BOTTLE + '/'
 
 
-EPOCH_NUM = 500  # 学習サイクル数
+EPOCH_NUM = 1000  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 30  # バッチサイズ
 WINDOW_SECOND = 0.5  # 1サンプルの秒数
@@ -37,7 +37,7 @@ def check_sampling_rate():
 
     for filename in TRAIN_FILES + [TEST_FILE]:
         # 音源の読み出し
-        sound = AudioSegment.from_file(filename, 'mp3')
+        sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
         if len(sound[:1000].get_array_of_samples()) != SAMPLING_RATE:
             print('\n' + filename + 'のサンプリングレートが異なります．')
             print('\n' + str(len(sound[:1000].get_array_of_samples())) + 'Hz\n')
@@ -53,7 +53,7 @@ def make_train_data():
 
     for filename in TRAIN_FILES:
         # 音源の読み出し
-        sound = AudioSegment.from_file(filename, 'mp3')
+        sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
         data = np.array(sound.get_array_of_samples())
         labels = np.linspace(0, 100, len(data))
 
@@ -74,7 +74,7 @@ def make_test_data():
     test_data, test_labels = [], []
 
     # 音源の読み出し
-    sound = AudioSegment.from_file(TEST_FILE, 'mp3')
+    sound = AudioSegment.from_file(SOUND_DIR + TEST_FILE, 'mp3')
     data = np.array(sound.get_array_of_samples())
     labels = np.linspace(0, 100, len(data))
 
@@ -165,7 +165,7 @@ def main():
                 predictions = outputs.to('cpu').detach().numpy().copy()
                 predictions = predictions.reshape(-1)[:10]
                 rows = np.array([[epoch + 1 for i in range(len(answers))], answers, predictions], dtype=int).T
-                rows = np.insert(rows.astype('str'), 0, bottle_name, axis=1)
+                rows = np.insert(rows.astype('str'), 0, TEST_FILE.replace('.', '_'), axis=1)
                 log_writer.writerows(rows)
 
         print('\n----- 終了 -----\n')
@@ -206,7 +206,7 @@ def main():
             for answer, prediction in zip(answers, predictions):
                 print('Answer: {:.3f} / Prediction: {:.3f}'.format(answer, prediction))
             print('\nDiff: {:.3f}\n'.format(diff))
-            result_writer.writerow([bottle_name, diff])
+            result_writer.writerow([TEST_FILE.replace('.', '_'), diff])
             diff_all.append(diff)
 
     # モデルの学習
@@ -226,7 +226,7 @@ def main():
     plt.xlabel('Epoch', fontsize=26)
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
-    filename = figures_dir + '/' + bottle_name + '.png'
+    filename = figures_dir + '/' + TEST_FILE.replace('.', '_') + '.png'
     plt.savefig(filename, bbox_inches='tight', pad_inches=0)
     # plt.show()
     plt.close()
@@ -250,9 +250,9 @@ if __name__ == '__main__':
             files = natsorted(glob.glob(SOUND_DIR + '*'))
             for test_index, test_file in enumerate(files):
                 # テストデータ以外を学習に使用
-                TRAIN_FILES = [filename for index, filename in enumerate(files) if index != test_index]
-                TEST_FILE = test_file
+                TRAIN_FILES = [os.path.split(filename)[1] for index, filename in enumerate(files) if index != test_index]
+                TEST_FILE = os.path.split(test_file)[1]
 
-                print('\n\n----- Test: ' + TEST_FILE.split('\\')[1] + ' -----')
+                print('\n\n----- Test: ' + TEST_FILE.replace('.', '_') + ' -----')
                 main()
             result_writer.writerow(['(Avg.)' + BOTTLE, np.average(diff_all)])
