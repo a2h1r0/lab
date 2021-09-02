@@ -16,6 +16,7 @@ os.chdir(os.path.dirname(__file__))
 SAMPLING_RATE = 48000
 SOUND_DIR = '../sounds/temp/'
 
+FFT = False  # FFTするかどうか
 
 COFFEE = ['coffee_1.mp3', 'coffee_2.mp3', 'coffee_3.mp3',
           'coffee_4.mp3', 'coffee_5.mp3', 'coffee_6.mp3']
@@ -49,6 +50,28 @@ def check_sampling_rate():
             print('\n' + filename + 'のサンプリングレートが異なります．')
             print('\n' + str(len(sound[:1000].get_array_of_samples())) + 'Hz\n')
             sys.exit()
+
+
+def fft(sound_data):
+    """
+    FFT
+
+    Args:
+        sound_data (array): 音データ
+    Returns:
+        array: パワースペクトル
+    """
+
+    # 周波数の取得
+    freqs = np.fft.fftfreq(len(sound_data), d=1.0/SAMPLING_RATE)
+    index = np.argsort(freqs)
+    # 振幅スペクトル
+    fft = np.abs(np.fft.fft(sound_data))
+    # パワースペクトル
+    power = fft ** 2
+
+    # 並び替え
+    return power[index]
 
 
 def make_train_data():
@@ -118,7 +141,10 @@ def get_random_data(mode, data, labels):
         index = random.randint(0, len(data) - 1)
         if index not in history:
             history.append(index)
-            random_data.append(data[index])
+            if FFT == True:
+                random_data.append(fft(data[index]))
+            else:
+                random_data.append(data[index])
             random_labels.append(labels[index])
 
     return random_data, random_labels
@@ -213,7 +239,7 @@ def main():
             for answer, prediction in zip(answers, predictions):
                 print('Answer: {:.3f} / Prediction: {:.3f}'.format(answer, prediction))
             print('\nDiff: {:.3f}\n'.format(diff))
-            result_writer.writerow([bottle_name, diff])
+            result_writer.writerow([bottle_name, str(FFT), diff])
             diff_all.append(diff)
 
     # モデルの学習
@@ -233,7 +259,10 @@ def main():
     plt.xlabel('Epoch', fontsize=26)
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
-    filename = figures_dir + '/' + bottle_name + '.png'
+    if FFT == True:
+        filename = figures_dir + '/' + bottle_name + '_FFT.png'
+    else:
+        filename = figures_dir + '/' + bottle_name + '.png'
     plt.savefig(filename, bbox_inches='tight', pad_inches=0)
     # plt.show()
     plt.close()
@@ -245,7 +274,7 @@ if __name__ == '__main__':
     result_file = '../data/result_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
-        result_writer.writerow(['Test Bottle', 'Diff'])
+        result_writer.writerow(['Test Bottle', 'FFT', 'Diff'])
 
         # 予測値の保存ファイル作成（検証用）
         log_file = '../data/outputs_' + now + '.csv'
@@ -262,6 +291,22 @@ if __name__ == '__main__':
                     TEST_FILE = test_file
                     bottle_name = TEST_FILE.split('.')[0]
 
-                    print('\n\n----- Test: ' + bottle_name + ' -----')
+                    print('\n\n----- Test: ' + bottle_name + ' / FFT: ' + str(FFT) + ' -----')
                     main()
-                result_writer.writerow(['(Avg.)' + bottle_name.split('_')[0], np.average(diff_all)])
+                result_writer.writerow(['(Avg.)' + bottle_name.split('_')[0], str(FFT), np.average(diff_all)])
+
+            """
+            # FFT
+            FFT = True
+            for bottle in BOTTLES:
+                diff_all = []
+                for test_index, test_file in enumerate(bottle):
+                    # テストデータ以外を学習に使用
+                    TRAIN_FILES = [filename for index, filename in enumerate(bottle) if index != test_index]
+                    TEST_FILE = test_file
+                    bottle_name = TEST_FILE.split('.')[0]
+
+                    print('\n\n----- Test: ' + bottle_name + ' / FFT: ' + str(FFT) + ' -----')
+                    main()
+                result_writer.writerow(['(Avg.)' + bottle_name.split('_')[0], str(FFT), np.average(diff_all)])
+            """
