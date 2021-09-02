@@ -5,6 +5,8 @@ import torch.nn as nn
 import torch.optim as optimizers
 import model as models
 import matplotlib.pyplot as plt
+from natsort import natsorted
+import glob
 import csv
 import datetime
 import random
@@ -13,20 +15,11 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
+BOTTLE = 'shampoo'
+
 SAMPLING_RATE = 48000
-SOUND_DIR = '../sounds/temp/'
+SOUND_DIR = '../sounds/temp/' + BOTTLE + '/'
 
-
-COFFEE = ['coffee_1.mp3', 'coffee_2.mp3', 'coffee_3.mp3',
-          'coffee_4.mp3', 'coffee_5.mp3', 'coffee_6.mp3']
-DETERGENT = ['detergent_1.mp3', 'detergent_2.mp3', 'detergent_3.mp3',
-             'detergent_4.mp3', 'detergent_5.mp3', 'detergent_6.mp3']
-SHAMPOO = ['shampoo_1.mp3', 'shampoo_2.mp3', 'shampoo_3.mp3',
-           'shampoo_4.mp3', 'shampoo_5.mp3', 'shampoo_6.mp3']
-SKINMILK = ['skinmilk_1.mp3', 'skinmilk_2.mp3', 'skinmilk_3.mp3',
-            'skinmilk_4.mp3', 'skinmilk_5.mp3', 'skinmilk_6.mp3']
-TOKKURI = ['tokkuri_1.mp3', 'tokkuri_2.mp3', 'tokkuri_3.mp3',
-           'tokkuri_4.mp3', 'tokkuri_5.mp3', 'tokkuri_6.mp3']
 
 EPOCH_NUM = 500  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
@@ -44,7 +37,7 @@ def check_sampling_rate():
 
     for filename in TRAIN_FILES + [TEST_FILE]:
         # 音源の読み出し
-        sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
+        sound = AudioSegment.from_file(filename, 'mp3')
         if len(sound[:1000].get_array_of_samples()) != SAMPLING_RATE:
             print('\n' + filename + 'のサンプリングレートが異なります．')
             print('\n' + str(len(sound[:1000].get_array_of_samples())) + 'Hz\n')
@@ -60,7 +53,7 @@ def make_train_data():
 
     for filename in TRAIN_FILES:
         # 音源の読み出し
-        sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
+        sound = AudioSegment.from_file(filename, 'mp3')
         data = np.array(sound.get_array_of_samples())
         labels = np.linspace(0, 100, len(data))
 
@@ -81,7 +74,7 @@ def make_test_data():
     test_data, test_labels = [], []
 
     # 音源の読み出し
-    sound = AudioSegment.from_file(SOUND_DIR + TEST_FILE, 'mp3')
+    sound = AudioSegment.from_file(TEST_FILE, 'mp3')
     data = np.array(sound.get_array_of_samples())
     labels = np.linspace(0, 100, len(data))
 
@@ -126,7 +119,7 @@ def get_random_data(mode, data, labels):
 
 def main():
     # ファイルの検証
-    check_sampling_rate()
+    # check_sampling_rate()
 
     # 初期化
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -253,15 +246,13 @@ if __name__ == '__main__':
             log_writer = csv.writer(f)
             log_writer.writerow(['Epoch', 'Answer', 'Prediction'])
 
-            BOTTLES = [COFFEE, DETERGENT, SHAMPOO, SKINMILK, TOKKURI]  # 容器一覧
-            for bottle in BOTTLES:
-                diff_all = []
-                for test_index, test_file in enumerate(bottle):
-                    # テストデータ以外を学習に使用
-                    TRAIN_FILES = [filename for index, filename in enumerate(bottle) if index != test_index]
-                    TEST_FILE = test_file
-                    bottle_name = TEST_FILE.split('.')[0]
+            diff_all = []
+            files = natsorted(glob.glob(SOUND_DIR + '*'))
+            for test_index, test_file in enumerate(files):
+                # テストデータ以外を学習に使用
+                TRAIN_FILES = [filename for index, filename in enumerate(files) if index != test_index]
+                TEST_FILE = test_file
 
-                    print('\n\n----- Test: ' + bottle_name + ' -----')
-                    main()
-                result_writer.writerow(['(Avg.)' + bottle_name.split('_')[0], np.average(diff_all)])
+                print('\n\n----- Test: ' + TEST_FILE.split('\\')[1] + ' -----')
+                main()
+            result_writer.writerow(['(Avg.)' + BOTTLE, np.average(diff_all)])
