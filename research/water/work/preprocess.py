@@ -5,8 +5,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-SOUND_DIR = '../sounds/raw/'  # 音源データ
-TEMP_DIR = '../sounds/temp/'  # 保存先
+SOUND_DIR = '../sounds/raw/shampoo/'  # 音源データ
+TEMP_DIR = '../sounds/temp/shampoo/'  # 保存先
 THRESHOLD = -55  # 無音検出閾値
 
 
