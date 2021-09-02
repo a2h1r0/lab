@@ -18,9 +18,9 @@ def preprocess():
     if os.path.exists(TEMP_DIR) == False:
         os.makedirs(TEMP_DIR)
 
-    files = glob.glob(SOUND_DIR + '*.m4a')
+    files = glob.glob(SOUND_DIR + '*.mp3')
     for filename in files:
-        data = AudioSegment.from_file(filename, 'm4a')
+        data = AudioSegment.from_file(filename, 'mp3')
         sounds = split_on_silence(data, min_silence_len=2000, silence_thresh=THRESHOLD)
         sound = sounds[0].set_channels(1)
         sound.export(TEMP_DIR + filename.split('\\')[1].split('.')[0] + '.mp3', format='mp3')
