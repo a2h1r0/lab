@@ -20,11 +20,11 @@ BOTTLE = 'shampoo'
 SOUND_DIR = '../sounds/temp/' + BOTTLE + '/'
 
 
-EPOCH_NUM = 1000  # 学習サイクル数
+EPOCH_NUM = 5000  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 30  # バッチサイズ
 WINDOW_SECOND = 0.5  # 1サンプルの秒数
-STEP = 1  # スライド幅
+STEP = 1000  # スライド幅
 TEST_ONEFILE_DATA_NUM = 1000  # 1ファイルごとのテストデータ数
 
 
@@ -81,7 +81,7 @@ def make_test_data():
     return test_data, test_labels
 
 
-def get_random_data(mode, data, labels):
+def get_random_data(mode, data, labels, history):
     """
     ランダムデータの取得
 
@@ -89,6 +89,7 @@ def get_random_data(mode, data, labels):
         mode (string): train or test
         data (array): データ
         labels (array): ラベル
+        history (array): 学習済みデータのインデックス
     Returns:
         array: ランダムデータ
         array: ラベル
@@ -99,16 +100,18 @@ def get_random_data(mode, data, labels):
     elif mode == 'test':
         data_size = TEST_ONEFILE_DATA_NUM
 
-    history = []
     random_data, random_labels = [], []
     while len(random_data) < data_size:
+        if len(history) == len(data):
+            history = []
+
         index = random.randint(0, len(data) - 1)
         if index not in history:
             history.append(index)
             random_data.append(data[index])
             random_labels.append(labels[index])
 
-    return random_data, random_labels
+    return random_data, random_labels, history
 
 
 def main():
@@ -133,9 +136,10 @@ def main():
         model.train()
         print('\n***** 学習開始 *****')
 
+        history = []
         for epoch in range(EPOCH_NUM):
             # 学習データの作成
-            random_data, random_labels = get_random_data('train', train_data, train_labels)
+            random_data, random_labels, history = get_random_data('train', train_data, train_labels, history)
             # Tensorへ変換
             inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
             labels = torch.tensor(random_labels, dtype=torch.float, device=device).view(-1, 1)
@@ -172,9 +176,10 @@ def main():
         model.eval()
         print('\n***** テスト *****')
 
+        history = []
         with torch.no_grad():
             # テストデータの作成
-            random_data, random_labels = get_random_data('test', test_data, test_labels)
+            random_data, random_labels, history = get_random_data('test', test_data, test_labels, history)
             # Tensorへ変換
             inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
             labels = torch.tensor(random_labels, dtype=torch.float, device=device).view(-1, 1)
