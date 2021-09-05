@@ -17,7 +17,6 @@ os.chdir(os.path.dirname(__file__))
 
 BOTTLE = 'shampoo'
 
-SAMPLING_RATE = 48000
 SOUND_DIR = '../sounds/temp/' + BOTTLE + '/'
 
 
@@ -25,23 +24,18 @@ EPOCH_NUM = 1000  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 30  # バッチサイズ
 WINDOW_SECOND = 0.5  # 1サンプルの秒数
-WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)  # 1サンプルのサイズ
-STEP = 100  # スライド幅
-TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
+STEP = 1  # スライド幅
+TEST_ONEFILE_DATA_NUM = 1000  # 1ファイルごとのテストデータ数
 
 
-def check_sampling_rate():
+def get_sampling_rate():
     """
-    サンプリング周波数の確認
+    サンプリング周波数の取得
     """
 
-    for filename in TRAIN_FILES + [TEST_FILE]:
-        # 音源の読み出し
-        sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
-        if len(sound[:1000].get_array_of_samples()) != SAMPLING_RATE:
-            print('\n' + filename + 'のサンプリングレートが異なります．')
-            print('\n' + str(len(sound[:1000].get_array_of_samples())) + 'Hz\n')
-            sys.exit()
+    sound = AudioSegment.from_file(SOUND_DIR + TRAIN_FILES[0], 'mp3')
+
+    return len(sound[:1000].get_array_of_samples())
 
 
 def make_train_data():
@@ -118,9 +112,6 @@ def get_random_data(mode, data, labels):
 
 
 def main():
-    # ファイルの検証
-    # check_sampling_rate()
-
     # 初期化
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     torch.manual_seed(1)
@@ -252,6 +243,10 @@ if __name__ == '__main__':
                 # テストデータ以外を学習に使用
                 TRAIN_FILES = [os.path.split(filename)[1] for index, filename in enumerate(files) if index != test_index]
                 TEST_FILE = os.path.split(test_file)[1]
+
+                # ファイルの検証
+                SAMPLING_RATE = get_sampling_rate()
+                WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)
 
                 print('\n\n----- Test: ' + TEST_FILE.replace('.', '_') + ' -----')
                 main()
