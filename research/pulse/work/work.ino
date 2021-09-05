@@ -1,5 +1,5 @@
-// 実行時間
-const int PROCESS_TIME = 40;
+// 目標心拍数
+const int HEART_RATE = 80;
 
 // 使用ピン
 const int PWM_1 = 5;
@@ -35,9 +35,8 @@ void setup()
  */
 void loop()
 {
-    int heart_rate = 80;
     // 点灯時間の計算
-    float lighting_time = (float)60 / (L_COLORS * heart_rate);
+    float lighting_time = (float)60 / (L_COLORS * HEART_RATE);
     // ミリ秒変換
     int delay_time = lighting_time * 1000;
 
