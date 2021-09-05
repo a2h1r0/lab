@@ -4,19 +4,26 @@ const int HEART_RATE = 80;
 // 使用ピン
 const int PWM_1 = 5;
 const int PWM_2 = 6;
-// 黒の電圧値 (V)
-const int BLACK_PWM_1 = 2;
-const int BLACK_PWM_2 = 0;
-// 白の電圧値 (V)
-const int WHITE_PWM_1 = 0;
-const int WHITE_PWM_2 = 2;
+// 電圧値 (V)
+const int PWM_HIGH = 2;
+const int PWM_LOW = 0;
 // 色データ長
-const int L_COLORS = 2;
+const int L_COLORS = 5;
 // 色データ
-const int COLORS_PWM_1[L_COLORS] = {WHITE_PWM_1, BLACK_PWM_1};
-const int COLORS_PWM_2[L_COLORS] = {WHITE_PWM_2, BLACK_PWM_2};
-// 目標心拍数受け取り用配列
-char heart_rate_data[4] = {'\0'};
+const int COLORS_PWM_1[L_COLORS] = {
+    PWM_HIGH,
+    PWM_HIGH / 2,
+    PWM_LOW,
+    PWM_HIGH / 2,
+    PWM_HIGH,
+};
+const int COLORS_PWM_2[L_COLORS] = {
+    PWM_LOW,
+    PWM_HIGH / 2,
+    PWM_HIGH,
+    PWM_HIGH / 2,
+    PWM_LOW,
+};
 
 /**
  * @fn
