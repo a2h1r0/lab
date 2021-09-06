@@ -25,7 +25,7 @@ KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 30  # バッチサイズ
 WINDOW_SECOND = 0.5  # 1サンプルの秒数
 STEP = 1000  # スライド幅
-TEST_ONEFILE_DATA_NUM = 1000  # 1ファイルごとのテストデータ数
+TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
 
 
 def get_sampling_rate():
