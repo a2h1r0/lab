@@ -155,13 +155,14 @@ def main():
                 print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
 
                 # 予測値の保存（検証用）
-                answers = labels.to('cpu').detach().numpy().copy()
-                answers = answers.reshape(-1)[:10]
-                predictions = outputs.to('cpu').detach().numpy().copy()
-                predictions = predictions.reshape(-1)[:10]
-                rows = np.array([[epoch + 1 for i in range(len(answers))], answers, predictions], dtype=int).T
-                rows = np.insert(rows.astype('str'), 0, TEST_FILE.replace('.', '_'), axis=1)
-                log_writer.writerows(rows)
+                if (epoch + 1) == EPOCH_NUM:
+                    answers = labels.to('cpu').detach().numpy().copy()
+                    answers = answers.reshape(-1)
+                    predictions = outputs.to('cpu').detach().numpy().copy()
+                    predictions = predictions.reshape(-1)
+                    rows = np.array([[epoch + 1 for i in range(len(answers))], answers, predictions], dtype=int).T
+                    rows = np.insert(rows.astype('str'), 0, TEST_FILE.replace('.', '_'), axis=1)
+                    log_writer.writerows(rows)
 
         print('\n----- 終了 -----\n')
 
