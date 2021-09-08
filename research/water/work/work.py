@@ -240,7 +240,7 @@ if __name__ == '__main__':
         log_file = '../data/outputs_' + now + '.csv'
         with open(log_file, 'w', newline='') as f:
             log_writer = csv.writer(f)
-            log_writer.writerow(['Epoch', 'Answer', 'Prediction'])
+            log_writer.writerow(['TestFile', 'Epoch', 'Answer', 'Prediction'])
 
             diff_all = []
             files = natsorted(glob.glob(SOUND_DIR + '*'))
