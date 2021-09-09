@@ -9,8 +9,7 @@ os.chdir(os.path.dirname(__file__))
 
 SOUND_DATA = '../sounds/temp/shampoo/1.mp3'
 
-START = 1  # 開始（秒）
-END = 2  # 終了（秒）
+END = 7  # 終了（秒）
 
 
 def fft(sound):
@@ -24,10 +23,10 @@ def fft(sound):
         array: パワースペクトル
     """
 
-    start = START * 1000
     end = END * 1000
     if end > len(sound.get_array_of_samples()):
         end = sound.get_array_of_samples()
+    start = end - 1000
 
     sound_data = np.array(sound[start:end].get_array_of_samples())
 
@@ -47,6 +46,13 @@ def main():
     # 音源の読み出し
     sound = AudioSegment.from_file(SOUND_DATA, 'mp3')
     freqs, power = fft(sound)
+
+    delete_index = np.where(freqs < 0)
+    np.delete(freqs, delete_index)
+    np.delete(power, delete_index)
+    max_power_index = np.argmax(power)
+
+    print('Max Power Frequency: {:f}Hz'.format(freqs[max_power_index]))
 
     plt.figure(figsize=(16, 9))
     plt.plot(freqs, power)
