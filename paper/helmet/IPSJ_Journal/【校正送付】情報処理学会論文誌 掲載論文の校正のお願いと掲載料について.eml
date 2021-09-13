@@ -1,0 +1,111 @@
+Delivered-To: murao.kazuya10@gmail.com
+Received: by 2002:a05:6520:68a:b0:138:a3b1:ee3e with SMTP id j10csp1430131lka;
+        Fri, 10 Sep 2021 01:15:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwrEFaQyVS5Nd948bRlOg+xhMR3F64Uw3OntwbPhEIOcMANdG2laA8+ZmqYOcep/2bmN8Go
+X-Received: by 2002:a17:902:64d6:b0:13a:4c2d:dbe8 with SMTP id y22-20020a17090264d600b0013a4c2ddbe8mr6408748pli.58.1631261707562;
+        Fri, 10 Sep 2021 01:15:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631261707; cv=none;
+        d=google.com; s=arc-20160816;
+        b=uvvHzmmxEEBQkkhN7/PVf/e+Dy8Dl80BTcCESeaNeRiNO6mSwlY/i0H2MEKspS6SOH
+         Xlgt4R3M+GhW+sLL/wl961YZQCBsP823qlNYxOPz6gMz3lquKaEbkzEOhJA09qYbE8CU
+         SZpCUlkTCv34XuElRRDdD5O9I0CUgOCSrw/cNIEGnO18/NYT/eWJNVBqUmWoBRMbnjA2
+         PZ+cPGMY6Mg93UQJIaGp2S4XyvJYsLekTT4wM67OgLZnwoi/GjkQHLO2lRNkc5g4o0wA
+         gQIi/UE5p+me+8e1mmUtYmL1xCZFINzQG/6FTgL/lcMwQsQIRmanI5qIajPlLM63oC+n
+         F6UQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-transfer-encoding:message-id:from:subject:to
+         :date:delivered-to;
+        bh=5gJz565pbxDDgW3HurqFxPi2wmIELwuL61b/V5pQPeU=;
+        b=hKtBQN1tpIZd4N4+0i0/YUV92TVAhXnvPN5kfqzbgLQcCgpnckGudSEfFXz1JLDZr7
+         O6rQKbtQj+1mriObvU13a1Elmte2BdyNYtuEIr7AFP9tce/eqWUqA7i5wIFWJR5YLQfx
+         h0x87glF3mRNuGRIRi5tWAe/g1WEay7BHQRe63AZwQtVqnUDU7tEtRA7q7elKlr0H0Q0
+         Zr+W74vcwwb01TsUZYw6+s+HTEDANAL6KYXG+wnCYNFhAUaxq+IUomaAiEamX8u6jZ0r
+         2WuQY1R0yyIGYlXY/b4QtNbfNh+b62EZNALGzEHSrnEFkaRzK1Yk1BIjLDsPCmHakyP6
+         2udw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=fail (google.com: domain of ipsj@i-product.biz does not designate 133.19.0.32 as permitted sender) smtp.mailfrom=ipsj@i-product.biz
+Return-Path: <ipsj@i-product.biz>
+Received: from rucs.cs.ritsumei.ac.jp (rucs.cs.ritsumei.ac.jp. [133.19.0.32])
+        by mx.google.com with ESMTP id u24si5426128pgf.279.2021.09.10.01.15.07
+        for <murao.kazuya10@gmail.com>;
+        Fri, 10 Sep 2021 01:15:07 -0700 (PDT)
+Received-SPF: fail (google.com: domain of ipsj@i-product.biz does not designate 133.19.0.32 as permitted sender) client-ip=133.19.0.32;
+Authentication-Results: mx.google.com;
+       spf=fail (google.com: domain of ipsj@i-product.biz does not designate 133.19.0.32 as permitted sender) smtp.mailfrom=ipsj@i-product.biz
+Received: by rucs.cs.ritsumei.ac.jp (Postfix)
+	id 59282470701; Fri, 10 Sep 2021 17:15:06 +0900 (JST)
+Delivered-To: murao@cs.ritsumei.ac.jp
+Received: from rundz1055.ritsumei.ac.jp (rundz1055.ritsumei.ac.jp [133.19.170.55])
+	by rucs.cs.ritsumei.ac.jp (Postfix) with ESMTP id 537FC470700
+	for <murao@cs.ritsumei.ac.jp>; Fri, 10 Sep 2021 17:15:06 +0900 (JST)
+Received: from smtp2.i-product.biz (smtp2.i-product.biz [111.171.194.210])
+	by rundz1055.ritsumei.ac.jp  with ESMTP id 18A8F6QE022820-18A8F6QF022820
+	for <murao@cs.ritsumei.ac.jp>; Fri, 10 Sep 2021 17:15:06 +0900
+Date: Fri, 10 Sep 2021 17:15:06 +0900
+Received: from smtp2.i-product.biz (trans.sanbi.co.jp [111.171.198.89])
+	by smtp2.i-product.biz (Postfix) with ESMTP id AE5D6105E66E;
+	Fri, 10 Sep 2021 17:15:05 +0900 (JST)
+To: murao@cs.ritsumei.ac.jp
+Subject: =?UTF-8?B?44CQ5qCh5q2j6YCB5LuY44CR5oOF5aCx5Yem55CG5a2m5Lya6KuW5paH?=
+	=?UTF-8?B?6KqMIOaOsui8ieirluaWh+OBruagoeato+OBruOBiumhmOOBhOOBqOaOsui8iQ==?=
+	=?UTF-8?B?5paZ44Gr44Gk44GE44Gm?=
+From: ipsj@i-product.biz
+Message-Id: <Qdmail.1.2.6b_e40cbb494420d0feacc51fe007042957cce2af48@hal456.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-PHP-Qdmail: version-1.2.6b The_MIT_License http://hal456.net/qdmail PHPver 5.3.3
+	send-by SMTP
+X-FEAS-SPF: spf-result=pass, ip=111.171.194.210, helo=smtp2.i-product.biz, mailFrom=ipsj@i-product.biz
+Authentication-Results: rundz1055.ritsumei.ac.jp;
+	spf=pass (ritsumei.ac.jp: domain of ipsj@i-product.biz designates 111.171.194.210 as permitted sender) smtp.mailfrom=ipsj@i-product.biz
+
+DQrmnZHlsL4g5ZKM5ZOJ5qeYDQoNCuaDheWgseWHpueQhuWtpuS8muirluaWh+iqjOOBruijveS9
+nOWnlOiol+OCkuWPl+OBkeOBpuOBiuOCiuOBvuOBme+8jOS4iee+juWNsOWIt+agquW8j+S8muek
+vuOAgOijveS9nOaLheW9kw0K44Go55Sz44GX44G+44GZ44CCDQoNCuaDheWgseWHpueQhuWtpuS8
+muirluaWh+iqjDYy5be7MTDlj7fjgavmjrLovInkuojlrprjga7oq5bmlofjga7moKHmraPliLfj
+gorjgYzjgafjgY3jgb7jgZfjgZ/jga7jgacNCuS4i+iomOOBrlVSTOOBq+agoeato+ODleOCoeOC
+pOODq+OCkuagvOe0jeOBhOOBn+OBl+OBvuOBl+OBn+OAgg0KaHR0cHM6Ly90cmFucy5zYW5iaS5j
+by5qcC9wcm9vZnJlYWRpbmcvDQoNCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpQYXBlciBObzogMjEtUTAwNGUu
+UjENClRpdGxlOiBVc2VyIElkZW50aWZpY2F0aW9uIE1ldGhvZCBiYXNlZCBvbiBIZWFkIFNoYXBl
+IHVzaW5nIFByZXNzdXJlIFNlbnNvcnMgZW1iZWRkZWQgaW4gYSBIZWxtZXQNCkF1dGhvciBOYW1l
+OiDmnZHlsL4g5ZKM5ZOJDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCkxvZ2luIElkOiBpZDEyYTAxMjdiMGENCkxv
+Z2luIFBhc3N3b3JkOiA1bGI5S0RSaw0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQoNCuS4iuiomElE44GoUGFzc3dv
+cmTjgavjgabjg63jgrDjgqTjg7Pjga7kuIrvvIzmgZDjgozlhaXjgorjgb7jgZnjgYzkuIvoqJjm
+nJ/ml6Xjgb7jgafjgavjgb7jgafjgasNCuagoeato+mgguOBjeOBvuOBmeOCiOOBhuOBiumhmOOB
+hOeUs+OBl+S4iuOBkuOBvuOBmeOAgg0KDQrnt6DliIfml6XvvJoyMDIxLzA5LzE3DQoNCuagoeat
+o+e1kOaenOOBr+S4iuiomFVSTOWGheOBq+OBguOCi+ODleOCoeOCpOODq+OCouODg+ODl+ODreOD
+vOODieapn+iDveOCkuS9v+eUqOOBl++8jOOCueOCreODo+ODi+ODs+OCsOOBl+OBn1BERuODh+OD
+vOOCv+OCkuOCouODg+ODl+ODreODvOODieOBl+OBpuOBj+OBoOOBleOBhOOAgg0KDQoNCuagoeat
+o+OBq+OBpOOBhOOBpg0K44O76JGX6ICF5qCh5q2j44GvMeW6puOBoOOBkeOBqOOBquOCiuOBvuOB
+meOAguWOn+eov+eFp+WQiOOBr+OCguOBqOOCiOOCiu+8jA0K44CA5pWw5YCk44KE5paH54yu77yI
+6JGX6ICF5ZCN77yM5paH54yu55Wq5Y+344GM5pys5paH5byV55So566H5omA44Go5q2j44GX44GP
+5a++5b+c44GX44Gm44GE44KL44GL77yJDQrjgIDjgarjganjgavjgaTjgY3jgb7jgZfjgabjgoLv
+vIzku4rkuIDluqbjgZTngrnmpJzjgY/jgaDjgZXjgYTjgIINCuODu+agoeato+OCsuODqeOBr++8
+jFRFWOOBp+aWh+abuOOCkuWHpueQhuOBl++8jOWbs+eJiOOCkuWPluOCiui+vOOCk+OBp1BERuOB
+q+WHuuWKm+OBl+OBn+OCguOBruOBp+OBmeOAgg0K44CA5Zuz44Gu5Ye65Yqb54q25oWL77yM5YaN
+54++5oCn44KS5Y2B5YiG44Gr44OB44Kn44OD44Kv44GX44Gm44GP44Gg44GV44GE44CCDQrjg7vl
+m7PniYjjgavkv67mraPjgYzjgYLjgovloLTlkIjjgavjga/vvIzkv67mraPnrofmiYDjgYzkvZXl
+h6bjgafjgYLjgovjgYvjgpLmoKHmraPntJnkuIrjgavoqJjlhaXjgZfvvIwNCuOAgOW3ruOBl+ab
+v+OBiOeUqOOBruaWsOOBl+OBhOODh+ODvOOCv+OCkuagoeato+e1kOaenOOBqOS4gOe3kuOBq+OC
+ouODg+ODl+ODreODvOODieOBl+OBpuS4i+OBleOBhOOAgg0K44O755So6Kqe44O76KGo6KiY44Gu
+57Wx5LiA44GK44KI44Gz44Os44Kk44Ki44Km44OI44Gu5L+u5q2j44Gr44Gk44GN44G+44GX44Gm
+44Gv77yM44CO6KuW5paH6KqM44CP44GuDQrjgIDnt6jpm4bjg6vjg7zjg6vjgavln7rjgaXjgY3n
+t6jpm4bogIXjgYzljp/nqL/kuIrjgavliqDnrYbjgZfjgabjgYrjgorjgb7jgZnjgIINCuWOn+eo
+v+S4reOBq+OBr+izquWVj+OCkuiomOWFpeOBl+OBpuOBhOOCi+WgtOWQiOOBjOOBlOOBluOBhOOB
+vuOBmeOBruOBpw0K44Gd44Gh44KJ44KC5qCh5q2j44Ky44Op5LiK44Gn44GK562U44GI44GP44Gg
+44GV44GE44G+44GZ44KI44GG44GK6aGY44GE6Ie044GX44G+44GZ44CCDQoNCuOBvuOBn+aOsui8
+ieaWmeOBq+OBpOOBhOOBpuOBr+S4iuiomOagoeato+OCt+OCueODhuODoOOBq+ODreOCsOOCpOOD
+s+OBl+OBpuOBlOeiuuiqjemgguOBjeOAgQ0K5b+F6KaB5LqL6aCF44KS44GU6KiY5YWl44Gu5LiK
+5qCh5q2j57WQ5p6c44Go44Go44KC44Gr44Ki44OD44OX44Ot44O844OJ44KS44GK6aGY44GE6Ie0
+44GX44G+44GZ44CCDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0NCuOAgOOBiuWVj+OBhOWQiOOCj+OBm++8muS4iee+juWNsOWIt+agquW8j+S8
+muekvg0K44CA5p2x5Lqs6YO96I2S5bed5Yy66KW/5pel5pqu6YeMNS0xNi03DQrjgIBFLW1haWw6
+am91cm5hbC1pcHNqQHNhbmJpLmNvLmpwDQrjgIBUZWwuMDMtNTYwNC03MDQ144CARmF4LjAzLTU2
+MDQtNzAwNA0KDQrjgIDkuIDoiKznpL7lm6Pms5Xkurog5oOF5aCx5Yem55CG5a2m5LyaIOeglOep
+tumDqOmWgCDoqr/mn7vnoJTnqbYNCuOAgOOAkjEwMS0wMDYyIOadseS6rOmDveWNg+S7o+eUsOWM
+uuelnueUsOmnv+ays+WPsDEtNeOAgOWMluWtpuS8mumkqDRGDQotLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
