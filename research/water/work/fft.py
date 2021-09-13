@@ -9,7 +9,7 @@ os.chdir(os.path.dirname(__file__))
 
 SOUND_DATA = '../sounds/temp/shampoo/1.mp3'
 
-END = 7  # 終了（秒）
+END = 6  # 終了（秒）
 
 
 def fft(sound):
@@ -48,8 +48,8 @@ def main():
     freqs, power = fft(sound)
 
     delete_index = np.where(freqs < 0)
-    np.delete(freqs, delete_index)
-    np.delete(power, delete_index)
+    freqs = np.delete(freqs, delete_index)
+    power = np.delete(power, delete_index)
     max_power_index = np.argmax(power)
 
     print('Max Power Frequency: {:f}Hz'.format(freqs[max_power_index]))
@@ -57,11 +57,12 @@ def main():
     plt.figure(figsize=(16, 9))
     plt.plot(freqs, power)
     plt.xlim(0, max(freqs))
+    plt.title(str(END) + '~' + str(END + 1) + ' [s]')
     plt.xlabel('Frequency', fontsize=26)
     plt.ylabel('Power', fontsize=26)
     plt.tick_params(labelsize=26)
-    # plt.savefig(filename, bbox_inches='tight', pad_inches=0)
-    plt.show()
+    plt.savefig(str(END) + '.eps', bbox_inches='tight', pad_inches=0)
+    # plt.show()
 
 
 if __name__ == '__main__':
