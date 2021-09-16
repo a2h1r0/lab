@@ -6,8 +6,6 @@ import torch.optim as optimizers
 import model as models
 import matplotlib.pyplot as plt
 from natsort import natsorted
-import scipy
-import librosa
 import glob
 import csv
 import datetime
@@ -23,14 +21,11 @@ SOUND_DIR = '../sounds/temp/' + BOTTLE + '/'
 
 
 EPOCH_NUM = 5000  # 学習サイクル数
-KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
+KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 30  # バッチサイズ
 WINDOW_SECOND = 0.5  # 1サンプルの秒数
 STEP = 1000  # スライド幅
 TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
-
-MFCC_FILTER_NUM = 20
-MFCC_DIMENSION_NUM = 12
 
 
 def get_sampling_rate():
@@ -41,32 +36,6 @@ def get_sampling_rate():
     sound = AudioSegment.from_file(SOUND_DIR + TRAIN_FILES[0], 'mp3')
 
     return len(sound[:1000].get_array_of_samples())
-
-
-def mfcc(sound_data):
-    """
-    MFCC
-
-    Args:
-        sound_data (:obj:`ndarray`): 音データ
-    Returns:
-        array: MFCC特徴量配列
-    """
-
-    sampling_rate = get_sampling_rate()
-
-    hanning_x = np.hanning(len(sound_data)) * sound_data
-    fft = np.fft.fft(hanning_x)
-    amplitude_spectrum = np.abs(fft)
-    amplitude_spectrum = amplitude_spectrum[:len(sound_data)//2]
-    mel_filter_bank = librosa.filters.mel(sr=sampling_rate, n_fft=len(sound_data) - 1, n_mels=MFCC_FILTER_NUM, fmax=sampling_rate // 2)
-    mel_amplitude_spectrum = np.dot(mel_filter_bank, amplitude_spectrum)
-    mel_log_power_spectrum = 20 * np.log10(mel_amplitude_spectrum)
-    mfcc = scipy.fftpack.dct(mel_log_power_spectrum, norm='ortho')
-    mfcc = mfcc[:MFCC_DIMENSION_NUM]
-    mel_log_power_spectrum_envelope = scipy.fftpack.idct(mfcc, n=MFCC_FILTER_NUM, norm='ortho')
-
-    return mel_log_power_spectrum_envelope
 
 
 def make_train_data():
@@ -85,7 +54,7 @@ def make_train_data():
         for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
             start = index
             end = start + WINDOW_SIZE - 1
-            train_data.append(mfcc(data[start:end + 1]))
+            train_data.append(data[start:end + 1])
             train_labels.append(labels[end])
 
     return train_data, train_labels
@@ -106,7 +75,7 @@ def make_test_data():
     for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
         start = index
         end = start + WINDOW_SIZE - 1
-        test_data.append(mfcc(data[start:end + 1]))
+        test_data.append(data[start:end + 1])
         test_labels.append(labels[end])
 
     return test_data, test_labels
@@ -151,8 +120,8 @@ def main():
     torch.manual_seed(1)
 
     # モデルの構築
-    model = models.CNN(kernel_size=KERNEL_SIZE).to(device)
-    # model = models.VGG19().to(device)
+    # model = models.CNN(kernel_size=KERNEL_SIZE).to(device)
+    model = models.VGG19().to(device)
     criterion = nn.MSELoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
 
@@ -172,7 +141,7 @@ def main():
             # 学習データの作成
             random_data, random_labels, history = get_random_data('train', train_data, train_labels, history)
             # Tensorへ変換
-            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, MFCC_FILTER_NUM)
+            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
             labels = torch.tensor(random_labels, dtype=torch.float, device=device).view(-1, 1)
 
             optimizer.zero_grad()
@@ -213,7 +182,7 @@ def main():
             # テストデータの作成
             random_data, random_labels, history = get_random_data('test', test_data, test_labels, history)
             # Tensorへ変換
-            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, MFCC_FILTER_NUM)
+            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, WINDOW_SIZE)
             labels = torch.tensor(random_labels, dtype=torch.float, device=device).view(-1, 1)
 
             optimizer.zero_grad()

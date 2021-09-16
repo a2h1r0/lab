@@ -139,7 +139,7 @@ class CNN(nn.Module):
         kernel_size (int): カーネルサイズ
     """
 
-    def __init__(self, kernel_size=7):
+    def __init__(self, kernel_size=3):
         super().__init__()
 
         self.conv1 = nn.Conv1d(
