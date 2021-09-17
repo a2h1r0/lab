@@ -1,9 +1,5 @@
 import numpy as np
 from pydub import AudioSegment
-import torch
-import torch.nn as nn
-import torch.optim as optimizers
-import model as models
 import matplotlib.pyplot as plt
 from natsort import natsorted
 import scipy
@@ -22,12 +18,9 @@ BOTTLE = 'shampoo'
 SOUND_DIR = '../sounds/temp/' + BOTTLE + '/'
 
 
-EPOCH_NUM = 10000  # 学習サイクル数
-KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
-BATCH_SIZE = 10000  # バッチサイズ
 WINDOW_SECOND = 0.5  # 1サンプルの秒数
-STEP = 10000  # スライド幅
-TEST_ONEFILE_DATA_NUM = 1000  # 1ファイルごとのテストデータ数
+STEP = 100  # スライド幅
+TEST_ONEFILE_DATA_NUM = 10  # 1ファイルごとのテストデータ数
 
 MFCC_FILTER_NUM = 20
 MFCC_DIMENSION_NUM = 12
@@ -146,118 +139,34 @@ def get_random_data(mode, data, labels, history):
 
 
 def main():
-    # 初期化
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    torch.manual_seed(1)
+    # データの読み込み
+    train_data, train_labels = make_train_data()
+    test_data_all, test_labels_all = make_test_data()
+    test_data, answers, _ = get_random_data('test', test_data_all, test_labels_all, [])
 
-    # モデルの構築
-    model = models.CNN(kernel_size=KERNEL_SIZE).to(device)
-    # model = models.VGG19().to(device)
-    criterion = nn.MSELoss()
-    optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
+    predictions = []
+    for test in test_data:
+        min_distance = float('inf')
+        for index, train in enumerate(train_data):
+            distance = np.linalg.norm(train - test, ord=1)
 
-    def train():
-        """
-        モデルの学習
-        """
+            if distance < min_distance:
+                min_distance = distance
+                min_index = index
 
-        # データの読み込み
-        train_data, train_labels = make_train_data()
+        predictions.append(train_labels[min_index])
 
-        model.train()
-        print('\n***** 学習開始 *****')
+    # 予測と正解の差の合計を計算
+    diffs = np.abs(np.array(answers) - np.array(predictions))
+    diff = np.sum(diffs) / len(diffs)
 
-        history = []
-        for epoch in range(EPOCH_NUM):
-            # 学習データの作成
-            random_data, random_labels, history = get_random_data('train', train_data, train_labels, history)
-            # Tensorへ変換
-            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, MFCC_FILTER_NUM)
-            labels = torch.tensor(random_labels, dtype=torch.float, device=device).view(-1, 1)
-
-            optimizer.zero_grad()
-            outputs = model(inputs)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
-
-            loss_all.append(loss.item())
-            if (epoch + 1) % 10 == 0:
-                print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
-
-                # 予測値の保存（検証用）
-                if (epoch + 1) == EPOCH_NUM:
-                    answers = labels.to('cpu').detach().numpy().copy()
-                    answers = answers.reshape(-1)
-                    predictions = outputs.to('cpu').detach().numpy().copy()
-                    predictions = predictions.reshape(-1)
-                    rows = np.array([[epoch + 1 for i in range(len(answers))], answers, predictions], dtype=int).T
-                    rows = np.insert(rows.astype('str'), 0, TEST_FILE.replace('.', '_'), axis=1)
-                    log_writer.writerows(rows)
-
-        print('\n----- 終了 -----\n')
-
-    def test():
-        """
-        モデルのテスト
-        """
-
-        # データの読み込み
-        test_data, test_labels = make_test_data()
-
-        model.eval()
-        print('\n***** テスト *****')
-
-        history = []
-        with torch.no_grad():
-            # テストデータの作成
-            random_data, random_labels, history = get_random_data('test', test_data, test_labels, history)
-            # Tensorへ変換
-            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, MFCC_FILTER_NUM)
-            labels = torch.tensor(random_labels, dtype=torch.float, device=device).view(-1, 1)
-
-            optimizer.zero_grad()
-            outputs = model(inputs)
-            loss = criterion(outputs, labels)
-
-            # 結果を整形
-            answers = labels.to('cpu').detach().numpy().copy()
-            answers = answers.reshape(-1)
-            predictions = outputs.to('cpu').detach().numpy().copy()
-            predictions = predictions.reshape(-1)
-
-            # 予測と正解の差の合計を計算
-            diffs = np.abs(answers - predictions)
-            diff = np.sum(diffs) / len(diffs)
-
-            # 結果の表示
-            for answer, prediction in zip(answers, predictions):
-                print('Answer: {:.3f} / Prediction: {:.3f}'.format(answer, prediction))
-            print('\nDiff: {:.3f}\n'.format(diff))
-            result_writer.writerow([TEST_FILE.replace('.', '_'), diff])
-            diff_all.append(diff)
-
-    # モデルの学習
-    loss_all = []
-    train()
-
-    # モデルのテスト
-    test()
-
-    # Lossの描画
-    figures_dir = '../figures/' + now
-    if os.path.exists(figures_dir) == False:
-        os.makedirs(figures_dir)
-    print('\nLossを描画します．．．\n')
-    plt.figure(figsize=(16, 9))
-    plt.plot(range(EPOCH_NUM), loss_all)
-    plt.xlabel('Epoch', fontsize=26)
-    plt.ylabel('Loss', fontsize=26)
-    plt.tick_params(labelsize=26)
-    filename = figures_dir + '/' + TEST_FILE.replace('.', '_') + '.png'
-    plt.savefig(filename, bbox_inches='tight', pad_inches=0)
-    # plt.show()
-    plt.close()
+    # 結果の表示
+    for answer, prediction in zip(answers, predictions):
+        print('Answer: {:.3f} / Prediction: {:.3f}'.format(answer, prediction))
+        log_writer.writerow([TEST_FILE.replace('.', '_'), answer, prediction])
+    print('\nDiff: {:.3f}\n'.format(diff))
+    result_writer.writerow([TEST_FILE.replace('.', '_'), diff])
+    diff_all.append(diff)
 
 
 if __name__ == '__main__':
@@ -272,7 +181,7 @@ if __name__ == '__main__':
         log_file = '../data/outputs_' + now + '.csv'
         with open(log_file, 'w', newline='') as f:
             log_writer = csv.writer(f)
-            log_writer.writerow(['TestFile', 'Epoch', 'Answer', 'Prediction'])
+            log_writer.writerow(['TestFile', 'Answer', 'Prediction'])
 
             diff_all = []
             files = natsorted(glob.glob(SOUND_DIR + '*'))
