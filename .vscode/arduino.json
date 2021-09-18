@@ -2,5 +2,5 @@
     "port": "COM3",
     "board": "arduino:avr:uno",
     "programmer": "AVR ISP",
-    "sketch": "research\\pulse\\generate_target\\flexible\\flexible.ino"
+    "sketch": "research\\pulse\\work\\work.ino"
 }
