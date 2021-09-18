@@ -14,17 +14,11 @@ const int L_COLORS = 5;
 // 色データ
 const int COLORS_PWM_1[L_COLORS] = {
     PWM_HIGH,
-    PWM_HIGH / 2,
     PWM_LOW,
-    PWM_HIGH / 2,
-    PWM_HIGH,
 };
 const int COLORS_PWM_2[L_COLORS] = {
     PWM_LOW,
-    PWM_HIGH / 2,
     PWM_HIGH,
-    PWM_HIGH / 2,
-    PWM_LOW,
 };
 
 /**
