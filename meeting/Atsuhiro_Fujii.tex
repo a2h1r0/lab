@@ -17,57 +17,26 @@
 \section{進捗状況}
 
 \subsection{脈波}
-板を持って帰って来たので，値が取れるようにいろいろやってみます．
+TicWatchは値が取れるようになりました．残りWatch3だけまだ値が取れません．新しい板とか買ってみます．
 
 \subsection{水量推定}
-FFT波形を確認してみましたが，微妙な気がします．
-特徴量をメルスペクトルとしたプログラムを実装していきます．
+MFCC（12次元）を計算し，CNN1Dでの識別，L1ノルム距離での識別する方法と，スペクトログラムからCNN2Dで識別する3つの方法を実装しました．\\
+MFCC-CNN1D: 17\% \\
+MFCC-L1: 計算中だがそんなに変わらない（？） \\
+Spectrogram-CNN2D: 18\% \\
+どれも微妙です．詰まってしまいました．
 
 \subsection{BentoChallenge}
-待機．
+プレゼン作成中です．
 
 
-\begin{figure*}[h]
-  \begin{center}
-    \includegraphics[width=1\textwidth]{1.eps}
-    \caption{FFTデータ}
-  \end{center}
-\end{figure*}
+% \begin{figure*}[h]
+%   \begin{center}
+%     \includegraphics[width=1\textwidth]{1.eps}
+%     \caption{FFTデータ}
+%   \end{center}
+% \end{figure*}
 
-\begin{figure*}[h]
-  \begin{center}
-    \includegraphics[width=1\textwidth]{2.eps}
-    \caption{FFTデータ}
-  \end{center}
-\end{figure*}
-
-\begin{figure*}[h]
-  \begin{center}
-    \includegraphics[width=1\textwidth]{3.eps}
-    \caption{FFTデータ}
-  \end{center}
-\end{figure*}
-
-\begin{figure*}[h]
-  \begin{center}
-    \includegraphics[width=1\textwidth]{4.eps}
-    \caption{FFTデータ}
-  \end{center}
-\end{figure*}
-
-\begin{figure*}[h]
-  \begin{center}
-    \includegraphics[width=1\textwidth]{5.eps}
-    \caption{FFTデータ}
-  \end{center}
-\end{figure*}
-
-\begin{figure*}[h]
-  \begin{center}
-    \includegraphics[width=1\textwidth]{6.eps}
-    \caption{FFTデータ}
-  \end{center}
-\end{figure*}
 
 
 % \begin{multicols}{2}
