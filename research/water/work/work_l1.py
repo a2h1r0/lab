@@ -172,13 +172,13 @@ def main():
 if __name__ == '__main__':
     # 結果の保存ファイル作成
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    result_file = '../data/result_' + now + '.csv'
+    result_file = '../data/result_mfcc_l1_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
         result_writer.writerow(['TestFile', 'Diff'])
 
         # 予測値の保存ファイル作成（検証用）
-        log_file = '../data/outputs_' + now + '.csv'
+        log_file = '../data/outputs_mfcc_l1_' + now + '.csv'
         with open(log_file, 'w', newline='') as f:
             log_writer = csv.writer(f)
             log_writer.writerow(['TestFile', 'Answer', 'Prediction'])
