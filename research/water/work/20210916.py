@@ -235,7 +235,7 @@ if __name__ == '__main__':
     result_file = '../data/result_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
-        result_writer.writerow(['Test Bottle', 'Diff'])
+        result_writer.writerow(['TestFile', 'Diff'])
 
         # 予測値の保存ファイル作成（検証用）
         log_file = '../data/outputs_' + now + '.csv'
