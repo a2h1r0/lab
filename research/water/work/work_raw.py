@@ -24,7 +24,7 @@ EPOCH_NUM = 5000  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 30  # バッチサイズ
 WINDOW_SECOND = 0.5  # 1サンプルの秒数
-STEP = 1000  # スライド幅
+STEP = 500  # スライド幅
 TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
 
 
@@ -49,7 +49,9 @@ def make_train_data():
         # 音源の読み出し
         sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
         data = np.array(sound.get_array_of_samples())
-        labels = np.linspace(0, 100, len(data))
+        data = data[len(data)//2:]
+        labels = np.linspace(50, 100, len(data))
+        # labels = np.linspace(0, 100, len(data))
 
         for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
             start = index
@@ -70,7 +72,9 @@ def make_test_data():
     # 音源の読み出し
     sound = AudioSegment.from_file(SOUND_DIR + TEST_FILE, 'mp3')
     data = np.array(sound.get_array_of_samples())
-    labels = np.linspace(0, 100, len(data))
+    data = data[len(data)//2:]
+    labels = np.linspace(50, 100, len(data))
+    # labels = np.linspace(0, 100, len(data))
 
     for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
         start = index

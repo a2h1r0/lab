@@ -19,7 +19,7 @@ SOUND_DIR = '../sounds/temp/' + BOTTLE + '/'
 
 
 WINDOW_SECOND = 0.5  # 1サンプルの秒数
-STEP = 100  # スライド幅
+STEP = 1000  # スライド幅
 TEST_ONEFILE_DATA_NUM = 10  # 1ファイルごとのテストデータ数
 
 MFCC_FILTER_NUM = 20
@@ -73,7 +73,9 @@ def make_train_data():
         # 音源の読み出し
         sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
         data = np.array(sound.get_array_of_samples())
-        labels = np.linspace(0, 100, len(data))
+        data = data[len(data)//2:]
+        labels = np.linspace(50, 100, len(data))
+        # labels = np.linspace(0, 100, len(data))
 
         for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
             start = index
@@ -94,7 +96,9 @@ def make_test_data():
     # 音源の読み出し
     sound = AudioSegment.from_file(SOUND_DIR + TEST_FILE, 'mp3')
     data = np.array(sound.get_array_of_samples())
-    labels = np.linspace(0, 100, len(data))
+    data = data[len(data)//2:]
+    labels = np.linspace(50, 100, len(data))
+    # labels = np.linspace(0, 100, len(data))
 
     for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
         start = index
@@ -185,7 +189,7 @@ if __name__ == '__main__':
 
             diff_all = []
             files = natsorted(glob.glob(SOUND_DIR + '*'))
-            for test_index, test_file in enumerate(files):
+            for test_index, test_file in enumerate(files[::10]):
                 # テストデータ以外を学習に使用
                 TRAIN_FILES = [os.path.split(filename)[1] for index, filename in enumerate(files) if index != test_index]
                 TEST_FILE = os.path.split(test_file)[1]
