@@ -29,8 +29,8 @@ WINDOW_SECOND = 0.5  # 1サンプルの秒数
 STEP = 10000  # スライド幅
 TEST_ONEFILE_DATA_NUM = 1000  # 1ファイルごとのテストデータ数
 
-MFCC_FILTER_NUM = 256
-MFCC_DIMENSION_NUM = 128
+MFCC_FILTER_NUM = 20
+MFCC_DIMENSION_NUM = 12
 
 
 def get_sampling_rate():
@@ -155,7 +155,8 @@ def main():
     torch.manual_seed(1)
 
     # モデルの構築
-    model = models.CNN(kernel_size=KERNEL_SIZE).to(device)
+    # model = models.CNN(kernel_size=KERNEL_SIZE).to(device)
+    model = models.LightCNN(kernel_size=KERNEL_SIZE).to(device)
     # model = models.VGG19().to(device)
     criterion = nn.MSELoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)

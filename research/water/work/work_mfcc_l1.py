@@ -22,8 +22,8 @@ WINDOW_SECOND = 0.5  # 1サンプルの秒数
 STEP = 10000  # スライド幅
 TEST_ONEFILE_DATA_NUM = 10  # 1ファイルごとのテストデータ数
 
-MFCC_FILTER_NUM = 32
-MFCC_DIMENSION_NUM = 24
+MFCC_FILTER_NUM = 20
+MFCC_DIMENSION_NUM = 12
 
 
 def get_sampling_rate():
