@@ -18,7 +18,7 @@ BOTTLE = 'shampoo'
 SOUND_DIR = '../sounds/temp/' + BOTTLE + '/'
 
 
-WINDOW_SECOND = 0.5  # 1サンプルの秒数
+WINDOW_SECOND = 0.2  # 1サンプルの秒数
 STEP = 10000  # スライド幅
 TEST_ONEFILE_DATA_NUM = 10  # 1ファイルごとのテストデータ数
 
