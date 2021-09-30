@@ -22,15 +22,15 @@ BOTTLE = 'shampoo'
 SOUND_DIR = '../sounds/temp/' + BOTTLE + '/'
 
 
-EPOCH_NUM = 2000  # 学習サイクル数
+EPOCH_NUM = 3000  # 学習サイクル数
 KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 10000  # バッチサイズ
-WINDOW_SECOND = 0.2  # 1サンプルの秒数
+WINDOW_SECOND = 0.5  # 1サンプルの秒数
 STEP = 10000  # スライド幅
 TEST_ONEFILE_DATA_NUM = 1000  # 1ファイルごとのテストデータ数
 
-MFCC_FILTER_NUM = 20
-MFCC_DIMENSION_NUM = 12
+MFCC_FILTER_NUM = 256
+MFCC_DIMENSION_NUM = 128
 
 
 def get_sampling_rate():
