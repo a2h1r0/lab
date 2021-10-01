@@ -1,0 +1,148 @@
+Delivered-To: murao.kazuya10@gmail.com
+Received: by 2002:a05:6520:68a:b0:138:a3b1:ee3e with SMTP id j10csp1283900lka;
+        Fri, 1 Oct 2021 00:42:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw+rtbgh4c2nlqam2c977d4VDHmnyZ+iX9xFGMxt2ZvyUebXjPNKoe7oPzrfOH/nrdLHfn/
+X-Received: by 2002:a63:4464:: with SMTP id t36mr8620669pgk.4.1633074147211;
+        Fri, 01 Oct 2021 00:42:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633074147; cv=none;
+        d=google.com; s=arc-20160816;
+        b=xN/9ZAibCt6i+5Ab1VpbPkTFAT7etf3n4kv08otjfSh8QI3znc1rj4EMm5VQz9+qEr
+         +M6IYisbKZoE2fkAggmWxYiD4hPVjE0XM6vimKwSAO3mjRcLmh9qNxad5YkEoLerunSf
+         mIPOQEOIa+fMAk7eIB3GzrJwCZEqum4IftWgChC5hsZGVaknI/Zw7aYqdYmtDCkaThJ9
+         BxRa464vDypEJPkPkQmA8oTV10fVxge5Gx02vupbyuFWrmdYRvq4QS8tjxzLI/deKUj0
+         L/0qyY59980d62PYDi0IFrcrXDKK8880itGF7D/tKz8iy2kjNyXT0NlfrwUF+5rFC8wj
+         q4JQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:date:reply-to:cc:to:from:mime-version:message-id
+         :dkim-signature:delivered-to;
+        bh=RJmWhRRJ94m75x+HqhwlIY9RlHXj7mM2kbW6uppSy1s=;
+        b=IkWb+dctOL5W/Y9FUDq+WH34IQ2UsHaWcQ8SmfIarFkDO7nZFJXmSBrLg1azUmlgwU
+         Z+3crgVqxQOS5tEV96XpzGns3H7Eonc2zG7IZ57/Wu3cjX8HTe296nEWafxT62HXXpPp
+         hRxCY7H11O53Q0oRSaDhnAyGDpmacsF3WpSrIcho4M5Rzj1t2cOuXb6bzElGY2usrLNQ
+         hKmh7eTNLq2XMN7brC66y4H7YsOph3QhrKZ/+KF+pWptWtVOjXKp0q9dE3zpPpnb8Mex
+         7f09uu0vXQeKrGaQLQfjn+7Nt5GDeYc+bIqKb53W7p42ysAq7oL+6eyioLW7EXkZfMrb
+         KBnw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@msr-cmt.org header.s=s1024 header.b=WJUYou89;
+       spf=softfail (google.com: domain of transitioning email@msr-cmt.org does not designate 133.19.0.32 as permitted sender) smtp.mailfrom=email@msr-cmt.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=msr-cmt.org
+Return-Path: <email@msr-cmt.org>
+Received: from rucs.cs.ritsumei.ac.jp (rucs.cs.ritsumei.ac.jp. [133.19.0.32])
+        by mx.google.com with ESMTP id c5si2424048pgw.577.2021.10.01.00.42.26
+        for <murao.kazuya10@gmail.com>;
+        Fri, 01 Oct 2021 00:42:27 -0700 (PDT)
+Received-SPF: softfail (google.com: domain of transitioning email@msr-cmt.org does not designate 133.19.0.32 as permitted sender) client-ip=133.19.0.32;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@msr-cmt.org header.s=s1024 header.b=WJUYou89;
+       spf=softfail (google.com: domain of transitioning email@msr-cmt.org does not designate 133.19.0.32 as permitted sender) smtp.mailfrom=email@msr-cmt.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=msr-cmt.org
+Received: by rucs.cs.ritsumei.ac.jp (Postfix)
+	id 00391470702; Fri,  1 Oct 2021 16:42:26 +0900 (JST)
+Delivered-To: murao@cs.ritsumei.ac.jp
+Received: from rundz1055.ritsumei.ac.jp (rundz1055.ritsumei.ac.jp [133.19.170.55])
+	by rucs.cs.ritsumei.ac.jp (Postfix) with ESMTP id EE3F3470701
+	for <murao@cs.ritsumei.ac.jp>; Fri,  1 Oct 2021 16:42:25 +0900 (JST)
+Received: from smtpi.msn.com (co1gmehub13.msn.com [65.55.52.246])
+	by rundz1055.ritsumei.ac.jp  with ESMTP id 1917gNo9023907-1917gNoA023907
+	for <murao@cs.ritsumei.ac.jp>; Fri, 1 Oct 2021 16:42:24 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=msr-cmt.org;
+ s=s1024; t=1633074142; h=From; bh=RJmWhRRJ94m75x+HqhwlIY9RlHXj7mM2kbW6upp
+ Sy1s=; b=WJUYou89Gt9nRQFrnjIHiJyd2DKk+/Gm/3ekEP4M5jeDW23AsGG4w6HLGNmZjJjC
+ DC8LyfahmrTWzgy2+DzPNLfeasOTz04KY4HmZis1/4skQon2mACrM14JSHLyChFifP7Oor2k2
+ FUbhi14x/gKsu33kIHzH3a0PhpwaLl2MxI=;
+X-MS-Iris-MetaData: {"Type":null,"Fields":{"InstanceID":"25b6f695-4a30-4463-83b3-334ad772d346","ActivityID":"cd945f7c-f631-47bf-a2f5-2e8cef6237f5"}}
+Message-ID: <25b6f6954a30446383b3334ad772d346-JFBVALKQOJXWILKCJQZFA7DNONZGG3LUPRCW2YLJNRKGK43UPRJW25DQ@microsoft.com>
+MIME-Version: 1.0
+From: Microsoft CMT <email@msr-cmt.org>
+To: Kazuya Murao <murao@cs.ritsumei.ac.jp>
+CC: <abc@sozolab.jp>
+Reply-To: Sozo Inoue <sozo@brain.kyutech.ac.jp>
+Date: Fri, 1 Oct 2021 00:42:22 -0700
+Subject: (Camera ready extension): Challenge ABC2021: 22: Bento Packaging
+ Activity Recognition with Convolutional LSTM using Autocorrelation Function
+ and Majority Vote
+Content-Type: multipart/alternative;
+	boundary="--boundary_1204568_a8853d56-9738-4874-9651-bd7e437ffc8f"
+X-DKIM-Signer: DkimX (v3.20.320)
+X-FEAS-SPF: spf-result=pass, ip=65.55.52.246, helo=smtpi.msn.com, mailFrom=email@msr-cmt.org
+X-FEAS-DKIM: Valid
+Authentication-Results: rundz1055.ritsumei.ac.jp;
+	spf=pass (ritsumei.ac.jp: domain of email@msr-cmt.org designates 65.55.52.246 as permitted sender) smtp.mailfrom=email@msr-cmt.org;
+	dkim=pass header.i=@msr-cmt.org
+
+----boundary_1204568_a8853d56-9738-4874-9651-bd7e437ffc8f
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+RGVhciBLYXp1eWEgTXVyYW8sCgpXZSBob3BlIHRoYXQgeW91IGFyZSBzYWZlLCBhbmQg
+dGhhbmsgeW91IGZvciB0aGUgc3VibWlzc2lvbiB0byAzcmQgSW50ZXJuYXRpb25hbCBD
+b25mZXJlbmNlIG9uIEFjdGl2aXR5ICYgQmVoYXZpb3IgQ29tcHV0aW5nLiAKCldlIGFw
+b2xvZ2l6ZSBmb3IgdGhlIGRlbGF5IG9mIGNvbmZpcm1hdGlvbiBmb3IgdGhlIHJldmlz
+ZWQgcGFwZXJzIChpZiB5b3UgYXJlIGFjY2VwdGVkIHdpdGggcmV2aXNpb24uKQpXZSB3
+aWxsIGxldCB5b3Uga25vdyB0aGUgY29uZmlybWF0aW9uIHNvb24uIChTb21lIG9mIHRo
+ZSByZXZpc2VkIHBhcGVycyBoYXZlIG5vdCBtZXQgdGhlIGNvbmRpdGlvbiwgc28gd2Ug
+d2lsbCBhbHNvIGxldCB5b3Uga25vdy4pCgpOb3cgd2UgZXh0ZW5kZWQgdGhlIGNhbWVy
+YSByZWFkeSBzdWJtaXNzaW9uIHRvIE9jdC4gN3RoLCBzbyBwbGVhc2UgZmluaXNoIHRo
+ZSBjYW1lcmEgcmVhZHkgc3VibWlzc2lvbiBieSB0aGF0IGRhdGUgYW5kIGZpbmlzaCB0
+aGUgcmVnaXN0cmF0aW9uIGZyb20gdGhlIHdlYiBzaXRlLiAKCmh0dHBzOi8vYWJjLXJl
+c2VhcmNoLmdpdGh1Yi5pby8KCkJlc3QgcmVnYXJkcywKCkFCQzIwMjEgQ2hhbGxlbmdl
+IE9yZ2FuaXplcnMKM3JkIEludGVybmF0aW9uYWwgQ29uZmVyZW5jZSBvbiBBY3Rpdml0
+eSAmIEJlaGF2aW9yIENvbXB1dGluZwoKCgoKCkRvd25sb2FkIHRoZSBDTVQgYXBwIHRv
+IGFjY2VzcyBzdWJtaXNzaW9ucyBhbmQgcmV2aWV3cyBvbiB0aGUgbW92ZSBhbmQgcmVj
+ZWl2ZSBub3RpZmljYXRpb25zOgpodHRwczovL2FwcHMuYXBwbGUuY29tL3VzL2FwcC9j
+b25mZXJlbmNlLW1hbmFnZW1lbnQtdG9vbGtpdC9pZDE1MzI0ODgwMDEKaHR0cHM6Ly9w
+bGF5Lmdvb2dsZS5jb20vc3RvcmUvYXBwcy9kZXRhaWxzP2lkPWNvbS5taWNyb3NvZnQu
+cmVzZWFyY2guY210CgpUbyBzdG9wIHJlY2VpdmluZyBjb25mZXJlbmNlIGVtYWlscywg
+eW91IGNhbiBjaGVjayB0aGUgJ0RvIG5vdCBzZW5kIG1lIGNvbmZlcmVuY2UgZW1haWwn
+IGJveCBmcm9tIHlvdXIgVXNlciBQcm9maWxlLgoKTWljcm9zb2Z0IHJlc3BlY3RzIHlv
+dXIgcHJpdmFjeS4gVG8gbGVhcm4gbW9yZSwgcGxlYXNlIHJlYWQgb3VyIDxhIGhyZWY9
+J2h0dHBzOi8vZ28ubWljcm9zb2Z0LmNvbS9md2xpbmsvP0xpbmtJZD01MjE4MzknPlBy
+aXZhY3kgU3RhdGVtZW50PC9hPi4KCk1pY3Jvc29mdCBDb3Jwb3JhdGlvbgpPbmUgTWlj
+cm9zb2Z0IFdheQpSZWRtb25kLCBXQSA5ODA1Mg==
+----boundary_1204568_a8853d56-9738-4874-9651-bd7e437ffc8f
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+PCFET0NUWVBFIGh0bWw+PGh0bWw+PGhlYWQ+PG1ldGEgY2hhcnNldD0idXRmLTgiPjwv
+aGVhZD48Ym9keT48cHJlIHN0eWxlPSJmb250LWZhbWlseTogbW9ub3NwYWNlOyB3aGl0
+ZS1zcGFjZTogcHJlLXdyYXA7Ij5EZWFyIEthenV5YSBNdXJhbywKCldlIGhvcGUgdGhh
+dCB5b3UgYXJlIHNhZmUsIGFuZCB0aGFuayB5b3UgZm9yIHRoZSBzdWJtaXNzaW9uIHRv
+IDNyZCBJbnRlcm5hdGlvbmFsIENvbmZlcmVuY2Ugb24gQWN0aXZpdHkgJmFtcDsgQmVo
+YXZpb3IgQ29tcHV0aW5nLiAKCldlIGFwb2xvZ2l6ZSBmb3IgdGhlIGRlbGF5IG9mIGNv
+bmZpcm1hdGlvbiBmb3IgdGhlIHJldmlzZWQgcGFwZXJzIChpZiB5b3UgYXJlIGFjY2Vw
+dGVkIHdpdGggcmV2aXNpb24uKQpXZSB3aWxsIGxldCB5b3Uga25vdyB0aGUgY29uZmly
+bWF0aW9uIHNvb24uIChTb21lIG9mIHRoZSByZXZpc2VkIHBhcGVycyBoYXZlIG5vdCBt
+ZXQgdGhlIGNvbmRpdGlvbiwgc28gd2Ugd2lsbCBhbHNvIGxldCB5b3Uga25vdy4pCgpO
+b3cgd2UgZXh0ZW5kZWQgdGhlIGNhbWVyYSByZWFkeSBzdWJtaXNzaW9uIHRvIE9jdC4g
+N3RoLCBzbyBwbGVhc2UgZmluaXNoIHRoZSBjYW1lcmEgcmVhZHkgc3VibWlzc2lvbiBi
+eSB0aGF0IGRhdGUgYW5kIGZpbmlzaCB0aGUgcmVnaXN0cmF0aW9uIGZyb20gdGhlIHdl
+YiBzaXRlLiAKCjxhIGhyZWY9Imh0dHBzOi8vYWJjLXJlc2VhcmNoLmdpdGh1Yi5pby8i
+Pmh0dHBzOi8vYWJjLXJlc2VhcmNoLmdpdGh1Yi5pby88L2E+CgpCZXN0IHJlZ2FyZHMs
+CgpBQkMyMDIxIENoYWxsZW5nZSBPcmdhbml6ZXJzCjNyZCBJbnRlcm5hdGlvbmFsIENv
+bmZlcmVuY2Ugb24gQWN0aXZpdHkgJmFtcDsgQmVoYXZpb3IgQ29tcHV0aW5nPGJyIC8+
+PGJyIC8+PGJyIC8+PGJyIC8+PGJyIC8+PGJyIC8+RG93bmxvYWQgdGhlIENNVCBhcHAg
+dG8gYWNjZXNzIHN1Ym1pc3Npb25zIGFuZCByZXZpZXdzIG9uIHRoZSBtb3ZlIGFuZCBy
+ZWNlaXZlIG5vdGlmaWNhdGlvbnM6PGJyIC8+aHR0cHM6Ly9hcHBzLmFwcGxlLmNvbS91
+cy9hcHAvY29uZmVyZW5jZS1tYW5hZ2VtZW50LXRvb2xraXQvaWQxNTMyNDg4MDAxPGJy
+IC8+aHR0cHM6Ly9wbGF5Lmdvb2dsZS5jb20vc3RvcmUvYXBwcy9kZXRhaWxzP2lkPWNv
+bS5taWNyb3NvZnQucmVzZWFyY2guY210PGJyIC8+PGJyIC8+VG8gc3RvcCByZWNlaXZp
+bmcgY29uZmVyZW5jZSBlbWFpbHMsIHlvdSBjYW4gY2hlY2sgdGhlICdEbyBub3Qgc2Vu
+ZCBtZSBjb25mZXJlbmNlIGVtYWlsJyBib3ggZnJvbSB5b3VyIFVzZXIgUHJvZmlsZS48
+YnIgLz48YnIgLz5NaWNyb3NvZnQgcmVzcGVjdHMgeW91ciBwcml2YWN5LiBUbyBsZWFy
+biBtb3JlLCBwbGVhc2UgcmVhZCBvdXIgPGEgaHJlZj0naHR0cHM6Ly9nby5taWNyb3Nv
+ZnQuY29tL2Z3bGluay8/TGlua0lkPTUyMTgzOSc+UHJpdmFjeSBTdGF0ZW1lbnQ8L2E+
+LjxiciAvPjxiciAvPk1pY3Jvc29mdCBDb3Jwb3JhdGlvbjxiciAvPk9uZSBNaWNyb3Nv
+ZnQgV2F5PGJyIC8+UmVkbW9uZCwgV0EgOTgwNTI8L3ByZT48aW1nIHNyYz0naHR0cHM6
+Ly9tdWNwLmFwaS5hY2NvdW50Lm1pY3Jvc29mdC5jb20vbS92Mi92P2Q9QUlBQURaSDdT
+NlAzWk1GWUNOU05MNjRRR1U0SVU1WkZMREJFREpVSk9KVE5ET1NXSzczUjRaNjZOUVpK
+U1Y2UEFOSzJPREtYS1VWNk83NDJUWVNGSUFOQVM1N0dDTVBNTEc2UklDUjU0M0hWWjIz
+VkMySFdXR1BPWk5YU0pDNEFKWUhFV0pCSkpTSkRBRUo3NEFJUVJMUVhSVVlOQllZJmk9
+QUlBQUQzTFhMM1Y2M1VFUlU0SllKNU5WR0xZQ0ZNWDQ0VUdXMlNCSzRBRUpLS1pYNEJG
+TkFHN1JIRUwySlFQNUVNV0ZRUlRMNEVWQ0k3WVU2NkIzUE1PNU83UlM2Wk9NWlZFREVG
+Wk1XR09GNFZMNllDNkpENFVJVFlBVDdEWFY0NEszVFYyVDNIUkJRRFVJVlRSNVcyQTVL
+QVdVWTVTVUNURk1DV1c1SFFTU1lQSkpGR1dYVUJEQllYWENZU0hRN09OSUVTQ1NRRTJZ
+V1E1MjZSRjVQUVNTRkozQUVHRUJPSlVTSEZKREgyTUdTV0w2R09GSzIyN1pSUk5JUFRH
+WFFIWFZEQ0hKV0ozWU5WQk5QR1U1NUhCSjNKS1JKSEknIHdpZHRoPScxJyBoZWlnaHQ9
+JzEnIHRhYmluZGV4PSctMScgYXJpYS1oaWRkZW49J3RydWUnIGFsdD0nJyAvPjwvYm9k
+eT48L2h0bWw+PCEtLSBjVjogZzRjTStJMHJQRXk5cVo5TS40LjEuMS40IC0tPg==
+----boundary_1204568_a8853d56-9738-4874-9651-bd7e437ffc8f--
