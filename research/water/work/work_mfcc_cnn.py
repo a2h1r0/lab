@@ -155,8 +155,8 @@ def main():
     torch.manual_seed(1)
 
     # モデルの構築
-    # model = models.CNN(kernel_size=KERNEL_SIZE).to(device)
-    model = models.LightCNN(kernel_size=KERNEL_SIZE).to(device)
+    model = models.CNN(kernel_size=KERNEL_SIZE).to(device)
+    # model = models.LightCNN(kernel_size=KERNEL_SIZE).to(device)
     # model = models.VGG19().to(device)
     criterion = nn.MSELoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
