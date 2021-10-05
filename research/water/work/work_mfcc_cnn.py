@@ -22,11 +22,11 @@ BOTTLE = 'shampoo'
 SOUND_DIR = '../sounds/temp/' + BOTTLE + '/'
 
 
-EPOCH_NUM = 3000  # 学習サイクル数
+EPOCH_NUM = 1500  # 学習サイクル数
 KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 10000  # バッチサイズ
 WINDOW_SECOND = 0.2  # 1サンプルの秒数
-STEP = 10000  # スライド幅
+STEP = 100  # スライド幅
 TEST_ONEFILE_DATA_NUM = 1000  # 1ファイルごとのテストデータ数
 
 MFCC_FILTER_NUM = 20
