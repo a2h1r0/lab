@@ -17,9 +17,9 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-BOTTLE = 'shampoo'
+BOTTLE = 'shampoo2'
 
-SOUND_DIR = '../sounds/temp/' + BOTTLE + '/'
+SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
 
 
 EPOCH_NUM = 1500  # 学習サイクル数
