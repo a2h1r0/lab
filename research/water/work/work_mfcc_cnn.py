@@ -22,15 +22,15 @@ BOTTLE = 'shampoo2'
 SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
 
 
-EPOCH_NUM = 1000  # 学習サイクル数
+EPOCH_NUM = 500  # 学習サイクル数
 KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 10000  # バッチサイズ
 WINDOW_SECOND = 0.2  # 1サンプルの秒数
-STEP = 10000  # スライド幅
+STEP = 1000  # スライド幅
 TEST_ONEFILE_DATA_NUM = 1000  # 1ファイルごとのテストデータ数
 
-MFCC_FILTER_NUM = 256
-MFCC_DIMENSION_NUM = 128
+MFCC_FILTER_NUM = 20
+MFCC_DIMENSION_NUM = 12
 
 
 def get_sampling_rate():
@@ -155,8 +155,8 @@ def main():
     torch.manual_seed(1)
 
     # モデルの構築
-    model = models.DCNN(kernel_size=KERNEL_SIZE).to(device)
-    # model = models.CNN(kernel_size=KERNEL_SIZE).to(device)
+    # model = models.DCNN(kernel_size=KERNEL_SIZE).to(device)
+    model = models.CNN(kernel_size=KERNEL_SIZE).to(device)
     criterion = nn.MSELoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
 
