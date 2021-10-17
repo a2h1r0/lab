@@ -1,0 +1,105 @@
+Delivered-To: murao.kazuya10@gmail.com
+Received: by 2002:a05:6520:68a:b0:138:a3b1:ee3e with SMTP id j10csp9429873lka;
+        Thu, 14 Oct 2021 18:25:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJypQE239uMWKCEIODxanWeM+gX6jpfCOzN0u0ljGM1MI0W70DnkFtv0rfK2SGAKMTNMymWb
+X-Received: by 2002:a17:90b:1806:: with SMTP id lw6mr10026068pjb.222.1634261138383;
+        Thu, 14 Oct 2021 18:25:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1634261138; cv=none;
+        d=google.com; s=arc-20160816;
+        b=iCcSJfMUPr9EVqxiTOh67WQI7R6lfMFW/PZDRWvZdZs4D/OtKu2qZowHqf4I/31NRq
+         qYBUyCMndSpEV+Y0bJX8BrT/KfEKq2KMNF1eN0CBiLkLzWfwezqSq/5j2cdKG9RQYbZi
+         uvlOUkkzmS4WlAWKCApWUSMkMFbu20+TFAOnc6WQVmul2TO7PKVY0dt2WP1FKPdVJWX2
+         wT6xyasTkQUMpJ6GN/5hjXpYna5f/PhsVYG8lsJ1GmJu/NCwhu7bNLQzo28Vopfty3E3
+         flni6i5BnmYQMYVaTXEevVGAGgRN2qYw/iK1TSssYppOOoqYMPCpi7FLpa54mOUwJlbg
+         rpWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:content-language:mime-version:user-agent
+         :date:message-id:to:cc:reply-to:subject:from:delivered-to;
+        bh=zFh+pr+R4Lk5pSnmeuLFGcUz6zeWLveV2j8Ws5WOP7Y=;
+        b=0bOy0cpMDmXBzzOMjsUoqqaIhh9i6mWY8bBD2JTLaY0gCRgv4YPYIcNUOOJIyFyLEr
+         4MViVTdFAR72lBGn2FevkOFsmprXnleE4u2jMLdXz/HwzQTf8Tv26Rs+cJXPBhujVMmJ
+         eAO95kroqhGY00+p9OYGmVsF5AAsBGpg1AxcXETCQSaHNS2lykEy4ugSLLJzRVBukPRa
+         /vHBqP6bfIySiSX3VhwcyevsiCV08rnQwhom8ZesWFPuyevVIujNVEzNnzk2vIg6Abs3
+         aR10POtB4inkwPqL60sbORW/ASGlRb60loi0hPX9nI1xgxIRSJT/EyVJgNkBZ85SsGuX
+         Y67A==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=softfail (google.com: domain of transitioning simanuki@ipsj.or.jp does not designate 133.19.0.32 as permitted sender) smtp.mailfrom=simanuki@ipsj.or.jp
+Return-Path: <simanuki@ipsj.or.jp>
+Received: from rucs.cs.ritsumei.ac.jp (rucs.cs.ritsumei.ac.jp. [133.19.0.32])
+        by mx.google.com with ESMTP id f187si5655211pfg.87.2021.10.14.18.25.38
+        for <murao.kazuya10@gmail.com>;
+        Thu, 14 Oct 2021 18:25:38 -0700 (PDT)
+Received-SPF: softfail (google.com: domain of transitioning simanuki@ipsj.or.jp does not designate 133.19.0.32 as permitted sender) client-ip=133.19.0.32;
+Authentication-Results: mx.google.com;
+       spf=softfail (google.com: domain of transitioning simanuki@ipsj.or.jp does not designate 133.19.0.32 as permitted sender) smtp.mailfrom=simanuki@ipsj.or.jp
+Received: by rucs.cs.ritsumei.ac.jp (Postfix)
+	id 94FD0470701; Fri, 15 Oct 2021 10:25:37 +0900 (JST)
+Delivered-To: murao@cs.ritsumei.ac.jp
+Received: from rundz1054.ritsumei.ac.jp (rundz1054.ritsumei.ac.jp [133.19.170.54])
+	by rucs.cs.ritsumei.ac.jp (Postfix) with ESMTP id 9330A470700
+	for <murao@cs.ritsumei.ac.jp>; Fri, 15 Oct 2021 10:25:37 +0900 (JST)
+Received: from ns.ipsj.or.jp (ns.ipsj.or.jp [210.239.39.2])
+	by rundz1054.ritsumei.ac.jp  with ESMTP id 19F1PbDs001496-19F1PbDt001496
+	for <murao@cs.ritsumei.ac.jp>; Fri, 15 Oct 2021 10:25:37 +0900
+Received: from ns.ipsj.or.jp (localhost [127.0.0.1])
+	by postfix.imss91 (Postfix) with ESMTP id 39BE84E64DE;
+	Fri, 15 Oct 2021 10:25:37 +0900 (JST)
+Received: from [192.168.101.137] (unknown [192.168.101.137])
+	by ns.ipsj.or.jp (Postfix) with ESMTP id 2AAD94E6FD0;
+	Fri, 15 Oct 2021 10:25:37 +0900 (JST)
+From: Shimanuki Hideki <simanuki@ipsj.or.jp>
+Subject: Journal of Information Processing (Vol.29)
+Reply-To: simanuki@ipsj.or.jp
+Cc: =?UTF-8?B?SVBTSuirluaWh+iqjOaLheW9kw==?= <editt@ipsj.or.jp>
+To: Kazuya Murao <murao@cs.ritsumei.ac.jp>
+Message-ID: <52535749-33eb-5c22-efdc-4494eb76e7c6@ipsj.or.jp>
+Date: Fri, 15 Oct 2021 10:25:37 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1195-8.2.0.1013-26468.004
+X-TM-AS-Result: No--5.614-5.0-31-10
+X-imss-scan-details: No--5.614-5.0-31-10
+X-TMASE-Version: IMSS-9.1.0.1195-8.2.1013-26468.004
+X-TMASE-Result: 10--5.613600-10.000000
+X-TMASE-MatchedRID: 2fCM3VXgQPWxiVrMUp+cqx5+URxv1WlBAPsWBU9F+QzOCEK9cEYFry3G
+	Rnzedcqo61LtyMbdrPdT8AYSuCr48Mf2eXl6VFIUIiU9hx6W6eb2kudi1D33Eg7839sruCnYZGa
+	XPLvxUHSJQmJyKLrBQa6i+xXuOcVT8On4gsq1dRm8coKUcaOOvWHF8pu2phPl1nkLa3J3C31OSD
+	TfJtOmyPNYiMKYRQ18B/i5qhgrSdDx06SexwFENd9DPXGOTEAj57BplDPz0BC+eGAmqR+bQN+wm
+	8fkucQwinx/0iuSwTE6PV1uDshGpQzyMxeMEX6wgxsfzkNRlfL1wyfzgu+aKaouSpZlvc/LOpbZ
+	CO6MImx54UBAehU1km8XPK8AH+KOBOQ+j4qQlXT6C0ePs7A07Y6HM5rqDwqtw1aKPnWncqXvf+z
+	qj37ID1YpicwvERX9lCb0iwvjBat4L1p7wrqACQ==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+X-FEAS-SPF: spf-result=pass, ip=210.239.39.2, helo=ns.ipsj.or.jp, mailFrom=simanuki@ipsj.or.jp
+Authentication-Results: rundz1054.ritsumei.ac.jp;
+	spf=pass (ritsumei.ac.jp: domain of simanuki@ipsj.or.jp designates 210.239.39.2 as permitted sender) smtp.mailfrom=simanuki@ipsj.or.jp
+
+Dear,村尾 和哉
+
+We are pleased to tell you that latest issue of
+“Journal of Information Processing” (JIP),
+has been published online.
+
+https://www.jstage.jst.go.jp/browse/ipsjjip/29/0/_contents/-char/en?from=1
+
+For citation, or for references,
+please quote from the original paper,
+published on “Journal of Information Processing”(JIP),
+which is mentioned above.
+
+We also provide your paper on monthly “IPSJ Journal” (Ronbunshi).
+Please keep in mind that English papers printed on
+“IPSJ Journal” (Ronbunshi) are pre-prints (copy prints).
+Pre-prints can be used for non official purposes only.
+
+If you need further information, please e-mail us.
+
+Best Regards,
+
+Information Processing Society of Japan (IPSJ)
+Technical Activity Section
+
