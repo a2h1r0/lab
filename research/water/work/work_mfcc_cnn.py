@@ -189,16 +189,6 @@ def main():
             if (epoch + 1) % 10 == 0:
                 print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
 
-                # 予測値の保存（検証用）
-                if (epoch + 1) == EPOCH_NUM:
-                    answers = labels.to('cpu').detach().numpy().copy()
-                    answers = answers.reshape(-1)
-                    predictions = outputs.to('cpu').detach().numpy().copy()
-                    predictions = predictions.reshape(-1)
-                    rows = np.array([[epoch + 1 for i in range(len(answers))], answers, predictions], dtype=int).T
-                    rows = np.insert(rows.astype('str'), 0, TEST_FILE.replace('.', '_'), axis=1)
-                    log_writer.writerows(rows)
-
         print('\n----- 終了 -----\n')
 
     def test():
@@ -234,10 +224,10 @@ def main():
             diffs = np.abs(answers - predictions)
             diff = np.sum(diffs) / len(diffs)
 
-            # 結果の表示
-            for answer, prediction in zip(answers, predictions):
-                print('Answer: {:.3f} / Prediction: {:.3f}'.format(answer, prediction))
-            print('\nDiff: {:.3f}\n'.format(diff))
+            # 結果の保存
+            rows = np.array([answers, predictions], dtype=int).T
+            rows = np.insert(rows.astype('str'), 0, TEST_FILE.replace('.', '_'), axis=1)
+            log_writer.writerows(rows)
             result_writer.writerow([TEST_FILE.replace('.', '_'), diff])
             diff_all.append(diff)
 
@@ -276,7 +266,7 @@ if __name__ == '__main__':
         log_file = '../data/outputs_mfcc_cnn_' + now + '.csv'
         with open(log_file, 'w', newline='') as f:
             log_writer = csv.writer(f)
-            log_writer.writerow(['TestFile', 'Epoch', 'Answer', 'Prediction'])
+            log_writer.writerow(['TestFile', 'Answer', 'Prediction'])
 
             diff_all = []
             files = natsorted(glob.glob(SOUND_DIR + '*'))
