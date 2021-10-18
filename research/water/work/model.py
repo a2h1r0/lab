@@ -167,12 +167,12 @@ class CNN(nn.Module):
         """
 
         x = self.conv1(x)
-        x = self.relu(x)
-        x = self.maxpool(x)
+        # x = self.relu(x)
+        # x = self.maxpool(x)
 
         x = self.conv2(x)
-        x = self.relu(x)
-        x = self.maxpool(x)
+        # x = self.relu(x)
+        # x = self.maxpool(x)
 
         x = self.conv3(x)
         x = self.avgpool(x)
