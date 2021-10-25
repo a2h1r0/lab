@@ -3,5 +3,13 @@ body {
 }
 
 .container {
-  width: 400px !important;
+  width: 300px !important;
+}
+
+input {
+  width: 200px;
+}
+
+button {
+  width: 70px;
 }
