@@ -10,7 +10,7 @@ const int PWM_2 = 6;
 const int PWM_HIGH = 2;
 const int PWM_LOW = 0;
 // 色データ長
-const int L_COLORS = 5;
+const int L_COLORS = 2;
 // 色データ
 const int COLORS_PWM_1[L_COLORS] = {
     PWM_HIGH,
