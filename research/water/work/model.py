@@ -153,7 +153,7 @@ class CNN(nn.Module):
 
         self.conv3 = nn.Conv1d(
             in_channels=16, out_channels=64, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-        self.avgpool = nn.AdaptiveAvgPool1d(1)
+        self.maxpool = nn.AdaptiveMaxPool1d(1)
         self.fc = nn.Linear(64, 1)
 
         self.hardtanh = nn.Hardtanh(min_val=0, max_val=100)
@@ -175,7 +175,7 @@ class CNN(nn.Module):
         # x = self.maxpool(x)
 
         x = self.conv3(x)
-        x = self.avgpool(x)
+        x = self.maxpool(x)
         x = x.view(x.size(0), -1)
         x = self.fc(x)
 
