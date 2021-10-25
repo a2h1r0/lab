@@ -1,0 +1,6 @@
+$ python -m http.server 8080 --cgi
+
+Watch5：直置き
+TicWatch：5mm
+Puma：2mm
+SmartR：直置き

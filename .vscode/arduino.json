@@ -1,6 +1,5 @@
 {
     "port": "COM3",
     "board": "arduino:avr:uno",
-    "programmer": "AVR ISP",
-    "sketch": "research\\pulse\\work\\work.ino"
+    "sketch": "research\\SmartSensing2021\\server\\server.ino"
 }
