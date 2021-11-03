@@ -17,22 +17,28 @@
 \section{進捗状況}
 
 \subsection{脈波}
-進捗なしです．
+pulsesensor.comセンサで脈波を観測してみました．
+無の状態と比較すると，脈波が生成できている気がしますが，非常に汚いです．
+これまでスマートウォッチで心拍数が取得できていたのは，ソフトウェア側でうまくピークを拾えていたからかと思われます．
+他の指標で評価するという話がありましたが，これはアルゴリズムによって結果が変化するのではとも思いました．（心拍数の場合も同様）
 
 \subsection{水量推定}
-90~100\%の場合の誤差の検証をしていましたが，すべての予測値が70\%ぐらいになっており，正しく特徴を学習できていない可能性がありそうでした．
-モデルの見直しをしてみます．
-
-\subsection{BentoChallenge}
-プレゼン完成しました．
+回帰問題を分類問題に置き換えるため，再実装中です．
 
 
-% \begin{figure*}[h]
-%   \begin{center}
-%     \includegraphics[width=1\textwidth]{1.eps}
-%     \caption{FFTデータ}
-%   \end{center}
-% \end{figure*}
+\begin{figure*}[h]
+  \begin{center}
+    \includegraphics[width=1\textwidth]{1.png}
+    \caption{無の状態の波形}
+  \end{center}
+\end{figure*}
+
+\begin{figure*}[h]
+  \begin{center}
+    \includegraphics[width=1\textwidth]{2.png}
+    \caption{生成した波形}
+  \end{center}
+\end{figure*}
 
 
 
