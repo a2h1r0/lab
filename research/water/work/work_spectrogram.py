@@ -4,6 +4,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optimizers
 import model as models
+from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 from natsort import natsorted
 import scipy
@@ -19,7 +20,7 @@ os.chdir(os.path.dirname(__file__))
 
 BOTTLE = 'shampoo'
 
-SOUND_DIR = '../sounds/temp/' + BOTTLE + '/'
+SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
 
 
 EPOCH_NUM = 200  # 学習サイクル数
@@ -68,14 +69,14 @@ def make_train_data():
         sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
         data = np.array(sound.get_array_of_samples(), dtype=np.float32)
         data = data[len(data)//2:]
-        labels = np.linspace(50, 100, len(data))
-        # labels = np.linspace(0, 100, len(data))
+        amounts = np.linspace(50, 100, len(data))
+        # amounts = np.linspace(0, 100, len(data))
 
         for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
             start = index
             end = start + WINDOW_SIZE - 1
             train_data.append(spectrogram(data[start:end + 1]))
-            train_labels.append(labels[end])
+            train_labels.append(label_binarizer(amounts[end]))
 
     return train_data, train_labels
 
@@ -91,16 +92,65 @@ def make_test_data():
     sound = AudioSegment.from_file(SOUND_DIR + TEST_FILE, 'mp3')
     data = np.array(sound.get_array_of_samples(), dtype=np.float32)
     data = data[len(data)//2:]
-    labels = np.linspace(50, 100, len(data))
-    # labels = np.linspace(0, 100, len(data))
+    amounts = np.linspace(50, 100, len(data))
+    # amounts = np.linspace(0, 100, len(data))
 
     for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
         start = index
         end = start + WINDOW_SIZE - 1
         test_data.append(spectrogram(data[start:end + 1]))
-        test_labels.append(labels[end])
+        test_labels.append(label_binarizer(amounts[end]))
 
     return test_data, test_labels
+
+
+def label_binarizer(amount):
+    """
+    ワンホットラベルの生成
+
+    Args:
+        amount (float): 水位
+    Returns:
+        array: ワンホットラベル
+    """
+
+    if amount <= 10:
+        label = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    elif 10 < amount and amount <= 20:
+        label = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+    elif 20 < amount and amount <= 30:
+        label = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+    elif 30 < amount and amount <= 40:
+        label = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+    elif 40 < amount and amount <= 50:
+        label = [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+    elif 50 < amount and amount <= 60:
+        label = [0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+    elif 60 < amount and amount <= 70:
+        label = [0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+    elif 70 < amount and amount <= 80:
+        label = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+    elif 80 < amount and amount <= 90:
+        label = [0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+    elif 90 < amount and amount <= 100:
+        label = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+
+    return label
+
+
+def sigmoid_to_label(prediction):
+    """
+    シグモイド予測値のラベル化
+
+    Args:
+        prediction (float): シグモイド予測
+    Returns:
+        string: 結果水位
+    """
+
+    label = np.argmax(prediction) * 10
+
+    return str(label) + '-' + str(label + 10)
 
 
 def get_random_data(mode, data, labels, history):
@@ -143,8 +193,7 @@ def main():
 
     # モデルの構築
     model = models.CNN2D(kernel_size=KERNEL_SIZE).to(device)
-    # model = models.VGG19().to(device)
-    criterion = nn.MSELoss()
+    criterion = nn.BCEWithLogitsLoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
 
     def train():
@@ -164,7 +213,7 @@ def main():
             random_data, random_labels, history = get_random_data('train', train_data, train_labels, history)
             # Tensorへ変換
             inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, random_data[0].shape[0], random_data[0].shape[1])
-            labels = torch.tensor(random_labels, dtype=torch.float, device=device).view(-1, 1)
+            labels = torch.tensor(random_labels, dtype=torch.float, device=device)
 
             optimizer.zero_grad()
             outputs = model(inputs)
@@ -175,16 +224,6 @@ def main():
             loss_all.append(loss.item())
             if (epoch + 1) % 10 == 0:
                 print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
-
-                # 予測値の保存（検証用）
-                if (epoch + 1) == EPOCH_NUM:
-                    answers = labels.to('cpu').detach().numpy().copy()
-                    answers = answers.reshape(-1)
-                    predictions = outputs.to('cpu').detach().numpy().copy()
-                    predictions = predictions.reshape(-1)
-                    rows = np.array([[epoch + 1 for i in range(len(answers))], answers, predictions], dtype=int).T
-                    rows = np.insert(rows.astype('str'), 0, TEST_FILE.replace('.', '_'), axis=1)
-                    log_writer.writerows(rows)
 
         print('\n----- 終了 -----\n')
 
@@ -205,28 +244,25 @@ def main():
             random_data, random_labels, history = get_random_data('test', test_data, test_labels, history)
             # Tensorへ変換
             inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, random_data[0].shape[0], random_data[0].shape[1])
-            labels = torch.tensor(random_labels, dtype=torch.float, device=device).view(-1, 1)
+            labels = torch.tensor(random_labels, dtype=torch.float, device=device)
 
             optimizer.zero_grad()
             outputs = model(inputs)
-            loss = criterion(outputs, labels)
+            outputs = torch.sigmoid(outputs)
 
-            # 結果を整形
-            answers = labels.to('cpu').detach().numpy().copy()
-            answers = answers.reshape(-1)
-            predictions = outputs.to('cpu').detach().numpy().copy()
-            predictions = predictions.reshape(-1)
+            labels = labels.to('cpu').detach().numpy().copy()
+            outputs = outputs.to('cpu').detach().numpy().copy()
+            answers, predictions = [], []
+            for label, output in zip(labels, outputs):
+                answers.append(sigmoid_to_label(label))
+                predictions.append(sigmoid_to_label(output))
 
-            # 予測と正解の差の合計を計算
-            diffs = np.abs(answers - predictions)
-            diff = np.sum(diffs) / len(diffs)
-
-            # 結果の表示
+            # 結果の記録
             for answer, prediction in zip(answers, predictions):
-                print('Answer: {:.3f} / Prediction: {:.3f}'.format(answer, prediction))
-            print('\nDiff: {:.3f}\n'.format(diff))
-            result_writer.writerow([TEST_FILE.replace('.', '_'), diff])
-            diff_all.append(diff)
+                result_writer.writerow([TEST_FILE.replace('.', '_'), answer, prediction])
+            score = accuracy_score(answers, predictions)
+            scores.append(score)
+            result_writer.writerow(['(Accuracy)' + TEST_FILE.replace('.', '_'), score])
 
     # モデルの学習
     loss_all = []
@@ -257,25 +293,19 @@ if __name__ == '__main__':
     result_file = '../data/result_spectrogram_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
-        result_writer.writerow(['TestFile', 'Diff'])
+        result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
 
-        # 予測値の保存ファイル作成（検証用）
-        log_file = '../data/outputs_spectrogram_' + now + '.csv'
-        with open(log_file, 'w', newline='') as f:
-            log_writer = csv.writer(f)
-            log_writer.writerow(['TestFile', 'Epoch', 'Answer', 'Prediction'])
+        scores = []
+        files = natsorted(glob.glob(SOUND_DIR + '*'))
+        for test_index, test_file in enumerate(files):
+            # テストデータ以外を学習に使用
+            TRAIN_FILES = [os.path.split(filename)[1] for index, filename in enumerate(files) if index != test_index]
+            TEST_FILE = os.path.split(test_file)[1]
 
-            diff_all = []
-            files = natsorted(glob.glob(SOUND_DIR + '*'))
-            for test_index, test_file in enumerate(files):
-                # テストデータ以外を学習に使用
-                TRAIN_FILES = [os.path.split(filename)[1] for index, filename in enumerate(files) if index != test_index]
-                TEST_FILE = os.path.split(test_file)[1]
+            # ファイルの検証
+            SAMPLING_RATE = get_sampling_rate()
+            WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)
 
-                # ファイルの検証
-                SAMPLING_RATE = get_sampling_rate()
-                WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)
-
-                print('\n\n----- Test: ' + TEST_FILE.replace('.', '_') + ' -----')
-                main()
-            result_writer.writerow(['(Avg.)' + BOTTLE, np.average(diff_all)])
+            print('\n\n----- Test: ' + TEST_FILE.replace('.', '_') + ' -----')
+            main()
+        result_writer.writerow(['(Avg.)' + BOTTLE, sum(scores) / len(scores)])
