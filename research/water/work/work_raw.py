@@ -18,7 +18,7 @@ os.chdir(os.path.dirname(__file__))
 
 BOTTLE = 'shampoo'
 
-SOUND_DIR = '../sounds/temp/' + BOTTLE + '/'
+SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
 
 
 EPOCH_NUM = 10000  # 学習サイクル数
@@ -278,7 +278,7 @@ if __name__ == '__main__':
         result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
 
         scores = []
-        files = natsorted(glob.glob(SOUND_DIR + '*'))[:3]
+        files = natsorted(glob.glob(SOUND_DIR + '*'))
         for test_index, test_file in enumerate(files):
             # テストデータ以外を学習に使用
             TRAIN_FILES = [os.path.split(filename)[1] for index, filename in enumerate(files) if index != test_index]
