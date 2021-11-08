@@ -114,26 +114,16 @@ def label_binarizer(amount):
         array: ワンホットラベル
     """
 
-    if amount <= 10:
-        label = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    elif 10 < amount and amount <= 20:
-        label = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
-    elif 20 < amount and amount <= 30:
-        label = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
-    elif 30 < amount and amount <= 40:
-        label = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
-    elif 40 < amount and amount <= 50:
-        label = [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
-    elif 50 < amount and amount <= 60:
-        label = [0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+    if amount <= 60:
+        label = [1, 0, 0, 0, 0]
     elif 60 < amount and amount <= 70:
-        label = [0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+        label = [0, 1, 0, 0, 0]
     elif 70 < amount and amount <= 80:
-        label = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+        label = [0, 0, 1, 0, 0]
     elif 80 < amount and amount <= 90:
-        label = [0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+        label = [0, 0, 0, 1, 0]
     elif 90 < amount and amount <= 100:
-        label = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+        label = [0, 0, 0, 0, 1]
 
     return label
 
@@ -148,7 +138,7 @@ def sigmoid_to_label(prediction):
         string: 結果水位
     """
 
-    label = np.argmax(prediction) * 10
+    label = (np.argmax(prediction) * 10) + 50
 
     return str(label) + '-' + str(label + 10)
 
