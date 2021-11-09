@@ -195,7 +195,7 @@ def main():
     torch.manual_seed(1)
 
     # モデルの構築
-    model = models.CNN(kernel_size=KERNEL_SIZE).to(device)
+    model = models.LightCNN(kernel_size=KERNEL_SIZE).to(device)
     criterion = nn.BCEWithLogitsLoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
 
