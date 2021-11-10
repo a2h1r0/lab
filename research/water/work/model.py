@@ -50,41 +50,6 @@ class CNN(nn.Module):
         return x
 
 
-class LightCNN(nn.Module):
-    """
-    CNNモデル
-
-    Args:
-        kernel_size (int): カーネルサイズ
-    """
-
-    def __init__(self, kernel_size=3):
-        super().__init__()
-
-        self.conv1 = nn.Conv1d(
-            in_channels=1, out_channels=16, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-
-        self.relu = nn.ReLU()
-        self.avgpool = nn.AdaptiveAvgPool1d(1)
-        self.fc = nn.Linear(16, 5)
-
-    def forward(self, x):
-        """
-        Args:
-            x (:obj:`Tensor`[batch_size, 1, WINDOW_SIZE]): 音源データ
-        Returns:
-            :obj:`Tensor`[batch_size, 1]: 識別結果
-        """
-
-        x = self.conv1(x)
-        x = self.relu(x)
-        x = self.avgpool(x)
-        x = x.view(x.size(0), -1)
-        x = self.fc(x)
-
-        return x
-
-
 class DCNN(nn.Module):
     """
     CNNモデル
