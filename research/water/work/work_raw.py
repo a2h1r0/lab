@@ -16,7 +16,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-BOTTLE = 'shampoo'
+BOTTLE = 'shampoo2'
 
 SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
 
