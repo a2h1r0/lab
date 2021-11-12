@@ -104,8 +104,10 @@ def make_test_data():
     # 音源の読み出し
     sound = AudioSegment.from_file(SOUND_DIR + TEST_FILE, 'mp3')
     data = np.array(sound.get_array_of_samples())
-    data = data[len(data)//2:]
-    amounts = np.linspace(50, 100, len(data))
+    data = data[(len(data)//10)*9:]
+    # data = data[len(data)//2:]
+    amounts = np.linspace(90, 100, len(data))
+    # amounts = np.linspace(50, 100, len(data))
     # amounts = np.linspace(0, 100, len(data))
 
     for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
