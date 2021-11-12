@@ -18,8 +18,8 @@ BOTTLE = 'shampoo'
 SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
 
 
-WINDOW_SECOND = 0.5  # 1サンプルの秒数
-STEP = 500  # スライド幅
+WINDOW_SECOND = 0.2  # 1サンプルの秒数
+STEP = 1000  # スライド幅
 TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
 
 
@@ -136,37 +136,33 @@ def main():
 
     rf = sklearn.ensemble.RandomForestClassifier()
     rf.fit(train_data, train_labels)
-
-    # 評価
-    accuracy = rf.score(test_data, test_labels)
-    print('accuracy {0:.2%}'.format(accuracy))
-
-    # 結果のプロット
     outputs = rf.predict(test_data)
 
     answers, predictions = [], []
-    for label, output in zip(labels, outputs):
-        answers.append(sigmoid_to_label(label))
-        predictions.append(sigmoid_to_label(output))
+    for label, output in zip(test_labels, outputs):
+        answers.append(prediction_to_label(label))
+        predictions.append(prediction_to_label(output))
 
     # 結果の記録
     for answer, prediction in zip(answers, predictions):
         result_writer.writerow([TEST_FILE.replace('.', '_'), answer, prediction])
-    score = accuracy_score(answers, predictions)
+    score = rf.score(test_data, test_labels)
     scores.append(score)
     result_writer.writerow(['(Accuracy)' + TEST_FILE.replace('.', '_'), score])
+
+    print('Accuracy {0:.2%}'.format(score))
 
 
 if __name__ == '__main__':
     # 結果の保存ファイル作成
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    result_file = '../data/result_raw_' + now + '.csv'
+    result_file = '../data/result_raw_rf_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
         result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
 
         scores = []
-        files = natsorted(glob.glob(SOUND_DIR + '*'))[:2]
+        files = natsorted(glob.glob(SOUND_DIR + '*'))
         for test_index, test_file in enumerate(files):
             # テストデータ以外を学習に使用
             TRAIN_FILES = [os.path.split(filename)[1] for index, filename in enumerate(files) if index != test_index]
