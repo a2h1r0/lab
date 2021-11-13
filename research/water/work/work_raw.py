@@ -21,7 +21,7 @@ BOTTLE = 'shampoo2'
 SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
 
 
-EPOCH_NUM = 10000  # 学習サイクル数
+EPOCH_NUM = 300  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 10  # バッチサイズ
 WINDOW_SECOND = 0.2  # 1サンプルの秒数
