@@ -73,9 +73,9 @@ def make_test_data():
     # 音源の読み出し
     sound = AudioSegment.from_file(SOUND_DIR + TEST_FILE, 'mp3')
     data = np.array(sound.get_array_of_samples())
-    data = data[(len(data)//10)*8:]
+    data = data[(len(data)//10)*9:]
     # data = data[len(data)//2:]
-    amounts = np.linspace(80, 100, len(data))
+    amounts = np.linspace(90, 100, len(data))
     # amounts = np.linspace(50, 100, len(data))
     # amounts = np.linspace(0, 100, len(data))
 
@@ -118,9 +118,9 @@ def sigmoid_to_label(prediction):
 
     index = np.argmax(prediction)
     if index == 0:
-        label = '50~80'
+        label = '50-90'
     elif index == 1:
-        label = '80~100'
+        label = '90-100'
 
     return label
 
