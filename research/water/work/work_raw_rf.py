@@ -19,7 +19,7 @@ SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
 
 
 WINDOW_SECOND = 0.2  # 1サンプルの秒数
-STEP = 1000  # スライド幅
+STEP = 100000  # スライド幅
 TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
 
 
