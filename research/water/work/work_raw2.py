@@ -98,9 +98,9 @@ def label_binarizer(amount):
         array: ワンホットラベル
     """
 
-    if amount <= 80:
+    if amount <= 90:
         label = [1, 0]
-    elif 80 < amount and amount <= 100:
+    elif 90 < amount and amount <= 100:
         label = [0, 1]
 
     return label
