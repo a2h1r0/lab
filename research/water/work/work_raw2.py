@@ -23,7 +23,7 @@ SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
 
 EPOCH_NUM = 300  # 学習サイクル数
 KERNEL_SIZE = 5  # カーネルサイズ（奇数のみ）
-BATCH_SIZE = 10  # バッチサイズ
+BATCH_SIZE = 1000  # バッチサイズ
 WINDOW_SECOND = 0.2  # 1サンプルの秒数
 STEP = 500  # スライド幅
 TEST_ONEFILE_DATA_NUM = 100  # 1ファイルごとのテストデータ数
