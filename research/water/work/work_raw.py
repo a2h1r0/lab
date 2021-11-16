@@ -167,7 +167,7 @@ def main():
 
     # モデルの構築
     model = models.CNN(kernel_size=KERNEL_SIZE).to(device)
-    criterion = nn.BCEWithLogitsLoss()
+    criterion = nn.CrossEntropyLoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
 
     def train():
