@@ -106,23 +106,17 @@ def label_binarizer(amount):
     return label
 
 
-def sigmoid_to_label(prediction):
+def softmax_to_label(prediction):
     """
-    シグモイド予測値のラベル化
+    softmax予測値のラベル化
 
     Args:
-        prediction (float): シグモイド予測
+        prediction (float): softmax予測
     Returns:
         string: 結果水位
     """
 
-    index = np.argmax(prediction)
-    if index == 0:
-        label = '50-90'
-    elif index == 1:
-        label = '90-100'
-
-    return label
+    return np.argmax(prediction)
 
 
 def get_random_data(mode, data, labels, history):
@@ -227,11 +221,13 @@ def main():
             outputs = outputs.to('cpu').detach().numpy().copy()
             answers, predictions = [], []
             for label, output in zip(labels, outputs):
-                answers.append(sigmoid_to_label(label))
-                predictions.append(sigmoid_to_label(output))
+                answers.append(label)
+                predictions.append(softmax_to_label(output))
 
             # 結果の記録
             for answer, prediction in zip(answers, predictions):
+                answer = str((answer * 10) + 80) + '-' + str(((answer * 10) + 80) + 10)
+                prediction = str((prediction * 10) + 80) + '-' + str(((prediction * 10) + 80) + 10)
                 result_writer.writerow([TEST_FILE.replace('.', '_'), answer, prediction])
             score = accuracy_score(answers, predictions)
             scores.append(score)
