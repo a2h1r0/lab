@@ -17,13 +17,16 @@
 \section{進捗状況}
 
 \subsection{脈波}
-脈波データ可視化ツールの規約が怪しい．
+脈波データ可視化ツールのインストール完了．使い方の調査から開始．
+今出先のため，再来週ぐらいから使ってみます．
 
 \subsection{水量推定}
-分類問題に置き換えてみました．
-これまで試した手法全てで回してみましたが，生波形かMFCCが精度が高いです．
-$50 \sim 100\%$でのデータを使用し，10\%刻みの5クラス分類として，精度は50\%程度でした．
-今週は$90 \sim 100\%$のラベルでの精度を検証してみようかと思います．
+$50 \sim 100\%$でのデータを使用し，10\%刻みの5クラス分類として，$90 \sim 100\%$のラベルでの精度は50\%程度でした．
+今週はLossを変えたり色々調査しています．最も良い精度が50\%．
+市販のスマート蛇口を発見したので，これの制御線をハックして，弁の部分だけ使って実装してみようかと思います．
+一瞬でフィードバックをシステム側に返す必要があり，これはアプリケーションでは不可（サーバ通信で間に合わない）．
+そのため，ArduinoをUSB接続で制御するのが現実的かと思われます．\\
+\url{https://www.amazon.co.jp/dp/B09GFCFH2M/ref=sspa_dk_detail_4?psc=1&pd_rd_i=B09GFCFH2M&pd_rd_w=BcOlW&pf_rd_p=86d545e6-51ff-428d-9903-b93b364247df&pd_rd_wg=m5URh&pf_rd_r=KVY9JA20T43BXAN93FW9&pd_rd_r=98bf73df-3a88-47f4-8ddd-bb1558a52a1b&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUExS0RESDRGVTNIQjlKJmVuY3J5cHRlZElkPUEwNzU1ODAyNjZMNDJCTENITFhRJmVuY3J5cHRlZEFkSWQ9QTFHQjlMMjE3UEE1TEwmd2lkZ2V0TmFtZT1zcF9kZXRhaWwmYWN0aW9uPWNsaWNrUmVkaXJlY3QmZG9Ob3RMb2dDbGljaz10cnVl}
 
 
 % \begin{figure*}[h]
