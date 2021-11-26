@@ -20,7 +20,7 @@ os.chdir(os.path.dirname(__file__))
 
 BOTTLE = 'shampoo2'
 
-SOUND_DIR = '../../sounds/raw/' + BOTTLE + '/'
+SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
 
 
 EPOCH_NUM = 500  # 学習サイクル数
@@ -278,7 +278,7 @@ def main():
     test()
 
     # Lossの描画
-    figures_dir = '../../figures/mfcc_cnn_cross_' + now
+    figures_dir = '../figures/mfcc_cnn_cross_' + now
     if os.path.exists(figures_dir) == False:
         os.makedirs(figures_dir)
     print('\nLossを描画します．．．\n')
@@ -296,7 +296,7 @@ def main():
 if __name__ == '__main__':
     # 結果の保存ファイル作成
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    result_file = '../../data/result_mfcc_cnn_cross_' + now + '.csv'
+    result_file = '../data/result_mfcc_cnn_cross_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
         result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
