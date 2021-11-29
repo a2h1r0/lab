@@ -23,7 +23,7 @@ BOTTLE = 'shampoo2'
 SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
 
 
-EPOCH_NUM = 500  # 学習サイクル数
+EPOCH_NUM = 1000  # 学習サイクル数
 KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 10000  # バッチサイズ
 WINDOW_SECOND = 0.2  # 1サンプルの秒数
@@ -81,9 +81,9 @@ def make_train_data():
         # 音源の読み出し
         sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
         data = np.array(sound.get_array_of_samples())
-        data = data[len(data)//2:]
-        amounts = np.linspace(50, 100, len(data))
-        # amounts = np.linspace(0, 100, len(data))
+        # data = data[len(data)//2:]
+        # amounts = np.linspace(50, 100, len(data))
+        amounts = np.linspace(0, 100, len(data))
 
         for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
             start = index
