@@ -53,7 +53,8 @@ def mfcc(sound_data):
         array: MFCC特徴量配列
     """
 
-    mfccs = librosa.feature.mfcc(sound_data, sr=SAMPLING_RATE, n_fft=512)
+    hanning_x = np.hanning(len(sound_data)) * sound_data
+    mfccs = librosa.feature.mfcc(hanning_x, sr=SAMPLING_RATE, n_fft=512)
     mfccs = np.average(mfccs, axis=1)
 
     return mfccs
