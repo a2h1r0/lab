@@ -23,7 +23,7 @@ BOTTLE = 'shampoo2'
 SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
 
 
-EPOCH_NUM = 1000  # 学習サイクル数
+EPOCH_NUM = 500  # 学習サイクル数
 KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 10000  # バッチサイズ
 WINDOW_SECOND = 0.2  # 1サンプルの秒数
@@ -122,16 +122,23 @@ def make_test_data():
 def label_binarizer(amount):
     """
     ワンホットラベルの生成
+
     Args:
         amount (float): 水位
     Returns:
         array: ワンホットラベル
     """
 
-    if amount <= 90:
-        label = [1, 0]
+    if amount <= 60:
+        label = [1, 0, 0, 0, 0]
+    elif 60 < amount and amount <= 70:
+        label = [0, 1, 0, 0, 0]
+    elif 70 < amount and amount <= 80:
+        label = [0, 0, 1, 0, 0]
+    elif 80 < amount and amount <= 90:
+        label = [0, 0, 0, 1, 0]
     elif 90 < amount and amount <= 100:
-        label = [0, 1]
+        label = [0, 0, 0, 0, 1]
 
     return label
 
@@ -139,19 +146,16 @@ def label_binarizer(amount):
 def sigmoid_to_label(prediction):
     """
     シグモイド予測値のラベル化
+
     Args:
         prediction (float): シグモイド予測
     Returns:
         string: 結果水位
     """
 
-    index = np.argmax(prediction)
-    if index == 0:
-        label = '50-90'
-    elif index == 1:
-        label = '90-100'
+    label = (np.argmax(prediction) * 10) + 50
 
-    return label
+    return str(label) + '-' + str(label + 10)
 
 
 def get_random_data(mode, data, labels, history):
@@ -273,7 +277,7 @@ def main():
     test()
 
     # Lossの描画
-    figures_dir = '../figures/mfcc_cnn_bce2_' + now
+    figures_dir = '../figures/mfcc_cnn_bce3_' + now
     if os.path.exists(figures_dir) == False:
         os.makedirs(figures_dir)
     print('\nLossを描画します．．．\n')
@@ -291,7 +295,7 @@ def main():
 if __name__ == '__main__':
     # 結果の保存ファイル作成
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    result_file = '../data/result_mfcc_cnn_bce2_' + now + '.csv'
+    result_file = '../data/result_mfcc_cnn_bce3_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
         result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
