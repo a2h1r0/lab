@@ -30,8 +30,7 @@ WINDOW_SECOND = 0.2  # 1サンプルの秒数
 STEP = 10000  # スライド幅
 TEST_ONEFILE_DATA_NUM = 1000  # 1ファイルごとのテストデータ数
 
-MFCC_FILTER_NUM = 20
-MFCC_DIMENSION_NUM = 12
+SAMPLING_RATE = 4096
 
 
 def get_sampling_rate():
@@ -54,20 +53,10 @@ def mfcc(sound_data):
         array: MFCC特徴量配列
     """
 
-    sampling_rate = get_sampling_rate()
+    mfccs = librosa.feature.mfcc(sound_data, sr=SAMPLING_RATE, n_fft=512)
+    mfccs = np.average(mfccs, axis=1)
 
-    hanning_x = np.hanning(len(sound_data)) * sound_data
-    fft = np.fft.fft(hanning_x)
-    amplitude_spectrum = np.abs(fft)
-    amplitude_spectrum = amplitude_spectrum[:len(sound_data)//2]
-    mel_filter_bank = librosa.filters.mel(sr=sampling_rate, n_fft=len(sound_data) - 1, n_mels=MFCC_FILTER_NUM, fmax=sampling_rate // 2)
-    mel_amplitude_spectrum = np.dot(mel_filter_bank, amplitude_spectrum)
-    mel_log_power_spectrum = 20 * np.log10(mel_amplitude_spectrum)
-    mfcc = scipy.fftpack.dct(mel_log_power_spectrum, norm='ortho')
-    mfcc = mfcc[:MFCC_DIMENSION_NUM]
-    mel_log_power_spectrum_envelope = scipy.fftpack.idct(mfcc, n=MFCC_FILTER_NUM, norm='ortho')
-
-    return mel_log_power_spectrum_envelope
+    return mfccs
 
 
 def make_train_data():
@@ -79,16 +68,15 @@ def make_train_data():
 
     for filename in TRAIN_FILES:
         # 音源の読み出し
-        sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
-        data = np.array(sound.get_array_of_samples())
-        data = data[len(data)//2:]
-        amounts = np.linspace(50, 100, len(data))
-        # amounts = np.linspace(0, 100, len(data))
+        sound, _ = librosa.load(SOUND_DIR + filename, sr=SAMPLING_RATE)
+        sound = sound[len(sound)//2:]
+        amounts = np.linspace(50, 100, len(sound))
+        # amounts = np.linspace(0, 100, len(sound))
 
-        for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
+        for index in range(0, len(sound) - WINDOW_SIZE + 1, STEP):
             start = index
             end = start + WINDOW_SIZE - 1
-            train_data.append(mfcc(data[start:end + 1]))
+            train_data.append(mfcc(sound[start:end + 1]))
             train_labels.append(label_binarizer(amounts[end]))
 
     return train_data, train_labels
@@ -102,18 +90,17 @@ def make_test_data():
     test_data, test_labels = [], []
 
     # 音源の読み出し
-    sound = AudioSegment.from_file(SOUND_DIR + TEST_FILE, 'mp3')
-    data = np.array(sound.get_array_of_samples())
-    data = data[(len(data)//10)*9:]
-    # data = data[len(data)//2:]
-    amounts = np.linspace(90, 100, len(data))
-    # amounts = np.linspace(50, 100, len(data))
-    # amounts = np.linspace(0, 100, len(data))
+    sound, _ = librosa.load(SOUND_DIR + TEST_FILE, sr=SAMPLING_RATE)
+    sound = sound[(len(sound)//10)*9:]
+    # sound = sound[len(sound)//2:]
+    amounts = np.linspace(90, 100, len(sound))
+    # amounts = np.linspace(50, 100, len(sound))
+    # amounts = np.linspace(0, 100, len(sound))
 
-    for index in range(0, len(data) - WINDOW_SIZE + 1, STEP):
+    for index in range(0, len(sound) - WINDOW_SIZE + 1, STEP):
         start = index
         end = start + WINDOW_SIZE - 1
-        test_data.append(mfcc(data[start:end + 1]))
+        test_data.append(mfcc(sound[start:end + 1]))
         test_labels.append(label_binarizer(amounts[end]))
 
     return test_data, test_labels
@@ -217,7 +204,7 @@ def main():
             # 学習データの作成
             random_data, random_labels, history = get_random_data('train', train_data, train_labels, history)
             # Tensorへ変換
-            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, MFCC_FILTER_NUM)
+            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, 20)
             labels = torch.tensor(random_labels, dtype=torch.float, device=device)
 
             optimizer.zero_grad()
@@ -248,7 +235,7 @@ def main():
             # テストデータの作成
             random_data, random_labels, history = get_random_data('test', test_data, test_labels, history)
             # Tensorへ変換
-            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, MFCC_FILTER_NUM)
+            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, 20)
             labels = torch.tensor(random_labels, dtype=torch.float, device=device)
 
             optimizer.zero_grad()
@@ -308,7 +295,7 @@ if __name__ == '__main__':
             TEST_FILE = os.path.split(test_file)[1]
 
             # ファイルの検証
-            SAMPLING_RATE = get_sampling_rate()
+            # SAMPLING_RATE = get_sampling_rate()
             WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)
 
             print('\n\n----- Test: ' + TEST_FILE.replace('.', '_') + ' -----')
