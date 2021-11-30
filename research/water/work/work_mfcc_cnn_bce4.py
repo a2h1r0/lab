@@ -30,8 +30,6 @@ WINDOW_SECOND = 0.2  # 1サンプルの秒数
 STEP = 10000  # スライド幅
 TEST_ONEFILE_DATA_NUM = 1000  # 1ファイルごとのテストデータ数
 
-SAMPLING_RATE = 4096
-
 
 def get_sampling_rate():
     """
@@ -296,7 +294,7 @@ if __name__ == '__main__':
             TEST_FILE = os.path.split(test_file)[1]
 
             # ファイルの検証
-            # SAMPLING_RATE = get_sampling_rate()
+            SAMPLING_RATE = get_sampling_rate()
             WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)
 
             print('\n\n----- Test: ' + TEST_FILE.replace('.', '_') + ' -----')
