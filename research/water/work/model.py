@@ -24,7 +24,7 @@ class CNN(nn.Module):
         self.conv3 = nn.Conv1d(
             in_channels=16, out_channels=64, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
         self.avgpool = nn.AdaptiveAvgPool1d(1)
-        self.fc = nn.Linear(64, 10)
+        self.fc = nn.Linear(64, 5)
 
     def forward(self, x):
         """
