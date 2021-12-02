@@ -29,6 +29,7 @@ BATCH_SIZE = 10000  # バッチサイズ
 WINDOW_SECOND = 0.2  # 1サンプルの秒数
 STEP = 10000  # スライド幅
 TEST_ONEFILE_DATA_NUM = 1000  # 1ファイルごとのテストデータ数
+N_MFCC = 20  # MFCCの次数
 
 
 def get_sampling_rate():
@@ -51,7 +52,7 @@ def mfcc(sound_data):
         array: MFCC特徴量配列
     """
 
-    mfccs = librosa.feature.mfcc(sound_data, sr=SAMPLING_RATE, n_fft=512)
+    mfccs = librosa.feature.mfcc(sound_data, sr=SAMPLING_RATE, n_mfcc=N_MFCC)
     mfccs = np.average(mfccs, axis=1)
 
     return mfccs
@@ -205,7 +206,7 @@ def main():
             # 学習データの作成
             random_data, random_labels, history = get_random_data('train', train_data, train_labels, history)
             # Tensorへ変換
-            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, MFCC_FILTER_NUM)
+            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, N_MFCC)
             labels = torch.tensor(random_labels, dtype=torch.long, device=device)
 
             optimizer.zero_grad()
@@ -236,7 +237,7 @@ def main():
             # テストデータの作成
             random_data, random_labels, history = get_random_data('test', test_data, test_labels, history)
             # Tensorへ変換
-            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, MFCC_FILTER_NUM)
+            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, N_MFCC)
             labels = torch.tensor(random_labels, dtype=torch.long, device=device)
 
             optimizer.zero_grad()
