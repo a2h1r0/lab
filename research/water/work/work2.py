@@ -285,7 +285,7 @@ def main():
 if __name__ == '__main__':
     # 結果の保存ファイル作成
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    result_file = '../data/result_' + now + '.csv'
+    result_file = '../data/result2_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
         result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
