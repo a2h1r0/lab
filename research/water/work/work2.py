@@ -114,16 +114,26 @@ def label_binarizer(amount):
         array: ワンホットラベル
     """
 
-    if amount <= 60:
+    if amount <= 10:
         label = 0
-    elif 60 < amount and amount <= 70:
+    elif 10 < amount and amount <= 20:
         label = 1
-    elif 70 < amount and amount <= 80:
+    elif 20 < amount and amount <= 30:
         label = 2
-    elif 80 < amount and amount <= 90:
+    elif 30 < amount and amount <= 40:
         label = 3
-    elif 90 < amount and amount <= 100:
+    elif 40 < amount and amount <= 50:
         label = 4
+    elif 50 < amount and amount <= 60:
+        label = 5
+    elif 60 < amount and amount <= 70:
+        label = 6
+    elif 70 < amount and amount <= 80:
+        label = 7
+    elif 80 < amount and amount <= 90:
+        label = 8
+    elif 90 < amount and amount <= 100:
+        label = 9
 
     return label
 
