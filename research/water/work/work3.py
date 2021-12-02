@@ -67,9 +67,9 @@ def make_train_data():
     for filename in TRAIN_FILES:
         # 音源の読み出し
         sound, _ = librosa.load(SOUND_DIR + filename, sr=SAMPLING_RATE)
-        sound = sound[len(sound)//2:]
-        amounts = np.linspace(50, 100, len(sound))
-        # amounts = np.linspace(0, 100, len(sound))
+        # sound = sound[len(sound)//2:]
+        # amounts = np.linspace(50, 100, len(sound))
+        amounts = np.linspace(0, 100, len(sound))
 
         for index in range(0, len(sound) - WINDOW_SIZE + 1, STEP):
             start = index
@@ -114,16 +114,10 @@ def label_binarizer(amount):
         array: ワンホットラベル
     """
 
-    if amount <= 60:
+    if amount <= 90:
         label = 0
-    elif 60 < amount and amount <= 70:
-        label = 1
-    elif 70 < amount and amount <= 80:
-        label = 2
-    elif 80 < amount and amount <= 90:
-        label = 3
     elif 90 < amount and amount <= 100:
-        label = 4
+        label = 1
 
     return label
 
