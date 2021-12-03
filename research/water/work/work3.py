@@ -242,9 +242,15 @@ def main():
                 predictions.append(softmax_to_label(output))
 
             # 結果の記録
-            for answer, prediction in zip(answers, predictions):
-                answer = str((answer * 10) + 50) + '-' + str(((answer * 10) + 50) + 10)
-                prediction = str((prediction * 10) + 50) + '-' + str(((prediction * 10) + 50) + 10)
+            for answer_label, prediction_label in zip(answers, predictions):
+                if answer_label == 0:
+                    answer = '0-90'
+                elif answer_label == 1:
+                    answer = '90-100'
+                if prediction_label == 0:
+                    prediction = '0-90'
+                elif prediction_label == 1:
+                    prediction = '90-100'
                 result_writer.writerow([TEST_FILE.replace('.', '_'), answer, prediction])
             score = accuracy_score(answers, predictions)
             scores.append(score)
