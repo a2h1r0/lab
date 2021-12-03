@@ -253,8 +253,8 @@ def main():
 
             # 結果の記録
             for answer, prediction in zip(answers, predictions):
-                answer = str((answer * 10) + 50) + '-' + str(((answer * 10) + 50) + 10)
-                prediction = str((prediction * 10) + 50) + '-' + str(((prediction * 10) + 50) + 10)
+                answer = str(answer * 10) + '-' + str((answer * 10) + 10)
+                prediction = str(prediction * 10) + '-' + str((prediction * 10) + 10)
                 result_writer.writerow([TEST_FILE.replace('.', '_'), answer, prediction])
             score = accuracy_score(answers, predictions)
             scores.append(score)
