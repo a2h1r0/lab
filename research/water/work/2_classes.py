@@ -170,7 +170,7 @@ def main():
     torch.manual_seed(1)
 
     # モデルの構築
-    model = models.CNN(kernel_size=KERNEL).to(device)
+    model = models.Net(kernel_size=KERNEL, output_classes=NUM_CLASSES).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
     softmax = nn.Softmax(dim=1)
