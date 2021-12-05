@@ -259,7 +259,7 @@ def main():
     test()
 
     # Lossの描画
-    figures_dir = '../figures/' + now
+    figures_dir = '../figures/2_classes/' + now
     if os.path.exists(figures_dir) == False:
         os.makedirs(figures_dir)
     print('\nLossを描画します．．．\n')
@@ -277,7 +277,7 @@ def main():
 if __name__ == '__main__':
     # 結果の保存ファイル作成
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    result_file = '../data/result3_' + now + '.csv'
+    result_file = '../data/result_2_classes_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
         result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
