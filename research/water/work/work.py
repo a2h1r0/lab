@@ -27,7 +27,7 @@ EPOCH_NUM = 500  # 学習サイクル数
 KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
 BATCH_SIZE = 10000  # バッチサイズ
 WINDOW_SECOND = 0.2  # 1サンプルの秒数
-STEP = 10000  # スライド幅
+STEP_SECOND = 0.1  # スライド幅の秒数
 TEST_ONEFILE_DATA_NUM = 1000  # 1ファイルごとのテストデータ数
 N_MFCC = 20  # MFCCの次数
 
@@ -297,6 +297,7 @@ if __name__ == '__main__':
             # ファイルの検証
             SAMPLING_RATE = get_sampling_rate()
             WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)
+            STEP = int(STEP_SECOND * SAMPLING_RATE)
 
             print('\n\n----- Test: ' + TEST_FILE.replace('.', '_') + ' -----')
             main()
