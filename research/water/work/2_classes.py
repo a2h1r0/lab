@@ -68,8 +68,6 @@ def make_train_data():
     for filename in TRAIN_FILES:
         # 音源の読み出し
         sound, _ = librosa.load(SOUND_DIR + filename, sr=SAMPLING_RATE)
-        # sound = sound[len(sound)//2:]
-        # amounts = np.linspace(50, 100, len(sound))
         amounts = np.linspace(0, 100, len(sound))
 
         for index in range(0, len(sound) - WINDOW_SIZE + 1, STEP):
@@ -90,11 +88,7 @@ def make_test_data():
 
     # 音源の読み出し
     sound, _ = librosa.load(SOUND_DIR + TEST_FILE, sr=SAMPLING_RATE)
-    sound = sound[(len(sound)//10)*9:]
-    # sound = sound[len(sound)//2:]
-    amounts = np.linspace(90, 100, len(sound))
-    # amounts = np.linspace(50, 100, len(sound))
-    # amounts = np.linspace(0, 100, len(sound))
+    amounts = np.linspace(0, 100, len(sound))
 
     for index in range(0, len(sound) - WINDOW_SIZE + 1, STEP):
         start = index
