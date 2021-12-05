@@ -23,12 +23,13 @@ BOTTLE = 'shampoo2'
 SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
 
 
-EPOCH_NUM = 1000  # 学習サイクル数
-KERNEL_SIZE = 3  # カーネルサイズ（奇数のみ）
-BATCH_SIZE = 10000  # バッチサイズ
+NUM_CLASSES = 2  # 分類クラス数
+EPOCH = 1000  # 学習サイクル数
+KERNEL = 3  # カーネルサイズ（奇数のみ）
+BATCH = 10000  # バッチサイズ
 WINDOW_SECOND = 0.2  # 1サンプルの秒数
 STEP_SECOND = 0.1  # スライド幅の秒数
-TEST_ONEFILE_DATA_NUM = 1000  # 1ファイルごとのテストデータ数
+NUM_TEST_ONEFILE_DATA = 1000  # 1ファイルごとのテストデータ数
 N_MFCC = 20  # MFCCの次数
 
 
@@ -145,9 +146,9 @@ def get_random_data(mode, data, labels, history):
     """
 
     if mode == 'train':
-        data_size = BATCH_SIZE
+        data_size = BATCH
     elif mode == 'test':
-        data_size = TEST_ONEFILE_DATA_NUM
+        data_size = NUM_TEST_ONEFILE_DATA
 
     random_data, random_labels = [], []
     while len(random_data) < data_size:
@@ -169,7 +170,7 @@ def main():
     torch.manual_seed(1)
 
     # モデルの構築
-    model = models.CNN(kernel_size=KERNEL_SIZE).to(device)
+    model = models.CNN(kernel_size=KERNEL).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
     softmax = nn.Softmax(dim=1)
@@ -186,7 +187,7 @@ def main():
         print('\n***** 学習開始 *****')
 
         history = []
-        for epoch in range(EPOCH_NUM):
+        for epoch in range(EPOCH):
             # 学習データの作成
             random_data, random_labels, history = get_random_data('train', train_data, train_labels, history)
             # Tensorへ変換
@@ -263,7 +264,7 @@ def main():
         os.makedirs(figures_dir)
     print('\nLossを描画します．．．\n')
     plt.figure(figsize=(16, 9))
-    plt.plot(range(EPOCH_NUM), loss_all)
+    plt.plot(range(EPOCH), loss_all)
     plt.xlabel('Epoch', fontsize=26)
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
