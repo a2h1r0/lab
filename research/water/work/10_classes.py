@@ -293,7 +293,7 @@ if __name__ == '__main__':
         result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
 
         scores = []
-        files = natsorted(glob.glob(SOUND_DIR + '*'))[:9]
+        files = natsorted(glob.glob(SOUND_DIR + '*'))
         for test_index, test_file in enumerate(files):
             # テストデータ以外を学習に使用
             TRAIN_FILES = [os.path.split(filename)[1] for index, filename in enumerate(files) if index != test_index]
