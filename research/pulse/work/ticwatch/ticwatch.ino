@@ -1,4 +1,4 @@
-// フィルム直置き，ウォッチ下4mmアクリル板
+// フィルム直置き，ウォッチ下5mmアクリル板
 
 // 目標心拍数
 const int HEART_RATE = 80;
@@ -10,7 +10,7 @@ const int PWM_2 = 6;
 const int PWM_HIGH = 2;
 const int PWM_LOW = 0;
 // 色データ長
-const int L_COLORS = 5;
+const int L_COLORS = 2;
 // 色データ
 const int COLORS_PWM_1[L_COLORS] = {
     PWM_HIGH,
