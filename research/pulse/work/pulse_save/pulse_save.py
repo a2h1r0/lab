@@ -8,7 +8,7 @@ os.chdir(os.path.dirname(__file__))
 GET_TIME = 30  # 取得時間
 
 
-ser = serial.Serial('COM4', 14400)
+ser = serial.Serial('COM5', 14400)
 ser.reset_input_buffer()
 time = 0
 
