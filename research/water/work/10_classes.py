@@ -27,8 +27,8 @@ NUM_CLASSES = 10  # 分類クラス数
 EPOCH = 1000  # 学習サイクル数
 KERNEL = 3  # カーネルサイズ（奇数のみ）
 BATCH = 10000  # バッチサイズ
-WINDOW_SECOND = 0.2  # 1サンプルの秒数
-STEP_SECOND = 0.1  # スライド幅の秒数
+WINDOW_SECOND = 0.1  # 1サンプルの秒数
+STEP_SECOND = 0.05  # スライド幅の秒数
 NUM_TEST_ONEFILE_DATA = 1000  # 1ファイルごとのテストデータ数
 N_MFCC = 20  # MFCCの次数
 
