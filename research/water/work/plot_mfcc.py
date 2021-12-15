@@ -15,6 +15,7 @@ import datetime
 import random
 import sys
 import os
+import librosa.display
 os.chdir(os.path.dirname(__file__))
 
 
@@ -27,8 +28,8 @@ NUM_CLASSES = 10  # 分類クラス数
 EPOCH = 1000  # 学習サイクル数
 KERNEL = 3  # カーネルサイズ（奇数のみ）
 BATCH = 10000  # バッチサイズ
-WINDOW_SECOND = 0.05  # 1サンプルの秒数
-STEP_SECOND = 0.02  # スライド幅の秒数
+WINDOW_SECOND = 0.2  # 1サンプルの秒数
+STEP_SECOND = 0.1  # スライド幅の秒数
 NUM_TEST_ONEFILE_DATA = 1000  # 1ファイルごとのテストデータ数
 N_MFCC = 20  # MFCCの次数
 
@@ -43,7 +44,7 @@ def get_sampling_rate():
     return len(sound[:1000].get_array_of_samples())
 
 
-def mfcc(sound_data):
+def mfcc(sound_data, do=False):
     """
     MFCC
 
@@ -54,6 +55,23 @@ def mfcc(sound_data):
     """
 
     mfccs = librosa.feature.mfcc(sound_data, sr=SAMPLING_RATE, n_mfcc=N_MFCC)
+    if do is True:
+        fig = plt.figure(figsize=(16, 9))
+
+        ax = fig.add_subplot()
+        librosa.display.specshow(mfccs, x_axis='time', sr=SAMPLING_RATE)
+        c = plt.colorbar()
+        c.ax.tick_params(labelsize=26)
+        ax.set_title('MFCC 2D', fontsize=26)
+        plt.xlabel('Time [s]', fontsize=26)
+        # plt.ylabel('Loss', fontsize=26)
+        plt.tick_params(labelsize=26)
+        filename = 'mfcc_2d.svg'
+        plt.savefig(filename, bbox_inches='tight', pad_inches=0)
+        # plt.show()
+        # plt.close()
+
+        sys.exit()
     mfccs = np.average(mfccs, axis=1)
 
     return mfccs
@@ -76,6 +94,20 @@ def make_train_data():
             end = start + WINDOW_SIZE - 1
             train_data.append(mfcc(sound[start:end + 1]))
             train_labels.append(label_binarizer(amounts[end]))
+            if index == 20 * STEP:
+                x = len(mfcc(sound[start:end + 1]))
+                plt.figure(figsize=(16, 9))
+                plt.plot(range(x), mfcc(sound[start:end + 1]), color='red')
+                plt.title("MFCC 1D", fontsize=26)
+                # plt.xlabel('Time [s]', fontsize=26)
+                # plt.ylabel('Sound Amplitude', fontsize=26)
+                xlabel = [0, 4, 8, 12, 16]
+                plt.xticks(xlabel, xlabel)
+                plt.tick_params(labelsize=26)
+                filename = 'mfcc_1d_12.svg'
+                plt.savefig(filename, bbox_inches='tight', pad_inches=0)
+                # plt.show()
+                sys.exit()
 
     return train_data, train_labels
 
