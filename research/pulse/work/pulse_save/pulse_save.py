@@ -19,10 +19,10 @@ with open(filename, 'a', newline='') as f:
     writer = csv.writer(f, delimiter=',')
     writer.writerow(['timestamp', 'pulse'])
 
+    exit_flag = False
     while True:
         read_data = ser.readline().rstrip().decode(encoding='utf-8', errors='ignore')
         data = read_data.split(',')
-        print(data)
 
         if len(data) == 2 and data[0].isdecimal() and data[1].isdecimal():
             # 異常値の除外（次の値と繋がって，異常な桁数の場合あり）
@@ -31,11 +31,17 @@ with open(filename, 'a', newline='') as f:
 
             time = float(data[0]) / 1000
             pulse = int(data[1])
-            writer.writerow([time, pulse])
+
+            if time >= GET_TIME * 1000:
+                exit_flag = True
+                break
+            else:
+                writer.writerow([time, pulse])
+                print([time, pulse])
         else:
             continue
 
-        if time >= GET_TIME * 1000:
+        if exit_flag:
             break
 
     ser.close()
