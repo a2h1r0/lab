@@ -29,13 +29,13 @@ with open(filename, 'a', newline='') as f:
             if time != 0 and len(str(int(float(data[0]) / 1000000))) > len(str(int(time))) + 2:
                 continue
 
-            time = int(data[0])
+            time = float(data[0]) / 1000
             pulse = int(data[1])
             writer.writerow([time, pulse])
         else:
             continue
 
-        if time >= GET_TIME * 1000000:
+        if time >= GET_TIME * 1000:
             break
 
     ser.close()
