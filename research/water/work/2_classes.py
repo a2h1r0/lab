@@ -54,7 +54,7 @@ def mfcc(sound_data):
     """
 
     mfccs = librosa.feature.mfcc(sound_data, sr=SAMPLING_RATE, n_mfcc=N_MFCC)
-    mfccs = np.delete(mfccs, 0)
+    mfccs = np.delete(mfccs, 0, axis=0)
     feature = np.average(mfccs, axis=1)
 
     return feature
