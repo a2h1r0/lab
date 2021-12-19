@@ -30,7 +30,7 @@ BATCH = 10000  # バッチサイズ
 WINDOW_SECOND = 0.05  # 1サンプルの秒数
 STEP_SECOND = 0.02  # スライド幅の秒数
 NUM_TEST_ONEFILE_DATA = 1000  # 1ファイルごとのテストデータ数
-N_MFCC = 20  # MFCCの次数
+N_MFCC = 21  # MFCCの次数
 
 
 def get_sampling_rate():
@@ -54,6 +54,7 @@ def mfcc(sound_data):
     """
 
     mfccs = librosa.feature.mfcc(sound_data, sr=SAMPLING_RATE, n_mfcc=N_MFCC)
+    del mfcc[0]
     mfccs = np.average(mfccs, axis=1)
 
     return mfccs
