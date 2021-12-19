@@ -192,7 +192,7 @@ def main():
             # 学習データの作成
             random_data, random_labels, history = get_random_data('train', train_data, train_labels, history)
             # Tensorへ変換
-            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, N_MFCC)
+            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, N_MFCC - 1)
             labels = torch.tensor(random_labels, dtype=torch.long, device=device)
 
             optimizer.zero_grad()
@@ -223,7 +223,7 @@ def main():
             # テストデータの作成
             random_data, random_labels, history = get_random_data('test', test_data, test_labels, history)
             # Tensorへ変換
-            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, N_MFCC)
+            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, N_MFCC - 1)
             labels = torch.tensor(random_labels, dtype=torch.long, device=device)
 
             optimizer.zero_grad()
