@@ -54,10 +54,10 @@ def mfcc(sound_data):
     """
 
     mfccs = librosa.feature.mfcc(sound_data, sr=SAMPLING_RATE, n_mfcc=N_MFCC)
-    del mfcc[0]
-    mfccs = np.average(mfccs, axis=1)
+    mfccs = np.delete(mfccs, 0)
+    feature = np.average(mfccs, axis=1)
 
-    return mfccs
+    return feature
 
 
 def make_train_data():
