@@ -1,3 +1,7 @@
+// TicWatch: フィルム直置き，ウォッチ下5mmアクリル板
+// Puma: フィルム直置き，ウォッチ下2mmアクリル板
+// Watch5: フィルム，ウォッチ直置き
+
 // 実行時間
 const int PROCESS_TIME = 40;
 
