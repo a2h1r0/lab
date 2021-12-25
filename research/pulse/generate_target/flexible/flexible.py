@@ -14,7 +14,7 @@ PROCESS_TIME = 130  # 実行時間（アプリ側のデータ取得は120秒間�
 
 LOG_FILE = '../../data/' + MODEL + '/run.log'  # ログファイル
 
-USB_PORT = 'COM3'  # ArduinoのUSBポート
+USB_PORT = 'COM7'  # ArduinoのUSBポート
 USB_SPEED = 9600  # Arduinoの速度
 
 
