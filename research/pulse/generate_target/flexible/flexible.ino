@@ -3,7 +3,7 @@
 // Watch5: フィルム，ウォッチ直置き
 
 // 実行時間
-const int PROCESS_TIME = 130;
+const int PROCESS_TIME = 140;
 
 // 使用ピン
 const int PWM_1 = 5;
