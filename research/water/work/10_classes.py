@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from pydub import AudioSegment
 import torch
 import torch.nn as nn
@@ -271,7 +272,8 @@ def main():
             figures_dir = '../figures/10_classes/' + now
             if os.path.exists(figures_dir) == False:
                 os.makedirs(figures_dir)
-            sns.heatmap(confusion_matrix(answers_confusion, predictions_confusion))
+            scale = ['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%']
+            sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_confusion, predictions_confusion), index=scale, columns=scale))
             filename = figures_dir + '/' + TEST_FILE.replace('.', '_') + '_confusion_matrix.png'
             plt.savefig(filename, bbox_inches='tight', pad_inches=0)
             # plt.show()
