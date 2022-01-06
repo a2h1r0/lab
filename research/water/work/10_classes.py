@@ -5,6 +5,8 @@ import torch.nn as nn
 import torch.optim as optimizers
 import model as models
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
 import matplotlib.pyplot as plt
 from natsort import natsorted
 import scipy
@@ -254,13 +256,26 @@ def main():
                 predictions.append(softmax_to_label(output))
 
             # 結果の記録
+            answers_confusion, predictions_confusion = [], []
             for answer, prediction in zip(answers, predictions):
                 answer = str(answer * 10) + '-' + str((answer * 10) + 10)
                 prediction = str(prediction * 10) + '-' + str((prediction * 10) + 10)
                 result_writer.writerow([TEST_FILE.replace('.', '_'), answer, prediction])
+                answers_confusion.append(answer)
+                predictions_confusion.append(prediction)
             score = accuracy_score(answers, predictions)
             scores.append(score)
             result_writer.writerow(['(Accuracy)' + TEST_FILE.replace('.', '_'), score])
+
+            # 混同行列の描画
+            figures_dir = '../figures/10_classes/' + now
+            if os.path.exists(figures_dir) == False:
+                os.makedirs(figures_dir)
+            sns.heatmap(confusion_matrix(answers_confusion, predictions_confusion))
+            filename = figures_dir + '/' + TEST_FILE.replace('.', '_') + '_confusion_matrix.png'
+            plt.savefig(filename, bbox_inches='tight', pad_inches=0)
+            # plt.show()
+            plt.close()
 
     # モデルの学習
     loss_all = []
@@ -279,7 +294,7 @@ def main():
     plt.xlabel('Epoch', fontsize=26)
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
-    filename = figures_dir + '/' + TEST_FILE.replace('.', '_') + '.png'
+    filename = figures_dir + '/' + TEST_FILE.replace('.', '_') + '_loss.png'
     plt.savefig(filename, bbox_inches='tight', pad_inches=0)
     # plt.show()
     plt.close()
