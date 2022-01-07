@@ -7,10 +7,11 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-MODEL = 'PumaSmartwatch'  # 表示するスマートウォッチ
+MODEL = 'TicWatch'  # 表示するスマートウォッチ
 TARGET_RATES = [40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100,
                 105, 110, 115, 120, 125, 130, 135, 140, 145, 150,
                 155, 160, 165, 170, 175, 180, 185, 190, 195, 200]  # 取得した目標心拍数
+# TARGET_RATES = [60, 65, 70, 75, 80, 85, 90, 95, 100]  # 取得した目標心拍数
 DISPLAYS = [['Flexible', 'Display D']]  # 表示するディスプレイ
 # DISPLAYS = [['Legion7', 'Display A'], ['ELECROW', 'Display B'],
 #             ['OSOYOO', 'Display C']]  # 表示するディスプレイ
@@ -23,8 +24,7 @@ def main():
         # 取得回数ごとの配列を作成
         diffs = [[] for i in range(len(DIRS))]
         for index, directory in enumerate(DIRS):
-            files = natsorted(glob.glob('../generate_heart_rate/data/' +
-                                        MODEL + '/' + display[0] + '/' + directory + '/*_HeartRate_*.csv'))
+            files = natsorted(glob.glob('./' + MODEL + '/' + display[0] + '/' + directory + '/*_HeartRate_*.csv'))
 
             if len(TARGET_RATES) != len(files):
                 print('\nパラメータに誤りがあります。\n')
