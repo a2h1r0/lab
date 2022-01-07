@@ -8,9 +8,12 @@ os.chdir(os.path.dirname(__file__))
 
 
 MODEL = 'PumaSmartwatch'  # 表示するスマートウォッチ
-TARGET_RATES = [60, 65, 70, 75, 80, 85, 90, 95, 100]  # 取得した目標心拍数
-DISPLAYS = [['Legion7', 'Display A'], ['ELECROW', 'Display B'],
-            ['OSOYOO', 'Display C']]  # 表示するディスプレイ
+TARGET_RATES = [40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100,
+                105, 110, 115, 120, 125, 130, 135, 140, 145, 150,
+                155, 160, 165, 170, 175, 180, 185, 190, 195, 200]  # 取得した目標心拍数
+DISPLAYS = [['Flexible', 'Display D']]  # 表示するディスプレイ
+# DISPLAYS = [['Legion7', 'Display A'], ['ELECROW', 'Display B'],
+#             ['OSOYOO', 'Display C']]  # 表示するディスプレイ
 DIRS = ['1st', '2nd', '3rd']  # フォルダ分け
 
 
