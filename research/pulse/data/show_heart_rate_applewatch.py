@@ -26,8 +26,7 @@ def main():
         # 取得回数ごとの配列を作成
         diffs = [[] for i in range(len(DIRS))]
         for index, directory in enumerate(DIRS):
-            files = natsorted(glob.glob('../generate_heart_rate/data/AppleWatch/' +
-                                        MODEL + '/' + display[0] + '/' + directory + '/*.csv'))
+            files = natsorted(glob.glob('./AppleWatch/' + MODEL + '/' + display[0] + '/' + directory + '/*.csv'))
 
             if len(TARGET_RATES) != len(files):
                 print('\nパラメータに誤りがあります。\n')
