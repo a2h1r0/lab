@@ -5,7 +5,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-GET_TIME = 30  # 取得時間
+GET_TIME = 60  # 取得時間
 
 
 ser = serial.Serial('COM6', 14400)
