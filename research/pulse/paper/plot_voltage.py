@@ -18,6 +18,6 @@ plt.ylabel('Voltage [V]', fontsize=26)
 plt.tick_params(labelsize=26)
 plt.legend(fontsize=26, loc='upper right', bbox_to_anchor=(1, -0.1))
 
-plt.savefig('../figures/voltage_wave.svg', bbox_inches='tight', pad_inches=0)
+plt.savefig('../figures/voltage_wave_temp.svg', bbox_inches='tight', pad_inches=0)
 
 plt.show()
