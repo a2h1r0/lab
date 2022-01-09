@@ -13,7 +13,7 @@ ser.reset_input_buffer()
 time = 0
 
 now = datetime.datetime.today()
-filename = './' + now.strftime('%Y%m%d_%H%M%S') + '_real.csv'
+filename = './' + now.strftime('%Y%m%d_%H%M%S') + '_generated.csv'
 
 with open(filename, 'a', newline='') as f:
     writer = csv.writer(f, delimiter=',')
