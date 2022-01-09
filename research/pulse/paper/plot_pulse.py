@@ -7,7 +7,7 @@ os.chdir(os.path.dirname(__file__))
 
 REAL_DATA = './raw.csv'
 GENERATED_DATA = './generate.csv'
-END = 5  # 表示終了時間（秒）
+END = 10  # 表示終了時間（秒）
 
 
 real_time, real_pulse = [], []
@@ -37,7 +37,7 @@ with open(GENERATED_DATA) as f:
         generated_pulse.append(int(row[1]))
 
 
-plt.figure(figsize=(16, 9))
+plt.figure(figsize=(16, 6))
 plt.plot(real_time, real_pulse, label='Real', color='blue')
 plt.plot(generated_time, generated_pulse, label='Generated', color='red', linestyle='dashed')
 plt.xlabel('Time [s]', fontsize=26)
@@ -45,6 +45,6 @@ plt.ylabel('Pulse Value', fontsize=26)
 plt.tick_params(labelsize=26)
 plt.legend(fontsize=26, loc='upper right')
 
-plt.savefig('../figures/pulse_wave.eps', bbox_inches='tight', pad_inches=0)
+plt.savefig('../figures/raw_wave.eps', bbox_inches='tight', pad_inches=0)
 
 plt.show()
