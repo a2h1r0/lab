@@ -39,6 +39,7 @@
         </div>
 
         <input type="number" name="target-heart-rate" placeholder="目標心拍数">
+        <span class="text-light">bpm</span>
         <button class="btn btn-primary" onclick="submit()" disabled>
             <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
             更新
@@ -71,7 +72,7 @@
             $('#status > span').text('データ送信中．．．');
 
             $.post({
-                url: "http://192.168.137.1:8080/cgi-bin/server.py",
+                url: "http://192.168.11.2:8080/cgi-bin/server.py",
                 data: targetHeartRate,
                 dataType: "text",
             }).then(function () {

@@ -3,7 +3,7 @@ body {
 }
 
 .container {
-  width: 300px !important;
+  width: 340px !important;
 }
 
 input {
@@ -12,4 +12,5 @@ input {
 
 button {
   width: 120px;
+  margin-left: 4px !important;
 }
