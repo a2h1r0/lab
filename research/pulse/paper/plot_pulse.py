@@ -5,8 +5,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-REAL_DATA = './raw.csv'
-GENERATED_DATA = './generate.csv'
+REAL_DATA = './20220109_163329_real_hrv.csv'
+GENERATED_DATA = './20220110_052117_generated_hrv.csv'
 END = 10  # 表示終了時間（秒）
 
 
