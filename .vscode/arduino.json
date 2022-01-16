@@ -1,5 +1,5 @@
 {
-    "port": "COM9",
+    "port": "COM6",
     "board": "arduino:avr:uno",
-    "sketch": "research\\water\\work\\work.ino"
+    "sketch": "research\\pulse\\generate_target\\flexible\\flexible.ino"
 }
