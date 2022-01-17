@@ -6,7 +6,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 REAL_DATA = './20220109_163329_real_rr.csv'
-GENERATED_DATA = './20220110_052117_generated_rr.csv'
+GENERATED_DATA = './20220117_090855_generated_rr.csv'
 
 
 real_time, real_rr = [], []

@@ -6,7 +6,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 REAL_DATA = './20220109_163329_real.csv'
-GENERATED_DATA = './20220110_052117_generated.csv'
+GENERATED_DATA = './20220117_090855_generated.csv'
 END = 10  # 表示終了時間（秒）
 
 
