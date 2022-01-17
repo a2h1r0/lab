@@ -31,8 +31,6 @@ plt.plot(real_time, real_rr, label='Real', color='blue')
 plt.plot(generated_time, generated_rr, label='Generated', color='red', linestyle='dashed')
 plt.xlabel('Time [s]', fontsize=26)
 plt.ylabel('RR interval [s]', fontsize=26)
-plt.ylim(0.83, 0.96)
-plt.yticks([0.85, 0.9, 0.95])
 plt.tick_params(labelsize=26)
 plt.legend(fontsize=26, loc='lower right')
 
