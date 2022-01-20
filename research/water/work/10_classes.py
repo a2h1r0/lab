@@ -272,8 +272,9 @@ def main():
             figures_dir = '../figures/10_classes/' + now
             if os.path.exists(figures_dir) == False:
                 os.makedirs(figures_dir)
-            scale = ['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%']
-            sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_confusion, predictions_confusion), index=scale, columns=scale))
+            scale = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
+            sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_confusion, predictions_confusion),
+                                     index=scale, columns=scale), annot=True, cmap='Blues', cbar=False)
             filename = figures_dir + '/' + TEST_FILE.replace('.', '_') + '_confusion_matrix.png'
             plt.savefig(filename, bbox_inches='tight', pad_inches=0)
             # plt.show()
