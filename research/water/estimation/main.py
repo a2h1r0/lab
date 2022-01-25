@@ -33,7 +33,7 @@ BATCH = 10000  # バッチサイズ
 WINDOW_SECOND = 0.05  # 1サンプルの秒数
 STEP_SECOND = 0.02  # スライド幅の秒数
 NUM_TEST_ONEFILE_DATA = 1000  # 1ファイルごとのテストデータ数
-N_MFCC = 21  # MFCCの次数
+N_MFCC = 20  # MFCCの次数
 
 
 def get_sampling_rate():
@@ -56,7 +56,7 @@ def mfcc(sound_data):
         array: MFCC特徴量配列
     """
 
-    mfccs = librosa.feature.mfcc(sound_data, sr=SAMPLING_RATE, n_mfcc=N_MFCC)
+    mfccs = librosa.feature.mfcc(sound_data, sr=SAMPLING_RATE, n_mfcc=N_MFCC + 1)
     mfccs = np.delete(mfccs, 0, axis=0)
     feature = np.average(mfccs, axis=1)
 
@@ -79,7 +79,7 @@ def make_train_data():
             start = index
             end = start + WINDOW_SIZE - 1
             train_data.append(mfcc(sound[start:end + 1]))
-            train_labels.append(label_binarizer(amounts[end]))
+            train_labels.append(amount_to_label(amounts[end]))
 
     return train_data, train_labels
 
@@ -99,41 +99,48 @@ def make_test_data():
         start = index
         end = start + WINDOW_SIZE - 1
         test_data.append(mfcc(sound[start:end + 1]))
-        test_labels.append(label_binarizer(amounts[end]))
+        test_labels.append(amount_to_label(amounts[end]))
 
     return test_data, test_labels
 
 
-def label_binarizer(amount):
+def amount_to_label(amount):
     """
-    ワンホットラベルの生成
+    水位->ラベル
 
     Args:
         amount (float): 水位
     Returns:
-        array: ワンホットラベル
+        array: ラベル
     """
 
-    if amount <= 10:
-        label = 0
-    elif 10 < amount and amount <= 20:
-        label = 1
-    elif 20 < amount and amount <= 30:
-        label = 2
-    elif 30 < amount and amount <= 40:
-        label = 3
-    elif 40 < amount and amount <= 50:
-        label = 4
-    elif 50 < amount and amount <= 60:
-        label = 5
-    elif 60 < amount and amount <= 70:
-        label = 6
-    elif 70 < amount and amount <= 80:
-        label = 7
-    elif 80 < amount and amount <= 90:
-        label = 8
-    elif 90 < amount and amount <= 100:
-        label = 9
+    if NUM_CLASSES == 2:
+        if amount <= 90:
+            label = 0
+        elif 90 < amount and amount <= 100:
+            label = 1
+
+    elif NUM_CLASSES == 10:
+        if amount <= 10:
+            label = 0
+        elif 10 < amount and amount <= 20:
+            label = 1
+        elif 20 < amount and amount <= 30:
+            label = 2
+        elif 30 < amount and amount <= 40:
+            label = 3
+        elif 40 < amount and amount <= 50:
+            label = 4
+        elif 50 < amount and amount <= 60:
+            label = 5
+        elif 60 < amount and amount <= 70:
+            label = 6
+        elif 70 < amount and amount <= 80:
+            label = 7
+        elif 80 < amount and amount <= 90:
+            label = 8
+        elif 90 < amount and amount <= 100:
+            label = 9
 
     return label
 
@@ -145,10 +152,32 @@ def softmax_to_label(prediction):
     Args:
         prediction (float): softmax予測
     Returns:
-        string: 結果水位
+        int: 結果ラベル
     """
 
     return np.argmax(prediction)
+
+
+def label_to_amount(label):
+    """
+    ラベル->水位
+
+    Args:
+        label (int): ラベル
+    Returns:
+        string: 水位
+    """
+
+    if NUM_CLASSES == 2:
+        if label == 0:
+            amount = '0-90'
+        elif label == 1:
+            amount = '90-100'
+
+    elif NUM_CLASSES == 10:
+        amount = str(label * 10) + '-' + str((label * 10) + 10)
+
+    return amount
 
 
 def get_random_data(mode, data, labels, history):
@@ -211,7 +240,7 @@ def main():
             # 学習データの作成
             random_data, random_labels, history = get_random_data('train', train_data, train_labels, history)
             # Tensorへ変換
-            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, N_MFCC - 1)
+            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, N_MFCC)
             labels = torch.tensor(random_labels, dtype=torch.long, device=device)
 
             optimizer.zero_grad()
@@ -242,7 +271,7 @@ def main():
             # テストデータの作成
             random_data, random_labels, history = get_random_data('test', test_data, test_labels, history)
             # Tensorへ変換
-            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, N_MFCC - 1)
+            inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, N_MFCC)
             labels = torch.tensor(random_labels, dtype=torch.long, device=device)
 
             optimizer.zero_grad()
@@ -257,28 +286,25 @@ def main():
                 predictions.append(softmax_to_label(output))
 
             # 結果の記録
-            answers_confusion, predictions_confusion = [], []
+            answers_amount, predictions_amount = [], []
             for answer, prediction in zip(answers, predictions):
-                answer = str(answer * 10) + '-' + str((answer * 10) + 10)
-                prediction = str(prediction * 10) + '-' + str((prediction * 10) + 10)
-                result_writer.writerow([TEST_FILE.replace('.', '_'), answer, prediction])
-                answers_confusion.append(answer)
-                predictions_confusion.append(prediction)
+                answer_amount = label_to_amount(answer)
+                prediction_amount = label_to_answer(prediction)
+                result_writer.writerow([TEST_FILE.replace('.', '_'), answer_amount, prediction_amount])
+                answers_amount.append(answer_amount)
+                predictions_amount.append(prediction_amount)
             score = accuracy_score(answers, predictions)
             scores.append(score)
             result_writer.writerow(['(Accuracy)' + TEST_FILE.replace('.', '_'), score])
 
             # 混同行列の描画
-            figures_dir = '../figures/10_classes/' + now
-            if os.path.exists(figures_dir) == False:
-                os.makedirs(figures_dir)
-            scale = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
-            sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_confusion, predictions_confusion),
-                                     index=scale, columns=scale), annot=True, cmap='Blues', cbar=False)
-            filename = figures_dir + '/' + TEST_FILE.replace('.', '_') + '_confusion_matrix.png'
-            plt.savefig(filename, bbox_inches='tight', pad_inches=0)
-            # plt.show()
-            plt.close()
+            if NUM_CLASSES == 10:
+                scale = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
+                sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_amount, predictions_amount),
+                                         index=scale, columns=scale), annot=True, cmap='Blues', cbar=False)
+                filename = figures_dir + '/' + TEST_FILE.replace('.', '_') + '_confusion_matrix.png'
+                plt.savefig(filename, bbox_inches='tight', pad_inches=0)
+                plt.close()
 
     # モデルの学習
     loss_all = []
@@ -288,9 +314,6 @@ def main():
     test()
 
     # Lossの描画
-    figures_dir = '../figures/10_classes/' + now
-    if os.path.exists(figures_dir) == False:
-        os.makedirs(figures_dir)
     print('\nLossを描画します．．．\n')
     plt.figure(figsize=(16, 9))
     plt.plot(range(EPOCH), loss_all)
@@ -299,17 +322,20 @@ def main():
     plt.tick_params(labelsize=26)
     filename = figures_dir + '/' + TEST_FILE.replace('.', '_') + '_loss.png'
     plt.savefig(filename, bbox_inches='tight', pad_inches=0)
-    # plt.show()
     plt.close()
 
 
 if __name__ == '__main__':
     # 結果の保存ファイル作成
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    result_file = '../data/result_10_classes_' + now + '.csv'
+    result_file = '../data/result_' + NUM_CLASSES + '_classes_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
         result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
+
+        figures_dir = '../figures/' + NUM_CLASSES + '_classes/' + now
+        if os.path.exists(figures_dir) == False:
+            os.makedirs(figures_dir)
 
         scores = []
         files = natsorted(glob.glob(SOUND_DIR + '*'))
