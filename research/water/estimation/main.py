@@ -286,7 +286,7 @@ def main():
             answers_amount, predictions_amount = [], []
             for answer, prediction in zip(answers, predictions):
                 answer_amount = label_to_amount(answer)
-                prediction_amount = label_to_answer(prediction)
+                prediction_amount = label_to_amount(prediction)
                 result_writer.writerow([TEST_FILENAME, answer_amount, prediction_amount])
                 answers_amount.append(answer_amount)
                 predictions_amount.append(prediction_amount)
