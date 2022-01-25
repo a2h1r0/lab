@@ -283,25 +283,25 @@ def main():
                 predictions.append(softmax_to_label(output))
 
             # 結果の記録
-            answers_amount, predictions_amount = [], []
             for answer, prediction in zip(answers, predictions):
                 answer_amount = label_to_amount(answer)
                 prediction_amount = label_to_amount(prediction)
                 result_writer.writerow([TEST_FILENAME, answer_amount, prediction_amount])
-                answers_amount.append(answer_amount)
-                predictions_amount.append(prediction_amount)
+                answers_all.append(answer_amount)
+                predictions_all.append(prediction_amount)
             score = accuracy_score(answers, predictions)
-            scores.append(score)
             result_writer.writerow(['(Accuracy)' + TEST_FILENAME, score])
 
-            # 混同行列の描画
-            if NUM_CLASSES == 10:
-                scale = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
-                sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_amount, predictions_amount),
-                                         index=scale, columns=scale), annot=True, cmap='Blues', cbar=False)
-                filename = figures_dir + '/' + TEST_FILENAME + '_confusion_matrix.png'
-                plt.savefig(filename, bbox_inches='tight', pad_inches=0)
-                plt.close()
+            if 'coffee' in TEST_FILENAME:
+                scores_coffee.append(score)
+            elif 'dishwashing' in TEST_FILENAME:
+                scores_dishwashing.append(score)
+            elif 'shampoo' in TEST_FILENAME:
+                scores_shampoo.append(score)
+            elif 'skinmilk' in TEST_FILENAME:
+                scores_skinmilk.append(score)
+            elif 'tokkuri' in TEST_FILENAME:
+                scores_tokkuri.append(score)
 
     # モデルの学習
     loss_all = []
@@ -334,7 +334,8 @@ if __name__ == '__main__':
         if os.path.exists(figures_dir) == False:
             os.makedirs(figures_dir)
 
-        scores = []
+        scores_coffee, scores_dishwashing, scores_shampoo, scores_skinmilk, scores_tokkuri = [], [], [], [], []
+        answers_all, predictions_all = [], []
         files = natsorted(glob.glob(SOUND_DIR + '*'))
         if len(files) == 0:
             print('ファイルが存在しません．')
@@ -353,4 +354,17 @@ if __name__ == '__main__':
 
             print('\n\n----- Test: ' + TEST_FILENAME + ' -----')
             main()
-        result_writer.writerow(['(Avg.)' + TEST_FILENAME, sum(scores) / len(scores)])
+        result_writer.writerow(['(Average)coffee', sum(scores_coffee) / len(scores_coffee)])
+        result_writer.writerow(['(Average)dishwashing', sum(scores_dishwashing) / len(scores_dishwashing)])
+        result_writer.writerow(['(Average)shampoo', sum(scores_shampoo) / len(scores_shampoo)])
+        result_writer.writerow(['(Average)skinmilk', sum(scores_skinmilk) / len(scores_skinmilk)])
+        result_writer.writerow(['(Average)tokkuri', sum(scores_tokkuri) / len(scores_tokkuri)])
+
+    # 混同行列の描画
+    if NUM_CLASSES == 10:
+        scale = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_all, predictions_all),
+                                 index=scale, columns=scale), annot=True, cmap='Blues', cbar=False)
+        filename = figures_dir + '/confusion_matrix.png'
+        plt.savefig(filename, bbox_inches='tight', pad_inches=0)
+        plt.close()
