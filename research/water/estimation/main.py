@@ -290,19 +290,19 @@ def main():
             for answer, prediction in zip(answers, predictions):
                 answer_amount = label_to_amount(answer)
                 prediction_amount = label_to_answer(prediction)
-                result_writer.writerow([TEST_FILE.replace('.', '_'), answer_amount, prediction_amount])
+                result_writer.writerow([TEST_FILENAME, answer_amount, prediction_amount])
                 answers_amount.append(answer_amount)
                 predictions_amount.append(prediction_amount)
             score = accuracy_score(answers, predictions)
             scores.append(score)
-            result_writer.writerow(['(Accuracy)' + TEST_FILE.replace('.', '_'), score])
+            result_writer.writerow(['(Accuracy)' + TEST_FILENAME, score])
 
             # 混同行列の描画
             if NUM_CLASSES == 10:
                 scale = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
                 sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_amount, predictions_amount),
                                          index=scale, columns=scale), annot=True, cmap='Blues', cbar=False)
-                filename = figures_dir + '/' + TEST_FILE.replace('.', '_') + '_confusion_matrix.png'
+                filename = figures_dir + '/' + TEST_FILENAME + '_confusion_matrix.png'
                 plt.savefig(filename, bbox_inches='tight', pad_inches=0)
                 plt.close()
 
@@ -320,7 +320,7 @@ def main():
     plt.xlabel('Epoch', fontsize=26)
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
-    filename = figures_dir + '/' + TEST_FILE.replace('.', '_') + '_loss.png'
+    filename = figures_dir + '/' + TEST_FILENAME + '_loss.png'
     plt.savefig(filename, bbox_inches='tight', pad_inches=0)
     plt.close()
 
@@ -347,12 +347,13 @@ if __name__ == '__main__':
             # テストデータ以外を学習に使用
             TRAIN_FILES = [os.path.split(filename)[1] for index, filename in enumerate(files) if index != test_index]
             TEST_FILE = os.path.split(test_file)[1]
+            TEST_FILENAME = TEST_FILE.replace('.mp3', '')
 
             # ファイルの検証
             SAMPLING_RATE = get_sampling_rate()
             WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)
             STEP = int(STEP_SECOND * SAMPLING_RATE)
 
-            print('\n\n----- Test: ' + TEST_FILE.replace('.', '_') + ' -----')
+            print('\n\n----- Test: ' + TEST_FILENAME + ' -----')
             main()
-        result_writer.writerow(['(Avg.)' + BOTTLE, sum(scores) / len(scores)])
+        result_writer.writerow(['(Avg.)' + TEST_FILENAME, sum(scores) / len(scores)])
