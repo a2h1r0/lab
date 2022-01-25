@@ -23,7 +23,7 @@ os.chdir(os.path.dirname(__file__))
 
 BOTTLE = 'shampoo2'
 
-SOUND_DIR = '../sounds/raw/' + BOTTLE + '/'
+SOUND_DIR = '../sounds/'
 
 
 NUM_CLASSES = 10  # 分類クラス数
@@ -328,17 +328,21 @@ def main():
 if __name__ == '__main__':
     # 結果の保存ファイル作成
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    result_file = '../data/result_' + NUM_CLASSES + '_classes_' + now + '.csv'
+    result_file = '../data/result_' + str(NUM_CLASSES) + '_classes_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
         result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
 
-        figures_dir = '../figures/' + NUM_CLASSES + '_classes/' + now
+        figures_dir = '../figures/' + str(NUM_CLASSES) + '_classes/' + now
         if os.path.exists(figures_dir) == False:
             os.makedirs(figures_dir)
 
         scores = []
         files = natsorted(glob.glob(SOUND_DIR + '*'))
+        if len(files) == 0:
+            print('ファイルが存在しません．')
+            sys.exit()
+
         for test_index, test_file in enumerate(files):
             # テストデータ以外を学習に使用
             TRAIN_FILES = [os.path.split(filename)[1] for index, filename in enumerate(files) if index != test_index]
