@@ -21,10 +21,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-BOTTLE = 'shampoo2'
-
 SOUND_DIR = '../sounds/'
-
 
 NUM_CLASSES = 10  # 分類クラス数
 EPOCH = 1000  # 学習サイクル数
