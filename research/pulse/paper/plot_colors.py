@@ -18,7 +18,7 @@ plt.figure(figsize=(16, 3))
 plt.gca().get_xaxis().set_major_locator(ticker.MaxNLocator(integer=True))
 plt.plot(range(len(colors)), colors)
 plt.xlabel('Index', fontsize=26)
-plt.ylabel('Glay Scale', fontsize=26)
+plt.ylabel('Grayscale', fontsize=26)
 plt.tick_params(labelsize=26)
 
 plt.savefig('../figures/colors_wave.eps', bbox_inches='tight', pad_inches=0)

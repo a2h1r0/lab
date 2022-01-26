@@ -41,7 +41,7 @@ plt.figure(figsize=(16, 6))
 plt.plot(real_time, real_pulse, label='Real', color='blue')
 plt.plot(generated_time, generated_pulse, label='Generated', color='red', linestyle='dashed')
 plt.xlabel('Time [s]', fontsize=26)
-plt.ylabel('Pulse Value', fontsize=26)
+plt.ylabel('Pulse value', fontsize=26)
 plt.tick_params(labelsize=26)
 plt.legend(fontsize=26, loc='upper right')
 
