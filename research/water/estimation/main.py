@@ -329,8 +329,21 @@ def main():
                 answer_amount = label_to_amount(answer)
                 prediction_amount = label_to_amount(prediction)
                 result_writer.writerow([TEST_FILENAME, answer_amount, prediction_amount])
-                answers_all.append(answer_amount)
-                predictions_all.append(prediction_amount)
+                if 'coffee' in TEST_FILENAME:
+                    answers_coffee.append(answer_amount)
+                    predictions_coffee.append(prediction_amount)
+                elif 'dishwashing' in TEST_FILENAME:
+                    answers_dishwashing.append(answer_amount)
+                    predictions_dishwashing.append(prediction_amount)
+                elif 'shampoo' in TEST_FILENAME:
+                    answers_shampoo.append(answer_amount)
+                    predictions_shampoo.append(prediction_amount)
+                elif 'skinmilk' in TEST_FILENAME:
+                    answers_skinmilk.append(answer_amount)
+                    predictions_skinmilk.append(prediction_amount)
+                elif 'tokkuri' in TEST_FILENAME:
+                    answers_tokkuri.append(answer_amount)
+                    predictions_tokkuri.append(prediction_amount)
             score = accuracy_score(answers, predictions)
             result_writer.writerow(['(Accuracy)' + TEST_FILENAME, score])
 
@@ -363,7 +376,8 @@ if __name__ == '__main__':
             os.makedirs(figures_dir)
 
         loss_coffee, loss_dishwashing, loss_shampoo, loss_skinmilk, loss_tokkuri = [], [], [], [], []
-        answers_all, predictions_all = [], []
+        answers_coffee, answers_dishwashing, answers_shampoo, answers_skinmilk, answers_tokkuri = [], [], [], [], []
+        predictions_coffee, predictions_dishwashing, predictions_shampoo, predictions_skinmilk, predictions_tokkuri = [], [], [], [], []
         files = natsorted(glob.glob(SOUND_DIR + '*'))
         if len(files) == 0:
             print('ファイルが存在しません．')
@@ -425,14 +439,13 @@ if __name__ == '__main__':
         plt.plot(range(EPOCH), np.mean(loss_shampoo, axis=0), label='Bottle C')
         plt.plot(range(EPOCH), np.mean(loss_skinmilk, axis=0), label='Bottle D')
         plt.plot(range(EPOCH), np.mean(loss_tokkuri, axis=0), label='Bottle E')
-        filename = figures_dir + '/' + TEST_FILENAME + '_loss'
     elif DEPEND == False:
         plt.plot(range(EPOCH), loss_coffee, label='Bottle A')
         plt.plot(range(EPOCH), loss_dishwashing, label='Bottle B')
         plt.plot(range(EPOCH), loss_shampoo, label='Bottle C')
         plt.plot(range(EPOCH), loss_skinmilk, label='Bottle D')
         plt.plot(range(EPOCH), loss_tokkuri, label='Bottle E')
-        filename = figures_dir + '/' + 'loss'
+    filename = figures_dir + '/' + 'loss'
     plt.xlabel('Epoch', fontsize=26)
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
@@ -444,9 +457,34 @@ if __name__ == '__main__':
     # 混同行列の描画
     if NUM_CLASSES == 10:
         scale = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
-        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_all, predictions_all),
-                                 index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
         filename = figures_dir + '/confusion_matrix'
-        plt.savefig(filename + '.eps', bbox_inches='tight', pad_inches=0)
-        plt.savefig(filename + '.svg', bbox_inches='tight', pad_inches=0)
+
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_coffee, predictions_coffee),
+                                 index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
+        plt.savefig(filename + '_coffee.eps', bbox_inches='tight', pad_inches=0)
+        plt.savefig(filename + '_coffee.svg', bbox_inches='tight', pad_inches=0)
+        plt.close()
+
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_dishwashing, predictions_dishwashing),
+                                 index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
+        plt.savefig(filename + '_dishwashing.eps', bbox_inches='tight', pad_inches=0)
+        plt.savefig(filename + '_dishwashing.svg', bbox_inches='tight', pad_inches=0)
+        plt.close()
+
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_shampoo, predictions_shampoo),
+                                 index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
+        plt.savefig(filename + '_shampoo.eps', bbox_inches='tight', pad_inches=0)
+        plt.savefig(filename + '_shampoo.svg', bbox_inches='tight', pad_inches=0)
+        plt.close()
+
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_skinmilk, predictions_skinmilk),
+                                 index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
+        plt.savefig(filename + '_skinmilk.eps', bbox_inches='tight', pad_inches=0)
+        plt.savefig(filename + '_skinmilk.svg', bbox_inches='tight', pad_inches=0)
+        plt.close()
+
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_tokkuri, predictions_tokkuri),
+                                 index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
+        plt.savefig(filename + '_tokkuri.eps', bbox_inches='tight', pad_inches=0)
+        plt.savefig(filename + '_tokkuri.svg', bbox_inches='tight', pad_inches=0)
         plt.close()
