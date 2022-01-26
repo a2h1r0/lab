@@ -246,7 +246,17 @@ def main():
             loss.backward()
             optimizer.step()
 
-            loss_all.append(loss.item())
+            if 'coffee' in TEST_FILENAME:
+                loss_coffee[-1].append(loss.item())
+            elif 'dishwashing' in TEST_FILENAME:
+                loss_dishwashing[-1].append(loss.item())
+            elif 'shampoo' in TEST_FILENAME:
+                loss_shampoo[-1].append(loss.item())
+            elif 'skinmilk' in TEST_FILENAME:
+                loss_skinmilk[-1].append(loss.item())
+            elif 'tokkuri' in TEST_FILENAME:
+                loss_tokkuri[-1].append(loss.item())
+
             if (epoch + 1) % 10 == 0:
                 print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
 
@@ -303,23 +313,8 @@ def main():
             elif 'tokkuri' in TEST_FILENAME:
                 scores_tokkuri.append(score)
 
-    # モデルの学習
-    loss_all = []
     train()
-
-    # モデルのテスト
     test()
-
-    # Lossの描画
-    print('\nLossを描画します．．．\n')
-    plt.figure(figsize=(16, 9))
-    plt.plot(range(EPOCH), loss_all)
-    plt.xlabel('Epoch', fontsize=26)
-    plt.ylabel('Loss', fontsize=26)
-    plt.tick_params(labelsize=26)
-    filename = figures_dir + '/' + TEST_FILENAME + '_loss.png'
-    plt.savefig(filename, bbox_inches='tight', pad_inches=0)
-    plt.close()
 
 
 if __name__ == '__main__':
@@ -334,6 +329,7 @@ if __name__ == '__main__':
         if os.path.exists(figures_dir) == False:
             os.makedirs(figures_dir)
 
+        loss_coffee, loss_dishwashing, loss_shampoo, loss_skinmilk, loss_tokkuri = [], [], [], [], []
         scores_coffee, scores_dishwashing, scores_shampoo, scores_skinmilk, scores_tokkuri = [], [], [], [], []
         answers_all, predictions_all = [], []
         files = natsorted(glob.glob(SOUND_DIR + '*'))
@@ -353,12 +349,41 @@ if __name__ == '__main__':
             STEP = int(STEP_SECOND * SAMPLING_RATE)
 
             print('\n\n----- Test: ' + TEST_FILENAME + ' -----')
+
+            if 'coffee' in TEST_FILENAME:
+                loss_coffee.append([])
+            elif 'dishwashing' in TEST_FILENAME:
+                loss_dishwashing.append([])
+            elif 'shampoo' in TEST_FILENAME:
+                loss_shampoo.append([])
+            elif 'skinmilk' in TEST_FILENAME:
+                loss_skinmilk.append([])
+            elif 'tokkuri' in TEST_FILENAME:
+                loss_tokkuri.append([])
+
             main()
+
         result_writer.writerow(['(Average)coffee', sum(scores_coffee) / len(scores_coffee)])
         result_writer.writerow(['(Average)dishwashing', sum(scores_dishwashing) / len(scores_dishwashing)])
         result_writer.writerow(['(Average)shampoo', sum(scores_shampoo) / len(scores_shampoo)])
         result_writer.writerow(['(Average)skinmilk', sum(scores_skinmilk) / len(scores_skinmilk)])
         result_writer.writerow(['(Average)tokkuri', sum(scores_tokkuri) / len(scores_tokkuri)])
+
+    # Lossの描画
+    print('\nLossを描画します．．．\n')
+    plt.figure(figsize=(16, 9))
+    plt.plot(range(EPOCH), np.mean(loss_coffee, axis=0), label='Bottle A')
+    plt.plot(range(EPOCH), np.mean(loss_dishwashing, axis=0), label='Bottle B')
+    plt.plot(range(EPOCH), np.mean(loss_shampoo, axis=0), label='Bottle C')
+    plt.plot(range(EPOCH), np.mean(loss_skinmilk, axis=0), label='Bottle D')
+    plt.plot(range(EPOCH), np.mean(loss_tokkuri, axis=0), label='Bottle E')
+    plt.xlabel('Epoch', fontsize=26)
+    plt.ylabel('Loss', fontsize=26)
+    plt.tick_params(labelsize=26)
+    plt.legend(fontsize=26, loc='upper right')
+    filename = figures_dir + '/' + TEST_FILENAME + '_loss.png'
+    plt.savefig(filename, bbox_inches='tight', pad_inches=0)
+    plt.close()
 
     # 混同行列の描画
     if NUM_CLASSES == 10:
