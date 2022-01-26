@@ -31,8 +31,12 @@ KERNEL = 3  # カーネルサイズ（奇数のみ）
 BATCH = 10000  # バッチサイズ
 WINDOW_SECOND = 0.05  # 1サンプルの秒数
 STEP_SECOND = 0.02  # スライド幅の秒数
-NUM_TEST_ONEFILE_DATA = 1000  # 1ファイルごとのテストデータ数
 N_MFCC = 20  # MFCCの次数
+
+if DEPEND == True:
+    NUM_TEST_ONEFILE_DATA = 100  # 1ファイルごとのテストデータ数
+elif DEPEND == False:
+    NUM_TEST_ONEFILE_DATA = 1000  # 1ファイルごとのテストデータ数
 
 
 def get_sampling_rate(filename):
@@ -262,16 +266,28 @@ def main():
             loss.backward()
             optimizer.step()
 
-            if 'coffee' in TEST_FILENAME:
-                loss_coffee[-1].append(loss.item())
-            elif 'dishwashing' in TEST_FILENAME:
-                loss_dishwashing[-1].append(loss.item())
-            elif 'shampoo' in TEST_FILENAME:
-                loss_shampoo[-1].append(loss.item())
-            elif 'skinmilk' in TEST_FILENAME:
-                loss_skinmilk[-1].append(loss.item())
-            elif 'tokkuri' in TEST_FILENAME:
-                loss_tokkuri[-1].append(loss.item())
+            if DEPEND == True:
+                if 'coffee' in TEST_FILENAME:
+                    loss_coffee[-1].append(loss.item())
+                elif 'dishwashing' in TEST_FILENAME:
+                    loss_dishwashing[-1].append(loss.item())
+                elif 'shampoo' in TEST_FILENAME:
+                    loss_shampoo[-1].append(loss.item())
+                elif 'skinmilk' in TEST_FILENAME:
+                    loss_skinmilk[-1].append(loss.item())
+                elif 'tokkuri' in TEST_FILENAME:
+                    loss_tokkuri[-1].append(loss.item())
+            elif DEPEND == False:
+                if 'coffee' in TEST_FILENAME:
+                    loss_coffee.append(loss.item())
+                elif 'dishwashing' in TEST_FILENAME:
+                    loss_dishwashing.append(loss.item())
+                elif 'shampoo' in TEST_FILENAME:
+                    loss_shampoo.append(loss.item())
+                elif 'skinmilk' in TEST_FILENAME:
+                    loss_skinmilk.append(loss.item())
+                elif 'tokkuri' in TEST_FILENAME:
+                    loss_tokkuri.append(loss.item())
 
             if (epoch + 1) % 10 == 0:
                 print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
@@ -318,16 +334,17 @@ def main():
             score = accuracy_score(answers, predictions)
             result_writer.writerow(['(Accuracy)' + TEST_FILENAME, score])
 
-            if 'coffee' in TEST_FILENAME:
-                scores_coffee.append(score)
-            elif 'dishwashing' in TEST_FILENAME:
-                scores_dishwashing.append(score)
-            elif 'shampoo' in TEST_FILENAME:
-                scores_shampoo.append(score)
-            elif 'skinmilk' in TEST_FILENAME:
-                scores_skinmilk.append(score)
-            elif 'tokkuri' in TEST_FILENAME:
-                scores_tokkuri.append(score)
+            if DEPEND == True:
+                if 'coffee' in TEST_FILENAME:
+                    scores_coffee.append(score)
+                elif 'dishwashing' in TEST_FILENAME:
+                    scores_dishwashing.append(score)
+                elif 'shampoo' in TEST_FILENAME:
+                    scores_shampoo.append(score)
+                elif 'skinmilk' in TEST_FILENAME:
+                    scores_skinmilk.append(score)
+                elif 'tokkuri' in TEST_FILENAME:
+                    scores_tokkuri.append(score)
 
     train()
     test()
@@ -346,7 +363,6 @@ if __name__ == '__main__':
             os.makedirs(figures_dir)
 
         loss_coffee, loss_dishwashing, loss_shampoo, loss_skinmilk, loss_tokkuri = [], [], [], [], []
-        scores_coffee, scores_dishwashing, scores_shampoo, scores_skinmilk, scores_tokkuri = [], [], [], [], []
         answers_all, predictions_all = [], []
         files = natsorted(glob.glob(SOUND_DIR + '*'))
         if len(files) == 0:
@@ -359,6 +375,8 @@ if __name__ == '__main__':
         STEP = int(STEP_SECOND * SAMPLING_RATE)
 
         if DEPEND == True:
+            scores_coffee, scores_dishwashing, scores_shampoo, scores_skinmilk, scores_tokkuri = [], [], [], [], []
+
             for test_index, test_file in enumerate(files):
                 # テストデータ以外を学習に使用
                 TRAIN_FILES = [os.path.split(filename)[1] for index, filename in enumerate(files) if index != test_index]
@@ -380,33 +398,55 @@ if __name__ == '__main__':
 
                 main()
 
-        result_writer.writerow(['(Average)coffee', sum(scores_coffee) / len(scores_coffee)])
-        result_writer.writerow(['(Average)dishwashing', sum(scores_dishwashing) / len(scores_dishwashing)])
-        result_writer.writerow(['(Average)shampoo', sum(scores_shampoo) / len(scores_shampoo)])
-        result_writer.writerow(['(Average)skinmilk', sum(scores_skinmilk) / len(scores_skinmilk)])
-        result_writer.writerow(['(Average)tokkuri', sum(scores_tokkuri) / len(scores_tokkuri)])
+            result_writer.writerow(['(Average)coffee', sum(scores_coffee) / len(scores_coffee)])
+            result_writer.writerow(['(Average)dishwashing', sum(scores_dishwashing) / len(scores_dishwashing)])
+            result_writer.writerow(['(Average)shampoo', sum(scores_shampoo) / len(scores_shampoo)])
+            result_writer.writerow(['(Average)skinmilk', sum(scores_skinmilk) / len(scores_skinmilk)])
+            result_writer.writerow(['(Average)tokkuri', sum(scores_tokkuri) / len(scores_tokkuri)])
+
+        elif DEPEND == False:
+            BOTTLES = ['coffee', 'dishwashing', 'shampoo', 'skinmilk', 'tokkuri']
+
+            for bottle in BOTTLES:
+                # テストデータ以外を学習に使用
+                TRAIN_FILES = [os.path.split(filename)[1] for filename in files if bottle not in filename]
+                TEST_FILES = [os.path.split(filename)[1] for filename in files if bottle in filename]
+                TEST_FILENAME = bottle
+
+                print('\n\n----- Test: ' + TEST_FILENAME + ' -----')
+                main()
 
     # Lossの描画
     print('\nLossを描画します．．．\n')
     plt.figure(figsize=(16, 9))
-    plt.plot(range(EPOCH), np.mean(loss_coffee, axis=0), label='Bottle A')
-    plt.plot(range(EPOCH), np.mean(loss_dishwashing, axis=0), label='Bottle B')
-    plt.plot(range(EPOCH), np.mean(loss_shampoo, axis=0), label='Bottle C')
-    plt.plot(range(EPOCH), np.mean(loss_skinmilk, axis=0), label='Bottle D')
-    plt.plot(range(EPOCH), np.mean(loss_tokkuri, axis=0), label='Bottle E')
+    if DEPEND == True:
+        plt.plot(range(EPOCH), np.mean(loss_coffee, axis=0), label='Bottle A')
+        plt.plot(range(EPOCH), np.mean(loss_dishwashing, axis=0), label='Bottle B')
+        plt.plot(range(EPOCH), np.mean(loss_shampoo, axis=0), label='Bottle C')
+        plt.plot(range(EPOCH), np.mean(loss_skinmilk, axis=0), label='Bottle D')
+        plt.plot(range(EPOCH), np.mean(loss_tokkuri, axis=0), label='Bottle E')
+        filename = figures_dir + '/' + TEST_FILENAME + '_loss'
+    elif DEPEND == False:
+        plt.plot(range(EPOCH), loss_coffee, label='Bottle A')
+        plt.plot(range(EPOCH), loss_dishwashing, label='Bottle B')
+        plt.plot(range(EPOCH), loss_shampoo, label='Bottle C')
+        plt.plot(range(EPOCH), loss_skinmilk, label='Bottle D')
+        plt.plot(range(EPOCH), loss_tokkuri, label='Bottle E')
+        filename = figures_dir + '/' + 'loss'
     plt.xlabel('Epoch', fontsize=26)
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
     plt.legend(fontsize=26, loc='upper right')
-    filename = figures_dir + '/' + TEST_FILENAME + '_loss.png'
-    plt.savefig(filename, bbox_inches='tight', pad_inches=0)
+    plt.savefig(filename + '.eps', bbox_inches='tight', pad_inches=0)
+    plt.savefig(filename + '.svg', bbox_inches='tight', pad_inches=0)
     plt.close()
 
     # 混同行列の描画
     if NUM_CLASSES == 10:
         scale = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
         sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_all, predictions_all),
-                                 index=scale, columns=scale), annot=True, cmap='Blues', cbar=False)
-        filename = figures_dir + '/confusion_matrix.png'
-        plt.savefig(filename, bbox_inches='tight', pad_inches=0)
+                                 index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
+        filename = figures_dir + '/confusion_matrix'
+        plt.savefig(filename + '.eps', bbox_inches='tight', pad_inches=0)
+        plt.savefig(filename + '.svg', bbox_inches='tight', pad_inches=0)
         plt.close()
