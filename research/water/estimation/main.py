@@ -23,6 +23,8 @@ os.chdir(os.path.dirname(__file__))
 
 SOUND_DIR = '../sounds/'
 
+DEPEND = True  # 依存 or 非依存
+
 NUM_CLASSES = 10  # 分類クラス数
 EPOCH = 1000  # 学習サイクル数
 KERNEL = 3  # カーネルサイズ（奇数のみ）
@@ -33,12 +35,17 @@ NUM_TEST_ONEFILE_DATA = 1000  # 1ファイルごとのテストデータ数
 N_MFCC = 20  # MFCCの次数
 
 
-def get_sampling_rate():
+def get_sampling_rate(filename):
     """
     サンプリング周波数の取得
+
+    Args:
+        filename (string): ファイル名
+    Returns:
+        int: サンプリング周波数
     """
 
-    sound = AudioSegment.from_file(SOUND_DIR + TRAIN_FILES[0], 'mp3')
+    sound = AudioSegment.from_file(SOUND_DIR + filename, 'mp3')
 
     return len(sound[:1000].get_array_of_samples())
 
@@ -63,6 +70,10 @@ def mfcc(sound_data):
 def make_train_data():
     """
     学習データの作成
+
+    Returns:
+        array: 学習データ
+        array: 学習ラベル
     """
 
     train_data, train_labels = [], []
@@ -84,19 +95,24 @@ def make_train_data():
 def make_test_data():
     """
     テストデータの作成
+
+    Returns:
+        array: テストデータ
+        array: 正解ラベル
     """
 
     test_data, test_labels = [], []
 
-    # 音源の読み出し
-    sound, _ = librosa.load(SOUND_DIR + TEST_FILE, sr=SAMPLING_RATE)
-    amounts = np.linspace(0, 100, len(sound))
+    for filename in TEST_FILES:
+        # 音源の読み出し
+        sound, _ = librosa.load(SOUND_DIR + filename, sr=SAMPLING_RATE)
+        amounts = np.linspace(0, 100, len(sound))
 
-    for index in range(0, len(sound) - WINDOW_SIZE + 1, STEP):
-        start = index
-        end = start + WINDOW_SIZE - 1
-        test_data.append(mfcc(sound[start:end + 1]))
-        test_labels.append(amount_to_label(amounts[end]))
+        for index in range(0, len(sound) - WINDOW_SIZE + 1, STEP):
+            start = index
+            end = start + WINDOW_SIZE - 1
+            test_data.append(mfcc(sound[start:end + 1]))
+            test_labels.append(amount_to_label(amounts[end]))
 
     return test_data, test_labels
 
@@ -337,31 +353,32 @@ if __name__ == '__main__':
             print('ファイルが存在しません．')
             sys.exit()
 
-        for test_index, test_file in enumerate(files):
-            # テストデータ以外を学習に使用
-            TRAIN_FILES = [os.path.split(filename)[1] for index, filename in enumerate(files) if index != test_index]
-            TEST_FILE = os.path.split(test_file)[1]
-            TEST_FILENAME = TEST_FILE.replace('.mp3', '')
+        # ファイルの検証
+        SAMPLING_RATE = get_sampling_rate(files[0])
+        WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)
+        STEP = int(STEP_SECOND * SAMPLING_RATE)
 
-            # ファイルの検証
-            SAMPLING_RATE = get_sampling_rate()
-            WINDOW_SIZE = int(WINDOW_SECOND * SAMPLING_RATE)
-            STEP = int(STEP_SECOND * SAMPLING_RATE)
+        if DEPEND == True:
+            for test_index, test_file in enumerate(files):
+                # テストデータ以外を学習に使用
+                TRAIN_FILES = [os.path.split(filename)[1] for index, filename in enumerate(files) if index != test_index]
+                TEST_FILES = [os.path.split(test_file)[1]]
+                TEST_FILENAME = TEST_FILES[0].replace('.mp3', '')
 
-            print('\n\n----- Test: ' + TEST_FILENAME + ' -----')
+                print('\n\n----- Test: ' + TEST_FILENAME + ' -----')
 
-            if 'coffee' in TEST_FILENAME:
-                loss_coffee.append([])
-            elif 'dishwashing' in TEST_FILENAME:
-                loss_dishwashing.append([])
-            elif 'shampoo' in TEST_FILENAME:
-                loss_shampoo.append([])
-            elif 'skinmilk' in TEST_FILENAME:
-                loss_skinmilk.append([])
-            elif 'tokkuri' in TEST_FILENAME:
-                loss_tokkuri.append([])
+                if 'coffee' in TEST_FILENAME:
+                    loss_coffee.append([])
+                elif 'dishwashing' in TEST_FILENAME:
+                    loss_dishwashing.append([])
+                elif 'shampoo' in TEST_FILENAME:
+                    loss_shampoo.append([])
+                elif 'skinmilk' in TEST_FILENAME:
+                    loss_skinmilk.append([])
+                elif 'tokkuri' in TEST_FILENAME:
+                    loss_tokkuri.append([])
 
-            main()
+                main()
 
         result_writer.writerow(['(Average)coffee', sum(scores_coffee) / len(scores_coffee)])
         result_writer.writerow(['(Average)dishwashing', sum(scores_dishwashing) / len(scores_dishwashing)])
