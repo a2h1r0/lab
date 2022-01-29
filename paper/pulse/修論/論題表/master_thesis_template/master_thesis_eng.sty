@@ -1,0 +1,43 @@
+% Master's thesis style file
+
+\def\Year#1{\gdef\@year{#1}}
+\def\Title#1{\gdef\@title{#1}}
+\def\Supervisor#1{\gdef\@teacher{#1}}
+\def\StudentID#1{\gdef\@IDcode{#1}}
+\def\Name#1{\gdef\@author{#1}}
+\def\Course#1{\gdef\@course{#1}}
+
+
+\newlength{\coverheight}
+\setlength{\coverheight}{\textheight}
+
+\def\maketitle{\begin{titlepage}
+
+\vbox to\coverheight{%
+\begin{center}
+{\huge \@year \\} \vskip 2em
+{\Huge MASTER'S THESIS \par} \vskip 6em
+{{\bfseries\Huge \@title\\}}
+\vfil
+\begin{tabular}{rl}
+{\large ACADEMIC SUPERVISOR:}
+& {{\huge \@teacher}} \\ \\
+\end{tabular}\\
+\vfil
+{\Large Graduate School of Information Science and Engineering\\}
+{\Large Ritsumeikan University\\}
+\vskip 1em
+{\Large MASTER'S PROGRAM\\}
+{\Large MAJOR in Advanced Information Science and Engineering\\}
+\begin{tabular}{rl}
+\\ \\
+{\large STUDENT ID:}
+& {{\huge \@IDcode}} \\ \\
+{\Large NAME:}& {{\huge \@author }}\\ \\
+\end{tabular}\\
+\end{center}
+}
+
+\end{titlepage}
+
+\let\maketitle\relax}
