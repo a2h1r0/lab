@@ -29,14 +29,17 @@ NUM_CLASSES = 10  # 分類クラス数
 EPOCH = 1000  # 学習サイクル数
 KERNEL = 3  # カーネルサイズ（奇数のみ）
 BATCH = 10000  # バッチサイズ
-WINDOW_SECOND = 0.05  # 1サンプルの秒数
-STEP_SECOND = 0.02  # スライド幅の秒数
-N_MFCC = 20  # MFCCの次数
+WINDOW_SECOND = 0.5  # 1サンプルの秒数
+STEP_SECOND = 0.3  # スライド幅の秒数
+N_MFCC = 30  # MFCCの次数
 
 if DEPEND == True:
     NUM_TEST_ONEFILE_DATA = 100  # 1ファイルごとのテストデータ数
 elif DEPEND == False:
     NUM_TEST_ONEFILE_DATA = 1000  # 1ファイルごとのテストデータ数
+
+
+BOTTLES = ['coffee', 'dishwashing', 'shampoo', 'skinmilk', 'tokkuri']
 
 
 def get_sampling_rate(filename):
@@ -91,7 +94,10 @@ def make_train_data():
             start = index
             end = start + WINDOW_SIZE - 1
             train_data.append(mfcc(sound[start:end + 1]))
-            train_labels.append(amount_to_label(amounts[end]))
+            if NUM_CLASSES == 5:
+                train_labels.append(bottle_to_label(filename))
+            else:
+                train_labels.append(amount_to_label(amounts[end]))
 
     return train_data, train_labels
 
@@ -116,19 +122,46 @@ def make_test_data():
             start = index
             end = start + WINDOW_SIZE - 1
             test_data.append(mfcc(sound[start:end + 1]))
-            test_labels.append(amount_to_label(amounts[end]))
+            if NUM_CLASSES == 5:
+                test_labels.append(bottle_to_label(filename))
+            else:
+                test_labels.append(amount_to_label(amounts[end]))
 
     return test_data, test_labels
 
 
+def bottle_to_label(filename):
+    """
+    ボトル名 -> ラベル
+
+    Args:
+        filename (string): ファイル名
+    Returns:
+        int: ラベル
+    """
+
+    if 'coffee' in filename:
+        label = 0
+    elif 'dishwashing' in filename:
+        label = 1
+    elif 'shampoo' in filename:
+        label = 2
+    elif 'skinmilk' in filename:
+        label = 3
+    elif 'tokkuri' in filename:
+        label = 4
+
+    return label
+
+
 def amount_to_label(amount):
     """
-    水位->ラベル
+    水位 -> ラベル
 
     Args:
         amount (float): 水位
     Returns:
-        array: ラベル
+        int: ラベル
     """
 
     if NUM_CLASSES == 2:
@@ -175,9 +208,33 @@ def softmax_to_label(prediction):
     return np.argmax(prediction)
 
 
+def label_to_bottle(label):
+    """
+    ラベル -> ボトル名
+
+    Args:
+        label (int): ラベル
+    Returns:
+        string: ボトル名
+    """
+
+    if label == 0:
+        bottle = 'coffee'
+    elif label == 1:
+        bottle = 'dishwashing'
+    elif label == 2:
+        bottle = 'shampoo'
+    elif label == 3:
+        bottle = 'skinmilk'
+    elif label == 4:
+        bottle = 'tokkuri'
+
+    return bottle
+
+
 def label_to_amount(label):
     """
-    ラベル->水位
+    ラベル -> 水位
 
     Args:
         label (int): ラベル
@@ -326,8 +383,12 @@ def main():
 
             # 結果の記録
             for answer, prediction in zip(answers, predictions):
-                answer_amount = label_to_amount(answer)
-                prediction_amount = label_to_amount(prediction)
+                if NUM_CLASSES == 5:
+                    answer_amount = label_to_bottle(answer)
+                    prediction_amount = label_to_bottle(prediction)
+                else:
+                    answer_amount = label_to_amount(answer)
+                    prediction_amount = label_to_amount(prediction)
                 result_writer.writerow([TEST_FILENAME, answer_amount, prediction_amount])
                 if 'coffee' in TEST_FILENAME:
                     answers_coffee.append(answer_amount)
@@ -378,7 +439,7 @@ if __name__ == '__main__':
         loss_coffee, loss_dishwashing, loss_shampoo, loss_skinmilk, loss_tokkuri = [], [], [], [], []
         answers_coffee, answers_dishwashing, answers_shampoo, answers_skinmilk, answers_tokkuri = [], [], [], [], []
         predictions_coffee, predictions_dishwashing, predictions_shampoo, predictions_skinmilk, predictions_tokkuri = [], [], [], [], []
-        files = natsorted(glob.glob(SOUND_DIR + '*'))
+        files = natsorted(glob.glob(SOUND_DIR + '*'))[::10]
         if len(files) == 0:
             print('ファイルが存在しません．')
             sys.exit()
@@ -419,8 +480,6 @@ if __name__ == '__main__':
             result_writer.writerow(['(Average)tokkuri', sum(scores_tokkuri) / len(scores_tokkuri)])
 
         elif DEPEND == False:
-            BOTTLES = ['coffee', 'dishwashing', 'shampoo', 'skinmilk', 'tokkuri']
-
             for bottle in BOTTLES:
                 # テストデータ以外を学習に使用
                 TRAIN_FILES = [os.path.split(filename)[1] for filename in files if bottle not in filename]
@@ -455,35 +514,40 @@ if __name__ == '__main__':
     plt.close()
 
     # 混同行列の描画
-    if NUM_CLASSES == 10:
-        scale = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
+    if NUM_CLASSES == 5 or NUM_CLASSES == 10:
+        if NUM_CLASSES == 5:
+            scale = ['Bottle A', 'Bottle B', 'Bottle C', 'Bottle D', 'Bottle E']
+            labels = BOTTLES
+        elif NUM_CLASSES == 10:
+            scale = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
+            labels = scale
         filename = figures_dir + '/confusion_matrix'
 
-        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_coffee, predictions_coffee),
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_coffee, predictions_coffee, labels=labels),
                                  index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
         plt.savefig(filename + '_coffee.eps', bbox_inches='tight', pad_inches=0)
         plt.savefig(filename + '_coffee.svg', bbox_inches='tight', pad_inches=0)
         plt.close()
 
-        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_dishwashing, predictions_dishwashing),
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_dishwashing, predictions_dishwashing, labels=labels),
                                  index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
         plt.savefig(filename + '_dishwashing.eps', bbox_inches='tight', pad_inches=0)
         plt.savefig(filename + '_dishwashing.svg', bbox_inches='tight', pad_inches=0)
         plt.close()
 
-        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_shampoo, predictions_shampoo),
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_shampoo, predictions_shampoo, labels=labels),
                                  index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
         plt.savefig(filename + '_shampoo.eps', bbox_inches='tight', pad_inches=0)
         plt.savefig(filename + '_shampoo.svg', bbox_inches='tight', pad_inches=0)
         plt.close()
 
-        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_skinmilk, predictions_skinmilk),
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_skinmilk, predictions_skinmilk, labels=labels),
                                  index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
         plt.savefig(filename + '_skinmilk.eps', bbox_inches='tight', pad_inches=0)
         plt.savefig(filename + '_skinmilk.svg', bbox_inches='tight', pad_inches=0)
         plt.close()
 
-        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_tokkuri, predictions_tokkuri),
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_tokkuri, predictions_tokkuri, labels=labels),
                                  index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
         plt.savefig(filename + '_tokkuri.eps', bbox_inches='tight', pad_inches=0)
         plt.savefig(filename + '_tokkuri.svg', bbox_inches='tight', pad_inches=0)
