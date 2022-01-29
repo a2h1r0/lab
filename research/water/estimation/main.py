@@ -23,9 +23,12 @@ os.chdir(os.path.dirname(__file__))
 
 SOUND_DIR = '../sounds/'
 
+NUM_CLASSES = 5  # 分類クラス数
 DEPEND = True  # 依存 or 非依存
 
-NUM_CLASSES = 5  # 分類クラス数
+if NUM_CLASSES == 5:
+    DEPEND = True
+
 EPOCH = 1000  # 学習サイクル数
 KERNEL = 3  # カーネルサイズ（奇数のみ）
 BATCH = 10000  # バッチサイズ
