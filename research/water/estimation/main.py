@@ -40,7 +40,7 @@ N_MFCC = 60  # MFCCの次数
 if DEPEND == True:
     NUM_TEST_ONEFILE_DATA = 100  # 1ファイルごとのテストデータ数
 elif DEPEND == False:
-    NUM_TEST_ONEFILE_DATA = 1000  # 1ファイルごとのテストデータ数
+    NUM_TEST_ONEFILE_DATA = 500  # 1ファイルごとのテストデータ数
 
 
 BOTTLES = ['coffee', 'dishwashing', 'shampoo', 'skinmilk', 'tokkuri']
