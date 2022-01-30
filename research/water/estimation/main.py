@@ -163,9 +163,9 @@ def amount_to_label(amount):
     """
 
     if NUM_CLASSES == 2:
-        if amount <= 80:
+        if amount <= 90:
             label = 0
-        elif 80 < amount and amount <= 100:
+        elif 90 < amount and amount <= 100:
             label = 1
 
     elif NUM_CLASSES == 5 or NUM_CLASSES == 10:
@@ -242,9 +242,9 @@ def label_to_amount(label):
 
     if NUM_CLASSES == 2:
         if label == 0:
-            amount = '0-80'
+            amount = '0-90'
         elif label == 1:
-            amount = '80-100'
+            amount = '90-100'
 
     elif NUM_CLASSES == 10:
         amount = str(label * 10) + '-' + str((label * 10) + 10)
@@ -543,8 +543,8 @@ if __name__ == '__main__':
 
     else:
         if NUM_CLASSES == 2:
-            scale = ['0%' + u'\u2013' + '80%', '80%' + u'\u2013' + '100%']
-            labels = ['0-80', '80-100']
+            scale = ['0%' + u'\u2013' + '90%', '90%' + u'\u2013' + '100%']
+            labels = ['0-90', '90-100']
         elif NUM_CLASSES == 10:
             scale = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
             labels = scale
