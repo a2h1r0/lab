@@ -72,8 +72,8 @@ def mfcc(sound_data):
     """
 
     mfccs = librosa.feature.mfcc(sound_data, sr=SAMPLING_RATE, n_mfcc=N_MFCC + 1)
+    mfccs = np.delete(mfccs, 0, axis=0)
     feature = np.average(mfccs, axis=1)
-    feature = np.delete(feature, 0)
 
     return feature
 
@@ -452,7 +452,7 @@ if __name__ == '__main__':
         loss_coffee, loss_dishwashing, loss_shampoo, loss_skinmilk, loss_tokkuri = [], [], [], [], []
         answers_coffee, answers_dishwashing, answers_shampoo, answers_skinmilk, answers_tokkuri = [], [], [], [], []
         predictions_coffee, predictions_dishwashing, predictions_shampoo, predictions_skinmilk, predictions_tokkuri = [], [], [], [], []
-        files = natsorted(glob.glob(SOUND_DIR + '*'))[::10]
+        files = natsorted(glob.glob(SOUND_DIR + '*'))
         if len(files) == 0:
             print('ファイルが存在しません．')
             sys.exit()
