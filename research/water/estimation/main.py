@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optimizers
 import model as models
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
@@ -31,9 +32,9 @@ if NUM_CLASSES == 5:
 
 EPOCH = 1000  # 学習サイクル数
 KERNEL = 3  # カーネルサイズ（奇数のみ）
-BATCH = 10000  # バッチサイズ
-WINDOW_SECOND = 0.5  # 1サンプルの秒数
-STEP_SECOND = 0.3  # スライド幅の秒数
+BATCH = 100  # バッチサイズ
+WINDOW_SECOND = 0.2  # 1サンプルの秒数
+STEP_SECOND = 0.02  # スライド幅の秒数
 N_MFCC = 60  # MFCCの次数
 
 if DEPEND == True:
@@ -97,10 +98,7 @@ def make_train_data():
             start = index
             end = start + WINDOW_SIZE - 1
             train_data.append(mfcc(sound[start:end + 1]))
-            if NUM_CLASSES == 5:
-                train_labels.append(bottle_to_label(filename))
-            else:
-                train_labels.append(amount_to_label(amounts[end]))
+            train_labels.append(str(bottle_to_label(filename)) + '.' + str(amount_to_label(amounts[end])))
 
     return train_data, train_labels
 
@@ -125,10 +123,7 @@ def make_test_data():
             start = index
             end = start + WINDOW_SIZE - 1
             test_data.append(mfcc(sound[start:end + 1]))
-            if NUM_CLASSES == 5:
-                test_labels.append(bottle_to_label(filename))
-            else:
-                test_labels.append(amount_to_label(amounts[end]))
+            test_labels.append(str(bottle_to_label(filename)) + '.' + str(amount_to_label(amounts[end])))
 
     return test_data, test_labels
 
@@ -173,7 +168,7 @@ def amount_to_label(amount):
         elif 80 < amount and amount <= 100:
             label = 1
 
-    elif NUM_CLASSES == 10:
+    elif NUM_CLASSES == 5 or NUM_CLASSES == 10:
         if amount <= 10:
             label = 0
         elif 10 < amount and amount <= 20:
@@ -257,7 +252,7 @@ def label_to_amount(label):
     return amount
 
 
-def get_random_data(mode, data, labels, history):
+def get_random_data(mode, data, labels):
     """
     ランダムデータの取得
 
@@ -265,7 +260,6 @@ def get_random_data(mode, data, labels, history):
         mode (string): train or test
         data (array): データ
         labels (array): ラベル
-        history (array): 学習済みデータのインデックス
     Returns:
         array: ランダムデータ
         array: ラベル
@@ -276,18 +270,36 @@ def get_random_data(mode, data, labels, history):
     elif mode == 'test':
         data_size = NUM_TEST_ONEFILE_DATA
 
-    random_data, random_labels = [], []
-    while len(random_data) < data_size:
-        if len(history) == len(data):
-            history = []
+    # クラスの要素数を揃える
+    sample_nums = np.array([], dtype=int)
+    for label in np.unique(labels):
+        sample_num = np.sum(np.array(labels) == label)
+        sample_nums = np.append(sample_nums, sample_num)
 
-        index = random.randint(0, len(data) - 1)
-        if index not in history:
-            history.append(index)
-            random_data.append(data[index])
-            random_labels.append(labels[index])
+    # 最小サンプル数
+    min_num = np.min(sample_nums)
 
-    return random_data, random_labels, history
+    for label, sample_num in zip(np.unique(labels), sample_nums):
+        diff = sample_num - min_num
+        if diff == 0:
+            continue
+
+        # 削除するインデックスをランダムに決定
+        index = list(np.where(np.array(labels) == label)[0])
+        delete_index = random.sample(index, diff)
+
+        # 削除
+        data = np.delete(data, delete_index, axis=0)
+        labels = np.delete(labels, delete_index)
+
+    random_data, _, random_labels, _ = train_test_split(data, labels, train_size=data_size, stratify=labels)
+
+    if NUM_CLASSES == 5:
+        random_labels = [int(label.split('.')[0]) for label in random_labels]
+    else:
+        random_labels = [int(label.split('.')[1]) for label in random_labels]
+
+    return random_data, random_labels
 
 
 def main():
@@ -312,10 +324,9 @@ def main():
         model.train()
         print('\n***** 学習開始 *****')
 
-        history = []
         for epoch in range(EPOCH):
             # 学習データの作成
-            random_data, random_labels, history = get_random_data('train', train_data, train_labels, history)
+            random_data, random_labels = get_random_data('train', train_data, train_labels)
             # Tensorへ変換
             inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, N_MFCC)
             labels = torch.tensor(random_labels, dtype=torch.long, device=device)
@@ -365,10 +376,9 @@ def main():
         model.eval()
         print('\n***** テスト *****')
 
-        history = []
         with torch.no_grad():
             # テストデータの作成
-            random_data, random_labels, history = get_random_data('test', test_data, test_labels, history)
+            random_data, random_labels = get_random_data('test', test_data, test_labels)
             # Tensorへ変換
             inputs = torch.tensor(random_data, dtype=torch.float, device=device).view(-1, 1, N_MFCC)
             labels = torch.tensor(random_labels, dtype=torch.long, device=device)
@@ -517,43 +527,54 @@ if __name__ == '__main__':
     plt.close()
 
     # 混同行列の描画
+    filename = figures_dir + '/confusion_matrix'
     if NUM_CLASSES == 5:
         scale = ['Bottle A', 'Bottle B', 'Bottle C', 'Bottle D', 'Bottle E']
         labels = BOTTLES
-    elif NUM_CLASSES == 2:
-        scale = ['0%' + u'\u2013' + '80%', '80%' + u'\u2013' + '100%']
-        labels = ['0-80', '80-100']
-    elif NUM_CLASSES == 10:
-        scale = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
-        labels = scale
-    filename = figures_dir + '/confusion_matrix'
 
-    sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_coffee, predictions_coffee, labels=labels),
-                             index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
-    plt.savefig(filename + '_coffee.eps', bbox_inches='tight', pad_inches=0)
-    plt.savefig(filename + '_coffee.svg', bbox_inches='tight', pad_inches=0)
-    plt.close()
+        answers = answers_coffee + answers_dishwashing + answers_shampoo + answers_skinmilk + answers_tokkuri
+        predictions = predictions_coffee + predictions_dishwashing + predictions_shampoo + predictions_skinmilk + predictions_tokkuri
 
-    sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_dishwashing, predictions_dishwashing, labels=labels),
-                             index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
-    plt.savefig(filename + '_dishwashing.eps', bbox_inches='tight', pad_inches=0)
-    plt.savefig(filename + '_dishwashing.svg', bbox_inches='tight', pad_inches=0)
-    plt.close()
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers, predictions, labels=labels),
+                                 index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
+        plt.savefig(filename + '.eps', bbox_inches='tight', pad_inches=0)
+        plt.savefig(filename + '.svg', bbox_inches='tight', pad_inches=0)
+        plt.close()
 
-    sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_shampoo, predictions_shampoo, labels=labels),
-                             index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
-    plt.savefig(filename + '_shampoo.eps', bbox_inches='tight', pad_inches=0)
-    plt.savefig(filename + '_shampoo.svg', bbox_inches='tight', pad_inches=0)
-    plt.close()
+    else:
+        if NUM_CLASSES == 2:
+            scale = ['0%' + u'\u2013' + '80%', '80%' + u'\u2013' + '100%']
+            labels = ['0-80', '80-100']
+        elif NUM_CLASSES == 10:
+            scale = ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
+            labels = scale
 
-    sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_skinmilk, predictions_skinmilk, labels=labels),
-                             index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
-    plt.savefig(filename + '_skinmilk.eps', bbox_inches='tight', pad_inches=0)
-    plt.savefig(filename + '_skinmilk.svg', bbox_inches='tight', pad_inches=0)
-    plt.close()
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_coffee, predictions_coffee, labels=labels),
+                                 index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
+        plt.savefig(filename + '_coffee.eps', bbox_inches='tight', pad_inches=0)
+        plt.savefig(filename + '_coffee.svg', bbox_inches='tight', pad_inches=0)
+        plt.close()
 
-    sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_tokkuri, predictions_tokkuri, labels=labels),
-                             index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
-    plt.savefig(filename + '_tokkuri.eps', bbox_inches='tight', pad_inches=0)
-    plt.savefig(filename + '_tokkuri.svg', bbox_inches='tight', pad_inches=0)
-    plt.close()
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_dishwashing, predictions_dishwashing, labels=labels),
+                                 index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
+        plt.savefig(filename + '_dishwashing.eps', bbox_inches='tight', pad_inches=0)
+        plt.savefig(filename + '_dishwashing.svg', bbox_inches='tight', pad_inches=0)
+        plt.close()
+
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_shampoo, predictions_shampoo, labels=labels),
+                                 index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
+        plt.savefig(filename + '_shampoo.eps', bbox_inches='tight', pad_inches=0)
+        plt.savefig(filename + '_shampoo.svg', bbox_inches='tight', pad_inches=0)
+        plt.close()
+
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_skinmilk, predictions_skinmilk, labels=labels),
+                                 index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
+        plt.savefig(filename + '_skinmilk.eps', bbox_inches='tight', pad_inches=0)
+        plt.savefig(filename + '_skinmilk.svg', bbox_inches='tight', pad_inches=0)
+        plt.close()
+
+        sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_tokkuri, predictions_tokkuri, labels=labels),
+                                 index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
+        plt.savefig(filename + '_tokkuri.eps', bbox_inches='tight', pad_inches=0)
+        plt.savefig(filename + '_tokkuri.svg', bbox_inches='tight', pad_inches=0)
+        plt.close()
