@@ -440,12 +440,20 @@ def main():
 if __name__ == '__main__':
     # 結果の保存ファイル作成
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    result_file = '../data/result_' + str(NUM_CLASSES) + '_classes_' + now + '.csv'
+    result_file = '../data/result_' + str(NUM_CLASSES) + '_classes'
+    if DEPEND == True:
+        result_file += '_dependent_' + now + '.csv'
+    elif DEPEND == False:
+        result_file += '_independent_' + now + '.csv'
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
         result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
 
-        figures_dir = '../figures/' + str(NUM_CLASSES) + '_classes/' + now
+        figures_dir = '../figures/' + str(NUM_CLASSES) + '_classes'
+        if DEPEND == True:
+            figures_dir += '/dependent/' + now
+        elif DEPEND == False:
+            figures_dir += '/independent/' + now
         if os.path.exists(figures_dir) == False:
             os.makedirs(figures_dir)
 
