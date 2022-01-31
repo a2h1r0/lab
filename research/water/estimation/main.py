@@ -24,7 +24,7 @@ os.chdir(os.path.dirname(__file__))
 
 SOUND_DIR = '../sounds/'
 
-NUM_CLASSES = 2  # 分類クラス数
+NUM_CLASSES = 5  # 分類クラス数
 DEPEND = True  # 依存 or 非依存
 
 if NUM_CLASSES == 5:
