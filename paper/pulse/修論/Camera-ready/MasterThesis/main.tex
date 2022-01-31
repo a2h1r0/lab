@@ -1,0 +1,75 @@
+% platex, uplatex 両対応．
+\ifdefined\ucs
+  %\documentclass[uplatex, report, a4j]{jsbook}
+  %\documentclass[uplatex, 12pt, papersize]{jsbook}
+  \documentclass[uplatex, 12pt, papersize, openany, dvipdfmx]{jsbook}
+\else
+  %\documentclass[report, a4j]{jsbook}
+  %\documentclass[12pt, papersize]{jsbook}
+  \documentclass[12pt, papersize, openany, dvipdfmx]{jsbook}
+\fi
+
+
+% =================================================== %
+\def\emph#1{\textbf{\em{#1}}}
+\include{common_packages} % 普段使っているパッケージいろいろ
+
+%% 追加
+\usepackage{pdfpages}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{color}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage[subrefformat=parens]{subcaption}
+\captionsetup{compatibility=false}
+\renewcommand{\today}{\the\year/\the\month/\the\day}
+\renewcommand{\contentsname}{CONTENTS}
+\renewcommand{\listfigurename}{LIST OF FIGURES}
+\renewcommand{\listtablename}{LIST OF TABLES}
+\renewcommand{\figurename}{Fig. }
+\renewcommand{\tablename}{Table. }
+\renewcommand{\prechaptername}{CHAPTER }
+\renewcommand{\postchaptername}{}
+\renewcommand{\bibname}{REFERENCES}
+%% ここまで
+% =================================================== %
+%
+% subsection まで目次に出力
+\setcounter{tocdepth}{2}
+
+\begin{document}
+\pagenumbering{roman}
+
+\thesisKind{\MasterThesis} % \BachelorThesis or \MasterThesis or \DoctoralThesis
+
+% \makeThesisTitle
+
+\includepdf[pages=-]{title.pdf}
+
+\abstract{Abstract}
+  The extensive research on wearable devices has led to devices with various shapes and mounting locations. Wearable devices are often used to record the user's biometric information, and methods have been proposed to detect physical abnormalities from the acquired data. Among various kinds of biometric data, pulse data has been used in methods such as heart rate monitoring and emotion recognition. The most common type of pulse sensor uses photoplethysmography (PPG), which irradiates a green LED on the skin and measures pulse data from changes in the light reflected from blood vessels. PPG sensors have been implemented in commercially available wearable devices such as smartwatches. However, a PPG sensor requires blood flow for data acquisition, and when a smartwatch is worn on an artificial body part such as a prosthetic hand or a robotic arm, data cannot be acquired because there is no blood flow. In this study, I propose a method that enables a PPG sensor to measure arbitrary pulse data by using a display. If this method is successful, it will enable pulse data measured at the junction of a living limb and an artificial limb to be input to the display; then, a smartwatch attached to the artificial limb will read the same pulse data. In this thesis, I focus on the heart rate and report the results of an experiment in which a target heart rate was input and the display was controlled accordingly to determine whether the target heart rate could be obtained by a smartwatch. I implemented a display drawing program and conducted the evaluation with five kinds of smartwatches and four kinds of displays. The results showed that the error between the target heart rate and the heart rate acquired by the smartwatch was within $3$ beats per minute (bpm) in many cases when the target heart rate was set to 60--100 bpm. When the target heart rate was set to 40--55 and 105--200 bpm, the heart rate could also be input to the smartwatch with a small error under certain conditions. Moreover, when generated PPG data was imported into heart rate variability (HRV) analysis software, it was recognized as a pulse wave in the same way as real PPG data obtained from a person. I compared the heart rate, RR interval, and SDNN calculated from the real and generated PPG data, and I confirmed that the proposed method could generate stable PPG data. On the other hand, when the waveforms were compared, the generated PPG waveform differed greatly from the real PPG waveform, which indicated that the software could calculate the heart rate, RR interval, SDNN, and LF/HF ratio regardless of the waveform. This result suggests that calculation of these parameters without verifying the waveform would be vulnerable to an attack with fake PPG data.
+
+\tableofcontents % 目次
+\listoffigures % 図目次
+\listoftables % 表目次
+
+%本文開始
+\startMain
+
+\input{introduction}
+\input{related}
+\input{method}
+\input{evaluation}
+\input{limitation}
+\input{conclusion}
+
+\chapter*{Acknowledgments}
+I would like to express my special appreciation and thanks to my advisor Associate Professor Dr. Kazuya Murao, you have been a tremendous mentor for me. I would like to thank you for encouraging my research and for allowing me to grow. Your advice for my research have been invaluable. I would also wish to express my gratitude to Professor Dr. Nobuhiko Nishio and Assistant Professor Dr. Kyosuke Futami for extended discussions and valuable suggestions which have contributed greatly to the improvement of the thesis. I would like to thank Senior Assistant Professor Dr. Naoji Matsuhisa of Electronics and Electrical Engineering, Keio University for providing me with a device implemented with an innovative method and for contributing to my experiments with new ideas. I am also so thankful to my fellow students whose challenges and productive critics, especially at the Murao Laboratoty, have provided new ideas to the work. I also thank my family. This accomplishment would not have been possible without them. Finally, I would like to thank my friends who supported each other in difficult times. Thank you.
+\addcontentsline{toc}{chapter}{Acknowledgments}
+
+\bibliographystyle{junsrt}
+\bibliography{references}
+
+\end{document}
