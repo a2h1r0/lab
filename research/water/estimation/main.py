@@ -38,7 +38,7 @@ STEP_SECOND = 0.02  # スライド幅の秒数
 N_MFCC = 60  # MFCCの次数
 
 if DEPEND == True:
-    NUM_TEST_ONEFILE_DATA = 100  # 1ファイルごとのテストデータ数
+    NUM_TEST_ONEFILE_DATA = 50  # 1ファイルごとのテストデータ数
 elif DEPEND == False:
     NUM_TEST_ONEFILE_DATA = 500  # 1ファイルごとのテストデータ数
 
