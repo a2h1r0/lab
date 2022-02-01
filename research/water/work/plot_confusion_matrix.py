@@ -8,9 +8,9 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-FILENAME = '../data/result_5_classes_dependent_20220131_140945.csv'
-NUM_CLASSES = 5
-OUTPUT = '../../../paper/water/figures/confusion_matrix_' + str(NUM_CLASSES)
+FILENAME = '../data/result_10_classes_independent_20220201_122258.csv'
+NUM_CLASSES = 10
+OUTPUT = '../../../paper/water/figures/confusion_matrix_' + str(NUM_CLASSES) + '_independent'
 EXTENSION = '.eps'
 
 
