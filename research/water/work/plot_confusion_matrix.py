@@ -8,9 +8,10 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-FILENAME = '../data/result_10_classes_dependent_20220131_140035.csv'
-NUM_CLASSES = 10
-OUTPUT = './confusion_matrix_' + str(NUM_CLASSES) + '_dependent'
+FILENAME = '../data/result_5_classes_dependent_20220131_140945.csv'
+NUM_CLASSES = 5
+OUTPUT = '../../../paper/water/figures/confusion_matrix_' + str(NUM_CLASSES)
+EXTENSION = '.eps'
 
 
 answers_coffee, answers_dishwashing, answers_shampoo, answers_skinmilk, answers_tokkuri = [], [], [], [], []
@@ -50,8 +51,7 @@ if NUM_CLASSES == 5:
                              index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
     plt.xlabel('Output', fontsize=18)
     plt.ylabel('Input', fontsize=18)
-    plt.savefig(OUTPUT + '.eps', bbox_inches='tight', pad_inches=0)
-    plt.savefig(OUTPUT + '.svg', bbox_inches='tight', pad_inches=0)
+    plt.savefig(OUTPUT + EXTENSION, bbox_inches='tight', pad_inches=0)
     plt.close()
 
 else:
@@ -66,38 +66,33 @@ else:
                              index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
     plt.xlabel('Output', fontsize=18)
     plt.ylabel('Input', fontsize=18)
-    plt.savefig(OUTPUT + '_coffee.eps', bbox_inches='tight', pad_inches=0)
-    plt.savefig(OUTPUT + '_coffee.svg', bbox_inches='tight', pad_inches=0)
+    plt.savefig(OUTPUT + '_coffee' + EXTENSION, bbox_inches='tight', pad_inches=0)
     plt.close()
 
     sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_dishwashing, predictions_dishwashing, labels=labels),
                              index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
     plt.xlabel('Output', fontsize=18)
     plt.ylabel('Input', fontsize=18)
-    plt.savefig(OUTPUT + '_dishwashing.eps', bbox_inches='tight', pad_inches=0)
-    plt.savefig(OUTPUT + '_dishwashing.svg', bbox_inches='tight', pad_inches=0)
+    plt.savefig(OUTPUT + '_dishwashing' + EXTENSION, bbox_inches='tight', pad_inches=0)
     plt.close()
 
     sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_shampoo, predictions_shampoo, labels=labels),
                              index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
     plt.xlabel('Output', fontsize=18)
     plt.ylabel('Input', fontsize=18)
-    plt.savefig(OUTPUT + '_shampoo.eps', bbox_inches='tight', pad_inches=0)
-    plt.savefig(OUTPUT + '_shampoo.svg', bbox_inches='tight', pad_inches=0)
+    plt.savefig(OUTPUT + '_shampoo' + EXTENSION, bbox_inches='tight', pad_inches=0)
     plt.close()
 
     sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_skinmilk, predictions_skinmilk, labels=labels),
                              index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
     plt.xlabel('Output', fontsize=18)
     plt.ylabel('Input', fontsize=18)
-    plt.savefig(OUTPUT + '_skinmilk.eps', bbox_inches='tight', pad_inches=0)
-    plt.savefig(OUTPUT + '_skinmilk.svg', bbox_inches='tight', pad_inches=0)
+    plt.savefig(OUTPUT + '_skinmilk' + EXTENSION, bbox_inches='tight', pad_inches=0)
     plt.close()
 
     sns.heatmap(pd.DataFrame(data=confusion_matrix(answers_tokkuri, predictions_tokkuri, labels=labels),
                              index=scale, columns=scale), annot=True, fmt='d', cmap='Blues', cbar=False)
     plt.xlabel('Output', fontsize=18)
     plt.ylabel('Input', fontsize=18)
-    plt.savefig(OUTPUT + '_tokkuri.eps', bbox_inches='tight', pad_inches=0)
-    plt.savefig(OUTPUT + '_tokkuri.svg', bbox_inches='tight', pad_inches=0)
+    plt.savefig(OUTPUT + '_tokkuri' + EXTENSION, bbox_inches='tight', pad_inches=0)
     plt.close()
