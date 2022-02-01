@@ -24,7 +24,7 @@ os.chdir(os.path.dirname(__file__))
 
 SOUND_DIR = '../sounds/'
 
-NUM_CLASSES = 5  # 分類クラス数
+NUM_CLASSES = 2  # 分類クラス数
 DEPEND = True  # 依存 or 非依存
 
 if NUM_CLASSES == 5:
@@ -39,6 +39,8 @@ N_MFCC = 60  # MFCCの次数
 
 if DEPEND == True:
     NUM_TEST_ONEFILE_DATA = 50  # 1ファイルごとのテストデータ数
+    if NUM_CLASSES == 2:
+        NUM_TEST_ONEFILE_DATA = 30  # 1ファイルごとのテストデータ数
 elif DEPEND == False:
     NUM_TEST_ONEFILE_DATA = 500  # 1ファイルごとのテストデータ数
 
