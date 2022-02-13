@@ -1,0 +1,143 @@
+Delivered-To: atsuhiro.fujii.98@gmail.com
+Received: by 2002:a05:6520:8:b0:19a:ca6c:9b03 with SMTP id s8csp916143lkb;
+        Wed, 9 Feb 2022 22:47:47 -0800 (PST)
+X-Received: by 2002:a05:6830:2692:: with SMTP id l18mr2460226otu.100.1644475667779;
+        Wed, 09 Feb 2022 22:47:47 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1644475667; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=c/lOFYfGiIiL/ZLxOJuMA4TwtQAjST/1SCuT2hGiwiCIpTcyhHeF/5hzrwwfixw8lD
+         58t9n686DfSks50oNS7EWJ5CwVqKeUxd631vqbit6rUEpyUA7dGkeQUyWns/kcL1552h
+         TTpX1dtiVY8fdeVDaVSIszNUtKuOOVLU1ZKL+Wuc3YiM4IjxgeWlYfGhbpBJFNWM0JRJ
+         c0SS35JPalvIPvAy1P+SyrNaUC2G8mHSv8NgFbfkbd20FYMygwsoylAsvkNa1qwHXVUX
+         lNKbiozcES17FEZpcDArLQTHCNuLkCb7lORXyw23gwRqy5dO3Wiqk2xtDdHPdPJ/KFB8
+         u2Uw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=reply-to:message-id:date:to:from:subject:content-transfer-encoding
+         :mime-version:dkim-signature:delivered-to:delivered-to;
+        bh=ZPiyT+NnV7uQZGaXyYwIZ+cJw7kzrLUVhKlia3QQxJU=;
+        b=B8mwJV57nwwTEAQIAMxzcokvgUt0Iww4Vzx/kMMbF6S1wnHnsiwee5yUtLjUK4I2Xs
+         2nf+XviJjIAi/Llu2krxENbwLMfK/aMbLl2c5bWwDDLZbrhIQz4yfvJLbhORPO5y0JF/
+         DWaj1XEYAAnlcCDygWsqLnd1eGrroZtXA/ck/k8gfGpTq5XWJPux2oVzXtPksz6439pJ
+         Vrt0VLP8jItthwDzOXzNmAOmE2u+4JzFGRZ2HKMUarK0lAktGWOFe6u8XQ+crjaGaaXB
+         /dLlaGjI4OlJ0kvcVyWyvrQssMh2cNMMRljduFvupBLEfjoj811eikZM6ohuGfv6dy0H
+         nW8g==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@precisionconference.com header.s=default header.b=Jqpl4esw;
+       arc=pass (i=1 spf=pass spfdomain=iis.ise.ritsumei.ac.jp dkim=pass dkdomain=precisionconference.com dmarc=pass fromdomain=precisionconference.com);
+       spf=pass (google.com: domain of atsu3.n9+caf_=atsuhiro.fujii.98=gmail.com@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom="atsu3.n9+caf_=atsuhiro.fujii.98=gmail.com@gmail.com";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=precisionconference.com
+Return-Path: <atsu3.n9+caf_=atsuhiro.fujii.98=gmail.com@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id az4sor10565394oib.53.2022.02.09.22.47.47
+        for <atsuhiro.fujii.98@gmail.com>
+        (Google Transport Security);
+        Wed, 09 Feb 2022 22:47:47 -0800 (PST)
+Received-SPF: pass (google.com: domain of atsu3.n9+caf_=atsuhiro.fujii.98=gmail.com@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@precisionconference.com header.s=default header.b=Jqpl4esw;
+       arc=pass (i=1 spf=pass spfdomain=iis.ise.ritsumei.ac.jp dkim=pass dkdomain=precisionconference.com dmarc=pass fromdomain=precisionconference.com);
+       spf=pass (google.com: domain of atsu3.n9+caf_=atsuhiro.fujii.98=gmail.com@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom="atsu3.n9+caf_=atsuhiro.fujii.98=gmail.com@gmail.com";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=precisionconference.com
+Authentication-Results: chpa1004.route-server.jp;
+	dmarc=pass (p=NONE sp=NONE) smtp.from=precisionconference.com header.from=precisionconference.com;
+	dkim=pass header.d=precisionconference.com;
+	spf=pass (sender IP is 192.99.67.26) smtp.mailfrom=imwut22a+log.6204b507b737185938d8d1a7@precisionconference.com smtp.helo=precisionconference.com
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:delivered-to:delivered-to:dkim-signature
+         :mime-version:content-transfer-encoding:subject:from:to:date
+         :message-id:reply-to;
+        bh=ZPiyT+NnV7uQZGaXyYwIZ+cJw7kzrLUVhKlia3QQxJU=;
+        b=d0jP6malUCaHm6TJrG30OcMoaAp55Pmt0TPUFZa6XTMm0/1OgWZtLUNJg79T3FiFdk
+         qtTmlUdbco2CHub/hiBo5U+v49bludnaauabPu/y5ZZEIb/j48XjT68aRGBNXLDd/67f
+         PyYLAeQWVnPSC7Y2bxkTQicO6Lu/MK6WrBFlSXbMEzQsYn57lZJGs69F/6GOIX1Qia0G
+         UcIUjDy4sffZzs0yZ+BT3IgKLCHVhnlhn6xEPM4xrSTtzz6ohx3xBWDFcXRZlYC0SIdS
+         /pvUx1I8uueVmWM46WknhGaiY0bDMWkZeHEmCq2z8qRyKXa34ybnLzhvB86y5v37J/Ox
+         q8Og==
+X-Gm-Message-State: AOAM532zt0mHSOghrwTAKukRggDhJ7KyTZoAlksRXdMZb9sxyu3qYphP
+	PS6lovNIFr1JP3ela+bUw+p3/4pSRj1ZY4kIknyu/hNLL8a7RBRBeg==
+X-Received: by 2002:a05:6808:154:: with SMTP id h20mr482973oie.103.1644475667073;
+        Wed, 09 Feb 2022 22:47:47 -0800 (PST)
+X-Forwarded-To: atsuhiro.fujii.98@gmail.com
+X-Forwarded-For: atsu3.n9@gmail.com atsuhiro.fujii.98@gmail.com
+Delivered-To: atsu3.n9@gmail.com
+Received: by 2002:a8a:139d:0:0:0:0:0 with SMTP id y29csp902276ocn;
+        Wed, 9 Feb 2022 22:47:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwi77Q450Ou2UDBAlEFeAElsqqIeGtNjSEGVVgesnTZP5uyT5m84Tfq1sbOmf4ug1zpeSJv
+X-Received: by 2002:a17:902:a413:: with SMTP id p19mr6177216plq.35.1644475665823;
+        Wed, 09 Feb 2022 22:47:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644475665; cv=none;
+        d=google.com; s=arc-20160816;
+        b=H7d7Fa+8aIHe2XVKNZU1uP01Kcxdvc2PAbpyMnYOwoVg3N96IFEte/I8Tctnb/oQns
+         YYalTJSs/Xu0pl/IuR2p+xhiF+55KV0ey7HeX0xlO4hNee4Epy0xD0n3wYWx0KDz70fz
+         /2dgPpCJYva3hN6Mw7bXDARXhJyGSS65X4SMvtuYcg+Y8twxDXcsJdvxbPYgpQhXsqYj
+         w6fYY92pqzPI+6f+I5xIoFPOlQVDBZEr0dtnS9qFWl9RGZKQCyZQau7gl9piaUAuQJrV
+         DQNMir2OOq6MVgjaQJpibeO6VVYtmXiR58htKi1VSexI/KdT1Z7d8qeKneRcg3lDjz9P
+         FDGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=reply-to:message-id:date:to:from:subject:content-transfer-encoding
+         :mime-version:dkim-signature:delivered-to;
+        bh=ZPiyT+NnV7uQZGaXyYwIZ+cJw7kzrLUVhKlia3QQxJU=;
+        b=esQDC+yDpcUqt+KSNIth3p0r4rPd83taRH8wNxG8WgvsZuh5h6PYgdNnxTM3k4sEVz
+         pVIjgXdt5L0UDUne14Ooyzme+xx/CApMg0ZOyAHmtk32APptsq3hoNarmlxdowvkZwIq
+         0RygauCRC5W2yd91NsdQKuj2Pq1saAR7Gmmdla4sQM6Qy+kXRFXX860pFZlJ49ue3IJL
+         rFwgwUW35TnLvdf+xNoYVOLAFDnqzHWtUXimplTzPV6U+UIaLUI+caB5CzIvtwlmyCxc
+         ul0/bNV7bTVPFXZQL4AvvUPe0xCreXT9HaHeGJWWGOe+ZpmyhVtM7YWxPc2W0+wLXOAu
+         5edw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@precisionconference.com header.s=default header.b=Jqpl4esw;
+       spf=pass (google.com: domain of srs0=7w0m=sz=precisionconference.com=imwut22a+log.6204b507b737185938d8d1a7@iis.ise.ritsumei.ac.jp designates 150.60.181.111 as permitted sender) smtp.mailfrom="SRS0=7W0M=SZ=precisionconference.com=imwut22a+log.6204b507b737185938d8d1a7@iis.ise.ritsumei.ac.jp";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=precisionconference.com
+Return-Path: <SRS0=7W0M=SZ=precisionconference.com=imwut22a+log.6204b507b737185938d8d1a7@iis.ise.ritsumei.ac.jp>
+Received: from chpa1004.route-server.jp (chpa1004.route-server.jp. [150.60.181.111])
+        by mx.google.com with ESMTPS id o126si16534836pfg.151.2022.02.09.22.47.45
+        for <atsu3.n9@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Feb 2022 22:47:45 -0800 (PST)
+Received-SPF: pass (google.com: domain of srs0=7w0m=sz=precisionconference.com=imwut22a+log.6204b507b737185938d8d1a7@iis.ise.ritsumei.ac.jp designates 150.60.181.111 as permitted sender) client-ip=150.60.181.111;
+Received: by chpa1004.route-server.jp (Postfix, from userid 30)
+	id 481052C01861F; Thu, 10 Feb 2022 15:47:44 +0900 (JST)
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	chpa1004.route-server.jp
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.2 required=7.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+	T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.4
+X-Original-To: atsuhiro.fujii@iis.ise.ritsumei.ac.jp
+Delivered-To: atsuhiro.fujii@iis.ise.ritsumei.ac.jp
+Received: from precisionconference.com (main.precisionconference.com [192.99.67.26])
+	by chpa1004.route-server.jp (Postfix) with ESMTP id 526D62C015604
+	for <atsuhiro.fujii@iis.ise.ritsumei.ac.jp>; Thu, 10 Feb 2022 15:47:39 +0900 (JST)
+Received-SPF: pass (chpa1004.route-server.jp: domain of precisionconference.com designates 192.99.67.26 as permitted sender) client-ip=192.99.67.26; envelope-from=imwut22a+log.6204b507b737185938d8d1a7@precisionconference.com; helo=precisionconference.com;
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=precisionconference.com; s=default; t=1644475656;
+	bh=rFJ/KTsS/2jrDgArL8aXyF58ZGi4LSwJkBqQmW3xH+0=;
+	h=Subject:From:To:Date:Reply-To:From;
+	b=Jqpl4eswuD0EWw5jUXmdKt15DSS7XC0MzLaX9kYNJp++lAObLtf0GyM8WG4SVSGf9
+	 4URXq3XSFcJG2cbU9Fi9nVv/8oouhApuAWqTd0nJQsSZOH4VMCaHBAbEOFjdQThXbn
+	 u3Nqg04VnGkFJkBXfaBkcfH4iiQcpQKZa+PbzV9U=
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Submission made to IMWUT 2022 (February 2022 round)
+From: IMWUT 2022 February 2022 <imwut22a@precisionconference.com>
+To: Atsuhiro Fujii <atsuhiro.fujii@iis.ise.ritsumei.ac.jp>
+Date: Thu, 10 Feb 2022 01:47:35 -0500
+Message-ID: <20220210064735.22840.48830.log.imwut22a.6204b507b737185938d8d1a7@dev.precisionconference.com>
+X-Auto-Response-Suppress: OOF
+Reply-To: murao@cs.ritsumei.ac.jp
+X-PCS-Bounce-To: murao@cs.ritsumei.ac.jp
+
+Kazuya Murao has made a submission to IMWUT 2022 (February 2022 round).  You are listed among the authors.  The submission is
+
+  #6306 - Pulse Wave Generation Method for PPG by using Display
+
+The IMWUT review process is described here: https://dl.acm.org/journal/imwut/reviewers. 
+
+IMWUT aims to send notifications before 8 weeks after the deadline, i.e. by Jan 10th for the Nov 15th deadlline, by Apr 11th for the Feb 15th deadline, by Jul 10th for the May 15th deadline, and by Oct 10 for the Aug 15th deadline. 
+
+You can log on to see the submission at
+
+  https://new.precisionconference.com/imwut
+
+(This is an automatically generated message.)
