@@ -1,0 +1,1 @@
+System implementation in which the target heart rate is manually set from a control application and the heart rate is input to the smartwatch on an artificial arm.
