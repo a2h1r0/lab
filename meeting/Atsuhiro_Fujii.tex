@@ -16,11 +16,42 @@
 \maketitle
 
 \section{進捗状況}
+いくつかネタを考えてました．
+
+\subsection{ネタ議論}
+↓ 現状，濃厚なやつ．
+\begin{itemize}
+  \item 脈波（血圧）を計測して気圧予測 → 低気圧頭痛の検知（論点：ストーリーライン）
+\end{itemize}
+PPG計測 → 交感神経優位である → 偏頭痛発症 \& 低気圧である \\
+の流れは考えられるが，ユースケースは？？？ \\
+https://gooday.nikkei.co.jp/atcl/report/14/091100018/041400036/
+
+\begin{itemize}
+  \item 血流速度を使ったジェスチャ認識
+  \item 目の周りの血管で眩しさ推定
+\end{itemize}
+
 
 \subsection{水量推定}
 校正済み2カラム7ページ原稿があります．
 どこの会議に出すかをご相談させていただきたいです．
 デバイスなどが返却後，状況不明なため追加実験は厳しそうです．
+
+
+\subsection{ABC2024}
+釣りネタ考える．
+
+\begin{itemize}
+  \item 船酔い検知
+  \item 船舶の揺れをPPGから推定
+  \item ルアーのタナ推定
+  \item アタリの魚推定
+  \item 海底までタナ別の海流を可視化（表層と底層で流れが異なる．ストラクチャーの影響も．）
+  \item 加速度から船のいる箇所の海流の推定
+  \item 気圧センサから干満を推定
+  \item アタリの魚推定の拡張で，根掛かりした瞬間に針を自動で見捨てるオートスプリットリングの設計
+\end{itemize}
 
 
 % \begin{figure*}[h]
@@ -32,10 +63,25 @@
 
 
 
+\section{マイルストーン}
+\begin{itemize}
+  \item \textbf{2023/11/21} 本命ネタFIX
+  \item \textbf{2023/11/30} 研究着手準備完了
+  \item \textbf{2024/06/xx} MoMM2024原稿提出（水量推定）
+\end{itemize}
+
+
+
 \begin{multicols}{2}
   \section{今週のアイデア}
   \begin{itemize}
-    \item 電話しているときに，インカメラを使って生体情報取得してなんやらする
+    \item エレベーターの階数移動をPPGから推定（新幹線などでも応用可能？）
+    \item 眼電位による酒酔い検知
+    \item 涙腺を使った眼疲労推定
+    \item 耳ツーン防止デバイス（偏頭痛解消）
+    \item 筋電を使った気温推定
+    \item 末端PPGによる気温推定（末端冷え性の要因は血流量減少）
+    \item 外眼筋電位による視力推定
   \end{itemize}
 
   \section{先週までのキープ案}
@@ -56,6 +102,9 @@
 
   \section{ボツ案}
   \begin{itemize}
+    \item ジェスチャ認識を加速度＋EMSで補正する
+    \item Cooking Activity Recognitionで無駄な動きの検出と，導線改良AIの実装
+    \item 電話しているときに，インカメラを使って生体情報取得してなんやらする
     \item 視線情報からのマイノリティ検出
     \item 運転中にキョロキョロする回数が少ないと警告
     \item 運動強度の可視化
