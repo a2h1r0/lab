@@ -1,4 +1,5 @@
 import pandas as pd
+from datetime import datetime
 import matplotlib.pyplot as plt
 import os
 os.chdir(os.path.dirname(__file__))
@@ -10,6 +11,7 @@ DATA_DIR = '../data/'
 
 def main():
     df = pd.read_csv(DATA_DIR + FILENAME, index_col='id')[:1000]
+    df['date'] = df['date'].apply(lambda date: datetime.fromisoformat(date))
 
     fig = plt.figure(figsize=(16, 9))
 
@@ -17,26 +19,24 @@ def main():
     eye_move.set_title('eye move')
     eye_move.set_xlabel('index')
     eye_move.set_ylabel('range')
-    eye_move.set_xlim(0, len(df.index))
+    eye_move.set_xlim(df['date'][0], df['date'][len(df) - 1])
     eye_move.set_ylim(-8, 8)
 
-    eye_move.plot(range(len(df.index)), df['eyeMoveUp'] -
+    eye_move.plot(df['date'], df['eyeMoveUp'] -
                   df['eyeMoveDown'], 'red', label='up down')
-    eye_move.plot(range(len(df.index)),
-                  df['eyeMoveLeft'] - df['eyeMoveRight'], 'blue', label='left right')
+    eye_move.plot(df['date'], df['eyeMoveLeft'] -
+                  df['eyeMoveRight'], 'blue', label='left right')
     eye_move.legend()
 
     blink = fig.add_subplot(2, 1, 2)
     blink.set_title('blink')
     blink.set_xlabel('index')
     blink.set_ylabel('power')
-    blink.set_xlim(0, len(df.index))
+    blink.set_xlim(df['date'][0], df['date'][len(df) - 1])
     blink.set_ylim(0, 300)
 
-    blink.plot(range(len(df.index)),
-               df['blink speed'], 'red', label='blinkSpeed')
-    blink.plot(range(len(df.index)),
-               df['blink strength'], 'blue', label='blinkStrength')
+    blink.plot(df['date'], df['blinkSpeed'], 'red', label='blink speed')
+    blink.plot(df['date'], df['blinkStrength'], 'blue', label='blink strength')
     blink.legend()
 
     plt.subplots_adjust(top=0.85, hspace=0.5)
