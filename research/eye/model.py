@@ -6,15 +6,16 @@ class Net(nn.Module):
     CNNモデル
 
     Args:
-        kernel_size (int): カーネルサイズ
+        input_size (int): 入力次元数
         output_classes (int): 出力クラス数
+        kernel_size (int): カーネルサイズ
     """
 
-    def __init__(self, kernel_size=3, output_classes=10):
+    def __init__(self, input_size, output_classes, kernel_size=3):
         super().__init__()
 
         self.conv1 = nn.Conv1d(
-            in_channels=1, out_channels=8, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
+            in_channels=input_size, out_channels=8, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
 
         self.relu = nn.ReLU()
         self.maxpool = nn.MaxPool1d(kernel_size=3)
