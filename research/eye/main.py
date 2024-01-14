@@ -1,16 +1,10 @@
 import numpy as np
 import pandas as pd
-# import torch
-# import torch.nn as nn
-# import torch.optim as optimizers
-# from sklearn.metrics import classification_report
-# from sklearn.metrics import confusion_matrix
-# import seaborn as sns
-# from model import Net
-# from preprocess import make_feature
-# from label_determination import majority_vote_sigmoid
+import torch
+import torch.nn as nn
+import torch.optim as optimizers
+from model import Net
 import matplotlib.pyplot as plt
-from natsort import natsorted
 import math
 import csv
 import glob
@@ -25,8 +19,10 @@ os.chdir(os.path.dirname(__file__))
 
 DATA_DIR = './data/'
 TRAIN_SUBJECTS = ['1', '2']
-TEST_SUBJECTS = ['3']
+TEST_SUBJECT = '3'
 
+
+EPOCH = 10  # エポック数
 
 FEATURE_SIZE = 4  # 特徴量次元数
 NUM_CLASSES = 2  # 分類クラス数
@@ -51,8 +47,10 @@ def make_train_data():
         with open(filename) as f:
             reader = csv.reader(f)
             next(reader)
-            data = [row for row in reader]
-        train_data.append(torch.tensor(data, dtype=torch.float, device=device))
+            data = [list(map(lambda value: float(value), row[3:8]))
+                    for row in reader]
+        train_data.append(torch.tensor(
+            data[:-1], dtype=torch.float, device=device))
         train_labels.append(get_label(filename))
 
     return train_data, train_labels
@@ -74,9 +72,10 @@ def make_test_data():
         with open(filename) as f:
             reader = csv.reader(f)
             next(reader)
-            data = [row for row in reader]
+            data = [list(map(lambda value: float(value), row[3:8]))
+                    for row in reader]
         test_data.append(torch.tensor(
-            feature_data, dtype=torch.float, device=device))
+            data[:-1], dtype=torch.float, device=device))
         test_labels.append(get_label(filename))
 
     return test_data, test_labels
@@ -110,16 +109,10 @@ def sigmoid_to_label(prediction):
 
 
 def main():
-    # 初期化
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    torch.manual_seed(1)
-
     # モデルの構築
-    model = models.Net(kernel_size=KERNEL,
-                       output_classes=NUM_CLASSES).to(device)
-    pos_weight = torch.ones([NUM_CLASSES_MACRO], device=device)
-    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
-    optimizer = optimizers.Adam(model.parameters(), lr=0.0002)
+    model = Net(input_size=FEATURE_SIZE, output_classes=NUM_CLASSES).to(device)
+    criterion = nn.BCEWithLogitsLoss()
+    optimizer = optimizers.Adam(model.parameters())
     sigmoid = nn.Sigmoid()
 
     def train():
@@ -183,10 +176,12 @@ def main():
 
 
 if __name__ == '__main__':
-    make_train_data()
+    # 初期化
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    torch.manual_seed(1)
 
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    result_file = '../result/{}.csv'.format(now)
+    result_file = './result/{}.csv'.format(now)
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
         result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
@@ -195,6 +190,7 @@ if __name__ == '__main__':
 
         main()
 
+        # todo: データ作成まで完成．学習開始処理から確認する．
         # このへん考える
         # 一旦loss_all, predictions, answersが正しいか確認し，データ保存処理考える
         # result_writer.writerow(['(Avg.)' + BOTTLE, sum(scores) / len(scores)])
