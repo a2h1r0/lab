@@ -206,9 +206,24 @@ def main():
         loss_all = train()
         predictions, answers, test_files = test()
 
+        # 結果の保存
         for filename, answer, prediction in zip(test_files, answers, predictions):
             result_writer.writerow(
                 [filename.split('\\')[-1], answer, prediction])
+
+    # Lossの描画
+    print('\nLossを描画します．．．\n')
+    plt.figure(figsize=(16, 9))
+    plt.plot(range(EPOCH), loss_all)
+    plt.xlabel('Epoch', fontsize=26)
+    plt.ylabel('Loss', fontsize=26)
+    plt.tick_params(labelsize=26)
+    plt.legend(fontsize=26, loc='upper right')
+    plt.savefig('./result/{}.eps'.format(now),
+                bbox_inches='tight', pad_inches=0)
+    plt.savefig('./result/{}.svg'.format(now),
+                bbox_inches='tight', pad_inches=0)
+    plt.close()
 
 
 if __name__ == '__main__':
