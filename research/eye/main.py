@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import torch
 import torch.nn as nn
+import torch.nn.utils.rnn as rnn
 import torch.optim as optimizers
 from model import Net
 import matplotlib.pyplot as plt
@@ -22,10 +23,10 @@ TRAIN_SUBJECTS = ['1', '2']
 TEST_SUBJECT = '3'
 
 
-EPOCH = 10  # エポック数
+EPOCH = 2  # エポック数
 
-FEATURE_SIZE = 4  # 特徴量次元数
-NUM_CLASSES = 2  # 分類クラス数
+FEATURE_SIZE = 6  # 特徴量次元数
+NUM_CLASSES = 1  # 分類クラス数
 
 EPOCH_NUM = 100  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
@@ -36,8 +37,8 @@ def make_train_data():
     学習データの作成
 
     Returns:
-        array: 学習データ
-        array: 学習データラベル
+        list: 学習データ
+        list: 学習データラベル
     """
 
     train_data, train_labels = [], []
@@ -47,11 +48,11 @@ def make_train_data():
         with open(filename) as f:
             reader = csv.reader(f)
             next(reader)
-            data = [list(map(lambda value: float(value), row[3:8]))
+            data = [list(map(lambda value: float(value), row[2:8]))
                     for row in reader]
         train_data.append(torch.tensor(
             data[:-1], dtype=torch.float, device=device))
-        train_labels.append(get_label(filename))
+        train_labels.append(label_to_onehot(filename))
 
     return train_data, train_labels
 
@@ -61,8 +62,9 @@ def make_test_data():
     テストデータの作成
 
     Returns:
-        array: テストデータ
-        array: テストデータラベル
+        list: テストデータ
+        list: テストデータラベル
+        list: テストファイル名
     """
 
     test_data, test_labels = [], []
@@ -72,40 +74,58 @@ def make_test_data():
         with open(filename) as f:
             reader = csv.reader(f)
             next(reader)
-            data = [list(map(lambda value: float(value), row[3:8]))
+            data = [list(map(lambda value: float(value), row[2:8]))
                     for row in reader]
         test_data.append(torch.tensor(
             data[:-1], dtype=torch.float, device=device))
-        test_labels.append(get_label(filename))
+        test_labels.append(label_to_onehot(filename))
 
-    return test_data, test_labels
+    return test_data, test_labels, files
 
 
-def get_label(filename):
+def label_to_onehot(label):
     """
-    ラベルの作成
+    ワンホットラベルの作成
 
     Args:
-        filename (string): 読み込んだファイル名
+        label (string): 読み込んだラベル
+    Returns:
+        list: ワンホットラベル
+    """
+
+    if NUM_CLASSES == 1:
+        label = [int('drunk' in label)]
+
+    return label
+
+
+def sigmoid_to_onehot(prediction):
+    """
+    シグモイド予測値のワンホットラベル化
+
+    Args:
+        prediction (list): シグモイド予測
+    Returns:
+        list: ワンホットラベル
+    """
+
+    return list(map(lambda value: int(value > 0.5), prediction))
+
+
+def onehot_to_label(classes):
+    """
+    ワンホットラベルのラベル化
+
+    Args:
+        classes (list): ワンホットラベル
     Returns:
         int: ラベル
     """
 
-    return int('drunk' in filename)
+    if NUM_CLASSES == 1:
+        label = int(classes[0])
 
-
-def sigmoid_to_label(prediction):
-    """
-    シグモイド予測値のラベル化
-
-    Args:
-        label (int): シグモイド予測
-    Returns:
-        array: 結果ラベル
-    """
-
-    # 0.5とかで切ったら良さそう
-    return np.argmax(prediction) + 1
+    return label
 
 
 def main():
@@ -126,11 +146,12 @@ def main():
         model.train()
         print('\n***** 学習開始 *****')
 
+        loss_all = []
         for epoch in range(EPOCH):
-            inputs = torch.tensor(
-                train_data, dtype=torch.float, device=device).view(-1, 1, FEATURE_SIZE)
+            inputs = torch.tensor(rnn.pad_sequence(
+                train_data), dtype=torch.float, device=device).view(len(train_data), FEATURE_SIZE, -1)
             labels = torch.tensor(
-                train_labels, dtype=torch.long, device=device)
+                train_labels, dtype=torch.float, device=device)
 
             optimizer.zero_grad()
             outputs = model(inputs)
@@ -144,21 +165,25 @@ def main():
 
         print('\n----- 終了 -----\n')
 
+        return loss_all
+
     def test():
         """
         モデルのテスト
         """
 
         # データの読み込み
-        test_data, test_labels = make_test_data()
+        test_data, test_labels, test_files = make_test_data()
 
         model.eval()
         print('\n***** テスト *****')
 
+        predictions, answers = [], []
         with torch.no_grad():
-            inputs = torch.tensor(
-                test_data, dtype=torch.float, device=device).view(-1, 1, FEATURE_SIZE)
-            labels = torch.tensor(test_labels, dtype=torch.long, device=device)
+            inputs = torch.tensor(rnn.pad_sequence(
+                test_data), dtype=torch.float, device=device).view(len(test_data), FEATURE_SIZE, -1)
+            labels = torch.tensor(
+                test_labels, dtype=torch.float, device=device)
 
             optimizer.zero_grad()
             outputs = model(inputs)
@@ -166,19 +191,11 @@ def main():
 
             labels = labels.to('cpu').detach().numpy().copy()
             outputs = outputs.to('cpu').detach().numpy().copy()
-            answers, predictions = [], []
             for label, output in zip(labels, outputs):
-                answers.append(label)
-                predictions.append(sigmoid_to_label(output))
+                answers.append(onehot_to_label(label))
+                predictions.append(onehot_to_label(sigmoid_to_onehot(output)))
 
-    train()
-    test()
-
-
-if __name__ == '__main__':
-    # 初期化
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    torch.manual_seed(1)
+        return predictions, answers, test_files
 
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
     result_file = './result/{}.csv'.format(now)
@@ -186,11 +203,17 @@ if __name__ == '__main__':
         result_writer = csv.writer(f)
         result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
 
-        loss_all, predictions, answers = [], [], []
+        loss_all = train()
+        predictions, answers, test_files = test()
 
-        main()
+        for filename, answer, prediction in zip(test_files, answers, predictions):
+            result_writer.writerow(
+                [filename.split('\\')[-1], answer, prediction])
 
-        # todo: データ作成まで完成．学習開始処理から確認する．
-        # このへん考える
-        # 一旦loss_all, predictions, answersが正しいか確認し，データ保存処理考える
-        # result_writer.writerow(['(Avg.)' + BOTTLE, sum(scores) / len(scores)])
+
+if __name__ == '__main__':
+    # 初期化
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    torch.manual_seed(1)
+
+    main()
