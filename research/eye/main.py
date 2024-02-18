@@ -4,6 +4,7 @@ import torch
 import torch.nn as nn
 import torch.nn.utils.rnn as rnn
 import torch.optim as optimizers
+from sklearn.metrics import accuracy_score
 from model import Net
 import matplotlib.pyplot as plt
 import math
@@ -19,16 +20,15 @@ os.chdir(os.path.dirname(__file__))
 
 
 DATA_DIR = './data/'
-TRAIN_SUBJECTS = ['1', '2']
-TEST_SUBJECT = '3'
+TRAIN_SUBJECTS = ['1']
+TEST_SUBJECT = '1'
 
 
-EPOCH = 2  # エポック数
+EPOCH = 100  # エポック数
 
 FEATURE_SIZE = 6  # 特徴量次元数
 NUM_CLASSES = 1  # 分類クラス数
 
-EPOCH_NUM = 100  # 学習サイクル数
 HIDDEN_SIZE = 24  # 隠れ層数
 
 
@@ -210,6 +210,8 @@ def main():
         for filename, answer, prediction in zip(test_files, answers, predictions):
             result_writer.writerow(
                 [filename.split('\\')[-1], answer, prediction])
+        result_writer.writerow(
+            ['(Accuracy)', accuracy_score(answers, predictions)])
 
     # Lossの描画
     print('\nLossを描画します．．．\n')
