@@ -43,7 +43,7 @@ def make_train_data():
 
     train_data, train_labels = [], []
     files = glob.glob(
-        '{0}/drink/subject_[{1}]/*/*.csv'.format(DATA_DIR, ''.join(TRAIN_SUBJECTS)))
+        '{0}/subject_[{1}]/*/*.csv'.format(DATA_DIR, ''.join(TRAIN_SUBJECTS)))
     for filename in files:
         with open(filename) as f:
             reader = csv.reader(f)
@@ -69,7 +69,7 @@ def make_test_data():
 
     test_data, test_labels = [], []
     files = glob.glob(
-        '{0}/drink/subject_[{1}]/*/*.csv'.format(DATA_DIR, ''.join(TEST_SUBJECT)))
+        '{0}/subject_[{1}]/*/*.csv'.format(DATA_DIR, ''.join(TEST_SUBJECT)))
     for filename in files:
         with open(filename) as f:
             reader = csv.reader(f)
