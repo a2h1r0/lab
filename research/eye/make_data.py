@@ -12,8 +12,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-RAW_DIR = './data/raw/'
-SAVE_DIR = './data/preprocess/window_30/'
+RAW_DIR = './data/raw'
+SAVE_DIR = './data/preprocess/window_30'
 
 
 WINDOW_SIZE = 30  # ウィンドウサイズ（秒）
@@ -33,34 +33,53 @@ def preprocess():
     files = glob.glob(f'{RAW_DIR}/**/*.csv', recursive=True)
 
     for filename in files:
-        save_dir = os.path.dirname(filename).replace(RAW_DIR, SAVE_DIR)
+        # with open(filename) as f:
+        #     reader = csv.reader(f)
+        #     next(reader)
+        #     # データファイルの最終行が空行
+        #     raw = [row[1:8] for row in reader][:-1]
 
-        with open(filename) as f:
-            reader = csv.reader(f)
-            next(reader)
-            # データファイルの最終行が空行
-            raw = [row[1:8] for row in reader][:-1]
+        # data = slide_window(raw, make_label(filename))
 
-        data, labels = slide_window(raw, filename)
+        save_file = filename.replace(RAW_DIR, SAVE_DIR)
+        if not os.path.exists(os.path.dirname(save_file)):
+            os.makedirs(os.path.dirname(save_file))
 
-        with open(result_file, 'w', newline='') as f:
+        with open(save_file, 'w', newline='') as f:
             result_writer = csv.writer(f)
-            result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
+            result_writer.writerow(['start_index', 'eyeMoveUp', 'eyeMoveDown',
+                                   'eyeMoveLeft', 'eyeMoveRight', 'blinkSpeed', 'blinkStrength', 'label'])
 
-            loss_all = train()
-            predictions, answers, test_files = test()
+            # 書き込み処理実装
+            # start_indexより，ローデータのid使ってstart_idのほうが良さそう
+            # 書き込み処理はmainで行う？
 
-            # 結果の保存
-            for filename, answer, prediction in zip(test_files, answers, predictions):
-                result_writer.writerow(
-                    [filename.split('\\')[-1], answer, prediction])
-            result_writer.writerow(
-                ['(Accuracy)', accuracy_score(answers, predictions)])
+            # # 結果の保存
+            # for filename, answer, prediction in zip(test_files, answers, predictions):
+            #     result_writer.writerow(
+            #         [filename.split('\\')[-1], answer, prediction])
+            # result_writer.writerow(
+            #     ['(Accuracy)', accuracy_score(answers, predictions)])
 
-        train_data.extend(data)
-        train_labels.extend(labels)
 
-    return train_data, train_labels
+def make_label(string):
+    """
+    ラベルの生成
+
+    Args:
+        string (string): 識別情報
+    Returns:
+        string: ラベル
+    """
+
+    label = ''
+
+    if 'drunk' in string:
+        label = 'drunk'
+    else:
+        label = 'sober'
+
+    return label
 
 
 def slide_window(raw, label):
@@ -75,7 +94,6 @@ def slide_window(raw, label):
     """
 
     data = []
-    labels = []
 
     for start_index, start in enumerate(raw):
         start_time = datetime.datetime.fromisoformat(start[0])
@@ -86,17 +104,17 @@ def slide_window(raw, label):
             time = datetime.datetime.fromisoformat(row[0])
             if time > end_time:
                 break
-            window.append(list(map(lambda value: float(value), row[1:])))
+            window.append(
+                [start_index, *list(map(lambda value: float(value), row[1:])), label])
             end_index = start_index + index
 
-        data.append(torch.tensor(window, dtype=torch.float, device=device))
-        labels.append(label_to_onehot(label))
+        data.extend(window)
 
         # 末尾到達
         if end_index == len(raw) - 1:
             break
 
-    return data, labels
+    return data
 
 
 def main():
