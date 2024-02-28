@@ -62,11 +62,15 @@ def preprocess(filename):
 
         data = []
 
-        # todo: start_indexの増分変更
+        next_start_time = None
         for start_index, start in enumerate(raw):
-            start_id = raw[start_index][0]
             start_time = datetime.datetime.fromisoformat(start[1])
+            if next_start_time and start_time < next_start_time:
+                continue
+
+            start_id = raw[start_index][0]
             end_time = start_time + datetime.timedelta(seconds=WINDOW_SIZE)
+            next_start_time = start_time + datetime.timedelta(seconds=STEP)
 
             window = []
             for index, row in enumerate(raw[start_index:]):
