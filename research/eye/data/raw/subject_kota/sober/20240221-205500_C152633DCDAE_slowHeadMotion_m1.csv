@@ -1,0 +1,10 @@
+date,type,subType,value
+20240221-205506,slowHeadTilting,forward,1
+20240221-205508,slowHeadTilting,forward,-1
+20240221-205529,slowHeadTilting,right,1
+20240221-205531,slowHeadTilting,right,-1
+20240221-205532,slowHeadTilting,right,1
+20240221-205533,slowHeadTilting,right,-1
+20240221-205533,slowHeadTilting,right,1
+20240221-205537,slowHeadTilting,right,-1
+

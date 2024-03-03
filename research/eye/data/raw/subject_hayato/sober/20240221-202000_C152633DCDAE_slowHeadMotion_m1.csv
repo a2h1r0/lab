@@ -1,0 +1,12 @@
+date,type,subType,value
+20240221-202001,slowHeadTilting,backward,1
+20240221-202003,slowHeadTilting,backward,-1
+20240221-202005,slowHeadTilting,backward,1
+20240221-202006,slowHeadTilting,backward,-1
+20240221-202025,slowHeadTilting,forward,1
+20240221-202029,slowHeadTilting,forward,-1
+20240221-202031,slowHeadTilting,forward,1
+20240221-202032,slowHeadTilting,forward,-1
+20240221-202033,slowHeadTilting,forward,1
+20240221-202034,slowHeadTilting,forward,-1
+
