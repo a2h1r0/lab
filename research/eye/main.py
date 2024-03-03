@@ -20,8 +20,8 @@ os.chdir(os.path.dirname(__file__))
 
 
 DATA_DIR = './data/preprocess/window_30/'
-TRAIN_SUBJECTS = ['guchi', 'hayato', 'kota', 'yusuke']
-TEST_SUBJECTS = ['guchi', 'hayato', 'kota', 'yusuke']
+TRAIN_SUBJECTS = ['1', '2', '3', '4']
+TEST_SUBJECTS = ['1', '2', '3', '4']
 
 
 EPOCH = 5000  # エポック数
