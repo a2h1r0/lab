@@ -78,7 +78,7 @@ def preprocess(filename):
                 if time > end_time:
                     break
                 window.append(
-                    [start_id, *list(map(lambda value: float(value), row[2:])), label])
+                    [start_id, label, *list(map(lambda value: float(value), row[2:]))])
                 end_index = start_index + index
 
             data.extend(window)
@@ -114,8 +114,8 @@ def save_data(filename, data):
 
     with open(filename, 'w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['start_id', 'eyeMoveUp', 'eyeMoveDown', 'eyeMoveLeft',
-                        'eyeMoveRight', 'blinkSpeed', 'blinkStrength', 'label'])
+        writer.writerow(['start_id', 'label', 'eyeMoveUp', 'eyeMoveDown',
+                        'eyeMoveLeft', 'eyeMoveRight', 'blinkSpeed', 'blinkStrength'])
         writer.writerows(data)
 
 
