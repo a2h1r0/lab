@@ -42,6 +42,21 @@ def load_data(subjects):
         list: ファイル名
     """
 
+    def label_to_onehot(label):
+        """
+        ワンホットラベルの作成
+
+        Args:
+            label (string): 読み込んだラベル
+        Returns:
+            list: ワンホットラベル
+        """
+
+        if NUM_CLASSES == 1:
+            label = [int('drunk' in label)]
+
+        return label
+
     data, labels = [], []
     files = glob.glob(f'{DATA_DIR}/subject_[{"".join(subjects)}]/*/*.csv')
 
@@ -66,120 +81,98 @@ def load_data(subjects):
     return data, labels, files
 
 
-def label_to_onehot(label):
+def train():
     """
-    ワンホットラベルの作成
-
-    Args:
-        label (string): 読み込んだラベル
-    Returns:
-        list: ワンホットラベル
+    モデルの学習
     """
 
-    if NUM_CLASSES == 1:
-        label = [int('drunk' in label)]
+    # データの読み込み
+    train_data, train_labels, _ = load_data(TRAIN_SUBJECTS)
 
-    return label
+    model.train()
+    print('\n***** 学習開始 *****')
+
+    loss_all = []
+    for epoch in range(EPOCH):
+        inputs = torch.tensor(rnn.pad_sequence(
+            train_data), dtype=torch.float, device=device).view(len(train_data), FEATURE_SIZE, -1)
+        labels = torch.tensor(
+            train_labels, dtype=torch.float, device=device)
+
+        optimizer.zero_grad()
+        outputs = model(inputs)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+
+        loss_all.append(loss.item())
+        if (epoch + 1) % 10 == 0:
+            print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
+
+    print('\n----- 終了 -----\n')
+
+    return loss_all
 
 
-def sigmoid_to_onehot(prediction):
+def test():
     """
-    シグモイド予測値のワンホットラベル化
-
-    Args:
-        prediction (list): シグモイド予測
-    Returns:
-        list: ワンホットラベル
+    モデルのテスト
     """
 
-    return list(map(lambda value: int(value > 0.5), prediction))
+    def sigmoid_to_onehot(prediction):
+        """
+        シグモイド予測値のワンホットラベル化
 
+        Args:
+            prediction (list): シグモイド予測
+        Returns:
+            list: ワンホットラベル
+        """
 
-def onehot_to_label(classes):
-    """
-    ワンホットラベルのラベル化
+        return list(map(lambda value: int(value > 0.5), prediction))
 
-    Args:
-        classes (list): ワンホットラベル
-    Returns:
-        int: ラベル
-    """
+    def onehot_to_label(classes):
+        """
+        ワンホットラベルのラベル化
 
-    if NUM_CLASSES == 1:
-        label = int(classes[0])
+        Args:
+            classes (list): ワンホットラベル
+        Returns:
+            int: ラベル
+        """
 
-    return label
+        if NUM_CLASSES == 1:
+            label = int(classes[0])
+
+        return label
+
+    # データの読み込み
+    test_data, test_labels, test_files = load_data(TEST_SUBJECTS)
+
+    model.eval()
+    print('\n***** テスト *****')
+
+    predictions, answers = [], []
+    with torch.no_grad():
+        inputs = torch.tensor(rnn.pad_sequence(
+            test_data), dtype=torch.float, device=device).view(len(test_data), FEATURE_SIZE, -1)
+        labels = torch.tensor(
+            test_labels, dtype=torch.float, device=device)
+
+        optimizer.zero_grad()
+        outputs = model(inputs)
+        outputs = sigmoid(outputs)
+
+        labels = labels.to('cpu').detach().numpy().copy()
+        outputs = outputs.to('cpu').detach().numpy().copy()
+        for label, output in zip(labels, outputs):
+            answers.append(onehot_to_label(label))
+            predictions.append(onehot_to_label(sigmoid_to_onehot(output)))
+
+    return predictions, answers, test_files
 
 
 def main():
-    # モデルの構築
-    model = Net(input_size=FEATURE_SIZE, output_classes=NUM_CLASSES).to(device)
-    criterion = nn.BCEWithLogitsLoss()
-    optimizer = optimizers.Adam(model.parameters())
-    sigmoid = nn.Sigmoid()
-
-    def train():
-        """
-        モデルの学習
-        """
-
-        # データの読み込み
-        train_data, train_labels, _ = load_data(TRAIN_SUBJECTS)
-
-        model.train()
-        print('\n***** 学習開始 *****')
-
-        loss_all = []
-        for epoch in range(EPOCH):
-            inputs = torch.tensor(rnn.pad_sequence(
-                train_data), dtype=torch.float, device=device).view(len(train_data), FEATURE_SIZE, -1)
-            labels = torch.tensor(
-                train_labels, dtype=torch.float, device=device)
-
-            optimizer.zero_grad()
-            outputs = model(inputs)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
-
-            loss_all.append(loss.item())
-            if (epoch + 1) % 10 == 0:
-                print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
-
-        print('\n----- 終了 -----\n')
-
-        return loss_all
-
-    def test():
-        """
-        モデルのテスト
-        """
-
-        # データの読み込み
-        test_data, test_labels, test_files = load_data(TEST_SUBJECTS)
-
-        model.eval()
-        print('\n***** テスト *****')
-
-        predictions, answers = [], []
-        with torch.no_grad():
-            inputs = torch.tensor(rnn.pad_sequence(
-                test_data), dtype=torch.float, device=device).view(len(test_data), FEATURE_SIZE, -1)
-            labels = torch.tensor(
-                test_labels, dtype=torch.float, device=device)
-
-            optimizer.zero_grad()
-            outputs = model(inputs)
-            outputs = sigmoid(outputs)
-
-            labels = labels.to('cpu').detach().numpy().copy()
-            outputs = outputs.to('cpu').detach().numpy().copy()
-            for label, output in zip(labels, outputs):
-                answers.append(onehot_to_label(label))
-                predictions.append(onehot_to_label(sigmoid_to_onehot(output)))
-
-        return predictions, answers, test_files
-
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
     result_file = './result/{}.csv'.format(now)
     with open(result_file, 'w', newline='') as f:
@@ -215,5 +208,11 @@ if __name__ == '__main__':
     # 初期化
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     torch.manual_seed(1)
+
+    # モデルの構築
+    model = Net(input_size=FEATURE_SIZE, output_classes=NUM_CLASSES).to(device)
+    criterion = nn.BCEWithLogitsLoss()
+    optimizer = optimizers.Adam(model.parameters())
+    sigmoid = nn.Sigmoid()
 
     main()
