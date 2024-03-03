@@ -19,9 +19,9 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = './data/'
+DATA_DIR = './data/preprocess/window_30/'
 TRAIN_SUBJECTS = ['1']
-TEST_SUBJECT = '1'
+TEST_SUBJECT = ['1']
 
 
 EPOCH = 100  # エポック数
@@ -32,7 +32,7 @@ NUM_CLASSES = 1  # 分類クラス数
 HIDDEN_SIZE = 24  # 隠れ層数
 
 
-def make_train_data():
+def load_data(subjects):
     """
     学習データの作成
 
@@ -41,20 +41,28 @@ def make_train_data():
         list: 学習データラベル
     """
 
-    train_data, train_labels = [], []
-    files = glob.glob(
-        '{0}/subject_[{1}]/*/*.csv'.format(DATA_DIR, ''.join(TRAIN_SUBJECTS)))
+    data, labels = [], []
+    files = glob.glob(f'{DATA_DIR}/subject_[{"".join(subjects)}]/*/*.csv')
+
+    window = []
+    start_id = None
     for filename in files:
         with open(filename) as f:
             reader = csv.reader(f)
             next(reader)
-            data = [list(map(lambda value: float(value), row[2:8]))
-                    for row in reader]
-        train_data.append(torch.tensor(
-            data[:-1], dtype=torch.float, device=device))
-        train_labels.append(label_to_onehot(filename))
+            for row in reader:
+                if start_id and row[0] != start_id:
+                    window_tensor = torch.tensor(
+                        window, dtype=torch.float, device=device)
+                    data.append(window_tensor)
+                    labels.append(label_to_onehot(filename))
 
-    return train_data, train_labels
+                    window = []
+
+                start_id = row[0]
+                window.append(list(map(lambda value: float(value), row[2:])))
+
+    return data, labels
 
 
 def make_test_data():
@@ -141,7 +149,7 @@ def main():
         """
 
         # データの読み込み
-        train_data, train_labels = make_train_data()
+        train_data, train_labels = load_data(TRAIN_SUBJECTS)
 
         model.train()
         print('\n***** 学習開始 *****')
