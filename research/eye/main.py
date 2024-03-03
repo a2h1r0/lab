@@ -24,7 +24,7 @@ TRAIN_SUBJECTS = ['1']
 TEST_SUBJECTS = ['1']
 
 
-EPOCH = 10  # エポック数
+EPOCH = 5000  # エポック数
 
 FEATURE_SIZE = 6  # 特徴量次元数
 NUM_CLASSES = 1  # 分類クラス数
