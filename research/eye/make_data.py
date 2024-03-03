@@ -120,7 +120,8 @@ def save_data(filename, data):
 
 
 def main():
-    files = glob.glob(f'{RAW_DIR}/**/*.csv', recursive=True)
+    files = glob.glob(
+        f'{RAW_DIR}/**/*_C152633DCDAE_currentData_m1.csv', recursive=True)
 
     for filename in files:
         data = preprocess(filename)
