@@ -19,12 +19,12 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = './data/preprocess/window_30/'
-TRAIN_SUBJECTS = ['1', '2', '3', '4']
-TEST_SUBJECTS = ['1', '2', '3', '4']
+DATA_DIR = './data/preprocess/window_10/'
+TRAIN_SUBJECTS = ['1', '2', '3']
+TEST_SUBJECTS = ['4']
 
 
-EPOCH = 10000  # エポック数
+EPOCH = 2000  # エポック数
 
 FEATURE_SIZE = 6  # 特徴量次元数
 NUM_CLASSES = 1  # 分類クラス数
@@ -39,7 +39,7 @@ def load_data(subjects):
     Returns:
         list: データ
         list: データラベル
-        list: ファイル名
+        list: ウィンドウ情報
     """
 
     def label_to_onehot(label):
@@ -60,8 +60,8 @@ def load_data(subjects):
     data, labels = [], []
     files = glob.glob(f'{DATA_DIR}/subject_[{"".join(subjects)}]/*/*.csv')
 
-    window = []
     start_id = None
+    index, window = [], []
     for filename in files:
         with open(filename) as f:
             reader = csv.reader(f)
@@ -70,6 +70,7 @@ def load_data(subjects):
                 if start_id and row[0] != start_id:
                     window_tensor = torch.tensor(
                         window, dtype=torch.float, device=device)
+                    index.append({'filename': filename, 'start_id': start_id})
                     data.append(window_tensor)
                     labels.append(label_to_onehot(filename))
 
@@ -78,7 +79,7 @@ def load_data(subjects):
                 start_id = row[0]
                 window.append(list(map(lambda value: float(value), row[2:])))
 
-    return data, labels, files
+    return data, labels, index
 
 
 def train():
@@ -147,7 +148,7 @@ def test():
         return label
 
     # データの読み込み
-    test_data, test_labels, test_files = load_data(TEST_SUBJECTS)
+    test_data, test_labels, test_index = load_data(TEST_SUBJECTS)
 
     model.eval()
     print('\n***** テスト *****')
@@ -169,7 +170,7 @@ def test():
             answers.append(onehot_to_label(label))
             predictions.append(onehot_to_label(sigmoid_to_onehot(output)))
 
-    return predictions, answers, test_files
+    return predictions, answers, test_index
 
 
 def main():
@@ -177,15 +178,15 @@ def main():
     result_file = './result/{}.csv'.format(now)
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
-        result_writer.writerow(['TestFile', 'Answer', 'Prediction'])
+        result_writer.writerow(['Filename', 'Window', 'Answer', 'Prediction'])
 
         loss_all = train()
-        predictions, answers, test_files = test()
+        predictions, answers, test_index = test()
 
         # 結果の保存
-        for filename, answer, prediction in zip(test_files, answers, predictions):
+        for index, answer, prediction in zip(test_index, answers, predictions):
             result_writer.writerow(
-                [filename.split('\\')[-1], answer, prediction])
+                [index['filename'].split('\\')[-1], index['start_id'], answer, prediction])
         result_writer.writerow(
             ['(Accuracy)', accuracy_score(answers, predictions)])
 

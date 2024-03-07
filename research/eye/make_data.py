@@ -12,12 +12,12 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-RAW_DIR = './data/raw'
-SAVE_DIR = './data/preprocess/window_30'
-
-
-WINDOW_SIZE = 30  # ウィンドウサイズ（秒）
+WINDOW_SIZE = 10  # ウィンドウサイズ（秒）
 STEP = 3  # ステップ幅（秒）
+
+
+RAW_DIR = './data/raw'
+SAVE_DIR = f'./data/preprocess/window_{WINDOW_SIZE}'
 
 
 def preprocess(filename):
