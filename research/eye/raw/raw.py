@@ -5,8 +5,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-FILENAME = '20231223-153208_C152633DCDAE_currentData.csv'
-DATA_DIR = '../data/'
+FILENAME = '20240221-204100_C152633DCDAE_currentData_m1.csv'
+DATA_DIR = '../data/raw/subject_1/sober/'
 
 
 def main():
