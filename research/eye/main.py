@@ -85,6 +85,9 @@ def load_data(subjects):
 def train():
     """
     モデルの学習
+
+    Returns:
+        list: Loss
     """
 
     # データの読み込み
@@ -93,7 +96,7 @@ def train():
     model.train()
     print('\n***** 学習開始 *****')
 
-    loss_all = []
+    loss_list = []
     for epoch in range(EPOCH):
         inputs = torch.tensor(rnn.pad_sequence(
             train_data), dtype=torch.float, device=device).view(len(train_data), FEATURE_SIZE, -1)
@@ -106,18 +109,23 @@ def train():
         loss.backward()
         optimizer.step()
 
-        loss_all.append(loss.item())
+        loss_list.append(loss.item())
         if (epoch + 1) % 10 == 0:
             print('Epoch: {} / Loss: {:.3f}'.format(epoch + 1, loss.item()))
 
     print('\n----- 終了 -----\n')
 
-    return loss_all
+    return loss_list
 
 
 def test():
     """
     モデルのテスト
+
+    Returns:
+        list: モデルアウトプット
+        list: 正解ラベル
+        list: ウィンドウ情報
     """
 
     def sigmoid_to_onehot(prediction):
@@ -180,7 +188,7 @@ def main():
         result_writer = csv.writer(f)
         result_writer.writerow(['Filename', 'Window', 'Answer', 'Prediction'])
 
-        loss_all = train()
+        loss_list = train()
         predictions, answers, test_index = test()
 
         # 結果の保存
@@ -193,7 +201,7 @@ def main():
     # Lossの描画
     print('\nLossを描画します．．．\n')
     plt.figure(figsize=(16, 9))
-    plt.plot(range(EPOCH), loss_all)
+    plt.plot(range(EPOCH), loss_list)
     plt.xlabel('Epoch', fontsize=26)
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
