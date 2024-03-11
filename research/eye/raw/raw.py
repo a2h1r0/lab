@@ -5,7 +5,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-FILENAME = '20240221-204100_C152633DCDAE_currentData_m1.csv'
+FILENAME = '20240221-204300_C152633DCDAE_currentData_m1.csv'
 DATA_DIR = '../data/raw/subject_1/sober/'
 
 
@@ -40,7 +40,7 @@ def main():
     blink.legend()
 
     plt.subplots_adjust(top=0.85, hspace=0.5)
-    # plt.savefig('../figures/power.png', bbox_inches='tight', pad_inches=0)
+    plt.savefig('../figures/result.png', bbox_inches='tight', pad_inches=0)
     plt.show()
 
 
