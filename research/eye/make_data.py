@@ -108,7 +108,7 @@ def save_data(save_dir, data):
         with open(filename, 'w', newline='') as f:
             writer = csv.writer(f)
             writer.writerow(USE_COLUMNS + ['label'])
-            writer.writerows(data)
+            writer.writerows(window)
 
 
 def main():
