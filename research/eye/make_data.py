@@ -12,7 +12,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-WINDOW_SIZE = 10  # ウィンドウサイズ（秒）
+WINDOW_SIZE = 30  # ウィンドウサイズ（秒）
 STEP = 3  # ステップ幅（秒）
 USE_COLUMNS = [
     'Recording timestamp', 'Recording date', 'Gaze point X', 'Gaze point Y', 'Gaze point left X', 'Gaze point left Y', 'Gaze point right X', 'Gaze point right Y', 'Gaze direction left X', 'Gaze direction left Y', 'Gaze direction left Z', 'Gaze direction right X', 'Gaze direction right Y', 'Gaze direction right Z', 'Pupil diameter left', 'Pupil diameter right'
@@ -76,21 +76,10 @@ def preprocess(filename):
 
             window = raw[(start_time <= raw['Recording timestamp'])
                          & (raw['Recording timestamp'] < end_time)]
-            # ここまでOK
-
-            # window = []
-            # for index, row in enumerate(raw[start_index:]):
-            #     time = datetime.datetime.fromisoformat(row[1])
-            #     if time > end_time:
-            #         break
-            window.append(
-                [start_time, label, *list(map(lambda value: float(value), row[2:]))])
-            # end_index = start_index + index
-
-            data.extend(window)
+            data.extend([window.assign(label=label).values.tolist()])
 
             # 末尾到達
-            if end_index == len(raw) - 1:
+            if window.iloc[-1].name == len(raw.index) - 1:
                 break
 
         return data
@@ -101,23 +90,25 @@ def preprocess(filename):
     return data
 
 
-def save_data(filename, data):
+def save_data(save_dir, data):
     """
     データの保存
 
     Args:
-        filename (string): 保存ファイル名
+        save_dir (string): 保存ディレクトリ名
         data (list): データ
     """
 
-    if not os.path.exists(os.path.dirname(filename)):
-        os.makedirs(os.path.dirname(filename))
+    if not os.path.exists(os.path.dirname(save_dir)):
+        os.makedirs(os.path.dirname(save_dir))
 
-    with open(filename, 'w', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(['start_id', 'label', 'eyeMoveUp', 'eyeMoveDown',
-                        'eyeMoveLeft', 'eyeMoveRight', 'blinkSpeed', 'blinkStrength'])
-        writer.writerows(data)
+    for window in data:
+        filename = save_dir.replace('.tsv', f'_{window[0][0]}.csv')
+
+        with open(filename, 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(USE_COLUMNS + ['label'])
+            writer.writerows(data)
 
 
 def main():
@@ -127,8 +118,8 @@ def main():
     for filename in files:
         data = preprocess(filename)
 
-        save_file = filename.replace(RAW_DIR, SAVE_DIR)
-        save_data(save_file, data)
+        save_dir = filename.replace(RAW_DIR, SAVE_DIR)
+        save_data(save_dir, data)
 
 
 if __name__ == '__main__':
