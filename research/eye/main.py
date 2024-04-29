@@ -20,13 +20,13 @@ os.chdir(os.path.dirname(__file__))
 
 
 DATA_DIR = './data/preprocess/window_30/'
-TRAIN_SUBJECTS = ['1', '2', '3']
-TEST_SUBJECTS = ['4']
+TRAIN_SUBJECTS = ['1']
+TEST_SUBJECTS = ['1']
 
 
 EPOCH = 2000  # エポック数
 
-FEATURE_SIZE = 6  # 特徴量次元数
+FEATURE_SIZE = 14  # 特徴量次元数
 NUM_CLASSES = 1  # 分類クラス数
 
 HIDDEN_SIZE = 24  # 隠れ層数
@@ -61,11 +61,9 @@ def load_data(subjects):
 
         return label
 
-    data, labels = [], []
+    data, labels, index = [], [], []
     files = glob.glob(f'{DATA_DIR}/subject_[{"".join(subjects)}]/*/*.csv')
 
-    start_id = None
-    index, window = [], []
     for filename in files:
         window = pd.read_csv(filename, header=0)
         window_tensor = torch.tensor(
@@ -191,7 +189,7 @@ def main():
         # 結果の保存
         for index, answer, prediction in zip(test_index, answers, predictions):
             result_writer.writerow(
-                [index['filename'].split('\\')[-1], index['start_id'], answer, prediction])
+                [index['filename'].split('\\')[-1], index['start_timestamp'], answer, prediction])
         result_writer.writerow(
             ['(Accuracy)', accuracy_score(answers, predictions)])
 
