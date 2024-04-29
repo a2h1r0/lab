@@ -33,32 +33,12 @@ def preprocess(filename):
         list: 前処理データ
     """
 
-    def make_label(string):
-        """
-        ラベルの生成
-
-        Args:
-            string (string): 識別情報
-        Returns:
-            string: ラベル
-        """
-
-        label = ''
-
-        if 'drunk' in string:
-            label = 'drunk'
-        else:
-            label = 'sober'
-
-        return label
-
-    def slide_window(raw, label):
+    def slide_window(raw):
         """
         スライディングウィンドウ
 
         Args:
             raw (list): ローデータ
-            label (list): ラベル
         Returns:
             list: スライディングウィンドウ後のデータ
         """
@@ -76,7 +56,7 @@ def preprocess(filename):
 
             window = raw[(start_time <= raw['Recording timestamp'])
                          & (raw['Recording timestamp'] < end_time)]
-            data.extend([window.assign(label=label).values.tolist()])
+            data.extend([window.values.tolist()])
 
             # 末尾到達
             if window.iloc[-1].name == len(raw.index) - 1:
@@ -85,7 +65,7 @@ def preprocess(filename):
         return data
 
     raw = pd.read_csv(filename, sep='\t', usecols=USE_COLUMNS)
-    data = slide_window(raw, make_label(filename))
+    data = slide_window(raw)
 
     return data
 
@@ -107,7 +87,7 @@ def save_data(save_dir, data):
 
         with open(filename, 'w', newline='') as f:
             writer = csv.writer(f)
-            writer.writerow(USE_COLUMNS + ['label'])
+            writer.writerow(USE_COLUMNS)
             writer.writerows(window)
 
 
