@@ -19,7 +19,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = './data/preprocess/window_10/'
+DATA_DIR = './data/preprocess/window_30/'
 TRAIN_SUBJECTS = ['1', '2', '3']
 TEST_SUBJECTS = ['4']
 
@@ -30,6 +30,10 @@ FEATURE_SIZE = 6  # 特徴量次元数
 NUM_CLASSES = 1  # 分類クラス数
 
 HIDDEN_SIZE = 24  # 隠れ層数
+
+USE_COLUMNS = [
+    'Gaze point X', 'Gaze point Y', 'Gaze point left X', 'Gaze point left Y', 'Gaze point right X', 'Gaze point right Y', 'Gaze direction left X', 'Gaze direction left Y', 'Gaze direction left Z', 'Gaze direction right X', 'Gaze direction right Y', 'Gaze direction right Z', 'Pupil diameter left', 'Pupil diameter right'
+]   # 特徴量
 
 
 def load_data(subjects):
@@ -63,21 +67,14 @@ def load_data(subjects):
     start_id = None
     index, window = [], []
     for filename in files:
-        with open(filename) as f:
-            reader = csv.reader(f)
-            next(reader)
-            for row in reader:
-                if start_id and row[0] != start_id:
-                    window_tensor = torch.tensor(
-                        window, dtype=torch.float, device=device)
-                    index.append({'filename': filename, 'start_id': start_id})
-                    data.append(window_tensor)
-                    labels.append(label_to_onehot(filename))
+        window = pd.read_csv(filename, header=0)
+        window_tensor = torch.tensor(
+            window.loc[:, USE_COLUMNS].values, dtype=torch.float, device=device)
 
-                    window = []
-
-                start_id = row[0]
-                window.append(list(map(lambda value: float(value), row[2:])))
+        index.append(
+            {'filename': filename, 'start_timestamp': window.iloc[0]['Recording timestamp']})
+        data.append(torch.nan_to_num(window_tensor))
+        labels.append(label_to_onehot(filename))
 
     return data, labels, index
 
