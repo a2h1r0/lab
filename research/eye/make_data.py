@@ -20,7 +20,7 @@ USE_COLUMNS = [
 
 
 RAW_DIR = './data/raw'
-SAVE_DIR = f'./data/preprocess/window_{WINDOW_SIZE}'
+SAVE_DIR = f'./data/split/window_{WINDOW_SIZE}'
 
 
 def preprocess(filename):
