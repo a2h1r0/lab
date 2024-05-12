@@ -12,20 +12,17 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-WINDOW_SIZE = 10  # ウィンドウサイズ（秒）
-STEP = 3  # ステップ幅（秒）
-USE_COLUMNS = [
-    'Recording timestamp', 'Recording date', 'Gaze point X', 'Gaze point Y', 'Gaze point left X', 'Gaze point left Y', 'Gaze point right X', 'Gaze point right Y', 'Gaze direction left X', 'Gaze direction left Y', 'Gaze direction left Z', 'Gaze direction right X', 'Gaze direction right Y', 'Gaze direction right Z', 'Pupil diameter left', 'Pupil diameter right'
-]   # 使用カラム
+WINDOW_SIZE = 1  # ウィンドウサイズ（秒）
+STEP = 0.5  # ステップ幅（秒）
 
 
-RAW_DIR = './data/raw'
-SAVE_DIR = f'./data/split/window_{WINDOW_SIZE}'
+RAW_DIR = './data/split/window_{WINDOW_SIZE}'
+SAVE_DIR = f'./data/preprocess/window_{WINDOW_SIZE}'
 
 
-def split(filename):
+def preprocess(filename):
     """
-    データの分割
+    データの前処理
 
     Args:
         filename (string): ファイル名
@@ -64,7 +61,7 @@ def split(filename):
 
         return data
 
-    raw = pd.read_csv(filename, sep='\t', usecols=USE_COLUMNS)
+    raw = pd.read_csv(filename, sep='\t')
     data = slide_window(raw)
 
     return data
@@ -87,16 +84,16 @@ def save_data(save_dir, data):
 
         with open(filename, 'w', newline='') as f:
             writer = csv.writer(f)
-            writer.writerow(USE_COLUMNS)
+            # writer.writerow(USE_COLUMNS)
             writer.writerows(window)
 
 
 def main():
     files = glob.glob(
-        f'{RAW_DIR}/**/*.tsv', recursive=True)
+        f'{RAW_DIR}/**/*.csv', recursive=True)
 
     for filename in files:
-        data = split(filename)
+        data = preprocess(filename)
 
         save_dir = filename.replace(RAW_DIR, SAVE_DIR)
         save_data(save_dir, data)
