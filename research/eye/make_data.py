@@ -12,7 +12,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-WINDOW_SIZE = 30  # ウィンドウサイズ（秒）
+WINDOW_SIZE = 10  # ウィンドウサイズ（秒）
 STEP = 3  # ステップ幅（秒）
 USE_COLUMNS = [
     'Recording timestamp', 'Recording date', 'Gaze point X', 'Gaze point Y', 'Gaze point left X', 'Gaze point left Y', 'Gaze point right X', 'Gaze point right Y', 'Gaze direction left X', 'Gaze direction left Y', 'Gaze direction left Z', 'Gaze direction right X', 'Gaze direction right Y', 'Gaze direction right Z', 'Pupil diameter left', 'Pupil diameter right'
