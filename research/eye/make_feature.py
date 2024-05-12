@@ -41,7 +41,7 @@ def preprocess(filename):
             list: スライディングウィンドウ後のデータ
         """
 
-        data = []
+        feature = [raw.columns.tolist()]
 
         next_start_time = None
         for start_index, start in raw.iterrows():
@@ -54,39 +54,36 @@ def preprocess(filename):
 
             window = raw[(start_time <= raw['Recording timestamp'])
                          & (raw['Recording timestamp'] < end_time)]
-            data.extend([window.values.tolist()])
+            feature.append(window.iloc[0, :2].values.tolist(
+            ) + window.iloc[:, 2:].mean().values.tolist())
 
             # 末尾到達
             if window.iloc[-1].name == len(raw.index) - 1:
                 break
 
-        return data
+        return feature
 
     raw = pd.read_csv(filename, header=0)
-    data = slide_window(raw)
+    feature = slide_window(raw)
 
-    return data
+    return feature
 
 
-def save_data(save_dir, data):
+def save_data(save_file, feature):
     """
     データの保存
 
     Args:
-        save_dir (string): 保存ディレクトリ名
-        data (list): データ
+        save_file (string): 保存ファイル名
+        feature (list): 特徴量データ
     """
 
-    if not os.path.exists(os.path.dirname(save_dir)):
-        os.makedirs(os.path.dirname(save_dir))
+    if not os.path.exists(os.path.dirname(save_file)):
+        os.makedirs(os.path.dirname(save_file))
 
-    for window in data:
-        filename = save_dir.replace('.tsv', f'_{window[0][0]}.csv')
-
-        with open(filename, 'w', newline='') as f:
-            writer = csv.writer(f)
-            # writer.writerow(USE_COLUMNS)
-            writer.writerows(window)
+    with open(save_file, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerows(feature)
 
 
 def main():
@@ -94,10 +91,10 @@ def main():
         f'{RAW_DIR}/**/*.csv', recursive=True)
 
     for filename in files:
-        data = preprocess(filename)
+        feature = preprocess(filename)
 
-        save_dir = filename.replace(RAW_DIR, SAVE_DIR)
-        save_data(save_dir, data)
+        save_file = filename.replace(RAW_DIR, SAVE_DIR)
+        save_data(save_file, feature)
 
 
 if __name__ == '__main__':
