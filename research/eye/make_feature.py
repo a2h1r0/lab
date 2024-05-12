@@ -12,11 +12,12 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
+FILE_WINDOW_SIZE = 10  # ウィンドウサイズ（秒）
 WINDOW_SIZE = 1  # ウィンドウサイズ（秒）
 STEP = 0.5  # ステップ幅（秒）
 
 
-RAW_DIR = './data/split/window_{WINDOW_SIZE}'
+RAW_DIR = f'./data/split/window_{FILE_WINDOW_SIZE}'
 SAVE_DIR = f'./data/preprocess/window_{WINDOW_SIZE}'
 
 
@@ -61,7 +62,7 @@ def preprocess(filename):
 
         return data
 
-    raw = pd.read_csv(filename, sep='\t')
+    raw = pd.read_csv(filename, header=0)
     data = slide_window(raw)
 
     return data
