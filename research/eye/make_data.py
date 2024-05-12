@@ -56,7 +56,7 @@ def split(filename):
 
             window = raw[(start_time <= raw['Recording timestamp'])
                          & (raw['Recording timestamp'] < end_time)]
-            data.extend([window.values.tolist()])
+            data.append(window.values.tolist())
 
             # 末尾到達
             if window.iloc[-1].name == len(raw.index) - 1:
