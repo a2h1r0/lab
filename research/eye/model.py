@@ -14,19 +14,14 @@ class Net(nn.Module):
     def __init__(self, input_size, output_classes, kernel_size=3):
         super().__init__()
 
-        self.conv1 = nn.Conv1d(
+        self.conv = nn.Conv1d(
             in_channels=input_size, out_channels=24, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
 
-        self.relu = nn.ReLU()
-        self.maxpool = nn.MaxPool1d(kernel_size=3)
+        # このへんの次元数の整形する
+        self.lstm = nn.LSTM(
+            input_size=24, hidden_size=32, batch_first=True)
 
-        self.conv2 = nn.Conv1d(
-            in_channels=24, out_channels=32, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-
-        self.conv3 = nn.Conv1d(
-            in_channels=32, out_channels=64, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
-        self.avgpool = nn.AdaptiveAvgPool1d(1)
-        self.fc = nn.Linear(64, output_classes)
+        self.fc = nn.Linear(32, output_classes)
 
     def forward(self, x):
         """
@@ -36,16 +31,8 @@ class Net(nn.Module):
             :obj:`Tensor`[batch_size, 1]: 識別結果
         """
 
-        x = self.conv1(x)
-        x = self.relu(x)
-        x = self.maxpool(x)
-
-        x = self.conv2(x)
-        x = self.relu(x)
-        x = self.maxpool(x)
-
-        x = self.conv3(x)
-        x = self.avgpool(x)
+        x = self.conv(x)
+        x = self.lstm(x)
         x = x.view(x.size(0), -1)
         x = self.fc(x)
 
