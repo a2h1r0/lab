@@ -1,4 +1,5 @@
 import torch.nn as nn
+import numpy as np
 
 
 class Net(nn.Module):
@@ -8,32 +9,40 @@ class Net(nn.Module):
     Args:
         input_size (int): 入力次元数
         output_classes (int): 出力クラス数
-        kernel_size (int): カーネルサイズ
     """
 
-    def __init__(self, input_size, output_classes, kernel_size=3):
+    def __init__(self, input_size, output_classes):
         super().__init__()
 
+        MAP_SIZE = 24
+        self.kernel_size = 5
+        self.hidden_size = 32
+
         self.conv = nn.Conv1d(
-            in_channels=input_size, out_channels=24, kernel_size=kernel_size, padding=(kernel_size-1) // 2)
+            in_channels=input_size, out_channels=MAP_SIZE, kernel_size=self.kernel_size)
 
-        # このへんの次元数の整形する
         self.lstm = nn.LSTM(
-            input_size=24, hidden_size=32, batch_first=True)
+            input_size=MAP_SIZE, hidden_size=self.hidden_size, batch_first=True)
 
-        self.fc = nn.Linear(32, output_classes)
+        self.fc = nn.Linear(self.hidden_size, output_classes)
 
-    def forward(self, x):
+    def forward(self, x, data_length):
         """
         Args:
             x (:obj:`Tensor`[batch_size, FEATURE_SIZE, DATA_LENGTH]): 視線データ
+            data_length (array): データ長
         Returns:
             :obj:`Tensor`[batch_size, 1]: 識別結果
         """
 
         x = self.conv(x)
-        x = self.lstm(x)
-        x = x.view(x.size(0), -1)
-        x = self.fc(x)
+
+        data_length = np.array(data_length) - (self.kernel_size - 1)
+        x = nn.utils.rnn.pack_padded_sequence(
+            x.permute(0, 2, 1), data_length, batch_first=True, enforce_sorted=False)
+
+        _, x = self.lstm(x)
+
+        x = self.fc(x[0].view(-1, self.hidden_size))
 
         return x

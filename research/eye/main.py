@@ -43,6 +43,7 @@ def load_data(subjects):
     Returns:
         list: データ
         list: データラベル
+        list: データ長
         list: ウィンドウ情報
     """
 
@@ -61,7 +62,7 @@ def load_data(subjects):
 
         return label
 
-    data, labels, index = [], [], []
+    data, labels, length, index = [], [], [], []
     files = glob.glob(f'{DATA_DIR}/subject_[{"".join(subjects)}]/*/*.csv')
 
     for filename in files:
@@ -69,12 +70,13 @@ def load_data(subjects):
         window_tensor = torch.tensor(
             window.loc[:, USE_COLUMNS].values, dtype=torch.float, device=device)
 
-        index.append(
-            {'filename': filename, 'start_timestamp': window.iloc[0]['Recording timestamp']})
         data.append(torch.nan_to_num(window_tensor))
         labels.append(label_to_onehot(filename))
+        length.append(len(window_tensor))
+        index.append(
+            {'filename': filename, 'start_timestamp': window.iloc[0]['Recording timestamp']})
 
-    return data, labels, index
+    return data, labels, length, index
 
 
 def train():
@@ -86,7 +88,7 @@ def train():
     """
 
     # データの読み込み
-    train_data, train_labels, _ = load_data(TRAIN_SUBJECTS)
+    train_data, train_labels, train_data_length, _ = load_data(TRAIN_SUBJECTS)
 
     model.train()
     print('\n***** 学習開始 *****')
@@ -99,7 +101,7 @@ def train():
             train_labels, dtype=torch.float, device=device)
 
         optimizer.zero_grad()
-        outputs = model(inputs)
+        outputs = model(inputs, train_data_length)
         loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
@@ -151,7 +153,8 @@ def test():
         return label
 
     # データの読み込み
-    test_data, test_labels, test_index = load_data(TEST_SUBJECTS)
+    test_data, test_labels, test_data_length, test_index = load_data(
+        TEST_SUBJECTS)
 
     model.eval()
     print('\n***** テスト *****')
@@ -164,7 +167,7 @@ def test():
             test_labels, dtype=torch.float, device=device)
 
         optimizer.zero_grad()
-        outputs = model(inputs)
+        outputs = model(inputs, test_data_length)
         outputs = sigmoid(outputs)
 
         labels = labels.to('cpu').detach().numpy().copy()
