@@ -12,8 +12,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-WINDOW_SIZE = 10  # ウィンドウサイズ（秒）
-STEP = 3  # ステップ幅（秒）
+WINDOW_SIZE = 20  # ウィンドウサイズ（秒）
 USE_COLUMNS = [
     'Recording timestamp', 'Recording date', 'Gaze point X', 'Gaze point Y', 'Gaze point left X', 'Gaze point left Y', 'Gaze point right X', 'Gaze point right Y', 'Gaze direction left X', 'Gaze direction left Y', 'Gaze direction left Z', 'Gaze direction right X', 'Gaze direction right Y', 'Gaze direction right Z', 'Pupil diameter left', 'Pupil diameter right'
 ]   # 使用カラム
@@ -52,7 +51,7 @@ def split(filename):
                 continue
 
             end_time = start_time + WINDOW_SIZE * 1000000
-            next_start_time = start_time + STEP * 1000000
+            next_start_time = end_time
 
             window = raw[(start_time <= raw['Recording timestamp'])
                          & (raw['Recording timestamp'] < end_time)]
