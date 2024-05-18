@@ -12,9 +12,9 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-FILE_WINDOW_SIZE = 10  # ウィンドウサイズ（秒）
-WINDOW_SIZE = 1  # ウィンドウサイズ（秒）
-STEP = 0.5  # ステップ幅（秒）
+FILE_WINDOW_SIZE = 20  # ウィンドウサイズ（秒）
+WINDOW_SIZE = 0.5  # ウィンドウサイズ（秒）
+STEP = 0.2  # ステップ幅（秒）
 
 
 RAW_DIR = f'./data/split/window_{FILE_WINDOW_SIZE}'
