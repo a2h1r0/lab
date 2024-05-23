@@ -13,8 +13,8 @@ os.chdir(os.path.dirname(__file__))
 
 
 FILE_WINDOW_SIZE = 20  # ウィンドウサイズ（秒）
-WINDOW_SIZE = 0.5  # ウィンドウサイズ（秒）
-STEP = 0.2  # ステップ幅（秒）
+WINDOW_SIZE = 0.1  # ウィンドウサイズ（秒）
+STEP = 0.05  # ステップ幅（秒）
 
 
 RAW_DIR = f'./data/split/window_{FILE_WINDOW_SIZE}'
