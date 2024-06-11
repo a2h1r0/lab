@@ -10,7 +10,7 @@ SUBJECT = 'fujii'
 COLLECT_TIME = 5
 
 
-SAVE_DIR = f'../data/{SUBJECT}'
+SAVE_DIR = f'../data/{SUBJECT}/'
 
 
 def connect_eyetracker():
@@ -57,13 +57,11 @@ def save_data(save_dir):
         save_dir (string): 保存ディレクトリ名
     """
 
-    # 保存ディレクトリなんとかする
-    print(os.path.exists(os.path.dirname(save_dir)))
     if not os.path.exists(os.path.dirname(save_dir)):
         os.makedirs(os.path.dirname(save_dir))
 
     now = datetime.datetime.today()
-    filename = f'{save_dir}/{now.strftime("%Y%m%d_%H%M%S")}.csv'
+    filename = f'{save_dir}{now.strftime("%Y%m%d_%H%M%S")}.csv'
 
     with open(filename, 'w', newline='') as f:
         writer = csv.writer(f)
@@ -72,11 +70,9 @@ def save_data(save_dir):
 
 def main():
     eyetracker = connect_eyetracker()
-
     eyetracker.subscribe_to(tr.EYETRACKER_GAZE_DATA,
                             get_gaze_data, as_dictionary=True)
     time.sleep(COLLECT_TIME)
-
     eyetracker.unsubscribe_from(tr.EYETRACKER_GAZE_DATA, get_gaze_data)
 
     save_data(SAVE_DIR)
