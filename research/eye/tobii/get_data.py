@@ -69,7 +69,7 @@ def main():
     eyetracker.subscribe_to(tr.EYETRACKER_GAZE_DATA,
                             get_gaze_data, as_dictionary=True)
 
-    Exam.calc(3)
+    Exam.calc(10)
 
     eyetracker.unsubscribe_from(tr.EYETRACKER_GAZE_DATA, get_gaze_data)
 
