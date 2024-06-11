@@ -1,15 +1,12 @@
 import pandas as pd
 import tobii_research as tr
-import time
 import csv
 import os
 import datetime
+from exam import Exam
 
 
 SUBJECT = 'fujii'
-COLLECT_TIME = 5
-
-
 SAVE_DIR = f'../data/{SUBJECT}/'
 
 
@@ -19,7 +16,6 @@ def connect_eyetracker():
 
     Returns:
         :tuple:`EyeTracker`: 接続情報
-
     """
 
     return tr.find_all_eyetrackers()[0]
@@ -72,7 +68,9 @@ def main():
     eyetracker = connect_eyetracker()
     eyetracker.subscribe_to(tr.EYETRACKER_GAZE_DATA,
                             get_gaze_data, as_dictionary=True)
-    time.sleep(COLLECT_TIME)
+
+    Exam.calc(3)
+
     eyetracker.unsubscribe_from(tr.EYETRACKER_GAZE_DATA, get_gaze_data)
 
     save_data(SAVE_DIR)
