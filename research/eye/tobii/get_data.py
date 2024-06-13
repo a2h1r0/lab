@@ -55,17 +55,17 @@ def save_data(save_dir, gaze_data, answer_data):
         answer_data (string): 設問回答データ
     """
 
+    now = datetime.datetime.today()
+    save_dir += f'{now.strftime("%Y%m%d_%H%M%S")}/'
+
     if not os.path.exists(os.path.dirname(save_dir)):
         os.makedirs(os.path.dirname(save_dir))
 
-    now = datetime.datetime.today()
-    filename = f'{save_dir}{now.strftime("%Y%m%d_%H%M%S")}'
-
-    with open(f'{filename}_gaze.csv', 'w', newline='') as f:
+    with open(f'{save_dir}gaze.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerows(gaze_data)
 
-    with open(f'{filename}_answer.csv', 'w', newline='') as f:
+    with open(f'{save_dir}answer.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerows(answer_data)
 
@@ -74,7 +74,7 @@ def main():
     eyetracker = connect_eyetracker()
 
     print(f'\n\n\n問題は全部で{QUESTION_NUM}問あります．')
-    input('\n\n準備ができたらなにかキーを押してください．．．')
+    input('\n\n準備ができたらEnterを押してください．．．')
     print('\n\n開始します！')
     print('\n\n-----------------------------------')
 
