@@ -31,7 +31,7 @@ def set_exam_type():
         string: 設問タイプ
     """
 
-    return input('\n\n設問タイプを入力してください > ')
+    return int(input('\n\n設問タイプを入力してください > '))
 
 
 def get_collection_data(data):
@@ -84,6 +84,14 @@ def save_data(save_dir, gaze_data, answer_data):
 def main():
     eyetracker = connect_eyetracker()
     exam_type = set_exam_type()
+    if exam_type == 1:
+        digit = 1
+    elif exam_type == 2:
+        digit = 10
+    elif exam_type == 3:
+        digit = 100
+    else:
+        digit = 1
 
     os.system('cls')
     print(f'\n問題は全部で{QUESTION_NUM}問あります．')
@@ -93,7 +101,7 @@ def main():
     os.system('cls')
     eyetracker.subscribe_to(tr.EYETRACKER_GAZE_DATA,
                             get_collection_data, as_dictionary=True)
-    answer_data = Exam.calc(QUESTION_NUM)
+    answer_data = Exam.calc(QUESTION_NUM, digit)
     eyetracker.unsubscribe_from(tr.EYETRACKER_GAZE_DATA, get_collection_data)
 
     os.system('cls')

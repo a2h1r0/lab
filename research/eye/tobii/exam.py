@@ -6,32 +6,34 @@ class Exam():
     被験者実験テスト
     """
 
-    def calc(question_length):
+    def calc(question_length, digit):
         """
         計算テスト
 
         Args:
             question_length (number): 設問数
+            digit (number): 問題作成桁数
         Returns:
             list: 設問回答データ
         """
 
-        def make_questions(question_length):
+        def make_questions(question_length, digit):
             """
             計算問題の作成
 
             Args:
+                digit (number): 問題作成桁数
                 question_length (number): 設問数
             Returns:
                 list: 設問
             """
 
-            questions = [random.sample(range(10, 99), 2)
+            questions = [random.sample(range(digit, digit * 10), 2)
                          for i in range(question_length)]
 
             return questions
 
-        questions = make_questions(question_length)
+        questions = make_questions(question_length, digit)
         answers = [['answer', 'correct']]
         correct_count = 0
 
