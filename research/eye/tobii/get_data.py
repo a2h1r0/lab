@@ -23,6 +23,17 @@ def connect_eyetracker():
     return tr.find_all_eyetrackers()[0]
 
 
+def set_exam_type():
+    """
+    設問タイプの選択
+
+    Returns:
+        string: 設問タイプ
+    """
+
+    return input('\n\n設問タイプを入力してください > ')
+
+
 def get_collection_data(data):
     """
     データの取得
@@ -72,18 +83,20 @@ def save_data(save_dir, gaze_data, answer_data):
 
 def main():
     eyetracker = connect_eyetracker()
+    exam_type = set_exam_type()
 
-    print(f'\n\n\n問題は全部で{QUESTION_NUM}問あります．')
-    input('\n\n準備ができたらEnterを押してください．．．')
-    print('\n\n開始します！')
-    print('\n\n-----------------------------------')
+    os.system('cls')
+    print(f'\n問題は全部で{QUESTION_NUM}問あります．')
+    print('\n\n出題を開始します．')
+    input('準備ができたらEnterを押してください．．．')
 
+    os.system('cls')
     eyetracker.subscribe_to(tr.EYETRACKER_GAZE_DATA,
                             get_collection_data, as_dictionary=True)
     answer_data = Exam.calc(QUESTION_NUM)
     eyetracker.unsubscribe_from(tr.EYETRACKER_GAZE_DATA, get_collection_data)
 
-    print('\n-----------------------------------\n')
+    os.system('cls')
     print('\n設問は以上です．ありがとうございました．\n\n')
 
     save_data(SAVE_DIR, collection_data, answer_data)
