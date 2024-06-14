@@ -1,4 +1,5 @@
 import random
+import utils
 
 
 class Exam():
@@ -38,9 +39,10 @@ class Exam():
         correct_count = 0
 
         for i, question in enumerate(questions):
-            answer = input(f'\n({i + 1}) {question[0]} + {question[1]} = ')
+            answer = utils.input_decimal(
+                f'\n({i + 1}) {question[0]} + {question[1]} = ')
 
-            is_correct = int(answer) == sum(question)
+            is_correct = answer == sum(question)
             if is_correct:
                 correct_count += 1
 

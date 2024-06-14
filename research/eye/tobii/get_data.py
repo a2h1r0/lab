@@ -4,6 +4,7 @@ import os
 import datetime
 from tobii import Tobii
 from exam import Exam
+import utils
 
 
 QUESTION_NUM = 2
@@ -20,7 +21,7 @@ def set_exam_type():
         string: 設問タイプ
     """
 
-    return int(input('\n\n設問タイプを入力してください > '))
+    return utils.input_decimal('\n設問タイプを入力してください > ')
 
 
 def save_data(save_dir, gaze_data, answer):
