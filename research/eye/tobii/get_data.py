@@ -1,6 +1,7 @@
 import pandas as pd
 import csv
 import os
+import sys
 import datetime
 from eyetracker import tobii as eyetracker
 from exam import Exam
@@ -56,7 +57,7 @@ def main():
     result = tobii.calibration()
 
     if result != True:
-        print('キャリブレーションに失敗しました．．．')
+        print('\nキャリブレーションに失敗しました．\n\n')
         sys.exit(0)
     print('\n完了しました！')
 
