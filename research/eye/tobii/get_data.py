@@ -21,7 +21,7 @@ def set_exam_type():
         string: 設問タイプ
     """
 
-    return utils.input_decimal('\n\n設問タイプを入力してください > ')
+    return utils.input_decimal('\n\n\n設問タイプを入力してください > ')
 
 
 def save_data(save_dir, gaze_data, answer):
