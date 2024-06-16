@@ -14,17 +14,31 @@ class Tobii():
         self.data = []
 
     def calibration(self):
-        def draw_point(point):
-            cv2.namedWindow('screen', cv2.WINDOW_NORMAL)
-            cv2.setWindowProperty(
-                'screen', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        def collect_data(calibration, points):
+            def draw_point(point):
+                cv2.namedWindow('screen', cv2.WINDOW_NORMAL)
+                cv2.setWindowProperty(
+                    'screen', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
-            img = cv2.imread(
-                f'{os.path.dirname(__file__)}/calibration/{point[0]}_{point[1]}.png')
-            cv2.imshow('screen', img)
+                img = cv2.imread(
+                    f'{os.path.dirname(__file__)}/calibration/{point[0]}_{point[1]}.png')
+                cv2.imshow('screen', img)
 
-            # 注目待ち
-            cv2.waitKey(700)
+                # 視線移動待ち
+                cv2.waitKey(1000)
+
+            recalibrate = []
+            for point in points:
+                draw_point(point)
+
+                status = calibration.collect_data(point[0], point[1])
+                if status != tr.CALIBRATION_STATUS_SUCCESS:
+                    status = calibration.collect_data(point[0], point[1])
+
+                    if status != tr.CALIBRATION_STATUS_SUCCESS:
+                        recalibrate.append(point)
+
+            return recalibrate
 
         POINTS_TO_CALIBRATE = [(0.5, 0.5), (0.1, 0.1),
                                (0.1, 0.9), (0.9, 0.1), (0.9, 0.9)]
@@ -32,50 +46,21 @@ class Tobii():
         calibration = tr.ScreenBasedCalibration(self.eyetracker)
         calibration.enter_calibration_mode()
 
-        points_to_recalibrate = []
-        for point in POINTS_TO_CALIBRATE:
-            draw_point(point)
-
-            for failed in range(3):
-                # キャリブレーション
-                status = calibration.collect_data(point[0], point[1])
-                if status == tr.CALIBRATION_STATUS_SUCCESS:
-                    break
-            if status != tr.CALIBRATION_STATUS_SUCCESS:
-                points_to_recalibrate.append(point)
-
-        # キャリブレーション適用
-        calibration_result = calibration.compute_and_apply()
-        print("Compute and apply returned {0} and collected at {1} points.".
-              format(calibration_result.status, len(calibration_result.calibration_points)))
+        points_to_recalibrate = collect_data(calibration, POINTS_TO_CALIBRATE)
+        print(points_to_recalibrate)
 
         if len(points_to_recalibrate):
-            for recalibrate_point in points_to_recalibrate:
-                calibration.discard_data(
-                    recalibrate_point[0], recalibrate_point[1])
+            print('再実行')
+            collect_data(calibration, points_to_recalibrate)
 
-                draw_point(recalibrate_point)
+        result = calibration.compute_and_apply()
+        if len(result.calibration_points) != len(POINTS_TO_CALIBRATE):
+            print('キャリブレーション失敗')
 
-                for failed in range(3):
-                    # キャリブレーション
-                    status = calibration.collect_data(
-                        recalibrate_point[0], recalibrate_point[1])
-                    if status == tr.CALIBRATION_STATUS_SUCCESS:
-                        break
+        print("Compute and apply returned {0} and collected at {1} points.".format(
+            result.status, len(result.calibration_points)))
 
-            # Compute and apply again.
-            print("Computing and applying calibration.")
-            calibration_result = calibration.compute_and_apply()
-            print("Compute and apply returned {0} and collected at {1} points.".
-                  format(calibration_result.status, len(calibration_result.calibration_points)))
-
-        # See that you're happy with the result.
-
-        # The calibration is done. Leave calibration mode.
         calibration.leave_calibration_mode()
-
-        print("Left calibration mode.")
-        # <EndExample>
 
     def connect_eyetracker(self):
         """
