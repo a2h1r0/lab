@@ -10,7 +10,7 @@ import utils
 QUESTION_NUM = 2
 
 SUBJECT = 'fujii'
-SAVE_DIR = f'../data/{SUBJECT}/'
+SAVE_DIR = f'../data/{SUBJECT}'
 
 
 def set_exam_type():
@@ -82,7 +82,7 @@ def main():
 
     os.system('cls')
     print('\n設問は以上です．ありがとうございました．\n\n')
-    save_data(SAVE_DIR, tobii.data, answer)
+    save_data(f'{SAVE_DIR}/exam_type_{exam_type}/', tobii.data, answer)
 
 
 if __name__ == '__main__':
