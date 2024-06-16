@@ -1,0 +1,12 @@
+answer,correct
+98+25=113,False
+39+41=80,True
+74+21=95,True
+51+74=125,True
+72+71=143,True
+38+25=53,False
+47+91=138,True
+75+53=128,True
+13+20=33,True
+32+75=107,True
+(Accuracy),0.8
