@@ -20,7 +20,7 @@ class Tobii():
                 'screen', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
             img = cv2.imread(
-                f'{os.path.dirname(__file__)}/tobii_research/calibration/{point[0]}_{point[1]}.png')
+                f'{os.path.dirname(__file__)}/calibration/{point[0]}_{point[1]}.png')
             cv2.imshow('screen', img)
 
             cv2.waitKey(2500)  # 2.5秒キャリブレーションする
