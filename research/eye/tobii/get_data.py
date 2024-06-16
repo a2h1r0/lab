@@ -21,7 +21,7 @@ def set_exam_type():
         string: 設問タイプ
     """
 
-    return utils.input_decimal('\n設問タイプを入力してください > ')
+    return utils.input_decimal('\n\n設問タイプを入力してください > ')
 
 
 def save_data(save_dir, gaze_data, answer):
@@ -51,32 +51,38 @@ def save_data(save_dir, gaze_data, answer):
 
 def main():
     tobii = eyetracker.Tobii()
-    tobii.calibration()
 
-    # exam_type = set_exam_type()
-    # if exam_type == 1:
-    #     digit = 1
-    # elif exam_type == 2:
-    #     digit = 10
-    # elif exam_type == 3:
-    #     digit = 100
-    # else:
-    #     digit = 1
+    print('\n\nキャリブレーションを開始します．．．')
+    result = tobii.calibration()
 
-    # os.system('cls')
-    # print(f'\n問題は全部で{QUESTION_NUM}問あります．')
-    # print('\n\n出題を開始します．')
-    # input('準備ができたらEnterを押してください．．．')
+    if result != True:
+        print('キャリブレーションに失敗しました．．．')
+        sys.exit(0)
+    print('\n完了しました！')
 
-    # os.system('cls')
-    # tobii.subscribe()
-    # answer = Exam.calc(QUESTION_NUM, digit)
-    # tobii.unsubscribe()
+    exam_type = set_exam_type()
+    if exam_type == 1:
+        digit = 1
+    elif exam_type == 2:
+        digit = 10
+    elif exam_type == 3:
+        digit = 100
+    else:
+        digit = 1
 
-    # os.system('cls')
-    # print('\n設問は以上です．ありがとうございました．\n\n')
+    os.system('cls')
+    print(f'\n問題は全部で{QUESTION_NUM}問あります．')
+    print('\n\n出題を開始します．')
+    input('準備ができたらEnterを押してください．．．')
 
-    # save_data(SAVE_DIR, tobii.data, answer)
+    os.system('cls')
+    tobii.subscribe()
+    answer = Exam.calc(QUESTION_NUM, digit)
+    tobii.unsubscribe()
+
+    os.system('cls')
+    print('\n設問は以上です．ありがとうございました．\n\n')
+    save_data(SAVE_DIR, tobii.data, answer)
 
 
 if __name__ == '__main__':

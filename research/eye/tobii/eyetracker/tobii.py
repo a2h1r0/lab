@@ -1,5 +1,4 @@
 import tobii_research as tr
-import time
 import cv2
 import os
 
@@ -14,8 +13,32 @@ class Tobii():
         self.data = []
 
     def calibration(self):
+        """
+        キャリブレーション
+
+        Returns:
+            bool: 結果
+        """
+
         def collect_data(calibration, points):
+            """
+            キャリブレーションデータの取得
+
+            Args:
+                calibration (:class:`ScreenBasedCalibration`): キャリブレーションクラス
+                points (list): 描画ポイント
+            Returns:
+                list: 再描画ポイント
+            """
+
             def draw_point(point):
+                """
+                キャリブレーションポイントの描画
+
+                Args:
+                    point (tuple): 描画座標
+                """
+
                 cv2.namedWindow('screen', cv2.WINDOW_NORMAL)
                 cv2.setWindowProperty(
                     'screen', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
@@ -46,21 +69,19 @@ class Tobii():
         calibration = tr.ScreenBasedCalibration(self.eyetracker)
         calibration.enter_calibration_mode()
 
+        # キャリブレーション
         points_to_recalibrate = collect_data(calibration, POINTS_TO_CALIBRATE)
-        print(points_to_recalibrate)
 
+        # キャリブレーション再実行
         if len(points_to_recalibrate):
-            print('再実行')
             collect_data(calibration, points_to_recalibrate)
 
         result = calibration.compute_and_apply()
-        if len(result.calibration_points) != len(POINTS_TO_CALIBRATE):
-            print('キャリブレーション失敗')
-
-        print("Compute and apply returned {0} and collected at {1} points.".format(
-            result.status, len(result.calibration_points)))
-
         calibration.leave_calibration_mode()
+
+        cv2.destroyWindow('screen')
+
+        return len(result.calibration_points) == len(POINTS_TO_CALIBRATE)
 
     def connect_eyetracker(self):
         """
@@ -72,7 +93,7 @@ class Tobii():
 
         return tr.find_all_eyetrackers()[0]
 
-    def get_gaze_data(self, data):
+    def gaze_data_callback(self, data):
         """
         データの取得
 
@@ -99,7 +120,7 @@ class Tobii():
         """
 
         self.eyetracker.subscribe_to(
-            tr.EYETRACKER_GAZE_DATA, self.get_gaze_data, as_dictionary=True)
+            tr.EYETRACKER_GAZE_DATA, self.gaze_data_callback, as_dictionary=True)
 
     def unsubscribe(self):
         """
@@ -107,4 +128,4 @@ class Tobii():
         """
 
         self.eyetracker.unsubscribe_from(
-            tr.EYETRACKER_GAZE_DATA, self.get_gaze_data)
+            tr.EYETRACKER_GAZE_DATA, self.gaze_data_callback)
