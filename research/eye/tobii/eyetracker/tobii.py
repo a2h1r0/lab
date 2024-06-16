@@ -9,9 +9,6 @@ class Tobii():
     Tobii操作クラス
     """
 
-    POINTS_TO_CALIBRATE = [(0.5, 0.5), (0.1, 0.1),
-                           (0.1, 0.9), (0.9, 0.1), (0.9, 0.9)]
-
     def __init__(self):
         self.eyetracker = self.connect_eyetracker()
         self.data = []
@@ -28,6 +25,9 @@ class Tobii():
 
             # 注目待ち
             cv2.waitKey(700)
+
+        POINTS_TO_CALIBRATE = [(0.5, 0.5), (0.1, 0.1),
+                               (0.1, 0.9), (0.9, 0.1), (0.9, 0.9)]
 
         calibration = tr.ScreenBasedCalibration(self.eyetracker)
         calibration.enter_calibration_mode()

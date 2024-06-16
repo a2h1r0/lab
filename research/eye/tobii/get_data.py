@@ -2,7 +2,7 @@ import pandas as pd
 import csv
 import os
 import datetime
-from tobii import Tobii
+from eyetracker import tobii as eyetracker
 from exam import Exam
 import utils
 
@@ -50,7 +50,7 @@ def save_data(save_dir, gaze_data, answer):
 
 
 def main():
-    tobii = Tobii()
+    tobii = eyetracker.Tobii()
     tobii.calibration()
 
     # exam_type = set_exam_type()
