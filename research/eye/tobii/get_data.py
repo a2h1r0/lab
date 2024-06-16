@@ -7,7 +7,7 @@ from exam import Exam
 import utils
 
 
-QUESTION_NUM = 2
+QUESTION_NUM = 10
 
 SUBJECT = 'fujii'
 SAVE_DIR = f'../data/{SUBJECT}'
