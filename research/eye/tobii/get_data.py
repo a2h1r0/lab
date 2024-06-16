@@ -51,31 +51,32 @@ def save_data(save_dir, gaze_data, answer):
 
 def main():
     tobii = Tobii()
+    tobii.calibration()
 
-    exam_type = set_exam_type()
-    if exam_type == 1:
-        digit = 1
-    elif exam_type == 2:
-        digit = 10
-    elif exam_type == 3:
-        digit = 100
-    else:
-        digit = 1
+    # exam_type = set_exam_type()
+    # if exam_type == 1:
+    #     digit = 1
+    # elif exam_type == 2:
+    #     digit = 10
+    # elif exam_type == 3:
+    #     digit = 100
+    # else:
+    #     digit = 1
 
-    os.system('cls')
-    print(f'\n問題は全部で{QUESTION_NUM}問あります．')
-    print('\n\n出題を開始します．')
-    input('準備ができたらEnterを押してください．．．')
+    # os.system('cls')
+    # print(f'\n問題は全部で{QUESTION_NUM}問あります．')
+    # print('\n\n出題を開始します．')
+    # input('準備ができたらEnterを押してください．．．')
 
-    os.system('cls')
-    tobii.subscribe()
-    answer = Exam.calc(QUESTION_NUM, digit)
-    tobii.unsubscribe()
+    # os.system('cls')
+    # tobii.subscribe()
+    # answer = Exam.calc(QUESTION_NUM, digit)
+    # tobii.unsubscribe()
 
-    os.system('cls')
-    print('\n設問は以上です．ありがとうございました．\n\n')
+    # os.system('cls')
+    # print('\n設問は以上です．ありがとうございました．\n\n')
 
-    save_data(SAVE_DIR, tobii.data, answer)
+    # save_data(SAVE_DIR, tobii.data, answer)
 
 
 if __name__ == '__main__':
