@@ -19,7 +19,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = './data/preprocess/window_0.5/'
+DATA_DIR = './data/preprocess/dropna/'
 TRAIN_SUBJECTS = ['1']
 TEST_SUBJECTS = ['2']
 
