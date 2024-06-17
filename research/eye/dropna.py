@@ -46,7 +46,7 @@ def save_data(save_file, data):
     if not os.path.exists(os.path.dirname(save_file)):
         os.makedirs(os.path.dirname(save_file))
 
-    data.to_csv(save_file)
+    data.to_csv(save_file, index=False)
 
 
 def main():
