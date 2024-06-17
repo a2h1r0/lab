@@ -11,9 +11,7 @@ import utils
 QUESTION_NUM = 10
 
 SUBJECT = 'fujii'
-DRUNK = True
-
-SAVE_DIR = f'../data/{SUBJECT}/{"drunk" if DRUNK else "sober"}'
+SAVE_DIR = f'../data/{SUBJECT}'
 
 
 def set_exam_type():
@@ -24,7 +22,7 @@ def set_exam_type():
         string: 設問タイプ
     """
 
-    return utils.input_decimal('\n\n\n設問タイプを入力してください > ')
+    return utils.input_decimal('\n設問タイプを入力してください > ')
 
 
 def save_data(save_dir, gaze_data, answer):
@@ -63,6 +61,8 @@ def main():
         sys.exit(0)
     print('\n完了しました！')
 
+    is_drunk = input('\n\n\nお酒を飲んでいる状態ですか？[Y/n] > ') != 'n'
+
     exam_type = set_exam_type()
     if exam_type == 1:
         digit = 1
@@ -85,7 +85,8 @@ def main():
 
     os.system('cls')
     print('\n設問は以上です．ありがとうございました．\n\n')
-    save_data(f'{SAVE_DIR}/exam_type_{exam_type}/', tobii.data, answer)
+    save_data(
+        f'{SAVE_DIR}/{"drunk" if is_drunk else "sober"}/exam_type_{exam_type}/', tobii.data, answer)
 
 
 if __name__ == '__main__':
