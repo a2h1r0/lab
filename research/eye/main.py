@@ -29,7 +29,7 @@ USE_COLUMNS = [
 ]   # 特徴量
 
 
-EPOCH = 1000  # エポック数
+EPOCH = 300  # エポック数
 NUM_CLASSES = 1  # 分類クラス数
 
 HIDDEN_SIZE = 24  # 隠れ層数
