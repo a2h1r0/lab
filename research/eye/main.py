@@ -19,13 +19,13 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = './data/preprocess/dropna/'
+DATA_DIR = './data/dropna/'
 TRAIN_SUBJECTS = ['1']
 TEST_SUBJECTS = ['2']
 
 
 USE_COLUMNS = [
-    'Gaze point X', 'Gaze point Y', 'Gaze point left X', 'Gaze point left Y', 'Gaze point right X', 'Gaze point right Y', 'Gaze direction left X', 'Gaze direction left Y', 'Gaze direction left Z', 'Gaze direction right X', 'Gaze direction right Y', 'Gaze direction right Z', 'Pupil diameter left', 'Pupil diameter right'
+    'device_time_stamp', 'left_gaze_point_on_display_area_1', 'left_gaze_point_on_display_area_2', 'left_gaze_point_in_user_coordinate_system_1', 'left_gaze_point_in_user_coordinate_system_2', 'left_gaze_point_in_user_coordinate_system_3', 'left_pupil_diameter', 'left_gaze_origin_in_user_coordinate_system_1', 'left_gaze_origin_in_user_coordinate_system_2', 'left_gaze_origin_in_user_coordinate_system_3', 'left_gaze_origin_in_trackbox_coordinate_system_1', 'left_gaze_origin_in_trackbox_coordinate_system_2', 'left_gaze_origin_in_trackbox_coordinate_system_3', 'right_gaze_point_on_display_area_1', 'right_gaze_point_on_display_area_2', 'right_gaze_point_in_user_coordinate_system_1', 'right_gaze_point_in_user_coordinate_system_2', 'right_gaze_point_in_user_coordinate_system_3', 'right_pupil_diameter', 'right_gaze_origin_in_user_coordinate_system_1', 'right_gaze_origin_in_user_coordinate_system_2', 'right_gaze_origin_in_user_coordinate_system_3', 'right_gaze_origin_in_trackbox_coordinate_system_1', 'right_gaze_origin_in_trackbox_coordinate_system_2', 'right_gaze_origin_in_trackbox_coordinate_system_3'
 ]   # 特徴量
 
 
@@ -62,7 +62,7 @@ def load_data(subjects):
         return label
 
     data, labels, length, index = [], [], [], []
-    files = glob.glob(f'{DATA_DIR}/subject_[{"".join(subjects)}]/*/*.csv')
+    files = glob.glob(f'{DATA_DIR}/subject_[{"".join(subjects)}]/*.csv')
 
     for filename in files:
         window = pd.read_csv(filename, header=0)
