@@ -28,7 +28,7 @@ def dropna(filename):
 
     raw = pd.read_csv(filename, header=0)
 
-    return raw.dropna(how='all')
+    return raw.dropna()
 
 
 def save_data(save_file, data):
