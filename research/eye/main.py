@@ -24,16 +24,15 @@ TRAIN_SUBJECTS = ['1']
 TEST_SUBJECTS = ['2']
 
 
-EPOCH = 1000  # エポック数
-
-FEATURE_SIZE = 14  # 特徴量次元数
-NUM_CLASSES = 1  # 分類クラス数
-
-HIDDEN_SIZE = 24  # 隠れ層数
-
 USE_COLUMNS = [
     'Gaze point X', 'Gaze point Y', 'Gaze point left X', 'Gaze point left Y', 'Gaze point right X', 'Gaze point right Y', 'Gaze direction left X', 'Gaze direction left Y', 'Gaze direction left Z', 'Gaze direction right X', 'Gaze direction right Y', 'Gaze direction right Z', 'Pupil diameter left', 'Pupil diameter right'
 ]   # 特徴量
+
+
+EPOCH = 1000  # エポック数
+NUM_CLASSES = 1  # 分類クラス数
+
+HIDDEN_SIZE = 24  # 隠れ層数
 
 
 def load_data(subjects):
@@ -74,7 +73,7 @@ def load_data(subjects):
         labels.append(label_to_onehot(filename))
         length.append(len(window_tensor))
         index.append(
-            {'filename': filename, 'start_timestamp': window.iloc[0]['Recording timestamp']})
+            {'filename': filename, 'start_timestamp': window.iloc[0]['device_time_stamp']})
 
     return data, labels, length, index
 
@@ -96,7 +95,7 @@ def train():
     loss_list = []
     for epoch in range(EPOCH):
         inputs = torch.tensor(rnn.pad_sequence(
-            train_data), dtype=torch.float, device=device).view(len(train_data), FEATURE_SIZE, -1)
+            train_data), dtype=torch.float, device=device).view(len(train_data), len(USE_COLUMNS), -1)
         labels = torch.tensor(
             train_labels, dtype=torch.float, device=device)
 
@@ -162,7 +161,7 @@ def test():
     predictions, answers = [], []
     with torch.no_grad():
         inputs = torch.tensor(rnn.pad_sequence(
-            test_data), dtype=torch.float, device=device).view(len(test_data), FEATURE_SIZE, -1)
+            test_data), dtype=torch.float, device=device).view(len(test_data), len(USE_COLUMNS), -1)
         labels = torch.tensor(
             test_labels, dtype=torch.float, device=device)
 
@@ -217,7 +216,8 @@ if __name__ == '__main__':
     torch.manual_seed(1)
 
     # モデルの構築
-    model = Net(input_size=FEATURE_SIZE, output_classes=NUM_CLASSES).to(device)
+    model = Net(input_size=len(USE_COLUMNS),
+                output_classes=NUM_CLASSES).to(device)
     criterion = nn.BCEWithLogitsLoss()
     optimizer = optimizers.Adam(model.parameters())
     sigmoid = nn.Sigmoid()
