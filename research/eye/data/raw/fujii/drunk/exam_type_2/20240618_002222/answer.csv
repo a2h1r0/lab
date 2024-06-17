@@ -1,0 +1,12 @@
+answer,correct
+29+27=56,True
+96+13=109,True
+36+41=77,True
+57+91=148,True
+62+91=153,True
+43+94=137,True
+31+50=81,True
+54+56=11,False
+41+51=92,True
+66+89=155,True
+(Accuracy),0.9
