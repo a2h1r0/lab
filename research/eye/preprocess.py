@@ -12,12 +12,11 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-FILE_WINDOW_SIZE = 20  # ウィンドウサイズ（秒）
 WINDOW_SIZE = 0.1  # ウィンドウサイズ（秒）
 STEP = 0.05  # ステップ幅（秒）
 
 
-RAW_DIR = f'./data/split/window_{FILE_WINDOW_SIZE}'
+RAW_DIR = f'./data/raw'
 SAVE_DIR = f'./data/preprocess/window_{WINDOW_SIZE}'
 
 
@@ -45,15 +44,15 @@ def preprocess(filename):
 
         next_start_time = None
         for start_index, start in raw.iterrows():
-            start_time = start['Recording timestamp']
+            start_time = start['device_time_stamp']
             if next_start_time and start_time < next_start_time:
                 continue
 
             end_time = start_time + WINDOW_SIZE * 1000000
             next_start_time = start_time + STEP * 1000000
 
-            window = raw[(start_time <= raw['Recording timestamp'])
-                         & (raw['Recording timestamp'] < end_time)]
+            window = raw[(start_time <= raw['device_time_stamp'])
+                         & (raw['device_time_stamp'] < end_time)]
             feature.append(window.iloc[0, :2].values.tolist(
             ) + window.iloc[:, 2:].mean().values.tolist())
 
@@ -88,7 +87,7 @@ def save_data(save_file, feature):
 
 def main():
     files = glob.glob(
-        f'{RAW_DIR}/**/*.csv', recursive=True)
+        f'{RAW_DIR}/**/gaze.csv', recursive=True)
 
     for filename in files:
         feature = preprocess(filename)
