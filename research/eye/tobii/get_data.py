@@ -11,7 +11,7 @@ import utils
 QUESTION_NUM = 10
 
 SUBJECT = 'fujii'
-SAVE_DIR = f'../data/{SUBJECT}'
+SAVE_DIR = f'../data/raw/{SUBJECT}'
 
 
 def set_exam_type():
