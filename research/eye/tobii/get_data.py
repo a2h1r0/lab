@@ -11,7 +11,9 @@ import utils
 QUESTION_NUM = 10
 
 SUBJECT = 'fujii'
-SAVE_DIR = f'../data/{SUBJECT}'
+DRUNK = True
+
+SAVE_DIR = f'../data/{SUBJECT}/{"drunk" if DRUNK else "sober"}'
 
 
 def set_exam_type():
