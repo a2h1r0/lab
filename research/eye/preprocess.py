@@ -92,7 +92,10 @@ def main():
     for filename in files:
         feature = preprocess(filename)
 
-        save_file = filename.replace(RAW_DIR, SAVE_DIR)
+        path = filename.split("\\")
+        del path[0]
+
+        save_file = f'{SAVE_DIR}/{"_".join(path)}'
         save_data(save_file, feature)
 
 
