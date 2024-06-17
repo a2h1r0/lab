@@ -16,7 +16,7 @@ WINDOW_SIZE = 0.1  # ウィンドウサイズ（秒）
 STEP = 0.05  # ステップ幅（秒）
 
 
-RAW_DIR = f'./data/raw'
+RAW_DIR = './data/raw'
 SAVE_DIR = f'./data/preprocess/window_{WINDOW_SIZE}'
 
 
