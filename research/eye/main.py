@@ -72,8 +72,8 @@ def load_data(subjects):
         data.append(torch.nan_to_num(window_tensor))
         labels.append(label_to_onehot(filename))
         length.append(len(window_tensor))
-        index.append(
-            {'filename': filename, 'start_timestamp': window.iloc[0]['device_time_stamp']})
+        index.append({'filename': filename, 'start_timestamp': int(
+            window.iloc[0]['device_time_stamp'])})
 
     return data, labels, length, index
 
@@ -134,7 +134,7 @@ def test():
             list: ワンホットラベル
         """
 
-        return list(map(lambda value: int(value > 0.5), prediction))
+        return list(map(lambda value: int(value > 0.55), prediction))
 
     def onehot_to_label(classes):
         """
@@ -173,7 +173,8 @@ def test():
         outputs = outputs.to('cpu').detach().numpy().copy()
         for label, output in zip(labels, outputs):
             answers.append(onehot_to_label(label))
-            predictions.append(onehot_to_label(sigmoid_to_onehot(output)))
+            predictions.append(
+                [onehot_to_label(sigmoid_to_onehot(output)), output])
 
     return predictions, answers, test_index
 
@@ -183,17 +184,18 @@ def main():
     result_file = './result/{}.csv'.format(now)
     with open(result_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
-        result_writer.writerow(['Filename', 'Window', 'Answer', 'Prediction'])
+        result_writer.writerow(
+            ['Filename', 'Window', 'Answer', 'Prediction', 'Output'])
 
         loss_list = train()
         predictions, answers, test_index = test()
 
         # 結果の保存
         for index, answer, prediction in zip(test_index, answers, predictions):
-            result_writer.writerow(
-                [index['filename'].split('\\')[-1], index['start_timestamp'], answer, prediction])
-        result_writer.writerow(
-            ['(Accuracy)', accuracy_score(answers, predictions)])
+            result_writer.writerow([index['filename'].split(
+                '\\')[-1], index['start_timestamp'], answer] + prediction)
+        result_writer.writerow(['(Accuracy)', accuracy_score(
+            answers, [prediction[0] for prediction in predictions])])
 
     # Lossの描画
     print('\nLossを描画します．．．\n')
