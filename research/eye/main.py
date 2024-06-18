@@ -30,7 +30,7 @@ USE_COLUMNS = [
 
 
 EPOCH = 500  # エポック数
-NUM_CLASSES = 1  # 分類クラス数
+NUM_CLASSES = 2  # 分類クラス数
 
 HIDDEN_SIZE = 24  # 隠れ層数
 
@@ -56,8 +56,13 @@ def load_data(subjects):
             list: ワンホットラベル
         """
 
+        drunk = int('drunk' in label)
+        sober = int('sober' in label)
+
         if NUM_CLASSES == 1:
-            label = [int('drunk' in label)]
+            label = [drunk]
+        elif NUM_CLASSES == 2:
+            label = [drunk, sober]
 
         return label
 
@@ -134,7 +139,13 @@ def test():
             list: ワンホットラベル
         """
 
-        return list(map(lambda value: int(value > 0.55), prediction))
+        if NUM_CLASSES == 1:
+            onehot = list(map(lambda value: int(value > 0.5), prediction))
+        elif NUM_CLASSES == 2:
+            onehot = list(map(lambda value: int(
+                value[0] == np.argmax(prediction)), enumerate(prediction)))
+
+        return onehot
 
     def onehot_to_label(classes):
         """
@@ -148,6 +159,9 @@ def test():
 
         if NUM_CLASSES == 1:
             label = int(classes[0])
+        elif NUM_CLASSES == 2:
+            index = list(classes).index(1)
+            label = 'drunk' if index == 0 else 'sober'
 
         return label
 
@@ -193,7 +207,7 @@ def main():
         # 結果の保存
         for index, answer, prediction in zip(test_index, answers, predictions):
             result_writer.writerow([index['filename'].split(
-                '\\')[-1], index['start_timestamp'], answer] + prediction)
+                '\\')[-1], index['start_timestamp'], answer, prediction[0], list(prediction[1])])
         result_writer.writerow(['(Accuracy)', accuracy_score(
             answers, [prediction[0] for prediction in predictions])])
 
