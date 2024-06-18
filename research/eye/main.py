@@ -32,8 +32,6 @@ USE_COLUMNS = [
 EPOCH = 500  # エポック数
 NUM_CLASSES = 2  # 分類クラス数
 
-HIDDEN_SIZE = 24  # 隠れ層数
-
 
 def load_data(subjects):
     """
