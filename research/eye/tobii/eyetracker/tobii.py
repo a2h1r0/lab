@@ -101,10 +101,13 @@ class Tobii():
             data (dict): 取得データ
         """
 
+        coordinates = ['x', 'y', 'z']
+
         keys, values = [], []
         for (key, value) in list(data.items()):
             if isinstance(value, tuple):
-                keys.extend([f'{key}_{i + 1}' for i in range(len(value))])
+                keys.extend(
+                    [f'{key}_{coordinates[i]}' for i in range(len(value))])
                 values.extend(list(value))
             else:
                 keys.append(key)
