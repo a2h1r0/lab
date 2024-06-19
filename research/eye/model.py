@@ -14,15 +14,15 @@ class Net(nn.Module):
     def __init__(self, input_size, output_classes):
         super().__init__()
 
-        MAP_SIZE = 24
+        map_size = input_size + 6
         self.kernel_size = 5
-        self.hidden_size = 32
+        self.hidden_size = map_size + 8
 
         self.conv = nn.Conv1d(
-            in_channels=input_size, out_channels=MAP_SIZE, kernel_size=self.kernel_size)
+            in_channels=input_size, out_channels=map_size, kernel_size=self.kernel_size)
 
         self.lstm = nn.LSTM(
-            input_size=MAP_SIZE, hidden_size=self.hidden_size, batch_first=True)
+            input_size=map_size, hidden_size=self.hidden_size, batch_first=True)
 
         self.fc = nn.Linear(self.hidden_size, output_classes)
 
