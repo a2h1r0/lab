@@ -1,0 +1,12 @@
+answer,correct
+64+75=139,True
+59+24=83,True
+16+76=92,True
+91+29=120,True
+49+35=84,True
+30+81=111,True
+96+90=186,True
+32+55=87,True
+60+61=121,True
+29+94=123,True
+(Accuracy),1.0
