@@ -1,0 +1,12 @@
+answer,correct
+89+18=107,True
+34+66=100,True
+88+11=99,True
+60+67=127,True
+48+34=82,True
+57+48=105,True
+57+20=77,True
+86+21=107,True
+84+74=158,True
+37+24=61,True
+(Accuracy),1.0
