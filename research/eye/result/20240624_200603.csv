@@ -1,0 +1,10 @@
+Filename,Window,Answer,Prediction,Output
+fujii_drunk_exam_type_1_20240618_002120_gaze.csv,231313037,drunk,drunk,"[0.785852, 0.18851966]"
+fujii_drunk_exam_type_1_20240621_222417_gaze.csv,19297697480,drunk,drunk,"[0.7953453, 0.13667898]"
+fujii_drunk_exam_type_2_20240617_212122_gaze.csv,7546280891,drunk,drunk,"[0.61570144, 0.38727367]"
+fujii_drunk_exam_type_2_20240621_222523_gaze.csv,19339840004,drunk,drunk,"[0.5969341, 0.31964397]"
+fujii_sober_exam_type_1_20240621_170607_gaze.csv,208181826,sober,sober,"[0.4581132, 0.53712577]"
+fujii_sober_exam_type_1_20240622_122909_gaze.csv,69989572966,sober,drunk,"[0.8149435, 0.185614]"
+fujii_sober_exam_type_2_20240617_192625_gaze.csv,641050471,sober,sober,"[0.34446836, 0.6983992]"
+fujii_sober_exam_type_2_20240621_170923_gaze.csv,387165323,sober,sober,"[0.41608426, 0.63608813]"
+(Accuracy),0.875

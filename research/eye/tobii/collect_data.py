@@ -84,9 +84,12 @@ def main():
     tobii.unsubscribe()
 
     os.system('cls')
-    print('\n設問は以上です．ありがとうございました．\n\n')
-    save_data(
-        f'{SAVE_DIR}/{"drunk" if is_drunk else "sober"}/exam_type_{exam_type}/', tobii.data, answer)
+    if len(tobii.data):
+        print('\n設問は以上です．ありがとうございました．\n\n')
+        save_data(
+            f'{SAVE_DIR}/{"drunk" if is_drunk else "sober"}/exam_type_{exam_type}/', tobii.data, answer)
+    else:
+        print('\nデータの取得に失敗しました．再取得してください．\n\n')
 
 
 if __name__ == '__main__':
