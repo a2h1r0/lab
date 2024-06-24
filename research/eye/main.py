@@ -21,7 +21,7 @@ os.chdir(os.path.dirname(__file__))
 
 DATA_DIR = './data/dropna/'
 TRAIN_SUBJECTS = ['1']
-TEST_SUBJECTS = ['1']
+TEST_SUBJECTS = ['2']
 
 
 USE_COLUMNS = [
