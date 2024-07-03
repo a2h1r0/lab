@@ -23,14 +23,14 @@ def set_exam_type():
     return utils.input_decimal('\n設問タイプを入力してください > ')
 
 
-def save_data(save_dir, gaze_data, answer):
+def save_data(save_dir, gaze_data, answer=None):
     """
     データの保存
 
     Args:
         save_dir (string): 保存ディレクトリ名
-        gaze_data (string): 視線データ
-        answer (string): 設問回答データ
+        gaze_data (list): 視線データ
+        answer (list | None): 設問回答データ
     """
 
     now = datetime.datetime.today()
@@ -43,9 +43,10 @@ def save_data(save_dir, gaze_data, answer):
         writer = csv.writer(f)
         writer.writerows(gaze_data)
 
-    with open(f'{save_dir}answer.csv', 'w', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerows(answer)
+    if answer != None:
+        with open(f'{save_dir}answer.csv', 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerows(answer)
 
 
 def main():
@@ -84,8 +85,8 @@ def main():
 
     elif exam_type == 3 or exam_type == 4:
         os.system('cls')
-        print(f'\n問題は全部で問あります．')
-        print('\n\n出題を開始します．')
+        print(f'\n注視ポイントは全部で{len(points)}箇所に表示されます．')
+        print('\n\n表示を開始します．')
 
     input('準備ができたらEnterを押してください．．．')
 
@@ -100,13 +101,18 @@ def main():
     tobii.unsubscribe()
 
     os.system('cls')
-    if len(tobii.data):
-        print('\n設問は以上です．ありがとうございました．\n\n')
-        save_data(
-            f'{SAVE_DIR}/{"drunk" if is_drunk else "sober"}/exam_type_{exam_type}/', tobii.data, answer)
-    else:
+    if len(tobii.data) == 0:
         print('\nデータの取得に失敗しました．再取得してください．\n\n')
         sys.exit(0)
+
+    print('\n設問は以上です．ありがとうございました．\n\n')
+
+    if exam_type == 1 or exam_type == 2:
+        save_data(
+            f'{SAVE_DIR}/{"drunk" if is_drunk else "sober"}/exam_type_{exam_type}/', tobii.data, answer)
+    elif exam_type == 3 or exam_type == 4:
+        save_data(
+            f'{SAVE_DIR}/{"drunk" if is_drunk else "sober"}/exam_type_{exam_type}/', tobii.data)
 
 
 if __name__ == '__main__':

@@ -57,7 +57,7 @@ class Exam():
 
     def look(points, waiting):
         """
-        凝視テスト
+        注視テスト
 
         Args:
             points (list): 描画座標一覧
@@ -66,7 +66,7 @@ class Exam():
 
         def draw_point(point, waiting):
             """
-            キャリブレーションポイントの描画
+            注視ポイントの描画
 
             Args:
                 point (tuple): 描画座標
