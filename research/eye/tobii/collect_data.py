@@ -64,23 +64,28 @@ def main():
     is_drunk = input('\n\n\nお酒を飲んでいる状態ですか？[Y/n] > ') != 'n'
 
     exam_type = set_exam_type()
-    if exam_type == 1:
-        digit = 1
-    elif exam_type == 2:
-        digit = 10
+    if exam_type == 1 or exam_type == 2:
+        digit = 1 if exam_type == 1 else 10
+
+        os.system('cls')
+        print(f'\n問題は全部で{QUESTION_NUM}問あります．')
+        print('\n\n出題を開始します．')
+
     elif exam_type == 3:
         digit = 100
-    else:
-        digit = 1
 
-    os.system('cls')
-    print(f'\n問題は全部で{QUESTION_NUM}問あります．')
-    print('\n\n出題を開始します．')
+    else:
+        print('\n中止します．\n\n')
+        sys.exit(0)
+
     input('準備ができたらEnterを押してください．．．')
 
     os.system('cls')
     tobii.subscribe()
-    answer = Exam.calc(QUESTION_NUM, digit)
+
+    if exam_type == 1 or exam_type == 2:
+        answer = Exam.calc(QUESTION_NUM, digit)
+
     tobii.unsubscribe()
 
     os.system('cls')
@@ -90,6 +95,7 @@ def main():
             f'{SAVE_DIR}/{"drunk" if is_drunk else "sober"}/exam_type_{exam_type}/', tobii.data, answer)
     else:
         print('\nデータの取得に失敗しました．再取得してください．\n\n')
+        sys.exit(0)
 
 
 if __name__ == '__main__':
