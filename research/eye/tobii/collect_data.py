@@ -62,20 +62,30 @@ def main():
     is_drunk = input('\n\n\nお酒を飲んでいる状態ですか？[Y/n] > ') != 'n'
 
     exam_type = set_exam_type()
-    if exam_type == 1 or exam_type == 2:
-        digit = 1 if exam_type == 1 else 10
-        question_num = 10
+    if exam_type == 1:
+        digit = 1
+    elif exam_type == 2:
+        digit = 10
+    elif exam_type == 3:
+        points = [(0.5, 0.5)]
+        waiting = 20
+    elif exam_type == 4:
+        points = [(0.5, 0.5), (0.1, 0.1), (0.1, 0.9), (0.9, 0.1), (0.9, 0.9)]
+        waiting = 4
+    else:
+        print('\n中止します．\n\n')
+        sys.exit(0)
 
+    if exam_type == 1 or exam_type == 2:
+        question_num = 10
         os.system('cls')
         print(f'\n問題は全部で{question_num}問あります．')
         print('\n\n出題を開始します．')
 
-    elif exam_type == 3:
-        digit = 100
-
-    else:
-        print('\n中止します．\n\n')
-        sys.exit(0)
+    elif exam_type == 3 or exam_type == 4:
+        os.system('cls')
+        print(f'\n問題は全部で問あります．')
+        print('\n\n出題を開始します．')
 
     input('準備ができたらEnterを押してください．．．')
 
@@ -84,6 +94,8 @@ def main():
 
     if exam_type == 1 or exam_type == 2:
         answer = Exam.calc(question_num, digit)
+    elif exam_type == 3 or exam_type == 4:
+        Exam.look(points, waiting)
 
     tobii.unsubscribe()
 

@@ -1,5 +1,7 @@
 import random
 import utils
+import cv2
+import os
 
 
 class Exam():
@@ -23,8 +25,8 @@ class Exam():
             計算問題の作成
 
             Args:
-                digit (number): 問題作成桁数
                 question_length (number): 設問数
+                digit (number): 問題作成桁数
             Returns:
                 list: 設問
             """
@@ -52,3 +54,36 @@ class Exam():
         answers.append(['(Accuracy)', correct_count / (len(answers) - 1)])
 
         return answers
+
+    def look(points, waiting):
+        """
+        凝視テスト
+
+        Args:
+            points (list): 描画座標一覧
+            waiting (number): 静止時間（秒）
+        """
+
+        def draw_point(point, waiting):
+            """
+            キャリブレーションポイントの描画
+
+            Args:
+                point (tuple): 描画座標
+                waiting (number): 静止時間（秒）
+            """
+
+            img = cv2.imread(
+                f'{os.path.dirname(__file__)}/eyetracker/calibration/{point[0]}_{point[1]}.png')
+            cv2.imshow('screen', img)
+
+            cv2.waitKey(waiting * 1000)
+
+        cv2.namedWindow('screen', cv2.WINDOW_NORMAL)
+        cv2.setWindowProperty(
+            'screen', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
+        for point in points:
+            draw_point(point, waiting)
+
+        cv2.destroyWindow('screen')
