@@ -105,7 +105,7 @@ def main():
         print('\nデータの取得に失敗しました．再取得してください．\n\n')
         sys.exit(0)
 
-    print('\n設問は以上です．ありがとうございました．\n\n')
+    print('\nデータの取得は以上です．ありがとうございました．\n\n')
 
     if exam_type == 1 or exam_type == 2:
         save_data(
