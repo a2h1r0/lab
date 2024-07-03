@@ -8,8 +8,6 @@ from exam import Exam
 import utils
 
 
-QUESTION_NUM = 10
-
 SUBJECT = 'fujii'
 SAVE_DIR = f'../data/raw/{SUBJECT}'
 
@@ -66,9 +64,10 @@ def main():
     exam_type = set_exam_type()
     if exam_type == 1 or exam_type == 2:
         digit = 1 if exam_type == 1 else 10
+        question_num = 10
 
         os.system('cls')
-        print(f'\n問題は全部で{QUESTION_NUM}問あります．')
+        print(f'\n問題は全部で{question_num}問あります．')
         print('\n\n出題を開始します．')
 
     elif exam_type == 3:
@@ -84,7 +83,7 @@ def main():
     tobii.subscribe()
 
     if exam_type == 1 or exam_type == 2:
-        answer = Exam.calc(QUESTION_NUM, digit)
+        answer = Exam.calc(question_num, digit)
 
     tobii.unsubscribe()
 
