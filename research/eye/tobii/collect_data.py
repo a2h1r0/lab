@@ -74,7 +74,7 @@ def main():
         points = [(0.5, 0.5), (0.1, 0.1), (0.1, 0.9), (0.9, 0.1), (0.9, 0.9)]
         waiting = 4
     else:
-        print('\n中止します．\n\n')
+        print('\n\n\n中止します．\n\n')
         sys.exit(0)
 
     if exam_type == 1 or exam_type == 2:
