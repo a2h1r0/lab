@@ -39,10 +39,6 @@ class Tobii():
                     point (tuple): 描画座標
                 """
 
-                cv2.namedWindow('screen', cv2.WINDOW_NORMAL)
-                cv2.setWindowProperty(
-                    'screen', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-
                 img = cv2.imread(
                     f'{os.path.dirname(__file__)}/calibration/{point[0]}_{point[1]}.png')
                 cv2.imshow('screen', img)
@@ -68,6 +64,10 @@ class Tobii():
 
         calibration = tr.ScreenBasedCalibration(self.eyetracker)
         calibration.enter_calibration_mode()
+
+        cv2.namedWindow('screen', cv2.WINDOW_NORMAL)
+        cv2.setWindowProperty(
+            'screen', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
         # キャリブレーション
         points_to_recalibrate = collect_data(calibration, POINTS_TO_CALIBRATE)
