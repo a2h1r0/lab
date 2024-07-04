@@ -1,0 +1,12 @@
+answer,correct
+9+2=11,True
+4+2=6,True
+2+8=10,True
+6+4=10,True
+9+3=12,True
+1+4=5,True
+4+7=11,True
+3+5=8,True
+6+9=15,True
+1+7=8,True
+(Accuracy),1.0
