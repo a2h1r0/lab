@@ -1,0 +1,12 @@
+answer,correct
+97+59=156,True
+92+17=109,True
+11+58=69,True
+17+72=89,True
+67+58=125,True
+18+11=29,True
+18+84=102,True
+20+33=53,True
+68+23=91,True
+74+24=98,True
+(Accuracy),1.0
