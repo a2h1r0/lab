@@ -1,0 +1,12 @@
+answer,correct
+10+96=106,True
+74+49=123,True
+49+72=111,False
+46+71=117,True
+53+82=135,True
+25+98=123,True
+58+24=82,True
+88+90=178,True
+96+79=175,True
+30+78=108,True
+(Accuracy),0.9
