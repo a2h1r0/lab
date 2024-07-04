@@ -1,0 +1,12 @@
+answer,correct
+28+76=104,True
+53+73=126,True
+58+88=146,True
+68+20=88,True
+43+51=94,True
+46+44=90,True
+37+38=75,True
+84+65=149,True
+72+60=141,False
+45+57=102,True
+(Accuracy),0.9
