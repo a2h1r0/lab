@@ -1,0 +1,12 @@
+answer,correct
+44+63=107,True
+10+44=54,True
+37+65=102,True
+36+53=89,True
+22+88=110,True
+26+76=102,True
+71+33=104,True
+70+20=90,True
+47+41=88,True
+42+64=106,True
+(Accuracy),1.0
