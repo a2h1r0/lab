@@ -1,0 +1,12 @@
+answer,correct
+34+39=73,True
+74+64=138,True
+49+45=94,True
+15+99=114,True
+29+31=60,True
+48+93=141,True
+62+67=129,True
+25+79=104,True
+67+88=155,True
+60+19=79,True
+(Accuracy),1.0
