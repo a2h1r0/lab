@@ -1,0 +1,12 @@
+answer,correct
+78+44=122,True
+51+92=143,True
+97+81=178,True
+53+28=81,True
+80+33=122,False
+41+72=113,True
+90+73=163,True
+13+10=23,True
+85+68=153,True
+89+48=137,True
+(Accuracy),0.9
