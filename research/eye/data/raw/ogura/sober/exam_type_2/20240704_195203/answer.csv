@@ -1,0 +1,12 @@
+answer,correct
+88+82=170,True
+65+33=98,True
+71+51=121,False
+88+86=174,True
+39+79=118,True
+56+42=98,True
+84+44=128,True
+74+46=120,True
+64+82=146,True
+12+81=93,True
+(Accuracy),0.9
