@@ -1,0 +1,12 @@
+answer,correct
+27+79=106,True
+70+21=91,True
+84+38=122,True
+60+38=98,True
+49+57=106,True
+46+70=116,True
+62+85=147,True
+46+18=64,True
+14+90=104,True
+87+68=155,True
+(Accuracy),1.0
