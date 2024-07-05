@@ -12,11 +12,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-SUBJECT = 'fujii'
-
-
 RAW_DIR = './data/raw'
-SAVE_DIR = f'./data/dropna/{SUBJECT}'
+SAVE_DIR = f'./data/dropna'
 
 
 def dropna(filename):
@@ -57,7 +54,7 @@ def main():
         path = filename.split("\\")
         del path[0]
 
-        save_file = f'{SAVE_DIR}/{"_".join(path)}'
+        save_file = f'{SAVE_DIR}/{path[2]}/{path[0]}/{path[1]}_{path[3]}_{path[4]}'
         save_data(save_file, dropna(filename))
 
 
