@@ -12,11 +12,11 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-SUBJECT = 1
+SUBJECT = 'fujii'
 
 
 RAW_DIR = './data/raw'
-SAVE_DIR = f'./data/dropna/subject_{SUBJECT}'
+SAVE_DIR = f'./data/dropna/{SUBJECT}'
 
 
 def dropna(filename):
