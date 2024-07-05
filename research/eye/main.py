@@ -19,9 +19,10 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-DATA_DIR = './data/dropna/'
-TRAIN_SUBJECTS = ['1']
-TEST_SUBJECTS = ['2']
+TRAIN_SUBJECTS = ['fujii', 'iguma', 'kota_sakaguchi', 'ogura']
+TEST_SUBJECTS = ['takeuchi']
+EXAM_TYPE = 1
+DATA_DIR = f'./data/dropna/exam_type_{EXAM_TYPE}'
 
 
 USE_COLUMNS = [
@@ -69,7 +70,8 @@ def load_data(subjects):
         return label
 
     data, labels, length, index = [], [], [], []
-    files = glob.glob(f'{DATA_DIR}/subject_[{"".join(subjects)}]/*.csv')
+    files = [filename for filename in glob.glob(
+        f'{DATA_DIR}/*/*.csv') if re.search(f'.*({"|".join(subjects)}).*', filename)]
 
     for filename in files:
         window = pd.read_csv(filename, header=0)
