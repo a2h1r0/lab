@@ -1,0 +1,12 @@
+answer,correct
+55+19=74,True
+65+54=119,True
+42+70=112,True
+17+37=54,True
+20+60=80,True
+26+54=80,True
+59+60=119,True
+70+34=104,True
+20+29=49,True
+75+35=110,True
+(Accuracy),1.0
