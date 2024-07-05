@@ -1,0 +1,12 @@
+answer,correct
+97+19=116,True
+27+43=70,True
+65+61=126,True
+23+77=100,True
+70+97=167,True
+40+65=105,True
+82+27=109,True
+14+62=76,True
+55+69=125,False
+61+72=133,True
+(Accuracy),0.9
