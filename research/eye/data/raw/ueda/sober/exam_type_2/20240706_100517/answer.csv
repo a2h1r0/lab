@@ -1,0 +1,12 @@
+answer,correct
+20+19=39,True
+11+54=65,True
+32+66=98,True
+63+49=112,True
+92+38=130,True
+20+42=62,True
+77+39=116,True
+79+37=116,True
+13+67=90,False
+32+55=87,True
+(Accuracy),0.9
