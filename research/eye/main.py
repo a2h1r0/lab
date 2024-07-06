@@ -19,8 +19,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-TRAIN_SUBJECTS = ['fujii', 'iguma', 'kota_sakaguchi', 'ogura']
-TEST_SUBJECTS = ['takeuchi']
+TRAIN_SUBJECTS = ['fujii', 'iguma', 'takeuchi', 'ogura']
+TEST_SUBJECTS = ['kota_sakaguchi', 'ogura']
 EXAM_TYPE = 1
 DATA_DIR = f'./data/dropna/exam_type_{EXAM_TYPE}'
 
