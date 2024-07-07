@@ -1,0 +1,12 @@
+answer,correct
+18+82=100,True
+44+95=139,True
+77+99=176,True
+78+98=176,True
+25+81=106,True
+14+36=50,True
+23+43=66,True
+92+99=191,True
+24+91=113,False
+49+63=112,True
+(Accuracy),0.9
