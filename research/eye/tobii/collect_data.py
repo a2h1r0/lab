@@ -8,7 +8,7 @@ from exam import Exam
 import utils
 
 
-SUBJECT = 'iguma'
+SUBJECT = 'igarashi'
 SAVE_DIR = f'../data/raw/{SUBJECT}'
 
 
