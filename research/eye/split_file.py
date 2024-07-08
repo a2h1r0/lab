@@ -13,6 +13,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 WINDOW_SIZE = 10
+REMOVE_TIME = 3  # ファイル冒頭削除時間（秒）
 
 
 RAW_DIR = './data/dropna'
@@ -43,7 +44,7 @@ def split(filename):
 
         next_start_time = None
         for start_index, start in raw.iterrows():
-            start_time = start['device_time_stamp']
+            start_time = start['device_time_stamp'] + REMOVE_TIME * 1000000
             if next_start_time and start_time < next_start_time:
                 continue
 
@@ -79,7 +80,8 @@ def save_data(save_dir, data):
         os.makedirs(os.path.dirname(save_dir))
 
     for window in data:
-        filename = save_dir.replace('.csv', f'_{int(window.iloc[0]["device_time_stamp"])}.csv')
+        filename = save_dir.replace(
+            '.csv', f'_{int(window.iloc[0]["device_time_stamp"])}.csv')
         window.to_csv(filename, index=False)
 
 
