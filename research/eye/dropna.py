@@ -13,7 +13,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 RAW_DIR = './data/raw'
-SAVE_DIR = f'./data/dropna'
+SAVE_DIR = './data/dropna'
 
 
 def dropna(filename):

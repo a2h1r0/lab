@@ -19,9 +19,10 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-TRAIN_SUBJECTS = ['fujii', 'iguma', 'takeuchi', 'ogura']
-TEST_SUBJECTS = ['kota_sakaguchi', 'ogura']
-EXAM_TYPE = 1
+TRAIN_SUBJECTS = ['ueda', 'iguma', 'takeuchi',
+                  'ogura', 'igarashi', 'kota_sakaguchi']
+TEST_SUBJECTS = ['fujii']
+EXAM_TYPE = 2
 DATA_DIR = f'./data/dropna/exam_type_{EXAM_TYPE}'
 
 
@@ -34,7 +35,7 @@ USE_COLUMNS = [
 # ]
 
 
-EPOCH = 500  # エポック数
+EPOCH = 250  # エポック数
 NUM_CLASSES = 2  # 分類クラス数
 
 
