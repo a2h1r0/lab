@@ -204,12 +204,12 @@ def main():
 
     # 結果の保存
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    save_file = f'./result/exam_type_{EXAM_TYPE}/{now}.csv'
+    save_dir = f'./result/exam_type_{EXAM_TYPE}'
 
-    if not os.path.exists(os.path.dirname(save_file)):
-        os.makedirs(os.path.dirname(save_file))
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
 
-    with open(save_file, 'w', newline='') as f:
+    with open(f'{save_dir}/{now}.csv', 'w', newline='') as f:
         result_writer = csv.writer(f)
 
         result_writer.writerow(['(DATA_DIR)', DATA_DIR])
@@ -236,10 +236,8 @@ def main():
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
     plt.legend(fontsize=26, loc='upper right')
-    plt.savefig('./result/{}.eps'.format(now),
-                bbox_inches='tight', pad_inches=0)
-    plt.savefig('./result/{}.svg'.format(now),
-                bbox_inches='tight', pad_inches=0)
+    plt.savefig(f'{save_dir}/{now}.eps', bbox_inches='tight', pad_inches=0)
+    plt.savefig(f'{save_dir}/{now}.svg', bbox_inches='tight', pad_inches=0)
     plt.close()
 
 
