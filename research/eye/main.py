@@ -204,8 +204,12 @@ def main():
 
     # 結果の保存
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    filename = f'./result/exam_type_{EXAM_TYPE}/{now}.csv'
-    with open(filename, 'w', newline='') as f:
+    save_file = f'./result/exam_type_{EXAM_TYPE}/{now}.csv'
+
+    if not os.path.exists(os.path.dirname(save_file)):
+        os.makedirs(os.path.dirname(save_file))
+
+    with open(save_file, 'w', newline='') as f:
         result_writer = csv.writer(f)
 
         result_writer.writerow(['(DATA_DIR)', DATA_DIR])
