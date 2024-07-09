@@ -204,7 +204,8 @@ def main():
 
     # 結果の保存
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    with open(f'./result/{now}.csv', 'w', newline='') as f:
+    filename = f'./result/exam_type_{EXAM_TYPE}/{now}.csv'
+    with open(filename, 'w', newline='') as f:
         result_writer = csv.writer(f)
 
         result_writer.writerow(['(DATA_DIR)', DATA_DIR])
