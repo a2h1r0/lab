@@ -22,7 +22,7 @@ os.chdir(os.path.dirname(__file__))
 TRAIN_SUBJECTS = ['ueda', 'iguma', 'takeuchi',
                   'ogura', 'igarashi', 'kota_sakaguchi']
 TEST_SUBJECTS = ['fujii']
-EXAM_TYPE = 2
+EXAM_TYPE = 4
 DATA_DIR = f'./data/dropna/exam_type_{EXAM_TYPE}'
 
 
@@ -199,17 +199,24 @@ def test():
 
 
 def main():
+    loss_list = train()
+    predictions, answers, test_index = test()
+
+    # 結果の保存
     now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    result_file = './result/{}.csv'.format(now)
-    with open(result_file, 'w', newline='') as f:
+    with open(f'./result/{now}.csv', 'w', newline='') as f:
         result_writer = csv.writer(f)
+
+        result_writer.writerow(['(DATA_DIR)', DATA_DIR])
+        result_writer.writerow(['(TRAIN_SUBJECTS)'] + TRAIN_SUBJECTS)
+        result_writer.writerow(['(TEST_SUBJECTS)'] + TEST_SUBJECTS)
+        result_writer.writerow(['(USE_COLUMNS)'] + USE_COLUMNS)
+        result_writer.writerow(['(EPOCH)', EPOCH])
+        result_writer.writerow([])
+
         result_writer.writerow(
             ['Filename', 'Window', 'Answer', 'Prediction', 'Output'])
 
-        loss_list = train()
-        predictions, answers, test_index = test()
-
-        # 結果の保存
         for index, answer, prediction in zip(test_index, answers, predictions):
             result_writer.writerow([index['filename'].split(
                 '\\')[-1], index['start_timestamp'], answer, prediction[0], list(prediction[1])])
