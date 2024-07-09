@@ -1,6 +1,0 @@
-Filename,Window,Answer,Prediction,Output
-drunk_20240705_003931_gaze.csv,292529518,drunk,drunk,"[0.7398777, 0.24598004]"
-drunk_20240707_234042_gaze.csv,12696658330,drunk,drunk,"[0.79630226, 0.12194708]"
-sober_20240705_112515_gaze.csv,306376594,sober,drunk,"[0.96960896, 0.030977413]"
-sober_20240705_183753_gaze.csv,26277401307,sober,sober,"[0.065177396, 0.9120563]"
-(Accuracy),0.75
