@@ -12,7 +12,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-WINDOW_SIZE = 12
+WINDOW_SIZE = 19
 REMOVE_TIME = 0  # ファイル冒頭削除時間（秒）
 MIN_SAMPLE_TIME = 10  # 最低サンプル時間（秒）
 
@@ -56,7 +56,8 @@ def split(filename):
                          & (raw['device_time_stamp'] < end_time)]
 
             sample_time = window.iloc[-1]["device_time_stamp"] - start_time
-            if sample_time / 1000000 < MIN_SAMPLE_TIME:
+            # todo: ここ，サンプリング数全体の80%のデータが有れば保持みたいにしたい
+            if sample_time / 1000000 >= MIN_SAMPLE_TIME:
                 data.append(window)
 
             # 末尾到達
