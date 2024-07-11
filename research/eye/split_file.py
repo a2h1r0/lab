@@ -13,7 +13,7 @@ os.chdir(os.path.dirname(__file__))
 
 
 WINDOW_SIZE = 20
-REMOVE_TIME = 3  # ファイル冒頭削除時間（秒）
+REMOVE_TIME = 0  # ファイル冒頭削除時間（秒）
 MIN_LENGTH = 10  # 最低サンプル長
 
 

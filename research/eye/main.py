@@ -22,8 +22,8 @@ os.chdir(os.path.dirname(__file__))
 TRAIN_SUBJECTS = ['ueda', 'iguma', 'takeuchi',
                   'ogura', 'igarashi', 'kota_sakaguchi']
 TEST_SUBJECTS = ['fujii']
-EXAM_TYPE = 2
-DATA_DIR = f'./data/dropna/exam_type_{EXAM_TYPE}'
+EXAM_TYPE = 4
+DATA_DIR = f'./data/split/window_20/exam_type_{EXAM_TYPE}'
 
 
 USE_COLUMNS = [
