@@ -12,9 +12,9 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-WINDOW_SIZE = 20
+WINDOW_SIZE = 12
 REMOVE_TIME = 0  # ファイル冒頭削除時間（秒）
-MIN_LENGTH = 10  # 最低サンプル長
+MIN_SAMPLE_TIME = 10  # 最低サンプル時間（秒）
 
 
 RAW_DIR = './data/dropna'
@@ -54,7 +54,9 @@ def split(filename):
 
             window = raw[(start_time <= raw['device_time_stamp'])
                          & (raw['device_time_stamp'] < end_time)]
-            if len(window.index) >= MIN_LENGTH:
+
+            sample_time = window.iloc[-1]["device_time_stamp"] - start_time
+            if sample_time / 1000000 < MIN_SAMPLE_TIME:
                 data.append(window)
 
             # 末尾到達
