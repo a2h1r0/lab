@@ -1,0 +1,12 @@
+answer,correct
+48+85=133,True
+24+58=82,True
+89+35=124,True
+87+47=134,True
+78+57=135,True
+16+30=54,False
+22+57=79,True
+17+59=86,False
+99+20=119,True
+67+19=86,True
+(Accuracy),0.8
