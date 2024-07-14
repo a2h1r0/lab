@@ -1,0 +1,12 @@
+answer,correct
+66+35=100,False
+98+78=176,True
+37+95=134,False
+73+79=152,True
+86+61=147,True
+45+68=112,False
+33+78=111,True
+99+37=136,True
+39+22=61,True
+62+73=135,True
+(Accuracy),0.7
