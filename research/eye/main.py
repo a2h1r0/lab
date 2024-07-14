@@ -21,7 +21,7 @@ os.chdir(os.path.dirname(__file__))
 
 SUBJECTS = ['fujii', 'ueda', 'iguma', 'takeuchi',
             'ogura', 'igarashi', 'kota_sakaguchi']
-EXAM_TYPE = 4
+EXAM_TYPE = 1
 DATA_DIR = f'./data/split/window_20/exam_type_{EXAM_TYPE}'
 
 
