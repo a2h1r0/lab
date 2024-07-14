@@ -19,9 +19,8 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-TRAIN_SUBJECTS = ['ueda', 'iguma', 'takeuchi',
-                  'ogura', 'igarashi', 'kota_sakaguchi']
-TEST_SUBJECTS = ['fujii']
+SUBJECTS = ['fujii', 'ueda', 'iguma', 'takeuchi',
+            'ogura', 'igarashi', 'kota_sakaguchi']
 EXAM_TYPE = 4
 DATA_DIR = f'./data/split/window_20/exam_type_{EXAM_TYPE}'
 
@@ -97,7 +96,7 @@ def train():
     """
 
     # データの読み込み
-    train_data, train_labels, train_data_length, _ = load_data(TRAIN_SUBJECTS)
+    train_data, train_labels, train_data_length, _ = load_data(train_subjects)
 
     model.train()
     print('\n***** 学習開始 *****')
@@ -172,7 +171,7 @@ def test():
 
     # データの読み込み
     test_data, test_labels, test_data_length, test_index = load_data(
-        TEST_SUBJECTS)
+        test_subjects)
 
     model.eval()
     print('\n***** テスト *****')
@@ -198,25 +197,27 @@ def test():
     return predictions, answers, test_index
 
 
-def main():
+def main(train_subjects, test_subjects, save_dir):
+    """
+    main function
+
+    Args:
+        train_subjects (list): 学習被験者
+        test_subjects (list): テスト被験者
+        save_dir (string): データ保存先
+    Returns:
+        list: 正解ラベル
+        list: 予測ラベル
+    """
+
     loss_list = train()
     predictions, answers, test_index = test()
 
-    # 結果の保存
-    now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
-    save_dir = f'./result/exam_type_{EXAM_TYPE}'
-
-    if not os.path.exists(save_dir):
-        os.makedirs(save_dir)
-
-    with open(f'{save_dir}/{now}.csv', 'w', newline='') as f:
+    with open(f'{save_dir}/accuracy.csv', 'a', newline='') as f:
         result_writer = csv.writer(f)
 
-        result_writer.writerow(['(DATA_DIR)', DATA_DIR])
-        result_writer.writerow(['(TRAIN_SUBJECTS)'] + TRAIN_SUBJECTS)
-        result_writer.writerow(['(TEST_SUBJECTS)'] + TEST_SUBJECTS)
-        result_writer.writerow(['(USE_COLUMNS)'] + USE_COLUMNS)
-        result_writer.writerow(['(EPOCH)', EPOCH])
+        result_writer.writerow(['(train_subjects)'] + train_subjects)
+        result_writer.writerow(['(test_subjects)'] + test_subjects)
         result_writer.writerow([])
 
         result_writer.writerow(
@@ -228,6 +229,11 @@ def main():
         result_writer.writerow(['(Accuracy)', accuracy_score(
             answers, [prediction[0] for prediction in predictions])])
 
+        result_writer.writerow([])
+        result_writer.writerow(
+            ['--------------------------------------------------'])
+        result_writer.writerow([])
+
     # Lossの描画
     print('\nLossを描画します．．．\n')
     plt.figure(figsize=(16, 9))
@@ -236,9 +242,34 @@ def main():
     plt.ylabel('Loss', fontsize=26)
     plt.tick_params(labelsize=26)
     plt.legend(fontsize=26, loc='upper right')
-    plt.savefig(f'{save_dir}/{now}.eps', bbox_inches='tight', pad_inches=0)
-    plt.savefig(f'{save_dir}/{now}.svg', bbox_inches='tight', pad_inches=0)
+    plt.savefig(
+        f'{save_dir}/test_{test_subjects[0]}.eps', bbox_inches='tight', pad_inches=0)
+    plt.savefig(
+        f'{save_dir}/test_{test_subjects[0]}.svg', bbox_inches='tight', pad_inches=0)
     plt.close()
+
+    return answers, predictions
+
+
+def save_total_score(answers, predictions, save_dir):
+    """
+    最終スコアの保存
+
+    Args:
+        answers (list): 正解ラベル
+        predictions (list): 予測ラベル
+        save_dir (string): データ保存先
+    """
+
+    with open(f'{save_dir}/accuracy.csv', 'a', newline='') as f:
+        result_writer = csv.writer(f)
+
+        result_writer.writerow(['【Summary】'])
+        result_writer.writerow(['(DATA_DIR)', DATA_DIR])
+        result_writer.writerow(['(USE_COLUMNS)'] + USE_COLUMNS)
+        result_writer.writerow(['(EPOCH)', EPOCH])
+        result_writer.writerow(['(Total Accuracy)', accuracy_score(
+            answers, [prediction[0] for prediction in predictions])])
 
 
 if __name__ == '__main__':
@@ -253,4 +284,20 @@ if __name__ == '__main__':
     optimizer = optimizers.Adam(model.parameters())
     sigmoid = nn.Sigmoid()
 
-    main()
+    # 結果の保存
+    now = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
+    save_dir = f'./result/exam_type_{EXAM_TYPE}/{now}'
+
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    answers_all, predictions_all = [], []
+    for test_subjects in SUBJECTS:
+        train_subjects = [
+            subject for subject in SUBJECTS if subject != test_subjects]
+
+        answers, predictions = main(train_subjects, [test_subjects], save_dir)
+        answers_all.extend(answers)
+        predictions_all.extend(predictions)
+
+    save_total_score(answers_all, predictions_all, save_dir)
