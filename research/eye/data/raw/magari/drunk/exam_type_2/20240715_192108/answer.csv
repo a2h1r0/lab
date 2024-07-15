@@ -1,0 +1,12 @@
+answer,correct
+12+33=45,True
+49+89=138,True
+43+87=130,True
+94+41=135,True
+82+62=144,True
+59+10=69,True
+12+67=79,True
+99+23=122,True
+81+13=94,True
+66+45=109,False
+(Accuracy),0.9
