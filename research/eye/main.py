@@ -87,10 +87,12 @@ def load_data(subjects):
     return data, labels, length, index
 
 
-def train():
+def train(train_subjects):
     """
     モデルの学習
 
+    Args:
+        train_subjects (list): 学習被験者
     Returns:
         list: Loss
     """
@@ -123,10 +125,12 @@ def train():
     return loss_list
 
 
-def test():
+def test(test_subjects):
     """
     モデルのテスト
 
+    Args:
+        test_subjects (list): テスト被験者
     Returns:
         list: モデルアウトプット
         list: 正解ラベル
@@ -210,8 +214,8 @@ def main(train_subjects, test_subjects, save_dir):
         list: 予測ラベル
     """
 
-    loss_list = train()
-    predictions, answers, test_index = test()
+    loss_list = train(train_subjects)
+    predictions, answers, test_index = test(test_subjects)
 
     with open(f'{save_dir}/accuracy.csv', 'a', newline='') as f:
         result_writer = csv.writer(f)
