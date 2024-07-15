@@ -1,0 +1,12 @@
+answer,correct
+35+68=103,True
+88+50=138,True
+81+98=179,True
+25+20=45,True
+88+42=130,True
+12+42=54,True
+32+47=79,True
+47+37=84,True
+33+37=70,True
+45+16=61,True
+(Accuracy),1.0
