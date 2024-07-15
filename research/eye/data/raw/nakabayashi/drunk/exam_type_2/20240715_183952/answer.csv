@@ -1,0 +1,12 @@
+answer,correct
+15+67=82,True
+38+31=69,True
+92+70=162,True
+56+24=80,True
+25+68=83,False
+26+68=94,True
+91+16=107,True
+86+21=107,True
+62+61=123,True
+46+98=144,True
+(Accuracy),0.9
