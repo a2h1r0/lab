@@ -1,0 +1,12 @@
+answer,correct
+72+11=83,True
+29+85=114,True
+44+19=63,True
+20+92=112,True
+83+84=167,True
+35+73=108,True
+18+73=91,True
+12+10=22,True
+28+13=41,True
+13+58=71,True
+(Accuracy),1.0
