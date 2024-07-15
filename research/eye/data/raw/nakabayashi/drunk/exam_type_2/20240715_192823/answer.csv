@@ -1,0 +1,12 @@
+answer,correct
+53+12=65,True
+42+68=110,True
+48+42=90,True
+51+28=79,True
+37+72=109,True
+24+31=55,True
+54+44=98,True
+97+98=175,False
+30+54=84,True
+41+14=55,True
+(Accuracy),0.9
