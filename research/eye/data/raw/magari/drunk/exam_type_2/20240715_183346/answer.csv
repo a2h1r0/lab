@@ -1,0 +1,12 @@
+answer,correct
+13+17=30,True
+24+63=87,True
+38+97=135,True
+25+37=62,True
+49+78=127,True
+89+74=163,True
+49+30=79,True
+33+19=52,True
+70+82=152,True
+99+43=142,True
+(Accuracy),1.0
