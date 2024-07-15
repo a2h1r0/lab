@@ -1,0 +1,12 @@
+answer,correct
+51+77=128,True
+39+22=61,True
+14+54=68,True
+24+30=54,True
+40+27=67,True
+31+98=129,True
+78+56=134,True
+89+51=140,True
+80+94=174,True
+21+95=116,True
+(Accuracy),1.0
