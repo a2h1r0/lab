@@ -12,9 +12,9 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-WINDOW_SIZE = 19
+WINDOW_SIZE = 10
 REMOVE_TIME = 0  # ファイル冒頭削除時間（秒）
-MIN_SAMPLE_TIME = 10  # 最低サンプル時間（秒）
+MIN_SAMPLE_TIME = 9  # 最低サンプル時間（秒）
 
 
 RAW_DIR = './data/dropna'
