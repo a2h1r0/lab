@@ -1,0 +1,12 @@
+answer,correct
+68+95=163,True
+98+44=142,True
+52+99=151,True
+62+16=78,True
+49+44=93,True
+56+57=113,True
+79+85=164,True
+69+37=106,True
+33+49=82,True
+58+26=83,False
+(Accuracy),0.9
