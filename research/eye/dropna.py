@@ -1,49 +1,26 @@
-import numpy as np
-import pandas as pd
-import math
-import csv
 import glob
-import re
-import datetime
-import random
-import copy
-import sys
+import shutil
 import os
 os.chdir(os.path.dirname(__file__))
 
 
 RAW_DIR = './data/raw'
-SAVE_DIR = './data/dropna'
+SAVE_DIR = './data/raw_exam'
 
 
-def dropna(filename):
+def copy_file(filename, save_file):
     """
-    NaNの除去
+    ファイルのコピー
 
     Args:
-        filename (string): ファイル名
-    Returns:
-        list: 除去済みデータ
-    """
-
-    raw = pd.read_csv(filename, header=0)
-
-    return raw.dropna()
-
-
-def save_data(save_file, data):
-    """
-    データの保存
-
-    Args:
-        save_file (string): 保存ファイル名
-        data (list): 保存データ
+        filename (string): コピー元ファイル名
+        save_file (string): コピー先ファイル名
     """
 
     if not os.path.exists(os.path.dirname(save_file)):
         os.makedirs(os.path.dirname(save_file))
 
-    data.to_csv(save_file, index=False)
+    shutil.copy(filename, save_file)
 
 
 def main():
@@ -55,7 +32,7 @@ def main():
         del path[0]
 
         save_file = f'{SAVE_DIR}/{path[2]}/{path[0]}/{path[1]}_{path[3]}_{path[4]}'
-        save_data(save_file, dropna(filename))
+        copy_file(filename, save_file)
 
 
 if __name__ == '__main__':
