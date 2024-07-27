@@ -19,14 +19,14 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 
-SUBJECTS = ['fujii', 'ueda', 'iguma', 'takeuchi',
-            'ogura', 'igarashi', 'kota_sakaguchi']
-EXAM_TYPE = 1
-DATA_DIR = f'./data/split/window_20/exam_type_{EXAM_TYPE}'
+SUBJECTS = ['fujii1', 'fujii2', 'kota_sakaguchi1', 'kota_sakaguchi2',  'igarashi1',
+            'igarashi2',  'ueda', 'iguma', 'takeuchi', 'ogura', 'komezaki', 'magari', 'nakabayashi']
+EXAM_TYPE = 2
+DATA_DIR = f'./data/raw_exam/exam_type_{EXAM_TYPE}'
 
 
 USE_COLUMNS = [
-    'device_time_stamp', 'left_gaze_point_in_user_coordinate_system_x', 'left_gaze_point_in_user_coordinate_system_y', 'left_gaze_point_in_user_coordinate_system_z', 'left_pupil_diameter', 'left_gaze_origin_in_user_coordinate_system_x', 'left_gaze_origin_in_user_coordinate_system_y', 'left_gaze_origin_in_user_coordinate_system_z', 'right_gaze_point_in_user_coordinate_system_x', 'right_gaze_point_in_user_coordinate_system_y', 'right_gaze_point_in_user_coordinate_system_z', 'right_pupil_diameter', 'right_gaze_origin_in_user_coordinate_system_x', 'right_gaze_origin_in_user_coordinate_system_y', 'right_gaze_origin_in_user_coordinate_system_z'
+    'device_time_stamp', 'left_gaze_point_on_display_area_x', 'left_gaze_point_on_display_area_y', 'left_gaze_point_in_user_coordinate_system_x', 'left_gaze_point_in_user_coordinate_system_y', 'left_gaze_point_in_user_coordinate_system_z', 'left_pupil_diameter', 'left_gaze_origin_in_user_coordinate_system_x', 'left_gaze_origin_in_user_coordinate_system_y', 'left_gaze_origin_in_user_coordinate_system_z', 'left_gaze_origin_in_trackbox_coordinate_system_x', 'left_gaze_origin_in_trackbox_coordinate_system_y', 'left_gaze_origin_in_trackbox_coordinate_system_z', 'right_gaze_point_on_display_area_x', 'right_gaze_point_on_display_area_y', 'right_gaze_point_in_user_coordinate_system_x', 'right_gaze_point_in_user_coordinate_system_y', 'right_gaze_point_in_user_coordinate_system_z', 'right_pupil_diameter', 'right_gaze_origin_in_user_coordinate_system_x', 'right_gaze_origin_in_user_coordinate_system_y', 'right_gaze_origin_in_user_coordinate_system_z', 'right_gaze_origin_in_trackbox_coordinate_system_x', 'right_gaze_origin_in_trackbox_coordinate_system_y', 'right_gaze_origin_in_trackbox_coordinate_system_z'
 ]   # 特徴量
 
 # USE_COLUMNS = [
@@ -34,7 +34,7 @@ USE_COLUMNS = [
 # ]
 
 
-EPOCH = 1000  # エポック数
+EPOCH = 500  # エポック数
 NUM_CLASSES = 2  # 分類クラス数
 
 

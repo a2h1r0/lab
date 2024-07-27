@@ -1,0 +1,144 @@
+(train_subjects),fujii2,kota_sakaguchi1,kota_sakaguchi2,igarashi1,igarashi2,ueda,iguma,takeuchi,ogura,komezaki,magari,nakabayashi
+(test_subjects),fujii1
+
+Filename,Window,Answer,Prediction,Output
+drunk_20240705_003931_gaze.csv,292397763,drunk,drunk,"[0.7852721, 0.17470995]"
+sober_20240705_112515_gaze.csv,304260256,sober,drunk,"[0.60732406, 0.4012025]"
+sober_20240715_125645_gaze.csv,337453916,sober,drunk,"[0.7759148, 0.20373236]"
+(Accuracy),0.3333333333333333
+
+--------------------------------------------------
+
+(train_subjects),fujii1,kota_sakaguchi1,kota_sakaguchi2,igarashi1,igarashi2,ueda,iguma,takeuchi,ogura,komezaki,magari,nakabayashi
+(test_subjects),fujii2
+
+Filename,Window,Answer,Prediction,Output
+drunk_20240707_234042_gaze.csv,12693033481,drunk,drunk,"[0.761861, 0.20765296]"
+sober_20240705_183753_gaze.csv,26275086250,sober,drunk,"[0.9098024, 0.08513833]"
+sober_20240715_155713_gaze.csv,1840880599,sober,sober,"[0.32667395, 0.67714626]"
+(Accuracy),0.6666666666666666
+
+--------------------------------------------------
+
+(train_subjects),fujii1,fujii2,kota_sakaguchi2,igarashi1,igarashi2,ueda,iguma,takeuchi,ogura,komezaki,magari,nakabayashi
+(test_subjects),kota_sakaguchi1
+
+Filename,Window,Answer,Prediction,Output
+drunk_20240704_214336_gaze.csv,1803030147,drunk,drunk,"[0.653241, 0.38541037]"
+sober_20240704_190232_gaze.csv,18569144070,sober,drunk,"[0.83639336, 0.16914205]"
+sober_20240718_185218_gaze.csv,11194933141,sober,sober,"[0.4500088, 0.55072844]"
+(Accuracy),0.6666666666666666
+
+--------------------------------------------------
+
+(train_subjects),fujii1,fujii2,kota_sakaguchi1,igarashi1,igarashi2,ueda,iguma,takeuchi,ogura,komezaki,magari,nakabayashi
+(test_subjects),kota_sakaguchi2
+
+Filename,Window,Answer,Prediction,Output
+drunk_20240704_222701_gaze.csv,4419340481,drunk,sober,"[0.3004961, 0.7611331]"
+sober_20240718_154946_gaze.csv,249883433,sober,drunk,"[0.5911028, 0.4150102]"
+(Accuracy),0.0
+
+--------------------------------------------------
+
+(train_subjects),fujii1,fujii2,kota_sakaguchi1,kota_sakaguchi2,igarashi2,ueda,iguma,takeuchi,ogura,komezaki,magari,nakabayashi
+(test_subjects),igarashi1
+
+Filename,Window,Answer,Prediction,Output
+drunk_20240707_220714_gaze.csv,7060543844,drunk,drunk,"[0.6536783, 0.36805823]"
+(Accuracy),1.0
+
+--------------------------------------------------
+
+(train_subjects),fujii1,fujii2,kota_sakaguchi1,kota_sakaguchi2,igarashi1,ueda,iguma,takeuchi,ogura,komezaki,magari,nakabayashi
+(test_subjects),igarashi2
+
+Filename,Window,Answer,Prediction,Output
+drunk_20240707_212002_gaze.csv,4216431707,drunk,drunk,"[0.7406339, 0.28355747]"
+(Accuracy),1.0
+
+--------------------------------------------------
+
+(train_subjects),fujii1,fujii2,kota_sakaguchi1,kota_sakaguchi2,igarashi1,igarashi2,iguma,takeuchi,ogura,komezaki,magari,nakabayashi
+(test_subjects),ueda
+
+Filename,Window,Answer,Prediction,Output
+sober_20240706_100517_gaze.csv,440251325,sober,sober,"[0.22015564, 0.7479516]"
+sober_20240706_115454_gaze.csv,7022543717,sober,sober,"[0.36189988, 0.626711]"
+sober_20240714_172225_gaze.csv,380786083,sober,drunk,"[0.92395043, 0.07700992]"
+sober_20240714_180841_gaze.csv,3153218696,sober,sober,"[0.189633, 0.8046579]"
+(Accuracy),0.75
+
+--------------------------------------------------
+
+(train_subjects),fujii1,fujii2,kota_sakaguchi1,kota_sakaguchi2,igarashi1,igarashi2,ueda,takeuchi,ogura,komezaki,magari,nakabayashi
+(test_subjects),iguma
+
+Filename,Window,Answer,Prediction,Output
+drunk_20240707_213723_gaze.csv,5293759634,drunk,sober,"[0.37014982, 0.61203724]"
+drunk_20240707_224026_gaze.csv,9067538682,drunk,drunk,"[0.76434773, 0.23903385]"
+sober_20240705_190412_gaze.csv,27851705073,sober,drunk,"[0.71555513, 0.27440584]"
+sober_20240707_201604_gaze.csv,414702526,sober,drunk,"[0.77466524, 0.21717505]"
+(Accuracy),0.25
+
+--------------------------------------------------
+
+(train_subjects),fujii1,fujii2,kota_sakaguchi1,kota_sakaguchi2,igarashi1,igarashi2,ueda,iguma,ogura,komezaki,magari,nakabayashi
+(test_subjects),takeuchi
+
+Filename,Window,Answer,Prediction,Output
+drunk_20240704_213207_gaze.csv,1131661367,drunk,drunk,"[0.97459644, 0.026443392]"
+drunk_20240704_222015_gaze.csv,4007500651,drunk,sober,"[0.14780675, 0.85049766]"
+sober_20240704_192152_gaze.csv,19737093546,sober,drunk,"[0.6460795, 0.3693694]"
+(Accuracy),0.3333333333333333
+
+--------------------------------------------------
+
+(train_subjects),fujii1,fujii2,kota_sakaguchi1,kota_sakaguchi2,igarashi1,igarashi2,ueda,iguma,takeuchi,komezaki,magari,nakabayashi
+(test_subjects),ogura
+
+Filename,Window,Answer,Prediction,Output
+drunk_20240704_212057_gaze.csv,459374578,drunk,sober,"[0.34882972, 0.6601658]"
+drunk_20240704_220818_gaze.csv,3299175397,drunk,drunk,"[0.57030624, 0.4354867]"
+sober_20240704_195203_gaze.csv,21551387608,sober,sober,"[0.4504627, 0.55508405]"
+(Accuracy),0.6666666666666666
+
+--------------------------------------------------
+
+(train_subjects),fujii1,fujii2,kota_sakaguchi1,kota_sakaguchi2,igarashi1,igarashi2,ueda,iguma,takeuchi,ogura,magari,nakabayashi
+(test_subjects),komezaki
+
+Filename,Window,Answer,Prediction,Output
+drunk_20240715_182835_gaze.csv,10909595195,drunk,drunk,"[0.6975223, 0.30505076]"
+drunk_20240715_191625_gaze.csv,13785486851,drunk,drunk,"[0.67167103, 0.32291606]"
+sober_20240715_153556_gaze.csv,551040709,sober,drunk,"[0.69556636, 0.30764666]"
+(Accuracy),0.6666666666666666
+
+--------------------------------------------------
+
+(train_subjects),fujii1,fujii2,kota_sakaguchi1,kota_sakaguchi2,igarashi1,igarashi2,ueda,iguma,takeuchi,ogura,komezaki,nakabayashi
+(test_subjects),magari
+
+Filename,Window,Answer,Prediction,Output
+drunk_20240715_183346_gaze.csv,11225308971,drunk,drunk,"[0.86390704, 0.1346425]"
+drunk_20240715_192108_gaze.csv,14073780484,drunk,drunk,"[0.8880008, 0.10629957]"
+sober_20240715_154540_gaze.csv,1125287605,sober,sober,"[0.39087555, 0.60468686]"
+(Accuracy),1.0
+
+--------------------------------------------------
+
+(train_subjects),fujii1,fujii2,kota_sakaguchi1,kota_sakaguchi2,igarashi1,igarashi2,ueda,iguma,takeuchi,ogura,komezaki,magari
+(test_subjects),nakabayashi
+
+Filename,Window,Answer,Prediction,Output
+drunk_20240715_183952_gaze.csv,11592866526,drunk,drunk,"[0.9638107, 0.037686933]"
+drunk_20240715_192823_gaze.csv,14478775295,drunk,sober,"[0.15136985, 0.8415251]"
+(Accuracy),0.5
+
+--------------------------------------------------
+
+ÅySummaryÅz
+(DATA_DIR),./data/raw_exam/exam_type_2
+(USE_COLUMNS),device_time_stamp,left_gaze_point_on_display_area_x,left_gaze_point_on_display_area_y,left_gaze_point_in_user_coordinate_system_x,left_gaze_point_in_user_coordinate_system_y,left_gaze_point_in_user_coordinate_system_z,left_pupil_diameter,left_gaze_origin_in_user_coordinate_system_x,left_gaze_origin_in_user_coordinate_system_y,left_gaze_origin_in_user_coordinate_system_z,left_gaze_origin_in_trackbox_coordinate_system_x,left_gaze_origin_in_trackbox_coordinate_system_y,left_gaze_origin_in_trackbox_coordinate_system_z,right_gaze_point_on_display_area_x,right_gaze_point_on_display_area_y,right_gaze_point_in_user_coordinate_system_x,right_gaze_point_in_user_coordinate_system_y,right_gaze_point_in_user_coordinate_system_z,right_pupil_diameter,right_gaze_origin_in_user_coordinate_system_x,right_gaze_origin_in_user_coordinate_system_y,right_gaze_origin_in_user_coordinate_system_z,right_gaze_origin_in_trackbox_coordinate_system_x,right_gaze_origin_in_trackbox_coordinate_system_y,right_gaze_origin_in_trackbox_coordinate_system_z
+(EPOCH),500
+(Total Accuracy),0.5714285714285714
